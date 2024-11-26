@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const LocationSearchSection = styled.div`
   position: relative;
+  z-index: 999;
 `
 export const SearchResult = styled.div`
   width: 100%;
