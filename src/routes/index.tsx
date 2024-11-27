@@ -12,6 +12,7 @@ import MateListPage from '@pages/MateListPage'
 import SplashPage from '@pages/SplashPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
+import GoodsDetailPage from '@pages/GoodsDetailPage'
 
 const AppRoutes = () => {
   return (
@@ -48,6 +49,10 @@ const AppRoutes = () => {
         <Route
           path='/chat-room'
           element={<ChatRoom />}
+        />
+        <Route
+          path='/goodsdetail'
+          element={<GoodsDetailPage />}
         />
       </Route>
 
