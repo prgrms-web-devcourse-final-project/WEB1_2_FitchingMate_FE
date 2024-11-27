@@ -16,7 +16,11 @@ export const MateDetailDescription = styled.textarea`
   padding: 1em;
   margin: 1em 1.25em;
 `
-  
+
 export const UserInfoListWrapper = styled.div`
-  padding: 0.5em 1.25em
+  padding: 0 20px;
+
+  & > div {
+    margin-top: 0;
+  }
 `

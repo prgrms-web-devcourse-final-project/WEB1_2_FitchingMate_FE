@@ -15,6 +15,10 @@ export const GlobalStyle = createGlobalStyle`
 
   html {
     font-size: 16px;
+
+    @media all and (max-width:431px) {
+      font-size: 14px;
+    }
   }
 
   button {
@@ -35,6 +39,10 @@ export const GlobalStyle = createGlobalStyle`
 
   svg {
     display: block;
+
+    @media all and (max-width: 431px) {
+      transform: scale(0.88);
+    }
   }
 
   #root {
@@ -98,7 +106,7 @@ export const GlobalStyle = createGlobalStyle`
 `
 
 export const GlobalContainer = styled.div`
-  height: calc(100vh - (48px * 2));
+  height: calc(100vh - (48px + 60px));
   overflow-y: scroll;
   position: relative;
 

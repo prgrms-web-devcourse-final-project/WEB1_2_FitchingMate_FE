@@ -29,13 +29,13 @@ export const PaginationContainer = styled.div`
     background: ${theme.fontColor.navy}; /* 활성화된 색상 */
     opacity: 1;
   }
-`;
+`
 
 export const GameDatetimeLocation = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25em;
   font-size: ${theme.fontSize.medium};
   color: ${theme.fontColor.white};
 `

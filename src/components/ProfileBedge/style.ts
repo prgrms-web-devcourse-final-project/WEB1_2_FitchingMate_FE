@@ -2,9 +2,9 @@ import { theme } from '@styles/theme'
 import styled from 'styled-components'
 
 export const ProfileWrap = styled.div<{ width: number; height: number }>`
-  width: ${({ width }) => `${width}px`};
+  width: ${({ width }) => `${width}em`};
   max-width: 100px;
-  height: ${({ height }) => `${height}px`};
+  height: ${({ height }) => `${height}em`};
   max-height: 100px;
   position: relative;
 

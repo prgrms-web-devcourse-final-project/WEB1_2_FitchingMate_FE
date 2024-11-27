@@ -17,6 +17,7 @@ import Worst from '@assets/character/character-worst.svg?react'
 import Normal from '@assets/character/character-normal.svg?react'
 import Best from '@assets/character/character-best.svg?react'
 import GlobalButton from '@components/GlobalButton'
+import { GlobalFloatAside } from '@styles/globalStyle'
 
 interface ReviewPagePropTypes {
   reviewType: 'GOODS' | 'MATE'
@@ -160,12 +161,14 @@ const ReviewWritePage = ({
           }}
         ></textarea>
       </ReviewTextareaWrap>
-      <ReviewSendButtonWrap>
-        <GlobalButton
-          $isNavy={true}
-          text='후기 보내기'
-        />
-      </ReviewSendButtonWrap>
+      <GlobalFloatAside>
+        <ReviewSendButtonWrap>
+          <GlobalButton
+            $isNavy={true}
+            text='후기 보내기'
+          />
+        </ReviewSendButtonWrap>
+      </GlobalFloatAside>
     </ReviewWriteWrap>
   )
 }

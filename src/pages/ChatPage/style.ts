@@ -5,7 +5,7 @@ export const ChatPageContainer = styled.div`
   flex-direction: column;
   gap: 10px;
 
-  padding: 20px 20px 0 20px;
+  padding: 1.25em 20px 0 20px;
 `
 
 export const TabContainer = styled.div`
@@ -13,7 +13,7 @@ export const TabContainer = styled.div`
   gap: 10px;
 `
 export const ChatListContainer = styled.div`
-  padding-bottom: 20px;
+  padding-bottom: 1.25em;
 
   display: flex;
   flex-direction: column;

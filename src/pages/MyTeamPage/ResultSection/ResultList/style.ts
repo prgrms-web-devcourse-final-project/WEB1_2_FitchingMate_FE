@@ -2,17 +2,19 @@ import styled from 'styled-components'
 import { theme } from '@styles/theme'
 
 export const ResultListTitle = styled.h3`
-  font-size: 20px;
+  font-size: ${theme.fontSize.xlarge};
   font-weight: ${theme.fontWeight.medium};
-  margin-bottom: 20px;
+  margin-bottom: 1.25em;
   color: ${theme.fontColor.black};
-  `
+  padding: 0 20px;
+`
 
 export const ResultListTable = styled.table`
-  width: 100%;
+  width: calc(100% - 40px);
+  margin: 0 auto;
   border-collapse: collapse;
   color: ${theme.fontColor.black};
-  margin-bottom: 20px;
+  margin-bottom: 1.25em;
 
   thead {
     display: none;
@@ -24,11 +26,10 @@ export const ResultListTable = styled.table`
 
   th,
   td {
-    padding: 10px;
+    padding: 10px 0;
     text-align: center;
     border-bottom: 1px solid ${theme.fontColor.cwhite};
   }
-
 
   tr:hover {
     background-color: ${theme.fontColor.cwhite};
@@ -36,10 +37,20 @@ export const ResultListTable = styled.table`
 
   .date {
     text-align: left;
+    @media all and (max-width: 431px) {
+      width: 15%;
+    }
   }
 
   .vs {
     width: 100px;
+    @media all and (max-width: 431px) {
+      width: 15%;
+    }
+  }
+
+  .rival-team {
+    width: 40%;
   }
 
   .team-name {
@@ -48,6 +59,7 @@ export const ResultListTable = styled.table`
 
   .result {
     font-weight: ${theme.fontWeight.bold};
+    width: 15%;
   }
 
   .win {
@@ -61,7 +73,7 @@ export const ResultListTable = styled.table`
   .draw {
     color: ${theme.fontColor.black};
   }
-`;
+`
 
 export const RivalTeam = styled.div`
   display: flex;
@@ -71,10 +83,15 @@ export const RivalTeam = styled.div`
   .team-logo {
     width: 30px;
     height: 30px;
+
+    @media all and (max-width: 431px) {
+      width: 25px;
+      height: 25px;
+    }
   }
 
   span {
     font-size: 14px;
     font-weight: bold;
   }
-`;
+`

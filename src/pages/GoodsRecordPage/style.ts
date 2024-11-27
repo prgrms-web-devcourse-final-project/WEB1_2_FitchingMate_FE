@@ -2,6 +2,11 @@ import { theme } from '@styles/theme'
 import styled from 'styled-components'
 
 export const GoodsSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 1em;
   padding: 20px;
 `
 
@@ -17,11 +22,24 @@ export const GoodsRecordBoxWrap = styled.div`
   gap: 0 20px;
 `
 
-export const GoodsImage = styled.img`
+export const GoodsImageWrap = styled.div`
   width: 100px;
   height: 100px;
-  object-fit: cover;
   border-radius: 4px;
+  overflow: hidden;
+
+  @media all and (max-width: 431px) {
+    width: 70px;
+    height: 70px;
+  }
+
+  & > img,
+  svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1) !important;
+  }
 `
 
 export const GoodsRecordTextWrap = styled.div`
@@ -44,7 +62,7 @@ export const GoodsRecordPrice = styled.p`
   font-size: ${theme.fontSize.xlarge};
   font-weight: ${theme.fontWeight.bold};
   color: ${theme.fontColor.black};
-  margin-top: 0.5em;
+  margin-top: 0.375em;
 `
 
 export const GoodsInfo = styled.div`

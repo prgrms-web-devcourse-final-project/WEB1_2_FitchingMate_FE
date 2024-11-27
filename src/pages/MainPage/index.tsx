@@ -10,7 +10,7 @@ const MainPage = () => {
     <MainPageContainer>
       <MatchUpSection />
       <TeamSelectWrapper>
-      <TeamSelectSection />
+        <TeamSelectSection />
       </TeamSelectWrapper>
       <MateCardSection />
       <GoodsCardSection />
