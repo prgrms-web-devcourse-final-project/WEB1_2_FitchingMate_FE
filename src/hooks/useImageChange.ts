@@ -18,12 +18,57 @@ const useImageChange = (maxLength: number) => {
     setImageList([...imageList, ...currentFiles])
   }
 
-  const handleDeleteImage = (index: number) => {
+  const handleDeleteImage = async (index: number) => {
     const newImageList = imageList.filter((_, i) => i !== index)
     setImageList(newImageList)
   }
 
-  return { imageList, handleChangeImage, handleDeleteImage }
+  const onDragStart = (e: React.DragEvent<HTMLDivElement>, id: number) => {
+    e.dataTransfer.effectAllowed = 'move'
+    e.dataTransfer.setData('imgIndex', id.toString())
+
+    if (e.currentTarget instanceof HTMLElement) {
+      // e.currentTarget.style.opacity = '0.5'
+      e.currentTarget.style.border = '2px solid #002561'
+    }
+  }
+
+  const onDragDrop = (e: React.DragEvent, index: number) => {
+    e.preventDefault()
+
+    const currentIndex = Number(e.dataTransfer.getData('imgIndex'))
+
+    if (currentIndex === index) return
+
+    const updateImages = [...imageList]
+    const [movedImage] = updateImages.splice(currentIndex, 1)
+
+    updateImages.splice(index, 0, movedImage)
+
+    setImageList(updateImages)
+  }
+
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    // 스타일 초기화
+    if (e.currentTarget instanceof HTMLElement) {
+      e.currentTarget.style.border = 'none'
+    }
+  }
+
+  return {
+    imageList,
+    handleChangeImage,
+    handleDeleteImage,
+    onDragDrop,
+    onDragStart,
+    onDragOver,
+    onDragEnd,
+  }
 }
 
 export default useImageChange

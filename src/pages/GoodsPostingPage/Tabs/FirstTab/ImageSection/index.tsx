@@ -7,8 +7,15 @@ import useImageChange from '@hooks/useImageChange'
 const ImageSection = () => {
   const MAX_IMAGE_COUNT = 15
 
-  const { imageList, handleChangeImage, handleDeleteImage } =
-    useImageChange(MAX_IMAGE_COUNT)
+  const {
+    imageList,
+    handleChangeImage,
+    handleDeleteImage,
+    onDragDrop,
+    onDragStart,
+    onDragOver,
+    onDragEnd,
+  } = useImageChange(MAX_IMAGE_COUNT)
 
   const inputDisabled = imageList.length >= MAX_IMAGE_COUNT
 
@@ -27,7 +34,12 @@ const ImageSection = () => {
           <ImageCard
             key={`${image.name}-${index}`}
             image={image}
-            handleDeleteImage={() => handleDeleteImage(index)}
+            index={index}
+            handleDragDrop={onDragDrop}
+            handleDragStart={onDragStart}
+            handleDragOver={onDragOver}
+            handleDeleteImage={handleDeleteImage}
+            handleDragEnd={onDragEnd}
           />
         ))}
       </ImageList>
