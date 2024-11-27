@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const SearchResultItem = styled.div`
-  padding: 8px;
+  padding: 8px 16px;
   cursor: pointer;
 
   display: flex;

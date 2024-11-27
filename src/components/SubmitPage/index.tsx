@@ -49,6 +49,10 @@ const SubmitPage = ({ components, initialTab }: SubmitPageProps) => {
     changeTab(selectedTab - 1)
   }
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
   // 직관모임 등록 페이지일 경우 직관모임 등록하기 버튼 텍스트 변경
   const getNextButtonText = () => {
     if (!currentButton.isSubmit) return BUTTON_TEXT.NEXT
@@ -66,7 +70,8 @@ const SubmitPage = ({ components, initialTab }: SubmitPageProps) => {
       {title && <SubmitTitle>{title}</SubmitTitle>}
 
       {/* 직관 모임 등록 폼 영역 */}
-      <SubmitForm>{content}</SubmitForm>
+
+      <SubmitForm onSubmit={handleSubmit}>{content}</SubmitForm>
 
       <div>
         {/* 직관 모임 등록 프로세스 영역 */}

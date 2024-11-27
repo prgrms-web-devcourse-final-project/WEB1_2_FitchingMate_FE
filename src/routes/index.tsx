@@ -13,6 +13,9 @@ import SplashPage from '@pages/SplashPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
 import MateDetailPage from '@pages/MateDetailPage'
+import GoodsDetailPage from '@pages/GoodsDetailPage'
+import GoodsListPage from '@pages/GoodsListPage'
+
 
 const AppRoutes = () => {
   return (
@@ -35,6 +38,10 @@ const AppRoutes = () => {
           path='/login/signup'
           element={<SignupPage />}
         />
+        <Route
+          path='/goodslist'
+          element={<GoodsListPage />}
+        />
       </Route>
 
       <Route element={<SubLayout />}>
@@ -52,7 +59,11 @@ const AppRoutes = () => {
         />
         <Route
           path='/mate-detail'
-          element={<MateDetailPage />}
+          element={<MateDetailPage
+         />}
+          path='/goodsdetail'
+          element={<GoodsDetailPage
+         />}
         />
       </Route>
 
