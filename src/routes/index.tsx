@@ -13,6 +13,7 @@ import SplashPage from '@pages/SplashPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
 import GoodsDetailPage from '@pages/GoodsDetailPage'
+import GoodsListPage from '@pages/GoodsListPage'
 
 const AppRoutes = () => {
   return (
@@ -34,6 +35,10 @@ const AppRoutes = () => {
         <Route
           path='/login/signup'
           element={<SignupPage />}
+        />
+        <Route
+          path='/goodslist'
+          element={<GoodsListPage />}
         />
       </Route>
 
