@@ -22,7 +22,7 @@ import UserInfoList from '@components/UserInfoList'
 import CardBedge from '@components/CardBedge'
 import { GlobalFloatAside } from '@styles/globalStyle'
 import { useState } from 'react'
-import Form from '@components/Form'
+import { Map, MapMarker } from 'react-kakao-maps-sdk'
 
 const GoodsDetailPage = () => {
   const [isOner, setIsOner] = useState(false)
@@ -104,7 +104,14 @@ const GoodsDetailPage = () => {
         <GoodsDetailMapWrap>
           <h2>거래 장소</h2>
           <p>초등학교 앞</p>
-          <GoodsDetailMapInner>여기에 카카오맵</GoodsDetailMapInner>
+          <GoodsDetailMapInner>
+            <Map
+              center={{ lat: 33.5563, lng: 126.79581 }}
+              style={{ width: '100%', height: '115px' }}
+            >
+              <MapMarker position={{ lat: 33.55635, lng: 126.795841 }} />
+            </Map>
+          </GoodsDetailMapInner>
         </GoodsDetailMapWrap>
       </GoodsNoticeWrap>
 
