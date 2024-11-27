@@ -2,14 +2,14 @@ import {
   QuestionSection,
   SelectButton,
 } from '@pages/MatePostingPage/Tabs/FirstTab/style'
-import { ImgLabel, Textarea } from '@pages/MatePostingPage/Tabs/ThirdTab/style'
+import { Textarea } from '@pages/MatePostingPage/Tabs/ThirdTab/style'
 
-import AddImgIcon from '@assets/icon/image_plus.svg?react'
 import DownIcon from '@assets/icon/down.svg?react'
 
 import BottomModalOption from '@pages/MatePostingPage/Tabs/FirstTab/BottomModalOption'
 import BottomModal from '@components/BottomModal'
 import useTeamDialog from '@hooks/useTeamDialog'
+import ImageSection from './ImageSection'
 
 const FirstTab = () => {
   const {
@@ -22,19 +22,7 @@ const FirstTab = () => {
   return (
     <>
       {/* 상품 이미지 */}
-      <QuestionSection>
-        <ImgLabel>
-          <AddImgIcon
-            width={40}
-            height={40}
-          />
-          <input
-            type='file'
-            accept='image/*'
-            id='category-img'
-          />
-        </ImgLabel>
-      </QuestionSection>
+      <ImageSection />
 
       {/* 응원팀 선택 */}
       <QuestionSection>
