@@ -11,6 +11,7 @@ import MateListPage from '@pages/MateListPage'
 import SplashPage from '@pages/SplashPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
+import MyTeamPage from '@pages/MyTeamPage'
 import MateDetailPage from '@pages/MateDetailPage'
 import MainPage from '@pages/MainPage'
 import { Routes, Route } from 'react-router-dom'
@@ -42,6 +43,9 @@ const AppRoutes = () => {
           element={<SignupPage />}
         />
         <Route
+          path='/myteam'
+          element={<MyTeamPage />}
+
           path='/goodslist'
           element={<GoodsListPage />}
         />
