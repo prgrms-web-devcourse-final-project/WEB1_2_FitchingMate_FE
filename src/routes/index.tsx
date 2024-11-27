@@ -7,12 +7,13 @@ import NotificationPage from '@pages/NotificationPage'
 import GoodsPostingPage from '@pages/GoodsPostingPage'
 import MatePostingPage from '@pages/MatePostingPage'
 import ReviewWritePage from '@pages/ReviewWritePage'
-import { Routes, Route } from 'react-router-dom'
 import MateListPage from '@pages/MateListPage'
 import SplashPage from '@pages/SplashPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
 import MateDetailPage from '@pages/MateDetailPage'
+import MainPage from '@pages/MainPage'
+import { Routes, Route } from 'react-router-dom'
 import GoodsDetailPage from '@pages/GoodsDetailPage'
 import GoodsListPage from '@pages/GoodsListPage'
 
@@ -27,6 +28,8 @@ const AppRoutes = () => {
           element={<ChatPage />}
         />
         <Route
+          path='/main'
+          element={<MainPage />}
           path='/matelist'
           element={<MateListPage />}
         />
