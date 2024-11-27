@@ -1,26 +1,17 @@
 import styled from 'styled-components'
 
+export const MapSectionContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
 export const LocationSearchSection = styled.div`
   position: relative;
-`
-export const SearchResult = styled.div`
-  width: 100%;
-  background: #fff;
-
-  position: absolute;
-  top: 56px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  border: 1px solid #ddd;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  max-height: 250px;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  height: 40px;
+  z-index: 999;
 `
 
 export const MapSection = styled.div`
