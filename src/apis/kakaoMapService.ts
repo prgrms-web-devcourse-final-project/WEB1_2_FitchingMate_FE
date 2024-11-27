@@ -4,27 +4,27 @@ interface KakaoService {
     status: kakao.maps.services.Status,
     pagination: kakao.maps.Pagination,
   ) => void
-  options: (pageParam: number) => { page: number; size: number }
+  options: { page: number; size: number }
 }
 
 const searchMap = new kakao.maps.services.Places()
 
 const kakaoService: KakaoService = {
-  kakaoMapCallback: (result, status, pagination) => {
+  kakaoMapCallback: (result, status) => {
     if (status === kakao.maps.services.Status.ERROR) {
       throw new Error('카카오 맵 호출 오류')
     }
 
-    return { result, pagination }
+    return result
   },
 
-  options: (pageParam: number) => ({
-    page: pageParam,
-    size: 10,
-  }),
+  options: {
+    page: 1,
+    size: 20,
+  },
 }
 
-export const fetchSearchMap = (keyword: string, pageParam: number) =>
+export const fetchSearchMap = (keyword: string) =>
   new Promise((resolve, reject) => {
     searchMap.keywordSearch(
       keyword,
@@ -37,7 +37,5 @@ export const fetchSearchMap = (keyword: string, pageParam: number) =>
           reject(error)
         }
       },
-
-      kakaoService.options(pageParam),
     )
   })

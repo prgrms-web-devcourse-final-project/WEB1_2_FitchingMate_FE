@@ -1,21 +1,29 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type SearchResult = kakao.maps.services.PlacesSearchResult
 
 const useSearchMap = (keyword: string) => {
   const [searchResultList, setSearchResultList] = useState<SearchResult>([])
+  const [isError, setIsError] = useState<boolean>(false)
+
+  const prevKeyword = useRef('')
 
   useEffect(() => {
-    if (!keyword || keyword === '') return
+    if (keyword === '') {
+      setSearchResultList([])
+      return
+    }
+
+    if (keyword.trim() === prevKeyword.current.trim()) return
+
     const searchMap = new kakao.maps.services.Places()
 
     const handleSearch = (
       result: SearchResult,
       status: kakao.maps.services.Status,
-      pagination: kakao.maps.Pagination,
     ) => {
       if (status === kakao.maps.services.Status.ERROR) {
-        throw new Error('카카오 맵 호출 오류')
+        setIsError(true)
       }
 
       if (status === kakao.maps.services.Status.OK) {
@@ -24,8 +32,13 @@ const useSearchMap = (keyword: string) => {
     }
 
     searchMap.keywordSearch(keyword, handleSearch)
+
+    return () => {
+      if (isError) setIsError(false)
+      prevKeyword.current = keyword
+    }
   }, [keyword])
 
-  return { searchResultList }
+  return { searchResultList, isError }
 }
 export default useSearchMap
