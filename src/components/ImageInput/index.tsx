@@ -4,12 +4,20 @@ import { ImgLabel } from './style'
 interface ImageInputProps {
   maxCount: number
   currentCount: number
+  multiple?: boolean
+  disabled: boolean
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const ImageInput = ({ maxCount, currentCount, onChange }: ImageInputProps) => {
+const ImageInput = ({
+  maxCount,
+  currentCount,
+  multiple,
+  disabled,
+  onChange,
+}: ImageInputProps) => {
   return (
-    <ImgLabel>
+    <ImgLabel $disabled={disabled}>
       <div>
         <AddImgIcon
           width={30}
@@ -22,8 +30,10 @@ const ImageInput = ({ maxCount, currentCount, onChange }: ImageInputProps) => {
       <input
         type='file'
         accept='image/*'
+        multiple={multiple || false}
         id='category-img'
         onChange={onChange}
+        disabled={disabled}
       />
     </ImgLabel>
   )

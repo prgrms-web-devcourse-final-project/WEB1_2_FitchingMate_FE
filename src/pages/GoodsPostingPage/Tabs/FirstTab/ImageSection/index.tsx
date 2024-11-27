@@ -5,15 +5,23 @@ import ImageInput from '@components/ImageInput'
 import useImageChange from '@hooks/useImageChange'
 
 const ImageSection = () => {
-  const { imageList, handleChangeImage, handleDeleteImage } = useImageChange()
+  const MAX_IMAGE_COUNT = 15
+
+  const { imageList, handleChangeImage, handleDeleteImage } =
+    useImageChange(MAX_IMAGE_COUNT)
+
+  const inputDisabled = imageList.length >= MAX_IMAGE_COUNT
 
   return (
     <ImageContainer>
       <ImageInput
-        maxCount={5}
+        maxCount={MAX_IMAGE_COUNT}
         currentCount={imageList.length}
         onChange={handleChangeImage}
+        disabled={inputDisabled}
+        multiple
       />
+
       <ImageList>
         {imageList?.map((image, index) => (
           <ImageCard
