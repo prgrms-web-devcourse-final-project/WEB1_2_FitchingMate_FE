@@ -1,5 +1,5 @@
 import CharacterBest from '@assets/character/character-best.svg?react'
-import Logo from '/public/PITCHING MATE.svg?react'
+import Logo from '@assets/logo/logo_navy.svg?react'
 import NaverLoginButton from './NaverLoginButton'
 import { LoginPageContainer, TopContent, ButtonContainer } from './style'
 

@@ -13,7 +13,8 @@ import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
 import MainPage from '@pages/MainPage'
 import { Routes, Route } from 'react-router-dom'
-
+import GoodsDetailPage from '@pages/GoodsDetailPage'
+import GoodsListPage from '@pages/GoodsListPage'
 
 const AppRoutes = () => {
   return (
@@ -38,6 +39,10 @@ const AppRoutes = () => {
           path='/login/signup'
           element={<SignupPage />}
         />
+        <Route
+          path='/goodslist'
+          element={<GoodsListPage />}
+        />
       </Route>
 
       <Route element={<SubLayout />}>
@@ -52,6 +57,10 @@ const AppRoutes = () => {
         <Route
           path='/chat-room'
           element={<ChatRoom />}
+        />
+        <Route
+          path='/goodsdetail'
+          element={<GoodsDetailPage />}
         />
       </Route>
 
