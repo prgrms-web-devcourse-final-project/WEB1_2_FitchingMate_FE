@@ -12,6 +12,7 @@ import MateListPage from '@pages/MateListPage'
 import SplashPage from '@pages/SplashPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
+import MyTeamPage from '@pages/MyTeamPage'
 
 const AppRoutes = () => {
   return (
@@ -33,6 +34,10 @@ const AppRoutes = () => {
         <Route
           path='/login/signup'
           element={<SignupPage />}
+        />
+        <Route
+          path='/myteam'
+          element={<MyTeamPage />}
         />
       </Route>
 
