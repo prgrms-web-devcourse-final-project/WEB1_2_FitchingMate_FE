@@ -1,14 +1,21 @@
 import CardBedge from '@components/CardBedge'
 import { SearchResultItem } from './style'
 
-const ResultCard = () => {
+interface SearchResult {
+  searchResult: kakao.maps.services.PlacesSearchResultItem
+  onClick: () => void
+}
+
+const ResultCard = ({ searchResult, onClick }: SearchResult) => {
+  const { place_name, address_name, road_address_name } = searchResult
+
   return (
-    <SearchResultItem>
-      <h2>명동교자 이태원점</h2>
-      <p>서울 용산구 이태원로 15길 1</p>
+    <SearchResultItem onClick={onClick}>
+      <h2>{place_name}</h2>
+      <p>{road_address_name}</p>
       <div>
         <CardBedge text='지번' />
-        <p>서울 용산구 이태원동 181-8</p>
+        <p>{address_name}</p>
       </div>
     </SearchResultItem>
   )

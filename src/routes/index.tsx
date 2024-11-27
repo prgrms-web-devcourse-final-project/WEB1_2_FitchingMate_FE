@@ -13,6 +13,8 @@ import SplashPage from '@pages/SplashPage'
 import LoginPage from '@pages/LoginPage'
 import SignupPage from '@pages/LoginPage/SignupPage'
 import MyTeamPage from '@pages/MyTeamPage'
+import GoodsDetailPage from '@pages/GoodsDetailPage'
+import GoodsListPage from '@pages/GoodsListPage'
 
 const AppRoutes = () => {
   return (
@@ -38,6 +40,9 @@ const AppRoutes = () => {
         <Route
           path='/myteam'
           element={<MyTeamPage />}
+
+          path='/goodslist'
+          element={<GoodsListPage />}
         />
       </Route>
 
@@ -53,6 +58,10 @@ const AppRoutes = () => {
         <Route
           path='/chat-room'
           element={<ChatRoom />}
+        />
+        <Route
+          path='/goodsdetail'
+          element={<GoodsDetailPage />}
         />
       </Route>
 
