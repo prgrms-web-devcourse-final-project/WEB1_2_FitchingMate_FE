@@ -3,6 +3,14 @@ import { GoodsModel, Location } from '@typings/model/GoodsModel'
 
 interface GoodsFormStore {
   goods: GoodsModel
+
+  setTeamId: (teamId: string) => void
+  setTitle: (title: string) => void
+  setCategory: (category: string) => void
+  setContent: (content: string) => void
+  setPrice: (price: string) => void
+  setLocation: (location: Location) => void
+  setImageList: (imageList: File[]) => void
 }
 
 export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
@@ -12,12 +20,14 @@ export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
     set((state) => ({ goods: { ...state.goods, teamId } })),
   setTitle: (title: string) =>
     set((state) => ({ goods: { ...state.goods, title } })),
+  setCategory: (category: string) =>
+    set((state) => ({ goods: { ...state.goods, category } })),
   setContent: (content: string) =>
     set((state) => ({ goods: { ...state.goods, content } })),
   setPrice: (price: string) =>
     set((state) => ({ goods: { ...state.goods, price } })),
   setLocation: (location: Location) =>
     set((state) => ({ goods: { ...state.goods, location } })),
-  setImages: (images: string[]) =>
-    set((state) => ({ goods: { ...state.goods, images } })),
+  setImageList: (imageList: File[]) =>
+    set((state) => ({ goods: { ...state.goods, imageList } })),
 }))

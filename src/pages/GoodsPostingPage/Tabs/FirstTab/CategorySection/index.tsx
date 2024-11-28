@@ -1,25 +1,26 @@
+import { useGoodsFormStore } from '@store/useGoodsFormStore'
 import { CategoryContainer, Input, Label } from './style'
-import { useState } from 'react'
 
 const CATEGORY_LIST = ['유니폼', '모자', '의류', '잡화', '기념상품']
 
 const CategorySection = () => {
-  const [selectedCategory, setSelectedCategory] = useState('')
+  const category = useGoodsFormStore((state) => state.goods.category)
+  const setCategory = useGoodsFormStore((state) => state.setCategory)
 
   const handleCategoryClick = (category: string) => {
-    setSelectedCategory(category)
+    setCategory(category)
   }
 
   return (
     <CategoryContainer>
-      {CATEGORY_LIST.map((category) => (
+      {CATEGORY_LIST.map((currentCategory) => (
         <RadioInput
-          key={category}
-          id={category}
+          key={currentCategory}
+          id={currentCategory}
           name='category'
-          value={category}
-          checked={selectedCategory === category}
-          onClick={() => handleCategoryClick(category)}
+          value={currentCategory}
+          checked={category === currentCategory}
+          onClick={() => handleCategoryClick(currentCategory)}
         />
       ))}
     </CategoryContainer>

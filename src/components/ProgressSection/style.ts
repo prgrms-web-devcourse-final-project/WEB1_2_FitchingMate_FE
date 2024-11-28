@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const ProcessSection = styled.div`
   display: flex;
@@ -24,7 +24,10 @@ export const ButtonContainer = styled.div`
   padding: 0 20px;
 `
 
-export const Button = styled.button<{ $isPrevious?: boolean }>`
+export const Button = styled.button<{
+  $isPrevious?: boolean
+  $isDisabled?: boolean
+}>`
   width: ${({ $isPrevious }) => ($isPrevious ? '65%' : '100%')};
   padding: 1.25em 0;
   border-radius: 8px;
@@ -33,6 +36,14 @@ export const Button = styled.button<{ $isPrevious?: boolean }>`
 
   background-color: ${({ theme }) => theme.fontColor.navy};
   color: ${({ theme }) => theme.fontColor.cwhite};
+
+  ${({ $isDisabled }) =>
+    $isDisabled &&
+    css`
+      background-color: #d9d9d9;
+      color: ${({ theme }) => theme.fontColor.black}80;
+      cursor: not-allowed;
+    `}
 `
 export const PreviousButton = styled(Button)`
   width: 30%;

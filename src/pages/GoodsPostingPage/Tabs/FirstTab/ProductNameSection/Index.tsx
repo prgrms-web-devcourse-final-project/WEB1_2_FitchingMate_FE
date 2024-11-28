@@ -1,14 +1,22 @@
-import useInput from '@hooks/useInput'
 import { ProductNameContainer } from './style'
+import { useGoodsFormStore } from '@store/useGoodsFormStore'
 
 const ProductNameSection = () => {
+  const title = useGoodsFormStore((state) => state.goods.title)
+  const setTitle = useGoodsFormStore((state) => state.setTitle)
+
   const MAX_LENGTH = 25
 
   const validateProductName = (value: string) => {
     return value.trim().length <= MAX_LENGTH
   }
 
-  const { value, handleChange } = useInput(validateProductName)
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    if (validateProductName(value)) {
+      setTitle(value)
+    }
+  }
 
   return (
     <ProductNameContainer>
@@ -16,11 +24,11 @@ const ProductNameSection = () => {
       <input
         type='text'
         id='title'
-        value={value}
+        value={title}
         onChange={handleChange}
       />
       <p>
-        {value.length}/{MAX_LENGTH}
+        {title.length}/{MAX_LENGTH}
       </p>
     </ProductNameContainer>
   )

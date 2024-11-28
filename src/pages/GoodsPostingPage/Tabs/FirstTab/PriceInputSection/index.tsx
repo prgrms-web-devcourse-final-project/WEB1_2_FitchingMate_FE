@@ -4,9 +4,12 @@ import { ButtonContainer } from './style'
 import PillButton from '@components/PillButton'
 
 import { useState } from 'react'
+import { useGoodsFormStore } from '@store/useGoodsFormStore'
 
 const PriceInputSection = () => {
-  const [currentPrice, setCurrentPrice] = useState('')
+  const currentPrice = useGoodsFormStore((state) => state.goods.price)
+  const setCurrentPrice = useGoodsFormStore((state) => state.setPrice)
+
   const [isSale, setIsSale] = useState(true)
 
   const formatPrice = (price: string) => {
@@ -40,7 +43,10 @@ const PriceInputSection = () => {
     }
   }
 
-  const displayValue = isSale ? currentPrice : '0'
+  const handleShareButtonClick = () => {
+    setIsSale(false)
+    setCurrentPrice('0')
+  }
 
   return (
     <QuestionSection>
@@ -54,14 +60,14 @@ const PriceInputSection = () => {
         <PillButton
           text='나눔하기'
           $isSelected={!isSale}
-          onClick={() => setIsSale(false)}
+          onClick={handleShareButtonClick}
         />
       </ButtonContainer>
       <input
         type='text'
         id='price'
         disabled={!isSale}
-        value={displayValue}
+        value={currentPrice}
         onChange={handleInputChange}
       />
     </QuestionSection>

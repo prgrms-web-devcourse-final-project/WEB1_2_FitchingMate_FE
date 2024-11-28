@@ -1,4 +1,3 @@
-import TabModel from '@utils/tabModel'
 import {
   Button,
   ButtonContainer,
@@ -8,30 +7,36 @@ import {
 } from './style'
 
 interface ProgressSectionProps {
-  components: TabModel[]
+  totalTab: number
   selectedTab: number
   isFirstTab: boolean
   isFinalTab: boolean
   handlePrevious: () => void
   handleNext: () => void
+  handleSubmit: () => void
+  isDisabled: boolean
 }
 
 const ProgressSection = ({
-  components,
+  totalTab,
   selectedTab,
   handlePrevious,
   handleNext,
   isFirstTab,
   isFinalTab,
+  isDisabled,
+  handleSubmit,
 }: ProgressSectionProps) => {
+  const handleClick = isFinalTab ? handleSubmit : handleNext
+
   return (
     <div>
       {/* 직관 모임 등록 프로세스 영역 */}
       <ProcessSection>
-        {components.map((_, index) => (
+        {Array.from({ length: totalTab }).map((_, index) => (
           <ProcessBar
             key={index}
-            $totalLength={components.length}
+            $totalLength={totalTab}
             $isActive={index <= selectedTab}
           />
         ))}
@@ -43,8 +48,10 @@ const ProgressSection = ({
           <PreviousButton onClick={handlePrevious}>이전</PreviousButton>
         )}
         <Button
-          onClick={handleNext}
+          onClick={handleClick}
           $isPrevious={!isFirstTab}
+          disabled={isDisabled}
+          $isDisabled={isDisabled}
         >
           {isFinalTab ? '상품 등록하기' : '다음'}
         </Button>

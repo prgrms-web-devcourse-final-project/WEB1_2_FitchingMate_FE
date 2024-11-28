@@ -1,14 +1,23 @@
-import useInput from '@hooks/useInput'
 import { Textarea } from '@pages/MatePostingPage/Tabs/ThirdTab/style'
 import { DescriptionContainer } from './style'
+import { useGoodsFormStore } from '@store/useGoodsFormStore'
 
 const DescriptionSection = () => {
+  const description = useGoodsFormStore((state) => state.goods.content)
+  const setDescription = useGoodsFormStore((state) => state.setContent)
+
   const MAX_LENGTH = 200
 
   const validateDescription = (description: string) => {
     return description.length <= MAX_LENGTH
   }
-  const { value, handleChange } = useInput(validateDescription)
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const value = e.target.value
+    if (validateDescription(value)) {
+      setDescription(value)
+    }
+  }
 
   return (
     <DescriptionContainer>
@@ -17,11 +26,11 @@ const DescriptionSection = () => {
         id='content'
         name='content'
         placeholder='상품에 대한 설명을 입력하세요'
-        value={value}
+        value={description}
         onChange={handleChange}
       />
       <p>
-        {value.length}/{MAX_LENGTH}
+        {description.length}/{MAX_LENGTH}
       </p>
     </DescriptionContainer>
   )
