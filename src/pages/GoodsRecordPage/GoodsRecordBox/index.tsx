@@ -25,8 +25,21 @@ const GoodsRecordBox = ({
   writer,
   createdAt,
 }: GoodsBoxPropTypes) => {
+  const formattingDate = (createdAt: string) => {
+    const date = new Date(createdAt)
+
+    const year = date.getFullYear()
+    const month = ('0' + (date.getMonth() + 1)).slice(-2)
+    const day = ('0' + date.getDate()).slice(-2)
+
+    return `${year}-${month}-${day}`
+  }
+
   return (
-    <Link to={'/'}>
+    <Link
+      to={'/'}
+      style={{ width: '100%', display: 'block' }}
+    >
       <GoodsRecordBoxWrap>
         <GoodsImageWrap>
           {image ? (
@@ -40,10 +53,10 @@ const GoodsRecordBox = ({
         </GoodsImageWrap>
         <GoodsRecordTextWrap>
           <GoodsRecordTitle>{title}</GoodsRecordTitle>
-          <GoodsRecordPrice>{price}원</GoodsRecordPrice>
+          <GoodsRecordPrice>{price.toLocaleString('ko-KR')}원</GoodsRecordPrice>
           <GoodsInfo>
             <span>{writer}</span>
-            <span>{createdAt}</span>
+            <span>{formattingDate(createdAt)}</span>
           </GoodsInfo>
         </GoodsRecordTextWrap>
       </GoodsRecordBoxWrap>
