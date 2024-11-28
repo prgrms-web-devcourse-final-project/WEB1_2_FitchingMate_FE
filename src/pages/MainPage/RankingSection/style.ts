@@ -35,6 +35,10 @@ export const RankingTable = styled.table`
 
   tr {
     height: 40px;
+
+    @media all and (max-width: 431px) {
+      height: 30px;
+    }
   }
 
   th,
@@ -74,6 +78,11 @@ export const TeamCell = styled.div`
 export const TeamLogo = styled.div`
   width: 30px;
   height: 30px;
+
+  @media all and (max-width: 431px) {
+    width: 25px;
+    height: 25px;
+  }
 
   svg {
     width: 100%;

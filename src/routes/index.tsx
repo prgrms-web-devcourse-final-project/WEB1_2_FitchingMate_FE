@@ -17,7 +17,12 @@ import MainPage from '@pages/MainPage'
 import { Routes, Route } from 'react-router-dom'
 import GoodsDetailPage from '@pages/GoodsDetailPage'
 import GoodsListPage from '@pages/GoodsListPage'
-
+import FollowPage from '@pages/FollowPage'
+import GoodsRecordPage from '@pages/GoodsRecordPage'
+import ProfileMain from '@pages/ProfilePage/ProfileMain'
+import ProfileEdit from '@pages/ProfilePage/ProfileEdit'
+import ReviewPage from '@pages/ProfilePage/ReviewPage'
+import TimelinePage from '@pages/TimelinePage'
 
 const AppRoutes = () => {
   return (
@@ -31,6 +36,8 @@ const AppRoutes = () => {
         <Route
           path='/main'
           element={<MainPage />}
+        />
+        <Route
           path='/matelist'
           element={<MateListPage />}
         />
@@ -45,7 +52,8 @@ const AppRoutes = () => {
         <Route
           path='/myteam'
           element={<MyTeamPage />}
-
+        />
+        <Route
           path='/goodslist'
           element={<GoodsListPage />}
         />
@@ -66,11 +74,45 @@ const AppRoutes = () => {
         />
         <Route
           path='/mate-detail'
-          element={<MateDetailPage
-         />}
+          element={<MateDetailPage />}
+        />
+        <Route
           path='/goodsdetail'
-          element={<GoodsDetailPage
-         />}
+          element={<GoodsDetailPage />}
+        />
+        <Route
+          path='/goodsrecord'
+          element={<GoodsRecordPage />}
+        />
+        <Route
+          path='/follow'
+          element={<FollowPage />}
+        />
+        <Route
+          path='/profile'
+          element={<ProfileMain />}
+        />
+        <Route
+          path='/profile/edit'
+          element={<ProfileEdit />}
+        />
+        <Route
+          path='/review'
+          element={<ReviewPage />}
+        />
+        <Route
+          path='/review/write'
+          element={
+            <ReviewWritePage
+              reviewType='GOODS'
+              title='string'
+              username='유저네임'
+            />
+          }
+        />
+        <Route
+          path='/timeline'
+          element={<TimelinePage />}
         />
       </Route>
 

@@ -5,6 +5,10 @@ export const FollowPageWrap = styled.section`
   padding: 20px 0;
 `
 
+export const FollowButtonWrap = styled.div`
+  padding: 0 20px;
+`
+
 export const FollowBoxContainer = styled.div`
   margin-top: 1.25em;
 `
@@ -22,7 +26,7 @@ export const FollowBoxLeft = styled.div`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 0 20px;
+    gap: 0 1.25em;
   }
   & > p {
     font-size: ${theme.fontSize.large};

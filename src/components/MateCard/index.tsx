@@ -5,15 +5,18 @@ import {
   CardContentRight,
   BedgeContainer,
   Description,
+  CardImageWrap,
 } from './style'
-import Placeholder from '@components/Placeholder'
+import Placeholder from '@assets/default/placeholder.svg?react'
 import CardBedge from '@components/CardBedge'
 
 const MateCard = () => {
   return (
     <CardContainer>
       {/* 여기 이미지 들어갈거임 없으면 플홀 */}
-      <Placeholder />
+      <CardImageWrap>
+        <Placeholder />
+      </CardImageWrap>
 
       <CardContent>
         {/* 경기정보 */}

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import {
-  GoodsImage,
+  GoodsImageWrap,
   GoodsInfo,
   GoodsRecordBoxWrap,
   GoodsRecordPrice,
@@ -28,14 +28,16 @@ const GoodsRecordBox = ({
   return (
     <Link to={'/'}>
       <GoodsRecordBoxWrap>
-        {image ? (
-          <GoodsImage
-            src={image}
-            alt={title}
-          />
-        ) : (
-          <Placeholder />
-        )}
+        <GoodsImageWrap>
+          {image ? (
+            <img
+              src={image}
+              alt={title}
+            />
+          ) : (
+            <Placeholder />
+          )}
+        </GoodsImageWrap>
         <GoodsRecordTextWrap>
           <GoodsRecordTitle>{title}</GoodsRecordTitle>
           <GoodsRecordPrice>{price}원</GoodsRecordPrice>

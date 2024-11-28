@@ -13,6 +13,10 @@ export const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 40px;
+
+  @media all and (max-width: 431px) {
+    gap: 20px;
+  }
 `
 
 export const ProfileWrap = styled.div`
@@ -28,19 +32,28 @@ export const ProfileWrap = styled.div`
     position: absolute;
     bottom: -12px;
     right: -12px;
+
+    @media all and (max-width: 431px) {
+      width: 32px;
+      height: 32px;
+      bottom: -8px;
+      right: -8px;
+      object-fit: cover;
+      object-position: center;
+    }
   }
 `
 
 export const UserInfoContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625em;
 `
 
 export const ChatContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.3125em;
 
   h2 {
     max-width: 250px;
@@ -50,6 +63,10 @@ export const ChatContent = styled.div`
 
     font-size: ${({ theme }) => theme.fontSize.large};
     font-weight: ${({ theme }) => theme.fontWeight.bold};
+
+    @media all and (max-width: 431px) {
+      max-width: 180px;
+    }
   }
 
   p {

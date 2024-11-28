@@ -7,6 +7,7 @@ import MateCard from '@components/MateCard'
 import { useState } from 'react'
 import { ChatType } from '@pages/ChatPage'
 import GoodsListCard from '@components/GoodsListCard'
+import { GlobalFloatAside } from '@styles/globalStyle'
 
 const ChatRoom = ({ chatType }: { chatType: ChatType }) => {
   const [currentType, setCurrentType] = useState<ChatType | null>(null)
@@ -27,7 +28,9 @@ const ChatRoom = ({ chatType }: { chatType: ChatType }) => {
         <ChatCard isUserChat={false} />
       </ChatCardContainer>
 
-      <ChatInput />
+      <GlobalFloatAside>
+        <ChatInput />
+      </GlobalFloatAside>
     </>
   )
 }
