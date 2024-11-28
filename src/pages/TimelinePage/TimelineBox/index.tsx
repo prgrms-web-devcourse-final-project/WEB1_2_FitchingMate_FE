@@ -1,100 +1,43 @@
 import {
-  TimelineBottomBox,
-  TimelineBottomImage,
   TimelineBoxTopText,
   TimelineBoxWrap,
   TimelineColorBox,
-  TimelineReviewBox,
-  TimelineReviewer,
-  TimelineReviewInner,
-  TimelineReviewWrap,
   TimelineRotate,
-  TimelineSendReview,
 } from '../style'
 
 import Rotate from '@assets/icon/down_white.svg?react'
-import Arena from '@assets/default/area.png'
-import Worst from '@assets/character/character-worst.svg?react'
-import Normal from '@assets/character/character-normal.svg?react'
-import Best from '@assets/character/character-best.svg?react'
+import TimelineBoxBottom from '../TimelineBoxBottom'
+import { useState } from 'react'
+import { MatchInfo } from '../types'
 
-const TimelineBox = () => {
+interface TimelineBoxPropTypes {
+  info: MatchInfo
+}
+
+const TimelineBox = ({ info }: TimelineBoxPropTypes) => {
+  const [visible, setVisible] = useState(false)
+
   return (
-    <TimelineBoxWrap>
+    <TimelineBoxWrap
+      onClick={(e) => {
+        setVisible(!visible)
+      }}
+    >
       <h2>2024.11.13</h2>
       <TimelineColorBox>
         <TimelineBoxTopText>
           <div>
-            <span>2024년 11월 14일 18:00</span>
-            <h3>삼성 VS KT</h3>
-            <span>대구 라이온스 파크</span>
+            <span>{info.match_time}</span>
+            <h3>
+              {info.home_team_id} VS {info.away_team_id}
+            </h3>
+            <span>{info.location}</span>
           </div>
-          <TimelineRotate>
+          <TimelineRotate className={visible ? 'on' : null}>
             <Rotate />
           </TimelineRotate>
         </TimelineBoxTopText>
-        <TimelineBottomBox>
-          <TimelineBottomImage
-            src={Arena}
-            alt='임시'
-          />
-          <h2>같이 본 메이트</h2>
-          <TimelineReviewWrap>
-            <TimelineReviewBox>
-              <div>
-                <TimelineReviewer>김아무개</TimelineReviewer>
-                <TimelineReviewInner></TimelineReviewInner>
-              </div>
-              <div>
-                <TimelineSendReview>후기 보내기</TimelineSendReview>
-              </div>
-            </TimelineReviewBox>
-
-            <TimelineReviewBox>
-              <div>
-                <TimelineReviewer>김아무개</TimelineReviewer>
-                <TimelineReviewInner>
-                  김아무개에 대한 평가입니다 평가절하
-                  <br />
-                  김애무개에 대한 평가입니다 평가절하
-                </TimelineReviewInner>
-              </div>
-              <div>
-                <Normal />
-              </div>
-            </TimelineReviewBox>
-
-            <TimelineReviewBox>
-              <div>
-                <TimelineReviewer>김아무개</TimelineReviewer>
-                <TimelineReviewInner>
-                  김아무개에 대한 평가입니다 평가절하
-                  <br />
-                  김애무개에 대한 평가입니다 평가절하
-                  <br />
-                  김애무개에 대한 평가입니다 평가절하
-                </TimelineReviewInner>
-              </div>
-              <div>
-                <Best />
-              </div>
-            </TimelineReviewBox>
-
-            <TimelineReviewBox>
-              <div>
-                <TimelineReviewer>김아무개</TimelineReviewer>
-                <TimelineReviewInner>
-                  김아무개에 대한 평가입니다 평가절하
-                  <br />
-                  김애무개에 대한 평가입니다 평가절하
-                </TimelineReviewInner>
-              </div>
-              <div>
-                <Worst />
-              </div>
-            </TimelineReviewBox>
-          </TimelineReviewWrap>
-        </TimelineBottomBox>
+        {visible ? <TimelineBoxBottom review={info.review_list} /> : null}
       </TimelineColorBox>
     </TimelineBoxWrap>
   )
