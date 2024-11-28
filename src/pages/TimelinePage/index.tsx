@@ -2,15 +2,15 @@ import { TimelineWrap } from './style'
 import TimelineBox from './TimelineBox'
 
 import { data } from './mockData'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { MatchInfo } from './types'
 
 const TimelinePage = () => {
-  const [timelineData, setTimelineData] = useState<any>(data)
+  const [timelineData, setTimelineData] = useState(data.slice(0, 5))
 
   return (
     <TimelineWrap>
-      {data.map((match, index) => {
+      {timelineData.map((match, index) => {
         return (
           <TimelineBox
             info={match}
