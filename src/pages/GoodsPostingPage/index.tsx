@@ -13,19 +13,19 @@ import SecondTab from './Tabs/SecondTab'
 import TabModel from '@utils/tabModel'
 
 const goodsPostingComponents = [
-  new TabModel(<FirstTab />, {
-    previous: false,
-    next: true,
-  }),
-  new TabModel(<SecondTab />, {
-    previous: true,
-    next: true,
-    isSubmit: true,
-  }),
+  new TabModel(<FirstTab />),
+  new TabModel(<SecondTab />),
 ]
 
 const GoodsPostingPage = () => {
-  const { currentTab, selectedTab, handleNext, handlePrevious } = useTabs({
+  const {
+    currentTab,
+    selectedTab,
+    handleNext,
+    handlePrevious,
+    isFirstTab,
+    isFinalTab,
+  } = useTabs({
     components: goodsPostingComponents,
     initialTab: 0,
   })
@@ -39,13 +39,7 @@ const GoodsPostingPage = () => {
     console.log(formDataObject)
   }
 
-  const { title, content, currentButton } = currentTab
-
-  const buttonText = () => {
-    if (currentButton.isSubmit) return '상품 등록하기'
-    if (currentButton.previous) return '이전'
-    return '다음'
-  }
+  const { title, content } = currentTab
 
   return (
     <SubmitContainer>
@@ -54,18 +48,17 @@ const GoodsPostingPage = () => {
 
       {/* 직관 모임 등록 폼 영역 */}
 
-      <SubmitForm onSubmit={handleSubmit}>
-        {content}
-        {/* 직관 모임 등록 프로세스 영역 */}
-        <ProgressSection
-          components={goodsPostingComponents}
-          selectedTab={selectedTab}
-          currentButton={currentButton}
-          handlePrevious={handlePrevious}
-          handleNext={handleNext}
-          getNextButtonText={buttonText}
-        />
-      </SubmitForm>
+      <SubmitForm onSubmit={handleSubmit}>{content}</SubmitForm>
+
+      {/* 직관 모임 등록 프로세스 영역 */}
+      <ProgressSection
+        components={goodsPostingComponents}
+        selectedTab={selectedTab}
+        isFirstTab={isFirstTab}
+        isFinalTab={isFinalTab}
+        handlePrevious={handlePrevious}
+        handleNext={handleNext}
+      />
     </SubmitContainer>
   )
 }

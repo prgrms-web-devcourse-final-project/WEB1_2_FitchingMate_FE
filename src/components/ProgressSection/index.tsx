@@ -10,25 +10,19 @@ import {
 interface ProgressSectionProps {
   components: TabModel[]
   selectedTab: number
-
-  currentButton: {
-    previous: boolean
-    next: boolean
-    isSubmit?: boolean
-  }
-
+  isFirstTab: boolean
+  isFinalTab: boolean
   handlePrevious: () => void
   handleNext: () => void
-  getNextButtonText: () => string
 }
 
 const ProgressSection = ({
   components,
   selectedTab,
-  currentButton,
   handlePrevious,
   handleNext,
-  getNextButtonText,
+  isFirstTab,
+  isFinalTab,
 }: ProgressSectionProps) => {
   return (
     <div>
@@ -45,14 +39,14 @@ const ProgressSection = ({
 
       {/* 직관 모임 등록 버튼 영역 */}
       <ButtonContainer>
-        {currentButton.previous && (
+        {!isFirstTab && (
           <PreviousButton onClick={handlePrevious}>이전</PreviousButton>
         )}
         <Button
           onClick={handleNext}
-          $isPrevious={currentButton.previous}
+          $isPrevious={!isFirstTab}
         >
-          {getNextButtonText()}
+          {isFinalTab ? '상품 등록하기' : '다음'}
         </Button>
       </ButtonContainer>
     </div>

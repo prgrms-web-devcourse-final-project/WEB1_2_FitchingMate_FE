@@ -27,6 +27,8 @@ const useTabs = ({ initialTab, components }: UseTabProps) => {
     currentTab: components[selectedTab],
     changeTab: setSelectedTab,
     selectedTab,
+    isFirstTab: selectedTab === 0,
+    isFinalTab: selectedTab === components.length - 1,
     handleNext,
     handlePrevious,
   }
