@@ -1,13 +1,4 @@
-import {
-  SubmitContainer,
-  SubmitTitle,
-  SubmitForm,
-  ProcessSection,
-  ButtonContainer,
-  Button,
-  PreviousButton,
-  ProcessBar,
-} from './style'
+import { SubmitContainer, SubmitTitle, SubmitForm } from './style'
 
 import useTabs from '@hooks/useTabs'
 import { useLocation } from 'react-router-dom'
@@ -39,18 +30,11 @@ const SubmitPage = ({ components, initialTab }: SubmitPageProps) => {
   const isMatePostingPage = pathname.includes('/mate-posting')
   const isGoodsPostingPage = pathname.includes('/goods-posting')
 
-  const handleNext = () => {
-    if (selectedTab === components.length - 1) return
-    changeTab(selectedTab + 1)
-  }
-
-  const handlePrevious = () => {
-    if (selectedTab === 0) return
-    changeTab(selectedTab - 1)
-  }
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const data = Object.fromEntries(formData.entries())
+    console.log(data)
   }
 
   // 직관모임 등록 페이지일 경우 직관모임 등록하기 버튼 텍스트 변경
@@ -71,33 +55,10 @@ const SubmitPage = ({ components, initialTab }: SubmitPageProps) => {
 
       {/* 직관 모임 등록 폼 영역 */}
 
-      <SubmitForm onSubmit={handleSubmit}>{content}</SubmitForm>
-
-      <div>
+      <SubmitForm onSubmit={handleSubmit}>
+        {content}
         {/* 직관 모임 등록 프로세스 영역 */}
-        <ProcessSection>
-          {components.map((_, index) => (
-            <ProcessBar
-              key={index}
-              $totalLength={components.length}
-              $isActive={index <= selectedTab}
-            />
-          ))}
-        </ProcessSection>
-
-        {/* 직관 모임 등록 버튼 영역 */}
-        <ButtonContainer>
-          {currentButton.previous && (
-            <PreviousButton onClick={handlePrevious}>이전</PreviousButton>
-          )}
-          <Button
-            onClick={handleNext}
-            $isPrevious={currentButton.previous}
-          >
-            {getNextButtonText()}
-          </Button>
-        </ButtonContainer>
-      </div>
+      </SubmitForm>
     </SubmitContainer>
   )
 }

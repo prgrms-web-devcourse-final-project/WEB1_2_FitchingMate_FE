@@ -4,6 +4,7 @@ import { DescriptionContainer } from './style'
 
 const DescriptionSection = () => {
   const MAX_LENGTH = 200
+
   const validateDescription = (description: string) => {
     return description.length <= MAX_LENGTH
   }
@@ -11,10 +12,10 @@ const DescriptionSection = () => {
 
   return (
     <DescriptionContainer>
-      <label htmlFor='description'>자세한 설명</label>
+      <label htmlFor='content'>자세한 설명</label>
       <Textarea
-        id='description'
-        name='description'
+        id='content'
+        name='content'
         placeholder='상품에 대한 설명을 입력하세요'
         value={value}
         onChange={handleChange}

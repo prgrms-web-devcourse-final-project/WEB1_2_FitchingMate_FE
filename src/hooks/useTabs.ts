@@ -13,10 +13,22 @@ const useTabs = ({ initialTab, components }: UseTabProps) => {
 
   const [selectedTab, setSelectedTab] = useState(initialTab)
 
+  const handleNext = () => {
+    if (selectedTab === components.length - 1) return
+    setSelectedTab(selectedTab + 1)
+  }
+
+  const handlePrevious = () => {
+    if (selectedTab === 0) return
+    setSelectedTab(selectedTab - 1)
+  }
+
   return {
     currentTab: components[selectedTab],
     changeTab: setSelectedTab,
     selectedTab,
+    handleNext,
+    handlePrevious,
   }
 }
 

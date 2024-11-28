@@ -1,22 +1,23 @@
 export class Location {
-  addressName: string
+  latitude: string
+  longitude: string
   placeName: string
-  roadAddressName: string
 
-  constructor(addressName: string, placeName: string, roadAddressName: string) {
-    this.addressName = addressName
+  constructor(latitude: string, longitude: string, placeName: string) {
+    this.latitude = latitude
+    this.longitude = longitude
     this.placeName = placeName
-    this.roadAddressName = roadAddressName
   }
 }
 
-export class PostData {
+export class GoodsModel {
   teamId: string
   title: string
   category: string
   price: string
   content: string
   location: Location
+  imageList: File[]
 
   constructor(
     teamId: string,
@@ -25,6 +26,7 @@ export class PostData {
     price: string,
     content: string,
     location: Location,
+    imageList: File[],
   ) {
     this.teamId = teamId
     this.title = title
@@ -32,5 +34,6 @@ export class PostData {
     this.price = price
     this.content = content
     this.location = location
+    this.imageList = imageList
   }
 }
