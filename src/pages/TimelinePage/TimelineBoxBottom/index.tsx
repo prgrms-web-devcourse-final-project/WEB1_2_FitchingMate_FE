@@ -13,6 +13,7 @@ import Normal from '@assets/character/character-normal.svg?react'
 import Best from '@assets/character/character-best.svg?react'
 import Arena from '@assets/default/area.png'
 import { MatchInfo, Review } from '..'
+import { Link } from 'react-router-dom'
 
 interface TimelineBottomPropTypes {
   review: Review[]
@@ -51,7 +52,9 @@ const TimelineBoxBottom = ({ review }: TimelineBottomPropTypes) => {
                 {info.isReviewed ? (
                   typeof info.rating === 'string' && decideRating(info.rating)
                 ) : (
-                  <TimelineSendReview>후기 보내기</TimelineSendReview>
+                  <TimelineSendReview>
+                    <Link to={'/review/write'}>후기 보내기</Link>
+                  </TimelineSendReview>
                 )}
               </div>
             </TimelineReviewBox>
