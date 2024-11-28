@@ -2,22 +2,12 @@ import { TimelineWrap } from './style'
 import TimelineBox from './TimelineBox'
 
 import { data } from './mockData'
-
-export interface Review {
-  isReviewed: boolean
-  username?: string
-  review_content?: string
-  rating?: 'GOOD' | 'GREAT' | 'BAD' | undefined
-}
-export interface MatchInfo {
-  match_time: string
-  home_team_id: string
-  away_team_id: string
-  location: string
-  review_list: Review[]
-}
+import { useState } from 'react'
+import { MatchInfo } from './types'
 
 const TimelinePage = () => {
+  const [timelineData, setTimelineData] = useState<any>(data)
+
   return (
     <TimelineWrap>
       {data.map((match, index) => {

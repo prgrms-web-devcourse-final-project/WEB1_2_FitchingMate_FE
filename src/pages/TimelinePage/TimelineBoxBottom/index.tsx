@@ -8,29 +8,16 @@ import {
   TimelineSendReview,
 } from '../style'
 
-import Worst from '@assets/character/character-worst.svg?react'
-import Normal from '@assets/character/character-normal.svg?react'
-import Best from '@assets/character/character-best.svg?react'
 import Arena from '@assets/default/area.png'
-import { MatchInfo, Review } from '..'
+import { Review } from '../types'
 import { Link } from 'react-router-dom'
+import { decideRating } from '../methods'
 
 interface TimelineBottomPropTypes {
   review: Review[]
 }
 
 const TimelineBoxBottom = ({ review }: TimelineBottomPropTypes) => {
-  const decideRating = (rating: string) => {
-    switch (rating) {
-      case 'BAD':
-        return <Worst />
-      case 'GOOD':
-        return <Normal />
-      case 'GREAT':
-        return <Best />
-    }
-  }
-
   return (
     <TimelineBottomBox>
       <TimelineBottomImage

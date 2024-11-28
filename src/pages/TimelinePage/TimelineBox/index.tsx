@@ -8,7 +8,7 @@ import {
 import Rotate from '@assets/icon/down_white.svg?react'
 import TimelineBoxBottom from '../TimelineBoxBottom'
 import { useState } from 'react'
-import { MatchInfo } from '..'
+import { MatchInfo } from '../types'
 
 interface TimelineBoxPropTypes {
   info: MatchInfo
@@ -16,7 +16,6 @@ interface TimelineBoxPropTypes {
 
 const TimelineBox = ({ info }: TimelineBoxPropTypes) => {
   const [visible, setVisible] = useState(false)
-  console.log(info.review_list)
 
   return (
     <TimelineBoxWrap
