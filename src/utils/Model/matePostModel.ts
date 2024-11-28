@@ -8,6 +8,7 @@ class MatePostModel {
   maxparticipant: number
   gender: string
   transport: string
+  img: File | null
 
   constructor(
     memberId: number,
@@ -19,6 +20,7 @@ class MatePostModel {
     maxparticipant: number,
     gender: string,
     transport: string,
+    img: File | null,
   ) {
     this.memberId = memberId
     this.temaId = temaId
@@ -29,6 +31,7 @@ class MatePostModel {
     this.maxparticipant = maxparticipant
     this.gender = gender
     this.transport = transport
+    this.img = img
   }
 }
 
