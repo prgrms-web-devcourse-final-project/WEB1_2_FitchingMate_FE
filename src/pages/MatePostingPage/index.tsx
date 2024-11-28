@@ -3,7 +3,7 @@ import SecondTab from './Tabs/SecondTab'
 import ThirdTab from './Tabs/ThirdTab'
 
 import SubmitPage from '@components/SubmitPage'
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보

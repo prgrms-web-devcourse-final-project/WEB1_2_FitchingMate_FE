@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
 
 interface UseTabProps {
   initialTab: number

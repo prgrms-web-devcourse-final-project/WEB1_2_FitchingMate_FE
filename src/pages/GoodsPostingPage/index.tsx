@@ -1,4 +1,4 @@
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
 import SubmitPage from '@components/SubmitPage'
 
 import FirstTab from './Tabs/FirstTab'

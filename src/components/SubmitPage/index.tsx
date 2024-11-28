@@ -12,7 +12,7 @@ import {
 import useTabs from '@hooks/useTabs'
 import { useLocation } from 'react-router-dom'
 
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
 
 interface SubmitPageProps {
   components: TabModel[]
