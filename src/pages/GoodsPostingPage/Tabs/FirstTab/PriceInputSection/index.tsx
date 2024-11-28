@@ -24,6 +24,7 @@ const PriceInputSection = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 0으로 시작하는 경우 나눔하기 버튼으로 전환
     if (e.target.value.startsWith('0')) {
+      setCurrentPrice('0')
       setIsSale(false)
       return
     }
@@ -43,7 +44,14 @@ const PriceInputSection = () => {
     }
   }
 
+  const handleSaleButtonClick = () => {
+    if (isSale) return
+    setCurrentPrice('')
+    setIsSale(true)
+  }
+
   const handleShareButtonClick = () => {
+    if (!isSale) return
     setIsSale(false)
     setCurrentPrice('0')
   }
@@ -55,7 +63,7 @@ const PriceInputSection = () => {
         <PillButton
           text='판매하기'
           $isSelected={isSale}
-          onClick={() => setIsSale(true)}
+          onClick={handleSaleButtonClick}
         />
         <PillButton
           text='나눔하기'
