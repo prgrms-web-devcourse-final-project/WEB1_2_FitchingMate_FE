@@ -20,8 +20,8 @@ export const Textarea = styled.textarea`
   width: 100%;
   height: 200px;
   border: none;
-  font-weight: ${({ theme }) => theme.fontWeight.regular};
 
+  font-weight: ${({ theme }) => theme.fontWeight.regular};
   outline: 1px solid ${({ theme }) => theme.fontColor.cwhite};
 
   &:focus {
