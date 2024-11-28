@@ -16,8 +16,8 @@ import BottomModalOption from './BottomModalOption'
 const ProfileEdit = () => {
   const [isUpload, setIsUpload] = useState(false)
   const [profileImg, setProfileImg] = useState<string | undefined>(undefined)
-  const [userNickName, setUserNickName] = useState<string>('')
-  const [textareaValue, setTextareaValue] = useState('')
+  const [userNickName, setUserNickName] = useState<string>('빌터')
+  const [textareaValue, setTextareaValue] = useState('저는 빌터 인간 입니다')
 
   const {
     selectedTeam,
@@ -25,10 +25,6 @@ const ProfileEdit = () => {
     handleClickSelectButton,
     handleTeamSelect,
   } = useTeamDialog()
-
-  // const onNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setUserNickName(e.target.value)
-  // }
 
   const onImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target
@@ -89,7 +85,17 @@ const ProfileEdit = () => {
           }}
         />
       </ProfileImageEditWrap>
-      <Form fieldList={[{ name: '닉네임', placeholder: userNickName }]}></Form>
+      <ProfileEditInputWrap>
+        <label htmlFor='edit_nickname'>닉네임</label>
+        <input
+          type='text'
+          id='edit_nickname'
+          value={userNickName}
+          onChange={(e) => {
+            setUserNickName(e.target.value)
+          }}
+        ></input>
+      </ProfileEditInputWrap>
       <ProfileEditInputWrap>
         <label htmlFor='edit_notice'>소개글</label>
         <textarea
