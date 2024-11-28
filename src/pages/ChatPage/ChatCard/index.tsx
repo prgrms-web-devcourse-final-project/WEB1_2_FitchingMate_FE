@@ -26,8 +26,8 @@ const ChatCard = ({ currentTab, onExitClick }: ChatCardProps) => {
       <ContentContainer>
         <ProfileWrap>
           <ProfileBedge
-            width={50}
-            height={50}
+            width={3.125}
+            height={3.125}
             isChat
           />
           {!isGeneral && <img src='https://placehold.co/40x40' />}

@@ -33,8 +33,8 @@ const ProfileMain = () => {
       <ProfileTopWrap>
         <ProfileEditWrap>
           <ProfileBedge
-            width={100}
-            height={100}
+            width={6.25}
+            height={6.25}
             imageSrc='https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20240206075441_1b54f931528a9d36c98db236a5e19d74.jpg'
             myTeam={'KIA'}
           />

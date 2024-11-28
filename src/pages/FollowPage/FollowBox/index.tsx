@@ -15,8 +15,8 @@ const FollowBox = () => {
       <FollowBoxLeft>
         <Link to={'/'}>
           <ProfileBedge
-            width={50}
-            height={50}
+            width={3.125}
+            height={3.125}
           />
           <p>빌터</p>
         </Link>

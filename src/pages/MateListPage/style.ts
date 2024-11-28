@@ -2,8 +2,12 @@ import { theme } from '@styles/theme'
 import styled from 'styled-components'
 
 export const TeamSelectWrap = styled.div`
-  padding: 1em 20px;
+  padding: 1em 0 1em 20px;
   border-bottom: 1px solid ${theme.border};
+
+  & > div {
+    padding-right: 20px;
+  }
 `
 
 export const FilterWrap = styled.div`

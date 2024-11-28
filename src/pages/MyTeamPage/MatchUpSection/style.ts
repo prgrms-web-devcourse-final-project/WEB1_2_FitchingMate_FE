@@ -35,7 +35,7 @@ export const GameDatetimeLocation = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.25em;
   font-size: ${theme.fontSize.medium};
   color: ${theme.fontColor.white};
 `

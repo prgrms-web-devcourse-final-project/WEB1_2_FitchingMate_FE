@@ -8,8 +8,8 @@ const UserInfoList = () => {
     <DescriptionContainer>
       <ProfileContainer>
         <ProfileBedge
-          width={30}
-          height={30}
+          width={1.875}
+          height={1.875}
           isChat={true}
         />
         <p>빌터</p>

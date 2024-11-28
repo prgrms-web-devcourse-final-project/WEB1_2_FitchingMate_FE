@@ -10,7 +10,7 @@ export const SubmitContainer = styled.div`
 `
 
 export const SubmitTitle = styled.h2`
-  font-size: 24px;
+  font-size: 1.5;
   font-weight: ${({ theme }) => theme.fontWeight.semi};
   padding: 0 20px;
 `
@@ -50,13 +50,13 @@ export const ProcessBar = styled.div<{
 export const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 1.25em;
   padding: 0 20px;
 `
 
 export const Button = styled.button<{ $isPrevious?: boolean }>`
   width: ${({ $isPrevious }) => ($isPrevious ? '65%' : '100%')};
-  padding: 20px 0;
+  padding: 1.25em 0;
   border-radius: 8px;
   font-size: ${({ theme }) => theme.fontSize.xlarge};
   font-weight: ${({ theme }) => theme.fontWeight.semi};

@@ -2,9 +2,13 @@ import { theme } from '@styles/theme'
 import styled from 'styled-components'
 
 export const ReviewWriteWrap = styled.form`
-  padding: 20px 20px 58px;
-  min-height: calc(100vh - 48px);
+  padding: 20px 20px 60px;
+  height: calc(100vh - (48px + 60px));
   position: relative;
+
+  @media all and (max-width: 431px) {
+    padding: 1.25em 20px 0;
+  }
 `
 
 export const ReviewPostWrap = styled.div`
@@ -96,6 +100,12 @@ export const ReviewSelectLabel = styled.label`
     border: 1px solid #acacac;
     border-radius: 35px;
 
+    @media all and (max-width: 431px) {
+      width: 75px;
+      height: 75px;
+      border-radius: 25px;
+    }
+
     & > svg {
       width: 100%;
       height: 100%;
@@ -110,6 +120,10 @@ export const ReviewSelectLabel = styled.label`
     color: #7d7d7d;
     margin-top: 0.9375em;
     text-align: center;
+
+    @media all and (max-width: 431px) {
+      margin-top: 0.75em;
+    }
   }
 `
 

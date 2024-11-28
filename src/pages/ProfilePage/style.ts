@@ -303,7 +303,7 @@ export const ReviewLinkBox = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 6px 10px;
+    padding: 0.375em 0.625em;
 
     &::after {
       content: '';

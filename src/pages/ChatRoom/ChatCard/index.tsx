@@ -12,8 +12,8 @@ const ChatCard = ({ isUserChat }: { isUserChat: boolean }) => {
       <CardContent>
         {!isUserChat && (
           <ProfileBedge
-            width={40}
-            height={40}
+            width={2.5}
+            height={2.5}
             isChat
           />
         )}
