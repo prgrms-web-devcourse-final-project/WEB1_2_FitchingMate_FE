@@ -14,9 +14,9 @@ import useTeamDialog from '@hooks/useTeamDialog'
 import BottomModalOption from './BottomModalOption'
 
 const ProfileEdit = () => {
-  const ref = useRef<HTMLDivElement>(null)
   const [isUpload, setIsUpload] = useState(false)
   const [profileImg, setProfileImg] = useState<string | undefined>(undefined)
+  const [userNickName, setUserNickName] = useState<string>('')
   const [textareaValue, setTextareaValue] = useState('')
 
   const {
@@ -26,17 +26,41 @@ const ProfileEdit = () => {
     handleTeamSelect,
   } = useTeamDialog()
 
+  // const onNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setUserNickName(e.target.value)
+  // }
+
   const onImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target
     if (files) {
       let image = window.URL.createObjectURL(files[0])
+      console.log(image)
       setProfileImg(image)
       setIsUpload(true)
     }
   }
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+
+    formData.append('nickname', userNickName)
+    formData.append('content', textareaValue)
+    formData.append('team', selectedTeam)
+    profileImg && formData.append('image_url', profileImg.replace('blob:', ''))
+
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`)
+    }
+  }
+
   return (
-    <form>
+    <form
+      onSubmit={(e) => {
+        onSubmit(e)
+      }}
+    >
       <ProfileImageEditWrap>
         <ProfileImageEdit htmlFor='edit_img'>
           {!isUpload ? (
@@ -65,7 +89,7 @@ const ProfileEdit = () => {
           }}
         />
       </ProfileImageEditWrap>
-      <Form fieldList={[{ name: '닉네임', placeholder: '빌터' }]}></Form>
+      <Form fieldList={[{ name: '닉네임', placeholder: userNickName }]}></Form>
       <ProfileEditInputWrap>
         <label htmlFor='edit_notice'>소개글</label>
         <textarea
@@ -89,6 +113,8 @@ const ProfileEdit = () => {
       <BottomModal ref={bottomModalRef}>
         <BottomModalOption onClose={handleTeamSelect} />
       </BottomModal>
+
+      <button>임시버튼</button>
     </form>
   )
 }
