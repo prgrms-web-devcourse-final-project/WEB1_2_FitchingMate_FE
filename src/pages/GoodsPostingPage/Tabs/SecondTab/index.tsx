@@ -1,59 +1,25 @@
 import { QuestionSection } from '@pages/MatePostingPage/Tabs/FirstTab/style'
 import { LocationSearchSection, MapSection, MapSectionContainer } from './style'
 
-import useSearchMap from '@hooks/useSearchMap'
-
-import { useEffect, useRef, useState } from 'react'
-import useDebounce from '@hooks/useDebounce'
 import KakaoMap from './KakaoMap'
 import ResultList from './ResultList'
+import useDropdownMenu from '@hooks/useDropDownMenu'
+import useLocationSearch from '@hooks/useLocationSearch'
 
 type SearchResult = kakao.maps.services.PlacesSearchResultItem
-interface SearchLocation {
-  x: number
-  y: number
-}
 
 const SecondTab = () => {
-  /**
-   * 검색어 관리
-   *
-   * 1. 검색어 상태 관리
-   * 2. 검색어 디바운스 처리
-   * 3. 검색 결과 상태 관리
-   */
-  const [keyword, setKeyword] = useState('')
-  const DEBOUNCE_DELAY = 300
-  const debounceKeyword = useDebounce(keyword, DEBOUNCE_DELAY)
-  const { searchResultList } = useSearchMap(debounceKeyword)
+  // 위치 검색 관리
+  const {
+    keyword,
+    setKeyword,
+    searchResultList,
+    searchLocation,
+    setSearchLocation,
+  } = useLocationSearch()
 
   // 드롭다운 상태 관리
-  const [dropMenuState, setDropMenuState] = useState<boolean>(false)
-
-  // 검색 위치 관리
-  const [searchLocation, setSearchLocation] = useState<SearchLocation | null>(
-    null,
-  )
-
-  // 드롭메뉴 외부 클릭 시 닫히는 이벤트 처리
-
-  const dropMenuRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    const handleOutsideClose = (e: { target: any }) => {
-      if (dropMenuState && !dropMenuRef.current?.contains(e.target)) {
-        setDropMenuState(false)
-      }
-    }
-    document.addEventListener('click', handleOutsideClose)
-
-    return () => document.removeEventListener('click', handleOutsideClose)
-  }, [dropMenuState])
-
-  // 검색어가 없을 경우 검색 위치 초기화
-  useEffect(() => {
-    if (keyword == '') setSearchLocation(null)
-  }, [keyword])
+  const { dropMenuState, setDropMenuState, dropMenuRef } = useDropdownMenu()
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDropMenuState(true)
