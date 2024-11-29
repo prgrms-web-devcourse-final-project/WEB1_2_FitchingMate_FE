@@ -83,6 +83,10 @@ export const ReviewSelectRating = styled.div`
     justify-content: space-between;
     align-items: center;
     padding: 0 15px;
+
+    @media all and (max-width: 431px) {
+      padding: 0;
+    }
   }
 `
 

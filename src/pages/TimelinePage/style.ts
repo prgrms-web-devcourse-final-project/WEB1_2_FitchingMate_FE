@@ -1,5 +1,9 @@
 import { theme } from '@styles/theme'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
+
+interface RotatePropTypes {
+  className: string | null
+}
 
 export const TimelineWrap = styled.section`
   padding: 20px;
@@ -28,7 +32,11 @@ export const TimelineBoxTop = styled.div`
   align-items: center;
 `
 
-export const TimelineRotate = styled.div``
+export const TimelineRotate = styled.div<RotatePropTypes>`
+  &.on {
+    transform: rotate(180deg);
+  }
+`
 
 export const TimelineBoxTopText = styled.div`
   color: ${theme.fontColor.white};
@@ -83,6 +91,10 @@ export const TimelineReviewBox = styled.div`
   padding: 0 20px;
   height: 60px;
 
+  & > div:first-child {
+    width: calc(100% - 80px);
+  }
+
   & svg {
     width: 50px;
     height: 50px;
@@ -101,6 +113,7 @@ export const TimelineReviewInner = styled.p`
   color: ${theme.fontColor.white};
   margin-top: 0.375em;
 
+  width: 100%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
