@@ -1,4 +1,4 @@
-import { SubmitContainer, SubmitForm } from '@components/SubmitPage/style'
+import { SubmitContainer, SubmitForm } from '@pages/MatePostingPage/style'
 
 import useTabs from '@hooks/useTabs'
 
