@@ -6,6 +6,7 @@ import BottomModal from '@components/BottomModal'
 import BottomModalOption from './BottomModalOption'
 import GameButtonList from './GameButtonList'
 import useTeamDialog from '@hooks/useTeamDialog'
+import { useMatePostStore } from '@store/useMatePostStore'
 
 const FirstTab = () => {
   const {
@@ -14,6 +15,8 @@ const FirstTab = () => {
     handleClickSelectButton,
     handleTeamSelect,
   } = useTeamDialog()
+
+  const setTeamId = useMatePostStore((state) => state.setTemaId)
 
   return (
     <>
@@ -31,7 +34,10 @@ const FirstTab = () => {
 
       {/* 응원팀 선택 모달 */}
       <BottomModal ref={bottomModalRef}>
-        <BottomModalOption onClose={handleTeamSelect} />
+        <BottomModalOption
+          onClose={handleTeamSelect}
+          callback={setTeamId}
+        />
       </BottomModal>
     </>
   )

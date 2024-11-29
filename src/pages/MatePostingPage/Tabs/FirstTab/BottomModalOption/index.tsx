@@ -1,23 +1,33 @@
-import { TEAM_LIST } from '@components/TeamSelectModal'
-
-import { SelectOption, SelectOptionList, TopOption } from './style'
+import { kboTeamList } from '@utils/kboInfo'
+import { SelectOption, SelectOptionList } from './style'
 
 interface BottomModalOptionProps {
-  onClose: (team: string) => void
+  onClose: ({
+    team,
+    teamId,
+    callback,
+  }: {
+    team: string
+    teamId: number
+    callback?: (teamId: number) => void
+  }) => void
+
+  callback?: (teamId: number) => void
 }
 
-const BottomModalOption = ({ onClose }: BottomModalOptionProps) => {
+const BottomModalOption = ({ onClose, callback }: BottomModalOptionProps) => {
   return (
     <>
-      <TopOption onClick={() => onClose('전체')}>전체</TopOption>
       <SelectOptionList>
-        {TEAM_LIST.map((team) => (
+        {kboTeamList.map(({ team, color, id }) => (
           <SelectOption
-            key={team.name}
-            $teamColor={team.color}
-            onClick={() => onClose(team.name)}
+            key={id}
+            $teamColor={color}
+            onClick={() =>
+              onClose({ team, teamId: id, callback: () => callback?.(id) })
+            }
           >
-            {team.name}
+            {team}
           </SelectOption>
         ))}
       </SelectOptionList>

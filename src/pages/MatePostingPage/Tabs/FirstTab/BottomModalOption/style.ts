@@ -4,6 +4,10 @@ export const SelectOptionList = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  & > div:first-child {
+    width: 100%;
+  }
 `
 
 export const TopOption = styled.div`
