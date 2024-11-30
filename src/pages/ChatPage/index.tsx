@@ -5,7 +5,7 @@ import ChatCard from './ChatCard'
 import PillButton from '@components/PillButton'
 import Alert from '@components/Alert'
 
-import ALERT_MESSAGE from '@utils/alertMessage'
+import ALERT_MESSAGE from '@constants/alertMessage'
 
 export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]

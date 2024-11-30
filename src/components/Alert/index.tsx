@@ -8,14 +8,17 @@ interface AlertPropTypes {
   actionText: string
   cancelText?: string
   ref: React.RefObject<HTMLDialogElement>
+  handleAlertClick?: () => void
 }
 
 const Alert = forwardRef<HTMLDialogElement, AlertPropTypes>(
-  ({ title, notice, actionText, cancelText }, ref) => {
+  ({ title, notice, actionText, cancelText, handleAlertClick }, ref) => {
     if (!ref || !('current' in ref)) return null
 
-    const closeModal = (e: React.MouseEvent) => {
+    const closeModal = async (e: React.MouseEvent) => {
       e.stopPropagation()
+
+      await handleAlertClick?.()
       ref.current?.close() // 모달 닫기
     }
 

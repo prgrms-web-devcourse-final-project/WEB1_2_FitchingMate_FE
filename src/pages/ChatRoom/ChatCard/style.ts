@@ -9,26 +9,39 @@ export const CardContainer = styled.div<{ $isUserChat: boolean }>`
   font-size: ${({ theme }) => theme.fontSize.large};
 `
 export const CardContent = styled.div`
+  margin-bottom: 15px;
   display: flex;
   gap: 5px;
 `
 
 export const ContentWrapper = styled.div<{ $isUserChat: boolean }>`
-  margin-top: 8px;
   display: flex;
   gap: 5px;
   align-items: flex-end;
 
   flex-direction: ${({ $isUserChat }) => ($isUserChat ? 'row-reverse' : null)};
 
+  margin-top: ${({ $isUserChat }) => ($isUserChat ? '0' : '8px')};
+
   & > p:last-child {
     font-size: ${({ theme }) => theme.fontSize.small};
   }
 `
 
+export const ContentWrapperInner = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`
+
+export const UserProfileWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`
+
 export const ContentText = styled.p<{ $isUserChat: boolean }>`
   max-width: 230px;
-  margin-top: 10px;
   padding: 10px;
   border-radius: 10px;
 
