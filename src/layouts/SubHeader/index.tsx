@@ -20,37 +20,25 @@ interface SubHeaderPropsType {
 }
 
 const SubHeader = ({ left, center, right }: SubHeaderPropsType) => {
-  const subHeaderLeft = () => {
-    switch (left) {
-      case 'back':
-        return <Back />
-      case 'exit':
-        return <Exit />
-      case 'message':
-        return <SubHeaderMessageText>메시지</SubHeaderMessageText>
-    }
+  const subHeaderLeftContent = {
+    back: <Back />,
+    exit: <Exit />,
+    message: <SubHeaderMessageText>메시지</SubHeaderMessageText>,
   }
 
-  const subHeaderRight = () => {
-    switch (right) {
-      case 'complete':
-        return <SubHeaderComplete>완료</SubHeaderComplete>
-      case 'logout':
-        return <Logout />
-      case 'alarm':
-        return <Alarm />
-      case null:
-        break
-    }
+  const subHeaderRightContent = {
+    complete: <SubHeaderComplete>완료</SubHeaderComplete>,
+    logout: <Logout />,
+    alarm: <Alarm />,
   }
 
   return (
     <SubHeaderBox>
       <SubHeaderLeft>
-        <Link to='/'>{subHeaderLeft()}</Link>
+        <Link to='/'>{subHeaderLeftContent[left]}</Link>
       </SubHeaderLeft>
       <SubHeaderText>{center}</SubHeaderText>
-      <SubHeaderRight>{subHeaderRight()}</SubHeaderRight>
+      <SubHeaderRight>{right && subHeaderRightContent[right]}</SubHeaderRight>
     </SubHeaderBox>
   )
 }
