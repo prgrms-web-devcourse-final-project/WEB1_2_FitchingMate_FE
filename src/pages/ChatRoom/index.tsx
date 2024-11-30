@@ -1,36 +1,24 @@
-import { ChatCardContainer } from './style'
-
-import ChatInput from './ChatInput'
-import ChatCard from './ChatCard'
-import MateCard from '@components/MateCard'
-
 import { useState } from 'react'
-import { ChatType } from '@pages/ChatPage'
-import GoodsListCard from '@components/GoodsListCard'
-import { GlobalFloatAside } from '@styles/globalStyle'
+import GoodsChatRoom from './Rooms/GoodsChatRoom'
+import MateChatRoom from './Rooms/MateChatRoom'
+import GeneralChatRoom from './Rooms/GeneralChatRoom'
 
-const ChatRoom = ({ chatType }: { chatType: ChatType }) => {
-  const [currentType, setCurrentType] = useState<ChatType | null>(null)
+export type ChatType = '메이트' | '굿즈' | '일반' | null
 
-  const MateBanner = currentType === '메이트' && <MateCard />
-  const GoodsBanner = currentType === '굿즈' && <GoodsListCard />
+const ChatRoom = () => {
+  const [currentChatType, setCurrentChatType] = useState<ChatType>('일반')
 
   return (
     <>
-      {MateBanner || GoodsBanner}
-      <ChatCardContainer $chatType={currentType}>
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
-      </ChatCardContainer>
-
-      <GlobalFloatAside>
-        <ChatInput />
-      </GlobalFloatAside>
+      {currentChatType === '메이트' && (
+        <MateChatRoom currentChatType={currentChatType} />
+      )}
+      {currentChatType === '굿즈' && (
+        <GoodsChatRoom currentChatType={currentChatType} />
+      )}
+      {currentChatType === '일반' && (
+        <GeneralChatRoom currentChatType={currentChatType} />
+      )}
     </>
   )
 }

@@ -1,7 +1,7 @@
 import { ProfileImage, ProfileMyTeamWrap, ProfileWrap } from './style'
 
 import DefaultProfile from '@assets/default/default_profile.svg?react'
-import { kboTeamInfo } from '@utils/kboInfo'
+import { kboTeamInfo } from '@constants/kboInfo'
 
 interface ProfileBedgePropTypes {
   width: number
