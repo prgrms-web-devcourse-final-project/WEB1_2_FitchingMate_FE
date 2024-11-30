@@ -1,5 +1,5 @@
 import MateCard from '@components/MateCard'
-import { kboTeamInfo } from '@utils/kboInfo'
+import { kboTeamInfo } from '@constants/kboInfo'
 import { MateCardContainer } from './style'
 import { useNavigate } from 'react-router-dom'
 
@@ -11,7 +11,10 @@ const MateCardSection = () => {
       <MateCard />
       <MateCard />
       <MateCard />
-      <p className='more' onClick={() => navigate('/')}>
+      <p
+        className='more'
+        onClick={() => navigate('/')}
+      >
         더보기
       </p>
     </MateCardContainer>

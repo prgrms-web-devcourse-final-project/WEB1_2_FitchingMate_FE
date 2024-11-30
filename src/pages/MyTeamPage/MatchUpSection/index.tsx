@@ -1,8 +1,8 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 // import { Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import 'swiper/css'
+import 'swiper/css/pagination'
 
 import {
   GameDatetimeLocation,
@@ -11,9 +11,9 @@ import {
   UpdateInfo,
   Weather,
   MatchUpContainer,
-//   PaginationContainer, 
-} from './style';
-import { kboTeamInfo } from '@utils/kboInfo';
+  //   PaginationContainer,
+} from './style'
+import { kboTeamInfo } from '@constants/kboInfo'
 
 const matchData = [
   {
@@ -23,8 +23,8 @@ const matchData = [
     location: '대구 삼성 라이온즈 파크',
     weather: '구름 많음 10°C',
     lastUpdated: '15시',
-  }
-];
+  },
+]
 
 const MatchUpSection = () => {
   return (
@@ -33,14 +33,14 @@ const MatchUpSection = () => {
         spaceBetween={0}
         slidesPerView={1}
         // pagination={{
-        //   el: '.custom-pagination', 
+        //   el: '.custom-pagination',
         //   clickable: true,
         // }}
         // modules={[Pagination]}
       >
         {matchData.map((match, index) => {
-          const homeTeamColor = kboTeamInfo[match.homeTeam].color;
-          const awayTeamColor = kboTeamInfo[match.awayTeam].color;
+          const homeTeamColor = kboTeamInfo[match.homeTeam].color
+          const awayTeamColor = kboTeamInfo[match.awayTeam].color
 
           return (
             <SwiperSlide key={index}>
@@ -70,12 +70,12 @@ const MatchUpSection = () => {
                 </LocationWeather>
               </MatchUpContainer>
             </SwiperSlide>
-          );
+          )
         })}
       </Swiper>
       {/* <PaginationContainer className="custom-pagination" />  */}
     </>
-  );
-};
+  )
+}
 
-export default MatchUpSection;
+export default MatchUpSection

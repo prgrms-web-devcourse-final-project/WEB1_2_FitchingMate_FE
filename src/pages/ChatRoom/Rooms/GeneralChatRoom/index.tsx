@@ -8,7 +8,7 @@ import ChatCard from '../../ChatCard'
 
 import { useModal } from '@hooks/useModal'
 import GeneralModalContent from './GeneralModalContent'
-import ALERT_MESSAGE, { AlertMessageObject } from '@utils/alertMessage'
+import ALERT_MESSAGE, { AlertMessageObject } from '@constants/alertMessage'
 import { ChatType } from '@pages/ChatPage'
 
 const GeneralChatRoom = ({

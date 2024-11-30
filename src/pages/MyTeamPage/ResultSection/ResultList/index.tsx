@@ -1,6 +1,6 @@
 import React from 'react'
 import { ResultListTable, RivalTeam, ResultListTitle } from './style'
-import { kboTeamInfo } from '@utils/kboInfo'
+import { kboTeamInfo } from '@constants/kboInfo'
 
 const ResultList = () => {
   const gameResults = [
@@ -17,43 +17,43 @@ const ResultList = () => {
       <ResultListTitle>삼성 라이온즈의 최근 전적</ResultListTitle>
       <ResultListTable>
         <thead>
-        <tr>
-          <th>날짜</th>
-          <th>vs</th>
-          <th>상대 팀</th>
-          <th>결과</th>
-          <th>점수</th>
-        </tr>
-      </thead>
-      <tbody>
-        {gameResults.map((game, index) => {
-          const teamInfo = kboTeamInfo[game.rival] // 팀 정보 가져오기
-          return (
-            <tr key={index}>
-              <td className='date'>{game.date}</td>
-              <td className='vs'>vs</td>
-              <td className='rival-team'>
-                <RivalTeam>
-                  <teamInfo.logo className='team-logo' /> {/* 팀 로고 */}
-                  <span className='team-name'>{teamInfo.team}</span>
-                </RivalTeam>
-              </td>
-              <td
-                className={`result ${
-                  game.result === '승'
-                    ? 'win'
-                    : game.result === '패'
-                      ? 'loss'
-                      : 'draw'
-                }`}
-              >
-                {game.result}
-              </td>
-              <td>{game.score}</td>
-            </tr>
-          )
-        })}
-      </tbody>
+          <tr>
+            <th>날짜</th>
+            <th>vs</th>
+            <th>상대 팀</th>
+            <th>결과</th>
+            <th>점수</th>
+          </tr>
+        </thead>
+        <tbody>
+          {gameResults.map((game, index) => {
+            const teamInfo = kboTeamInfo[game.rival] // 팀 정보 가져오기
+            return (
+              <tr key={index}>
+                <td className='date'>{game.date}</td>
+                <td className='vs'>vs</td>
+                <td className='rival-team'>
+                  <RivalTeam>
+                    <teamInfo.logo className='team-logo' /> {/* 팀 로고 */}
+                    <span className='team-name'>{teamInfo.team}</span>
+                  </RivalTeam>
+                </td>
+                <td
+                  className={`result ${
+                    game.result === '승'
+                      ? 'win'
+                      : game.result === '패'
+                        ? 'loss'
+                        : 'draw'
+                  }`}
+                >
+                  {game.result}
+                </td>
+                <td>{game.score}</td>
+              </tr>
+            )
+          })}
+        </tbody>
       </ResultListTable>
     </div>
   )

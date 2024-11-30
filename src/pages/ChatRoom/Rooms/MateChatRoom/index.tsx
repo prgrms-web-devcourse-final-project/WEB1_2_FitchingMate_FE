@@ -9,7 +9,7 @@ import BottomModal from '@components/BottomModal'
 import Alert from '@components/Alert'
 
 import MateModalContent from './MateModalContent'
-import ALERT_MESSAGE from '@utils/alertMessage'
+import ALERT_MESSAGE from '@constants/alertMessage'
 
 import { useMateChatStore } from '@store/useMateChatStore'
 import { ChatType } from '@pages/ChatPage'

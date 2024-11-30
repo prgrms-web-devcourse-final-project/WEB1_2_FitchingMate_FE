@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { AlertMessage } from '@utils/alertMessage'
+import { AlertMessage } from '@constants/alertMessage'
 import { RecruitStatus } from '@pages/ChatRoom/Rooms/MateChatRoom/RecruitStatusSection'
 
 interface MateChatRoomStore {

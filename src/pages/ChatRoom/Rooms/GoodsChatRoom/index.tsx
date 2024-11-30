@@ -10,7 +10,7 @@ import GoodsModalContent from './GoodsModalContent'
 
 import { useModal } from '@hooks/useModal'
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
-import ALERT_MESSAGE from '@utils/alertMessage'
+import ALERT_MESSAGE from '@constants/alertMessage'
 import { ChatType } from '@pages/ChatPage'
 
 const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {

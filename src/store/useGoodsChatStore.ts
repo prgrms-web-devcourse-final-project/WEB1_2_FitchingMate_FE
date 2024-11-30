@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { AlertMessage } from '@utils/alertMessage'
+import { AlertMessage } from '@constants/alertMessage'
 
 interface GoodsChatRoomStatusStore {
   isOwner: boolean
