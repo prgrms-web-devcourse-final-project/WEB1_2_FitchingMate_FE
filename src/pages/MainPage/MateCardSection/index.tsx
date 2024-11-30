@@ -3,11 +3,15 @@ import { kboTeamInfo } from '@constants/kboInfo'
 import { MateCardContainer } from './style'
 import { useNavigate } from 'react-router-dom'
 
-const MateCardSection = () => {
+interface MateCardSectionProps {
+  selectedTeam: string
+}
+
+const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
   const navigate = useNavigate()
   return (
     <MateCardContainer>
-      <h3>{`${kboTeamInfo.삼성.team} 메이트 찾기`}</h3>
+      <h3>{`${kboTeamInfo[selectedTeam].team} 메이트 찾기`}</h3>
       <MateCard />
       <MateCard />
       <MateCard />

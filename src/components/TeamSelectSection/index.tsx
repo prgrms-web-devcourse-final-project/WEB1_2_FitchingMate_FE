@@ -1,48 +1,28 @@
-import { useState } from 'react'
+import React from 'react'
 import { TeamSelectContainer, Card } from './style'
 import { kboTeamList, kboTeamInfo } from '@constants/kboInfo'
 
-const TeamSelectSection = () => {
-  const [currentTeam, setCurrentTeam] = useState('')
+interface TeamSelectSectionProps {
+  selectedTeam: string
+  setSelectedTeam: (team: string) => void
+}
 
-  const handleTeamChange = (team: string) => {
-    setCurrentTeam(team)
-  }
-
+const TeamSelectSection = ({ selectedTeam, setSelectedTeam }: TeamSelectSectionProps) => {
   return (
     <TeamSelectContainer>
       {kboTeamList.map((team) => (
-        <TeamCard
+        <Card
           key={team}
-          team={team}
-          currentTeam={currentTeam}
-          onHandleTeamChange={handleTeamChange}
-        />
+          onClick={() => setSelectedTeam(team)}
+          $isselected={selectedTeam === team}
+        >
+          {React.createElement(kboTeamInfo[team].logo, {
+            width: 50,
+            height: 50
+          })}
+        </Card>
       ))}
     </TeamSelectContainer>
-  )
-}
-
-interface TeamCardProps {
-  team: string
-  currentTeam: string
-  onHandleTeamChange: (team: string) => void
-}
-
-const TeamCard = ({ team, currentTeam, onHandleTeamChange }: TeamCardProps) => {
-  const Logo = kboTeamInfo[team].logo
-  const isSelected = currentTeam === team
-
-  return (
-    <Card
-      onClick={() => onHandleTeamChange(team)}
-      $isselected={isSelected}
-    >
-      <Logo
-        width={50}
-        height={50}
-      />
-    </Card>
   )
 }
 
