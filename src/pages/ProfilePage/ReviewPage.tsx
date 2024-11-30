@@ -16,7 +16,10 @@ interface ReviewTypes {
 }
 
 const ReviewPage = () => {
-  const [selectedButton, setSelectedButton] = useState('1')
+  const GOODS_REVIEW = '1';
+  const MATE_REVIEW = '2';
+  
+  const [selectedButton, setSelectedButton] = useState(GOODS_REVIEW)
   const [reviewDataList, setReviewDataList] = useState<ReviewTypes[] | null>(
     null,
   )
