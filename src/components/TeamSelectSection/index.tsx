@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { TeamSelectContainer, Card } from './style'
-import { kboTeamList, kboTeamInfo } from '@utils/kboInfo'
+import { kboTeamList, kboTeamInfo } from '@constants/kboInfo'
 
 const TeamSelectSection = () => {
   const [currentTeam, setCurrentTeam] = useState('')

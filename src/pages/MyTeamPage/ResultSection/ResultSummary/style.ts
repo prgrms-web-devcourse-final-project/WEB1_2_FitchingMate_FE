@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { theme } from '@styles/theme'
-import { kboTeamInfo } from '@utils/kboInfo'
+import { kboTeamInfo } from '@constants/kboInfo'
 
 interface ResultSummaryContainerProps {
   teamKey: string // 팀 이름 키

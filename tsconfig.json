@@ -33,7 +33,8 @@
       "@utils/*": ["src/utils/*"],
       "@apis/*": ["src/apis/*"],
       "@routes/*": ["src/routes/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@constants/*": ["src/constants/*"]
     },
 
     "types": ["kakao.maps.d.ts", "vite-plugin-svgr/client"]
