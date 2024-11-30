@@ -36,3 +36,20 @@ export interface WeeklyMatchListResponse {
   timestamp: string
   message: string | null
 }
+
+export interface GoodsPost {
+  memberId: number | null
+  teamId: number | null
+  title: string
+  content: string
+  age: string
+  maxParticipants: string
+  gender: string
+  transportType: string
+  matchId: number | null
+}
+
+export interface GoodsForm {
+  data: GoodsPost
+  file: File | null
+}

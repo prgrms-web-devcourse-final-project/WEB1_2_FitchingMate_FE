@@ -16,18 +16,16 @@ interface GoodsFormStore {
 export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
   goods: new GoodsModel('', '', '', '', '', new Location('', '', ''), []),
 
-  setTeamId: (teamId: string) =>
+  setTeamId: (teamId) =>
     set((state) => ({ goods: { ...state.goods, teamId } })),
-  setTitle: (title: string) =>
-    set((state) => ({ goods: { ...state.goods, title } })),
-  setCategory: (category: string) =>
+  setTitle: (title) => set((state) => ({ goods: { ...state.goods, title } })),
+  setCategory: (category) =>
     set((state) => ({ goods: { ...state.goods, category } })),
-  setContent: (content: string) =>
+  setContent: (content) =>
     set((state) => ({ goods: { ...state.goods, content } })),
-  setPrice: (price: string) =>
-    set((state) => ({ goods: { ...state.goods, price } })),
-  setLocation: (location: Location) =>
+  setPrice: (price) => set((state) => ({ goods: { ...state.goods, price } })),
+  setLocation: (location) =>
     set((state) => ({ goods: { ...state.goods, location } })),
-  setImageList: (imageList: File[]) =>
+  setImageList: (imageList) =>
     set((state) => ({ goods: { ...state.goods, imageList } })),
 }))
