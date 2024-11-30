@@ -90,7 +90,7 @@ const ProfileEdit = () => {
           onChange={(e) => {
             setUserNickName(e.target.value)
           }}
-        ></input>
+        />
       </ProfileEditInputWrap>
       <ProfileEditInputWrap>
         <label htmlFor='edit_notice'>소개글</label>
