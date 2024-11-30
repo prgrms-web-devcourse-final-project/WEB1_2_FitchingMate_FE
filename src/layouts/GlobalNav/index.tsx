@@ -11,7 +11,7 @@ import ChatIconFill from '@assets/icon/nav_chat_fill.svg?react'
 import UserIcon from '@assets/icon/nav_user.svg?react'
 import UserIconFill from '@assets/icon/nav_user_fill.svg?react'
 import { Link, useLocation } from 'react-router-dom'
-import { ROUTE_PATH } from '@utils/ROUTE_PATH'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 const GlobalNav = () => {
   const { pathname } = useLocation()

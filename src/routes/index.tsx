@@ -24,7 +24,7 @@ import ProfileEdit from '@pages/ProfilePage/ProfileEdit'
 import ReviewPage from '@pages/ProfilePage/ReviewPage'
 import TimelinePage from '@pages/TimelinePage'
 import RedirectHandler from '@pages/LoginPage/AuthCallback/RedirectHandler'
-import { ROUTE_PATH } from '@utils/ROUTE_PATH'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 const AppRoutes = () => {
   return (
