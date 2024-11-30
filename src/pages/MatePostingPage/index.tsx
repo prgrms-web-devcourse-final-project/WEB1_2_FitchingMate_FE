@@ -1,9 +1,11 @@
+import useTabs from '@hooks/useTabs'
 import FirstTab from './Tabs/FirstTab'
 import SecondTab from './Tabs/SecondTab'
 import ThirdTab from './Tabs/ThirdTab'
 
-import SubmitPage from '@components/SubmitPage'
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
+import { SubmitContainer, SubmitForm, SubmitTitle } from './style'
+import ProgressSection from '@components/ProgressSection'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보
@@ -16,40 +18,36 @@ import TabModel from '@utils/tabModel'
  */
 
 const matePostingComponents = [
-  new TabModel(
-    <FirstTab />,
-    {
-      previous: false,
-      next: true,
-    },
-    '어떤 경기를 직관하고 싶나요?',
-  ),
-  new TabModel(
-    <SecondTab />,
-    {
-      previous: true,
-      next: true,
-    },
-    '어떤 메이트와 직관하고 싶나요?',
-  ),
-  new TabModel(
-    <ThirdTab />,
-    {
-      previous: true,
-      next: false,
-      isSubmit: true,
-    },
-    '어떤 직관 모임을 만들까요?',
-  ),
+  new TabModel(<FirstTab />, '어떤 경기를 직관하고 싶나요?'),
+  new TabModel(<SecondTab />, '어떤 메이트와 직관하고 싶나요?'),
+  new TabModel(<ThirdTab />, '어떤 직관 모임을 만들까요?'),
 ]
 
-const matePostingInitialOptions = {
-  initialTab: 0,
-  components: matePostingComponents,
-}
-
 const MatePostingPage = () => {
-  return <SubmitPage {...matePostingInitialOptions} />
+  const { currentTab, ...restTabInfo } = useTabs({
+    components: matePostingComponents,
+    initialTab: 0,
+  })
+
+  return (
+    <SubmitContainer>
+      {/* 최상단 타이틀 영역 */}
+      <SubmitTitle>{currentTab.title}</SubmitTitle>
+
+      {/* 직관 모임 등록 폼 영역 */}
+
+      <SubmitForm onSubmit={(e) => e.preventDefault()}>
+        {currentTab.content}
+        {/* 직관 모임 등록 프로세스 영역 */}
+      </SubmitForm>
+
+      <ProgressSection
+        {...restTabInfo}
+        isDisabled={false}
+        handleSubmit={() => {}}
+      />
+    </SubmitContainer>
+  )
 }
 
 export default MatePostingPage

@@ -1,23 +1,31 @@
-import { TEAM_LIST } from '@components/TeamSelectModal'
-
-import { SelectOption, SelectOptionList, TopOption } from './style'
+import { kboTeamList } from '@constants/kboInfo'
+import { SelectOption, SelectOptionList } from './style'
+import { useMateFormStore } from '@store/useMateFormStore'
 
 interface BottomModalOptionProps {
-  onClose: (team: string) => void
+  onCloseBottomModal: () => void
 }
 
-const BottomModalOption = ({ onClose }: BottomModalOptionProps) => {
+const BottomModalOption = ({ onCloseBottomModal }: BottomModalOptionProps) => {
+  const [_, ...restTeamList] = kboTeamList
+  const { setTeamId, setSelectedWeek } = useMateFormStore()
+
+  const handleSelectTeam = (teamId: number) => {
+    setTeamId(teamId)
+    setSelectedWeek(1)
+    onCloseBottomModal()
+  }
+
   return (
     <>
-      <TopOption onClick={() => onClose('전체')}>전체</TopOption>
       <SelectOptionList>
-        {TEAM_LIST.map((team) => (
+        {restTeamList.map(({ team, color, id }) => (
           <SelectOption
-            key={team.name}
-            $teamColor={team.color}
-            onClick={() => onClose(team.name)}
+            key={id}
+            $teamColor={color}
+            onClick={() => handleSelectTeam(id)}
           >
-            {team.name}
+            {team}
           </SelectOption>
         ))}
       </SelectOptionList>

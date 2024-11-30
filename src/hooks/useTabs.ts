@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
 
 interface UseTabProps {
   initialTab: number
@@ -7,7 +7,7 @@ interface UseTabProps {
 }
 
 const useTabs = ({ initialTab, components }: UseTabProps) => {
-  if (!Array.isArray(components) || components.length === 0) {
+  if (components.length === 0) {
     throw new Error('components는 배열이어야 합니다.')
   }
 

@@ -6,7 +6,7 @@ export const SelectOptionList = styled.div`
   justify-content: space-between;
 `
 
-export const TopOption = styled.div`
+export const TopOption = styled.button`
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
