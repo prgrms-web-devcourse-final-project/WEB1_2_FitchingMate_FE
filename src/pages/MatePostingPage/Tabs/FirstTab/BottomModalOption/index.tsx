@@ -1,31 +1,29 @@
-import { kboTeamList } from '@utils/kboInfo'
+import { kboTeamList } from '@constants/kboInfo'
 import { SelectOption, SelectOptionList } from './style'
+import { useMateFormStore } from '@store/useMateFormStore'
 
 interface BottomModalOptionProps {
-  onClose: ({
-    team,
-    teamId,
-    callback,
-  }: {
-    team: string
-    teamId: number
-    callback?: (teamId: number) => void
-  }) => void
-
-  callback?: (teamId: number) => void
+  onCloseBottomModal: () => void
 }
 
-const BottomModalOption = ({ onClose, callback }: BottomModalOptionProps) => {
+const BottomModalOption = ({ onCloseBottomModal }: BottomModalOptionProps) => {
+  const [_, ...restTeamList] = kboTeamList
+  const { setTeamId, setSelectedWeek } = useMateFormStore()
+
+  const handleSelectTeam = (teamId: number) => {
+    setTeamId(teamId)
+    setSelectedWeek(1)
+    onCloseBottomModal()
+  }
+
   return (
     <>
       <SelectOptionList>
-        {kboTeamList.map(({ team, color, id }) => (
+        {restTeamList.map(({ team, color, id }) => (
           <SelectOption
             key={id}
             $teamColor={color}
-            onClick={() =>
-              onClose({ team, teamId: id, callback: () => callback?.(id) })
-            }
+            onClick={() => handleSelectTeam(id)}
           >
             {team}
           </SelectOption>

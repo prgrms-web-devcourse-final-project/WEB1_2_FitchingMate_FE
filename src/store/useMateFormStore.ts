@@ -1,27 +1,29 @@
 import MatePostModel from '@utils/Model/matePostModel'
 import { create } from 'zustand'
 
-interface MatePostStore {
+interface MateFormStore {
   matePost: MatePostModel
+  selectedWeek: number
 
   setMemberId: (memberId: number) => void
-  setTemaId: (temaId: number) => void
+  setTeamId: (teamId: number) => void
   setMatchId: (matchId: number) => void
   setTitle: (title: string) => void
   setContent: (content: string) => void
   setAge: (age: string) => void
-  setMaxParticipant: (maxParticipant: number) => void
+  setParticipants: (maxParticipant: number) => void
   setGender: (gender: string) => void
-  setTransport: (transport: string) => void
+  setTransportation: (transport: string) => void
+  setSelectedWeek: (selectedWeek: number) => void
 }
 
-export const useMatePostStore = create<MatePostStore>((set) => ({
-  matePost: new MatePostModel(0, 0, 0, '', '', '', 0, '', '', null),
+export const useMateFormStore = create<MateFormStore>((set) => ({
+  matePost: new MatePostModel(null, null, null, '', '', '', 0, '', '', null),
+  selectedWeek: 1,
 
+  setSelectedWeek: (selectedWeek: number) => set(() => ({ selectedWeek })),
   setMemberId: (memberId: number) =>
     set((state) => ({ matePost: { ...state.matePost, memberId } })),
-  setTemaId: (temaId: number) =>
-    set((state) => ({ matePost: { ...state.matePost, temaId } })),
   setMatchId: (matchId: number) =>
     set((state) => ({ matePost: { ...state.matePost, matchId } })),
   setTitle: (title: string) =>
@@ -30,12 +32,14 @@ export const useMatePostStore = create<MatePostStore>((set) => ({
     set((state) => ({ matePost: { ...state.matePost, content } })),
   setAge: (age: string) =>
     set((state) => ({ matePost: { ...state.matePost, age } })),
-  setMaxParticipant: (maxParticipant: number) =>
+  setParticipants: (maxParticipant: number) =>
     set((state) => ({ matePost: { ...state.matePost, maxParticipant } })),
   setGender: (gender: string) =>
     set((state) => ({ matePost: { ...state.matePost, gender } })),
-  setTransport: (transport: string) =>
+  setTransportation: (transport: string) =>
     set((state) => ({ matePost: { ...state.matePost, transport } })),
   setImg: (img: File | null) =>
     set((state) => ({ matePost: { ...state.matePost, img } })),
+  setTeamId: (teamId: number) =>
+    set((state) => ({ matePost: { ...state.matePost, teamId } })),
 }))

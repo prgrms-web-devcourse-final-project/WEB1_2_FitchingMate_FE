@@ -5,39 +5,38 @@ import DownIcon from '@assets/icon/down.svg?react'
 import BottomModal from '@components/BottomModal'
 import BottomModalOption from './BottomModalOption'
 import GameButtonList from './GameButtonList'
-import useTeamDialog from '@hooks/useTeamDialog'
-import { useMatePostStore } from '@store/useMatePostStore'
+
+import { useMateFormStore } from '@store/useMateFormStore'
+import { useModal } from '@hooks/useModal'
+import { kboTeamList } from '@constants/kboInfo'
 
 const FirstTab = () => {
-  const {
-    selectedTeam,
-    bottomModalRef,
-    handleClickSelectButton,
-    handleTeamSelect,
-  } = useTeamDialog()
+  const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } =
+    useModal()
 
-  const setTeamId = useMatePostStore((state) => state.setTemaId)
+  const {
+    matePost: { teamId },
+  } = useMateFormStore()
+
+  const selectedTeam = kboTeamList.find((team) => team.id === teamId)?.team
 
   return (
     <>
       <QuestionSection>
         {/* 응원팀 선택 */}
         <label htmlFor='team'>응원팀 선택</label>
-        <SelectButton onClick={handleClickSelectButton}>
+        <SelectButton onClick={handleOpenBottomModal}>
           <p>{selectedTeam || '팀 선택'}</p>
           <DownIcon />
         </SelectButton>
       </QuestionSection>
 
       {/* 다가오는 경기 목록 */}
-      <GameButtonList currentTeam={selectedTeam} />
+      <GameButtonList />
 
       {/* 응원팀 선택 모달 */}
       <BottomModal ref={bottomModalRef}>
-        <BottomModalOption
-          onClose={handleTeamSelect}
-          callback={setTeamId}
-        />
+        <BottomModalOption onCloseBottomModal={handleCloseBottomModal} />
       </BottomModal>
     </>
   )

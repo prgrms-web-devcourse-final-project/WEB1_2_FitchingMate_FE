@@ -1,5 +1,5 @@
 import SubHeader from '@layouts/SubHeader'
-import { GlobalContainer } from '@styles/globalStyle'
+import { SubGlobalContainer } from '@styles/globalStyle'
 import { Outlet } from 'react-router-dom'
 
 const SubLayout = () => {
@@ -10,9 +10,9 @@ const SubLayout = () => {
         center='디테일 페이지'
         right='alarm'
       />
-      <GlobalContainer>
+      <SubGlobalContainer>
         <Outlet />
-      </GlobalContainer>
+      </SubGlobalContainer>
     </div>
   )
 }

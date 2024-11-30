@@ -8,9 +8,19 @@ export const useModal = () => {
     bottomModalRef.current?.showModal()
   }
 
+  const handleCloseBottomModal = () => {
+    bottomModalRef.current?.close()
+  }
+
   const handleAlertClick = () => {
     alertRef.current?.showModal()
   }
 
-  return { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick }
+  return {
+    bottomModalRef,
+    alertRef,
+    handleOpenBottomModal,
+    handleCloseBottomModal,
+    handleAlertClick,
+  }
 }

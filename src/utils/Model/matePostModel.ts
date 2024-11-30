@@ -1,7 +1,7 @@
 class MatePostModel {
-  memberId: number
-  temaId: number
-  matchId: number
+  memberId: number | null
+  teamId: number | null
+  matchId: number | null
   title: string
   content: string
   age: string
@@ -11,9 +11,9 @@ class MatePostModel {
   img: File | null
 
   constructor(
-    memberId: number,
-    temaId: number,
-    matchId: number,
+    memberId: number | null,
+    teamId: number | null,
+    matchId: number | null,
     title: string,
     content: string,
     age: string,
@@ -23,7 +23,7 @@ class MatePostModel {
     img: File | null,
   ) {
     this.memberId = memberId
-    this.temaId = temaId
+    this.teamId = teamId
     this.matchId = matchId
     this.title = title
     this.content = content
