@@ -27,7 +27,7 @@ const MainPage = () => {
       // TODO: ApiResponse 타입을 정의하여 any 대신 명확한 타입으로 변경해야 함.
       const response: any = await fetchApi.get(url).json()
       if (response.status === 'SUCCESS') {
-        console.log('메이트 카드 조회:', response.data)
+        console.log('메이트 카드 조회:', url,response.data)
         const filteredCards = response.data.filter((card: any) =>
           ['OPEN', 'CLOSED'].includes(card.status)
         )
