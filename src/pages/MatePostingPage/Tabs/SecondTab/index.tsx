@@ -1,35 +1,37 @@
 import SelectSection from './SelectOption'
 
-const selectOptionList = [
+const SELECTOPTION_LIST = [
   {
     label: '연령대',
     id: 'age',
-    optionList: ['누구나', '20대', '30대', '40대', '50대 이상'],
+    optionList: ['상관없음', '20대', '30대', '40대', '50대이상'],
   },
   {
     label: '인원',
-    id: 'participants',
+    id: 'maxParticipants',
     optionList: ['2명', '3명', '4명', '5명', '사용자 지정'],
   },
   {
     label: '성별',
     id: 'gender',
-    optionList: ['상관없음', '남자만', '여자만'],
+    optionList: ['상관없음', '남자', '여자'],
   },
   {
     label: '이동수단',
-    id: 'transportation',
+    id: 'transportType',
     optionList: ['상관없음', '자차', '대중교통'],
   },
-]
+] as const
 
 const SecondTab = () => {
   return (
     <>
-      {selectOptionList.map((option) => (
+      {SELECTOPTION_LIST.map(({ id, label, optionList }) => (
         <SelectSection
-          key={option.id}
-          {...option}
+          key={id}
+          id={id}
+          label={label}
+          optionList={[...optionList]}
         />
       ))}
     </>

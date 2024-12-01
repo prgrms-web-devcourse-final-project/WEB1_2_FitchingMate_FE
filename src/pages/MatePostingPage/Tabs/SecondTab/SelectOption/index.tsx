@@ -1,19 +1,17 @@
-import { useState } from 'react'
 import { QuestionSection } from '../../FirstTab/style'
 import { SelectContainer, SelectLabel } from './style'
 
+import useCategoryState from '@hooks/useCategoryState'
+
 interface SelectSectionProps {
   label: string
-  id: string
+  id: 'age' | 'maxParticipants' | 'gender' | 'transportType'
   optionList: string[]
 }
 
 const SelectSection = ({ label, id, optionList }: SelectSectionProps) => {
-  const [selectedOption, setSelectedOption] = useState('')
-
-  const handleOptionSelect = (option: string) => {
-    setSelectedOption(option)
-  }
+  const { getter: selectedOption, setter: setSelectedOption } =
+    useCategoryState(id)
 
   return (
     <QuestionSection>
@@ -23,9 +21,12 @@ const SelectSection = ({ label, id, optionList }: SelectSectionProps) => {
           <SelectLabel
             key={option}
             $checked={selectedOption === option}
-            onClick={() => handleOptionSelect(option)}
           >
-            <input type='radio' />
+            <input
+              type='radio'
+              onClick={() => setSelectedOption(option)}
+              disabled={selectedOption === option}
+            />
             {option}
           </SelectLabel>
         ))}

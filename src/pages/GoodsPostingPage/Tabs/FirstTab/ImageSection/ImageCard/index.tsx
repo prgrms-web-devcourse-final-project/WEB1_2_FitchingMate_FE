@@ -1,35 +1,47 @@
 import { ImageCardContainer } from './style'
 
 interface ImageCardProps {
-  image: File
-  index: number
-  handleDeleteImage: (index: number) => void
-  handleDragDrop: (e: React.DragEvent, index: number) => void
-  handleDragStart: (e: React.DragEvent<HTMLDivElement>, id: number) => void
-  handleDragOver: (e: React.DragEvent<HTMLDivElement>) => void
-  handleDragEnd: (e: React.DragEvent<HTMLDivElement>) => void
+  image: File | null
+  index?: number
+  isMultiple?: boolean
+  oneDeleteImage: (index?: number) => void
+  onDragDrop?: (e: React.DragEvent, index: number) => void
+  onDragStart?: (e: React.DragEvent<HTMLDivElement>, id: number) => void
+  onDragOver?: (e: React.DragEvent<HTMLDivElement>) => void
+  onDragEnd?: (e: React.DragEvent<HTMLDivElement>) => void
 }
 
 const ImageCard = ({
   image,
   index,
-  handleDeleteImage,
-  handleDragDrop,
-  handleDragStart,
-  handleDragOver,
-  handleDragEnd,
+  isMultiple = true,
+  oneDeleteImage,
+  onDragDrop,
+  onDragStart,
+  onDragOver,
+  onDragEnd,
 }: ImageCardProps) => {
+  if (image === null) return
+
+  const formatImage = URL.createObjectURL(image)
+
   return (
     <ImageCardContainer>
       <img
-        src={URL.createObjectURL(image)}
-        draggable
-        onDragStart={(e) => handleDragStart(e, index)}
-        onDrop={(e) => handleDragDrop(e, index)}
-        onDragOver={(e) => handleDragOver(e)}
-        onDragEnd={(e) => handleDragEnd(e)}
+        src={formatImage}
+        draggable={isMultiple}
+        onDragStart={(e) => onDragStart && index && onDragStart(e, index)}
+        onDrop={(e) => onDragDrop && index && onDragDrop(e, index)}
+        onDragOver={(e) => onDragOver && onDragOver(e)}
+        onDragEnd={(e) => onDragEnd && onDragEnd(e)}
       />
-      <button onClick={() => handleDeleteImage(index)}>X</button>
+      <button
+        onClick={
+          isMultiple ? () => oneDeleteImage(index) : () => oneDeleteImage
+        }
+      >
+        X
+      </button>
     </ImageCardContainer>
   )
 }

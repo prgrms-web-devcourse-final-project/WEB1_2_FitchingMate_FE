@@ -15,6 +15,7 @@ const queryClient = new QueryClient({
 export const QUERY_KEY = {
   WEEKLY_MATCH: 'weeklyMatch',
   GOODS_LIST: 'goodsList',
+  MATE_POST: 'matePost',
 }
 
 export default queryClient

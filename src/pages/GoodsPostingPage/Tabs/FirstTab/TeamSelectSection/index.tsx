@@ -31,7 +31,7 @@ const TeamSelectSection = () => {
 
       {/* 응원팀 선택 모달 */}
       <BottomModal ref={bottomModalRef}>
-        <BottomModalOption onClose={handleTeamSelect} />
+        <BottomModalOption onCloseBottomModal={handleTeamSelect} />
       </BottomModal>
     </>
   )
