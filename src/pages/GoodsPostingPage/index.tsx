@@ -1,4 +1,4 @@
-import { SubmitContainer, SubmitForm } from '@components/SubmitPage/style'
+import { SubmitContainer, SubmitForm } from '@pages/MatePostingPage/style'
 
 import useTabs from '@hooks/useTabs'
 
@@ -6,7 +6,7 @@ import ProgressSection from '@components/ProgressSection'
 import FirstTab from './Tabs/FirstTab'
 import SecondTab from './Tabs/SecondTab'
 
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
 
 const goodsPostingComponents = [

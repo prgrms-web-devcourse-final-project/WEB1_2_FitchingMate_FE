@@ -1,31 +1,48 @@
 import { GameListPlaceholder } from './style'
 import GameListCard from '../GameListCard'
+import { WeeklyMatchList } from '@typings/db'
+import { useMateFormStore } from '@store/useMateFormStore'
 
 interface GameListProps {
-  currentWeek: number | null
-  currentTeam: string | null
-  isSelected: boolean
-  setIsSelected: (isSelected: boolean) => void
+  weeklyMatchData: WeeklyMatchList[] | undefined
+  isLoading: boolean
+  isError: boolean
+  error: Error | null
 }
 const GameList = ({
-  currentWeek,
-  currentTeam,
-  isSelected,
-  setIsSelected,
+  weeklyMatchData,
+  isLoading,
+  isError,
+  error,
 }: GameListProps) => {
-  if (currentTeam === null) {
+  const {
+    matePost: { teamId },
+    selectedWeek,
+  } = useMateFormStore()
+
+  if (teamId === null) {
     return <GameListPlaceholder>응원팀을 선택해주세요.</GameListPlaceholder>
   }
 
-  if (currentWeek === null) {
-    return <GameListPlaceholder>경기 주차를 선택해주세요.</GameListPlaceholder>
+  if (isLoading) {
+    return <GameListPlaceholder>Loading...</GameListPlaceholder>
   }
 
+  if (isError) {
+    return <GameListPlaceholder>{error?.message}</GameListPlaceholder>
+  }
+
+  const matchList = weeklyMatchData?.[selectedWeek - 1].matches
+
   return (
-    <GameListCard
-      isSelected={isSelected}
-      setIsSelected={setIsSelected}
-    />
+    <>
+      {matchList?.map((match) => (
+        <GameListCard
+          key={match.id}
+          match={match}
+        />
+      ))}
+    </>
   )
 }
 

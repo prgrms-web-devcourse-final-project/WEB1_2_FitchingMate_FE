@@ -1,27 +1,43 @@
+import { formatMatchTime } from '@utils/formatDate'
 import { GameCard, InputContainer } from './style'
+import { Match } from '@typings/db'
+import { formatTeamName } from '@utils/formatTeamName'
+import { useMateFormStore } from '@store/useMateFormStore'
 
 interface GameListCardProps {
-  isSelected: boolean
-  setIsSelected: (isSelected: boolean) => void
+  match: Match
 }
 
-const GameListCard = ({ isSelected, setIsSelected }: GameListCardProps) => {
+const GameListCard = ({ match }: GameListCardProps) => {
+  const {
+    id: matchId,
+    location,
+    matchTime,
+    awayTeam: { teamName: awayTeamName },
+  } = match
+
+  const {
+    matePost: { matchId: currentMatchId },
+    setMatchId,
+  } = useMateFormStore()
+
   const handleChangeCheckbox = () => {
-    setIsSelected(!isSelected)
+    setMatchId(matchId)
   }
 
   return (
-    <GameCard $isActive={isSelected}>
+    <GameCard>
       <InputContainer>
         <input
           type='checkbox'
           id='match_id'
+          checked={currentMatchId === matchId}
           onChange={handleChangeCheckbox}
         />
-        <span>vs (상대팀)</span>
+        <span>{formatTeamName(awayTeamName)}</span>
       </InputContainer>
-      <p>장소</p>
-      <p>00월 00일 00시</p>
+      <p>{location}</p>
+      <p>{formatMatchTime(matchTime)}</p>
     </GameCard>
   )
 }
