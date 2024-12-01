@@ -37,7 +37,7 @@ export interface WeeklyMatchListResponse {
   message: string | null
 }
 
-export interface GoodsPost {
+export interface MatePost {
   memberId: number | null
   teamId: number | null
   title: string
@@ -49,10 +49,11 @@ export interface GoodsPost {
   matchId: number | null
 }
 
-export interface GoodsForm {
-  data: GoodsPost
+export interface MatePostForm {
+  data: MatePost
   file: File | null
 }
+
 export interface Goods {
   id: number
   teamName: string
@@ -75,4 +76,23 @@ export interface GoodsListResponse {
   data: GoodsData
   timestamp: string
   code: number
+}
+
+export interface Location {
+  latitude: number | null
+  longitude: number | null
+  placeName: string
+}
+
+export interface GoodsPost {
+  teamId: number | null
+  title: string
+  content: string
+  price: number | null
+  location: Location
+}
+
+export interface GoodsPostForm {
+  data: GoodsPost
+  file: File | null
 }

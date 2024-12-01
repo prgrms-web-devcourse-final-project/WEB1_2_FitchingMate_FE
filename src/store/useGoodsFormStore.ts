@@ -1,20 +1,28 @@
 import { create } from 'zustand'
-import { GoodsModel, Location } from '@utils/Model/GoodsModel'
+import { GoodsPost, Location } from '@typings/db'
 
 interface GoodsFormStore {
-  goods: GoodsModel
+  goods: GoodsPost
 
-  setTeamId: (teamId: string) => void
+  setTeamId: (teamId: number | null) => void
   setTitle: (title: string) => void
   setCategory: (category: string) => void
   setContent: (content: string) => void
-  setPrice: (price: string) => void
+  setPrice: (price: number | null) => void
   setLocation: (location: Location) => void
-  setImageList: (imageList: File[]) => void
+  setImageList: (imageList: File[] | null) => void
 }
 
 export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
-  goods: new GoodsModel('', '', '', '', '', new Location('', '', ''), []),
+  goods: {
+    teamId: null,
+    title: '',
+    category: '',
+    content: '',
+    price: null,
+    location: { latitude: null, longitude: null, placeName: '' },
+    imageList: null,
+  },
 
   setTeamId: (teamId) =>
     set((state) => ({ goods: { ...state.goods, teamId } })),

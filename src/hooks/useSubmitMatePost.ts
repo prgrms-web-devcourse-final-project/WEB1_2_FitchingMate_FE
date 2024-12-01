@@ -3,12 +3,12 @@ import usePostMatePost from './usePostMatePost'
 import { useNavigate } from 'react-router-dom'
 
 const useSubmitMatePost = () => {
-  const { matePost } = useMateFormStore()
+  const { matePost, img } = useMateFormStore()
   const { mutatePost, isPending, isError, error } = usePostMatePost()
   const navigate = useNavigate()
 
   const handleSubmit = () => {
-    const { img, maxParticipants, ...rest } = matePost
+    const { maxParticipants, ...rest } = matePost
 
     const formData = new FormData()
 

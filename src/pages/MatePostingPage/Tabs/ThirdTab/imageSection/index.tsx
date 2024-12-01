@@ -7,10 +7,7 @@ import ImageCard from '@pages/GoodsPostingPage/Tabs/FirstTab/ImageSection/ImageC
 const MAX_IMAGE_COUNT = 1
 
 const ImageSection = () => {
-  const {
-    matePost: { img },
-    setImg,
-  } = useMateFormStore()
+  const { img, setImg } = useMateFormStore()
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]

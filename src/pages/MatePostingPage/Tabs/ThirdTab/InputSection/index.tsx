@@ -1,6 +1,4 @@
 import { useMateFormStore } from '@store/useMateFormStore'
-import { QuestionSection } from '../../FirstTab/style'
-import { Input, Textarea } from '../style'
 import { ProductNameContainer } from '@pages/GoodsPostingPage/Tabs/FirstTab/ProductNameSection/style'
 
 const MAX_LENGTH = 25
