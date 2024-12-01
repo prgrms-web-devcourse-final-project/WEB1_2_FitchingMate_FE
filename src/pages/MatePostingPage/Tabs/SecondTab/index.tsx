@@ -4,7 +4,7 @@ const SELECTOPTION_LIST = [
   {
     label: '연령대',
     id: 'age',
-    optionList: ['누구나', '20대', '30대', '40대', '50대 이상'],
+    optionList: ['상관없음', '20대', '30대', '40대', '50대이상'],
   },
   {
     label: '인원',
@@ -14,7 +14,7 @@ const SELECTOPTION_LIST = [
   {
     label: '성별',
     id: 'gender',
-    optionList: ['상관없음', '남자만', '여자만'],
+    optionList: ['상관없음', '남자', '여자'],
   },
   {
     label: '이동수단',

@@ -1,29 +1,14 @@
-import { QuestionSection } from '../FirstTab/style'
-
-import { Container, Input, Textarea } from './style'
-import ImageInput from '@components/ImageInput'
+import { Container } from './style'
+import ImageSection from './imageSection'
+import InputSection from './InputSection'
+import TextAreaSection from './TextAreaSection'
 
 const ThirdTab = () => {
   return (
     <Container>
-      <QuestionSection>
-        <label htmlFor='category-img'>대표 사진</label>
-        <ImageInput
-          maxCount={1}
-          currentCount={0}
-        />
-      </QuestionSection>
-      <QuestionSection>
-        <label htmlFor='title'>모집명</label>
-        <Input
-          type='text'
-          id='title'
-        />
-      </QuestionSection>
-      <QuestionSection>
-        <label htmlFor='description'>모집 설명</label>
-        <Textarea id='description' />
-      </QuestionSection>
+      <ImageSection />
+      <InputSection />
+      <TextAreaSection />
     </Container>
   )
 }

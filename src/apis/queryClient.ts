@@ -14,6 +14,7 @@ const queryClient = new QueryClient({
 
 export const QUERY_KEY = {
   WEEKLY_MATCH: 'weeklyMatch',
+  MATE_POST: 'matePost',
 }
 
 export default queryClient

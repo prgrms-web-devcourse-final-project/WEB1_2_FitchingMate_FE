@@ -2,10 +2,16 @@ import { WeeklyMatchListResponse } from '@typings/db'
 import fetchApi from './ky'
 
 const matchService = {
-  getMatchList: async (teamId: number) => {
+  getMatchList: async ({
+    teamId,
+    signal,
+  }: {
+    teamId: number
+    signal: AbortSignal
+  }) => {
     const response = await fetchApi
-      .get<WeeklyMatchListResponse>(`matches/team/${teamId}/weekly`)
-      .json()
+      .get(`matches/team/${teamId}/weekly`, { signal })
+      .json<WeeklyMatchListResponse>()
 
     return response.data
   },

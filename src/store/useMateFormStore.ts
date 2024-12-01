@@ -23,7 +23,7 @@ interface MateFormStore {
 
 export const useMateFormStore = create<MateFormStore>((set) => ({
   matePost: {
-    memberId: null,
+    memberId: Number(localStorage.getItem('memberId')) || null,
     teamId: null,
     title: '',
     content: '',
