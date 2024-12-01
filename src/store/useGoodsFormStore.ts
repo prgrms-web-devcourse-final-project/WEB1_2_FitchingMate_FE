@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { GoodsModel, Location } from '@typings/model/GoodsModel'
+import { GoodsModel, Location } from '@utils/Model/GoodsModel'
 
 interface GoodsFormStore {
   goods: GoodsModel

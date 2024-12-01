@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import useDebounce from './useDebounce'
 import useSearchMap from './useSearchMap'
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
-import { Location } from '@typings/model/GoodsModel'
+import { Location } from '@utils/Model/GoodsModel'
 
 interface SearchLocation {
   x: number
