@@ -28,3 +28,8 @@ export const Textarea = styled.textarea`
     outline: 1px solid ${({ theme }) => theme.fontColor.navy};
   }
 `
+
+export const ImageConainer = styled.div`
+  display: flex;
+  gap: 20px;
+`

@@ -4,22 +4,22 @@ const useImageChange = (maxLength: number) => {
   const imageList = useGoodsFormStore((state) => state.goods.imageList)
   const setImageList = useGoodsFormStore((state) => state.setImageList)
 
-  const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentLength = imageList.length
-    const currentFiles = Array.from(e.target.files || [])
+    const currentImageList = Array.from(e.target.files || [])
 
-    if (currentLength + currentFiles.length > maxLength) {
+    if (currentLength + currentImageList.length > maxLength) {
       // 최대 이미지 개수를 초과하는 경우 초과되는 이미지 제외
-      const newFiles = currentFiles.slice(0, maxLength - currentLength)
+      const newFiles = currentImageList.slice(0, maxLength - currentLength)
 
       setImageList([...imageList, ...newFiles])
       return
     }
 
-    setImageList([...imageList, ...currentFiles])
+    setImageList([...imageList, ...currentImageList])
   }
 
-  const handleDeleteImage = async (index: number) => {
+  const onDeleteImage = async (index: number) => {
     const newImageList = imageList.filter((_, i) => i !== index)
 
     setImageList(newImageList)
@@ -64,8 +64,8 @@ const useImageChange = (maxLength: number) => {
 
   return {
     imageList,
-    handleChangeImage,
-    handleDeleteImage,
+    onChangeImage,
+    onDeleteImage,
     onDragDrop,
     onDragStart,
     onDragOver,

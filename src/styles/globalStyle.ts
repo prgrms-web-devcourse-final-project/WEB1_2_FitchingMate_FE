@@ -114,6 +114,23 @@ export const GlobalContainer = styled.div`
     display: none;
   }
 `
+export const SubGlobalContainer = styled.div`
+  height: calc(100vh - 48px);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+export const SubContainer = styled.div`
+  height: calc(100vh - 48px);
+  overflow-y: scroll;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
 
 export const GlobalFloatAside = styled.aside`
   width: 100%;

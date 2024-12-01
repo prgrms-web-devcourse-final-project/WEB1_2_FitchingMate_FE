@@ -1,4 +1,4 @@
-import { SubmitContainer, SubmitForm } from '@components/SubmitPage/style'
+import { SubmitContainer, SubmitForm } from '@pages/MatePostingPage/style'
 
 import useTabs from '@hooks/useTabs'
 
@@ -6,8 +6,9 @@ import ProgressSection from '@components/ProgressSection'
 import FirstTab from './Tabs/FirstTab'
 import SecondTab from './Tabs/SecondTab'
 
-import TabModel from '@utils/tabModel'
+import TabModel from '@utils/Model/tabModel'
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
+import SubHeader from '@layouts/SubHeader'
 
 const goodsPostingComponents = [
   new TabModel(<FirstTab />),
@@ -34,19 +35,25 @@ const GoodsPostingPage = () => {
   }
 
   return (
-    <SubmitContainer>
-      {/* 직관 모임 등록 폼 영역 */}
-      <SubmitForm onSubmit={(e) => e.preventDefault()}>
-        {currentTab.content}
-      </SubmitForm>
-
-      {/* 직관 모임 등록 프로세스 영역 */}
-      <ProgressSection
-        {...restTabInfo}
-        isDisabled={isDisabled || location === null}
-        handleSubmit={handleSubmit}
+    <>
+      <SubHeader
+        left='back'
+        center='굿즈 거래하기'
       />
-    </SubmitContainer>
+      <SubmitContainer>
+        {/* 직관 모임 등록 폼 영역 */}
+        <SubmitForm onSubmit={(e) => e.preventDefault()}>
+          {currentTab.content}
+        </SubmitForm>
+
+        {/* 직관 모임 등록 프로세스 영역 */}
+        <ProgressSection
+          {...restTabInfo}
+          isDisabled={isDisabled || location === null}
+          handleSubmit={handleSubmit}
+        />
+      </SubmitContainer>
+    </>
   )
 }
 

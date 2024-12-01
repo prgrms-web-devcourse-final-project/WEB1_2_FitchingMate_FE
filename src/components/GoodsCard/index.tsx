@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import {
   CardBedgeWrap,
   CardContainer,
@@ -8,25 +8,25 @@ import {
   CardTextWrap,
   CardTitle,
   PlaceholderWrap,
-} from './style'
-import CardBedge from '@components/CardBedge'
-import Placeholder from '@assets/default/placeholder.svg?react'
-import { kboTeamInfo } from '@constants/kboInfo'
+} from './style';
+import CardBedge from '@components/CardBedge';
+import Placeholder from '@assets/default/placeholder.svg?react';
+import { kboTeamInfo } from '@constants/kboInfo';
 
 interface GoodsCardProps {
   card: {
-    id: number
-    teamName: string
-    title: string
-    category: string
-    price: number
-    imageUrl: string
-  }
+    id: number;
+    teamName: string;
+    title: string;
+    category: string;
+    price: number;
+    imageUrl: string;
+  };
 }
 
 const GoodsCard = ({ card }: GoodsCardProps) => {
-  const { teamName, title, category, price, imageUrl } = card
-  const teamInfo = kboTeamInfo[teamName]
+  const { teamName, title, category, price, imageUrl } = card;
+  const teamInfo = kboTeamInfo[teamName];
 
   return (
     <Link
@@ -39,7 +39,7 @@ const GoodsCard = ({ card }: GoodsCardProps) => {
       <CardContainer>
         <CardImageWrap>
           {imageUrl ? (
-            <CardImage src={imageUrl} alt={title} />
+            <CardImage src={imageUrl} alt={title} loading="lazy" />
           ) : (
             <PlaceholderWrap>
               <Placeholder />
@@ -57,11 +57,11 @@ const GoodsCard = ({ card }: GoodsCardProps) => {
             {/* 카테고리 뱃지 */}
             <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>{price.toLocaleString()}원</CardPrice>
+          <CardPrice>{price.toLocaleString('ko-KR')}원</CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>
-  )
-}
+  );
+};
 
-export default GoodsCard
+export default GoodsCard;

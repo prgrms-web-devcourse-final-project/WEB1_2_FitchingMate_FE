@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   SubHeaderBox,
   SubHeaderComplete,
@@ -14,43 +14,31 @@ import Logout from '@assets/icon/exit_line.svg?react'
 import Alarm from '@components/Alarm'
 
 interface SubHeaderPropsType {
-  left: 'back' | 'exit' | 'message'
+  left?: 'back' | 'exit' | 'message'
   center?: string
   right?: 'complete' | 'logout' | 'alarm'
 }
 
 const SubHeader = ({ left, center, right }: SubHeaderPropsType) => {
-  const subHeaderLeft = () => {
-    switch (left) {
-      case 'back':
-        return <Back />
-      case 'exit':
-        return <Exit />
-      case 'message':
-        return <SubHeaderMessageText>메시지</SubHeaderMessageText>
-    }
+  const navigate = useNavigate()
+
+  const subHeaderLeftContent = {
+    back: <Back onClick={() => navigate(-1)} />,
+    exit: <Exit />,
+    message: <SubHeaderMessageText>메시지</SubHeaderMessageText>,
   }
 
-  const subHeaderRight = () => {
-    switch (right) {
-      case 'complete':
-        return <SubHeaderComplete>완료</SubHeaderComplete>
-      case 'logout':
-        return <Logout />
-      case 'alarm':
-        return <Alarm />
-      case null:
-        break
-    }
+  const subHeaderRightContent = {
+    complete: <SubHeaderComplete>완료</SubHeaderComplete>,
+    logout: <Logout />,
+    alarm: <Alarm />,
   }
 
   return (
     <SubHeaderBox>
-      <SubHeaderLeft>
-        <Link to='/'>{subHeaderLeft()}</Link>
-      </SubHeaderLeft>
+      <SubHeaderLeft>{left && subHeaderLeftContent[left]}</SubHeaderLeft>
       <SubHeaderText>{center}</SubHeaderText>
-      <SubHeaderRight>{subHeaderRight()}</SubHeaderRight>
+      <SubHeaderRight>{right && subHeaderRightContent[right]}</SubHeaderRight>
     </SubHeaderBox>
   )
 }

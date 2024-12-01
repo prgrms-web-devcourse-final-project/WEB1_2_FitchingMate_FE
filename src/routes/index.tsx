@@ -24,85 +24,85 @@ import ProfileEdit from '@pages/ProfilePage/ProfileEdit'
 import ReviewPage from '@pages/ProfilePage/ReviewPage'
 import TimelinePage from '@pages/TimelinePage'
 import RedirectHandler from '@pages/LoginPage/AuthCallback/RedirectHandler'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<GlobalLayout />}>
-        <Route path='/' />
         <Route
-          path='/chat'
-          element={<ChatPage />}
-        />
-        <Route
-          path='/main'
+          path={ROUTE_PATH.HOME}
           element={<MainPage />}
         />
         <Route
-          path='/matelist'
+          path={ROUTE_PATH.CHAT}
+          element={<ChatPage />}
+        />
+        <Route
+          path={ROUTE_PATH.MATE_LIST}
           element={<MateListPage />}
         />
         <Route
-          path='/login'
+          path={ROUTE_PATH.LOGIN}
           element={<LoginPage />}
         />
         <Route
-          path='/login/signup'
+          path={ROUTE_PATH.SIGNUP}
           element={<SignupPage />}
         />
         <Route
-          path='/myteam'
+          path={ROUTE_PATH.MYTEAM}
           element={<MyTeamPage />}
         />
         <Route
-          path='/goodslist'
+          path={ROUTE_PATH.GOODS_LIST}
           element={<GoodsListPage />}
         />
       </Route>
 
       <Route element={<SubLayout />}>
         <Route
-          path='/goods-posting'
+          path={ROUTE_PATH.GOODS_POSTING}
           element={<GoodsPostingPage />}
         />
         <Route
-          path='/mate-posting'
+          path={ROUTE_PATH.MATE_POSTING}
           element={<MatePostingPage />}
         />
         <Route
-          path='/chat-room'
+          path={ROUTE_PATH.CHAT_ROOM}
           element={<ChatRoom />}
         />
         <Route
-          path='/mate-detail'
+          path={ROUTE_PATH.MATE_DETAIL}
           element={<MateDetailPage />}
         />
         <Route
-          path='/goodsdetail'
+          path={ROUTE_PATH.GOODS_DETAIL}
           element={<GoodsDetailPage />}
         />
         <Route
-          path='/goodsrecord'
+          path={ROUTE_PATH.GOODS_RECORD}
           element={<GoodsRecordPage />}
         />
         <Route
-          path='/follow'
+          path={ROUTE_PATH.FOLLOW}
           element={<FollowPage />}
         />
         <Route
-          path='/profile'
+          path={ROUTE_PATH.PROFILE}
           element={<ProfileMain />}
         />
         <Route
-          path='/profile/edit'
+          path={ROUTE_PATH.PROFILE_EDIT}
           element={<ProfileEdit />}
         />
         <Route
-          path='/review'
+          path={ROUTE_PATH.REVIEW}
           element={<ReviewPage />}
         />
         <Route
-          path='/review/write'
+          path={ROUTE_PATH.REVIEW_WRITE}
           element={
             <ReviewWritePage
               reviewType='GOODS'
@@ -112,7 +112,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path='/timeline'
+          path={ROUTE_PATH.TIMELINE}
           element={<TimelinePage />}
         />
       </Route>
@@ -123,12 +123,12 @@ const AppRoutes = () => {
       />
 
       <Route
-        path='/notification'
+        path={ROUTE_PATH.NOTIFICATION}
         element={<NotificationPage />}
       />
 
       <Route
-        path='/api/auth/login/naver'
+        path={ROUTE_PATH.NAVER_LOGIN}
         element={<RedirectHandler />}
       />
     </Routes>

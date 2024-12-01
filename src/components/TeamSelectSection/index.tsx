@@ -9,19 +9,31 @@ interface TeamSelectSectionProps {
 const TeamSelectSection = ({ selectedTeam, setSelectedTeam }: TeamSelectSectionProps) => {
   return (
     <TeamSelectContainer>
-      {kboTeamList.map((team) => {
-        const TeamLogo = kboTeamInfo[team].logo;
-        return (
-          <Card
-            key={team}
-            onClick={() => setSelectedTeam(team)}
-            $isSelected={selectedTeam === team}
-          >
-            <TeamLogo width={50} height={50} />
-          </Card>
-        );
-      })}
+      {kboTeamList.map((team) => (
+        <TeamCard
+          key={team}
+          team={team}
+          isSelected={selectedTeam === team}
+          onClick={() => setSelectedTeam(team)}
+        />
+      ))}
     </TeamSelectContainer>
+  );
+};
+
+interface TeamCardProps {
+  team: string;
+  isSelected: boolean;
+  onClick: () => void;
+}
+
+const TeamCard = ({ team, isSelected, onClick }: TeamCardProps) => {
+  const TeamLogo = kboTeamInfo[team].logo;
+
+  return (
+    <Card onClick={onClick} $isSelected={isSelected}>
+      <TeamLogo width={50} height={50} />
+    </Card>
   );
 };
 

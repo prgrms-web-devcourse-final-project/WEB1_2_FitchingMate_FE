@@ -1,12 +1,10 @@
 import { Bedge } from './style'
+import { kboTeamInfo } from '@constants/kboInfo'
 
-interface CardBedgeProps {
-  text: string
-  style?: React.CSSProperties
-}
-
-const CardBedge = ({ text, style }: CardBedgeProps) => {
-  return <Bedge style={style}>{text}</Bedge>
+const CardBedge = ({ text }: { text?: string }) => {
+  const teamColor =
+    text && kboTeamInfo[text] ? kboTeamInfo[text].color : undefined
+  return <Bedge bgcolor={teamColor}>{text || '벳지'}</Bedge>
 }
 
 export default CardBedge

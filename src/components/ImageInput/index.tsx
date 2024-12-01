@@ -6,15 +6,15 @@ interface ImageInputProps {
   currentCount: number
   multiple?: boolean
   disabled: boolean
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChangeImage: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const ImageInput = ({
   maxCount,
   currentCount,
-  multiple,
+  multiple = false,
   disabled,
-  onChange,
+  onChangeImage,
 }: ImageInputProps) => {
   return (
     <ImgLabel $disabled={disabled}>
@@ -30,9 +30,9 @@ const ImageInput = ({
       <input
         type='file'
         accept='image/*'
-        multiple={multiple || false}
+        multiple={multiple}
         id='category-img'
-        onChange={onChange}
+        onChange={onChangeImage}
         disabled={disabled}
       />
     </ImgLabel>

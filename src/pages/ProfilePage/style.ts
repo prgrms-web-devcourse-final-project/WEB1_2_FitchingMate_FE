@@ -210,6 +210,7 @@ export const ProfileEditInputWrap = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1em 20px;
+  position: relative;
 
   & > label {
     margin-bottom: 0.5em;
@@ -245,6 +246,14 @@ export const ProfileEditInputWrap = styled.div`
     color: ${theme.fontColor.black};
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  & > p {
+    font-size: ${theme.fontSize.small};
+    color: ${theme.fontColor.black};
+    position: absolute;
+    bottom: calc(1em + 8px);
+    right: 28px;
   }
 `
 
