@@ -44,10 +44,12 @@ const ProfileEdit = () => {
 
   return (
     <>
+      {/* 서브헤더 */}
       <SubHeader
         left='back'
         center='프로필 수정 페이지'
       />
+      {/* 폼 (내용) */}
       <form
         onSubmit={(e) => {
           onProfileEditSubmit(

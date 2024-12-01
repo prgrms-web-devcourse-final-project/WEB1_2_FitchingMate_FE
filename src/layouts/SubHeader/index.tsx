@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   SubHeaderBox,
   SubHeaderComplete,
@@ -20,8 +20,10 @@ interface SubHeaderPropsType {
 }
 
 const SubHeader = ({ left, center, right }: SubHeaderPropsType) => {
+  const navigate = useNavigate()
+
   const subHeaderLeftContent = {
-    back: <Back />,
+    back: <Back onClick={() => navigate(-1)} />,
     exit: <Exit />,
     message: <SubHeaderMessageText>메시지</SubHeaderMessageText>,
   }
@@ -34,9 +36,7 @@ const SubHeader = ({ left, center, right }: SubHeaderPropsType) => {
 
   return (
     <SubHeaderBox>
-      <SubHeaderLeft>
-        <Link to='/'>{left && subHeaderLeftContent[left]}</Link>
-      </SubHeaderLeft>
+      <SubHeaderLeft>{left && subHeaderLeftContent[left]}</SubHeaderLeft>
       <SubHeaderText>{center}</SubHeaderText>
       <SubHeaderRight>{right && subHeaderRightContent[right]}</SubHeaderRight>
     </SubHeaderBox>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import GoodsChatRoom from './Rooms/GoodsChatRoom'
 import MateChatRoom from './Rooms/MateChatRoom'
 import GeneralChatRoom from './Rooms/GeneralChatRoom'
+import SubHeader from '@layouts/SubHeader'
 
 export type ChatType = '메이트' | '굿즈' | '일반' | null
 
@@ -10,6 +11,7 @@ const ChatRoom = () => {
 
   return (
     <>
+      <SubHeader left='back' />
       {currentChatType === '메이트' && (
         <MateChatRoom currentChatType={currentChatType} />
       )}
