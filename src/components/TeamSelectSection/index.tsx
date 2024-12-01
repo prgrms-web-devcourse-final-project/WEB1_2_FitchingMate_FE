@@ -13,8 +13,8 @@ const TeamSelectSection = () => {
     <TeamSelectContainer>
       {kboTeamList.map((team) => (
         <TeamCard
-          key={team}
-          team={team}
+          key={team.id}
+          teamInfo={team}
           currentTeam={currentTeam}
           onHandleTeamChange={handleTeamChange}
         />
@@ -24,12 +24,22 @@ const TeamSelectSection = () => {
 }
 
 interface TeamCardProps {
-  team: string
+  teamInfo: {
+    team: string
+    id: number
+    color: string
+  }
   currentTeam: string
   onHandleTeamChange: (team: string) => void
 }
 
-const TeamCard = ({ team, currentTeam, onHandleTeamChange }: TeamCardProps) => {
+const TeamCard = ({
+  teamInfo,
+  currentTeam,
+  onHandleTeamChange,
+}: TeamCardProps) => {
+  const { team } = teamInfo
+
   const Logo = kboTeamInfo[team].logo
   const isSelected = currentTeam === team
 
