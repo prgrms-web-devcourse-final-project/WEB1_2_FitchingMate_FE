@@ -22,11 +22,11 @@ interface GoodsCardPropsType {
 }
 
 const GoodsCard = ({
-  imgSrc,
-  title,
-  teamName,
-  category,
-  price,
+  imgSrc = '',
+  title = '',
+  teamName = '',
+  category = '',
+  price = 0,
 }: GoodsCardPropsType) => {
   const hasImg = imgSrc ? true : false
 
