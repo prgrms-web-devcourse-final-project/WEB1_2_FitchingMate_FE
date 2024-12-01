@@ -1,10 +1,13 @@
 import { GoodsListResponse } from '@typings/db'
-import { data } from './../pages/TimelinePage/mockData'
 import fetchApi from './ky'
 
 const goodsService = {
   getGoodsList: async () => {
-    const response = await fetchApi.get<GoodsListResponse>(`goods`).json()
+    const response = await fetchApi
+      .get<GoodsListResponse>(
+        `goods?teamId=1&category=유니폼&page=0&size=1&sort=string`,
+      )
+      .json()
 
     return response.data
   },

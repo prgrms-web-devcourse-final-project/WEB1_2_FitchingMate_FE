@@ -6,9 +6,15 @@ import goodsService from '@apis/goodsService'
 import { useEffect, useState } from 'react'
 import { FilterButtonList } from './constants'
 import { content } from './mockData'
+import { useQuery } from '@tanstack/react-query'
 
 const GoodsListPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('1')
+
+  const { data } = useQuery({
+    queryKey: ['goods-list'],
+    queryFn: () => goodsService.getGoodsList(),
+  })
 
   return (
     <section>
@@ -24,15 +30,15 @@ const GoodsListPage = () => {
         />
       </FilterWrap>
       <GoodsCardWrap>
-        {content.map((data) => {
+        {content.map((goodsData) => {
           return (
             <GoodsCard
-              key={data.id}
-              imgSrc={data.imageUrl}
-              title={data.title}
-              teamName={data.teamName}
-              category={data.category}
-              price={data.price}
+              key={goodsData.id}
+              imgSrc={goodsData.imageUrl}
+              title={goodsData.title}
+              teamName={goodsData.teamName}
+              category={goodsData.category}
+              price={goodsData.price}
             />
           )
         })}
