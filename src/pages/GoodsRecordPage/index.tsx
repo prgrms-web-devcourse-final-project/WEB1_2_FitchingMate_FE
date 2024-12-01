@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import SubHeader from '@layouts/SubHeader'
 import GoodsRecordBox from './GoodsRecordBox'
 import { GoodsSection } from './style'
 import { GoodsRecordDataList } from './mockData'
@@ -8,7 +8,12 @@ const GoodsRecordPage = () => {
     useState(GoodsRecordDataList)
 
   return (
-    <GoodsSection>
+    <>
+      <SubHeader
+        left='back'
+        center='굿즈 판매기록'
+      />
+      <GoodsSection>
       {goodsRecordDataList.map((data, index) => {
         return (
           <GoodsRecordBox
@@ -22,6 +27,7 @@ const GoodsRecordPage = () => {
         )
       })}
     </GoodsSection>
+    </>
   )
 }
 

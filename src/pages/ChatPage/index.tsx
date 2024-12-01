@@ -6,6 +6,9 @@ import PillButton from '@components/PillButton'
 import Alert from '@components/Alert'
 
 import ALERT_MESSAGE from '@constants/alertMessage'
+import SubHeader from '@layouts/SubHeader'
+import GlobalNav from '@layouts/GlobalNav'
+import { GlobalFloatAside } from '@styles/globalStyle'
 
 export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]
@@ -24,33 +27,39 @@ const ChatPage = () => {
   }
 
   return (
-    <ChatPageContainer>
-      <TabContainer>
-        {CHAT_TAB_LIST.map((tab) => (
-          <PillButton
-            key={tab}
-            text={tab}
-            $isSelected={currentTab === tab}
-            onClick={() => handleTabClick(tab)}
+    <>
+      <SubHeader center='메시지' />
+      <ChatPageContainer>
+        <TabContainer>
+          {CHAT_TAB_LIST.map((tab) => (
+            <PillButton
+              key={tab}
+              text={tab}
+              $isSelected={currentTab === tab}
+              onClick={() => handleTabClick(tab)}
+            />
+          ))}
+        </TabContainer>
+
+        <ChatListContainer>
+          <ChatCard
+            currentTab={currentTab}
+            onExitClick={openAlert}
           />
-        ))}
-      </TabContainer>
+        </ChatListContainer>
 
-      <ChatListContainer>
-        <ChatCard
-          currentTab={currentTab}
-          onExitClick={openAlert}
+        <Alert
+          ref={alertRef}
+          title={ALERT_MESSAGE.CHAT_EXIT.title}
+          notice={ALERT_MESSAGE.CHAT_EXIT.notice}
+          actionText='나가기'
+          cancelText='취소'
         />
-      </ChatListContainer>
-
-      <Alert
-        ref={alertRef}
-        title={ALERT_MESSAGE.CHAT_EXIT.title}
-        notice={ALERT_MESSAGE.CHAT_EXIT.notice}
-        actionText='나가기'
-        cancelText='취소'
-      />
-    </ChatPageContainer>
+      </ChatPageContainer>
+      <GlobalFloatAside>
+        <GlobalNav />
+      </GlobalFloatAside>
+    </>
   )
 }
 
