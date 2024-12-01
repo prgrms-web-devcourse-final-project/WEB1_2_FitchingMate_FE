@@ -30,14 +30,13 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<GlobalLayout />}>
-        <Route path='/' />
+        <Route
+          path={ROUTE_PATH.HOME}
+          element={<MainPage />}
+        />
         <Route
           path={ROUTE_PATH.CHAT}
           element={<ChatPage />}
-        />
-        <Route
-          path={ROUTE_PATH.MAIN}
-          element={<MainPage />}
         />
         <Route
           path={ROUTE_PATH.MATE_LIST}
