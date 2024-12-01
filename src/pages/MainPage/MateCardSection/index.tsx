@@ -1,26 +1,24 @@
 import MateCard from '@components/MateCard'
-import { kboTeamInfo } from '@constants/kboInfo'
 import { MateCardContainer } from './style'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { kboTeamInfo } from '@constants/kboInfo'
 
 interface MateCardSectionProps {
   selectedTeam: string
+  mateCards: any[]
 }
 
-const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
+const MateCardSection = ({ selectedTeam, mateCards }: MateCardSectionProps) => {
   const navigate = useNavigate()
+  const teamName = kboTeamInfo[selectedTeam]?.team || 'KBO'
+
   return (
     <MateCardContainer>
-      <h3>{`${kboTeamInfo[selectedTeam].team} 메이트 찾기`}</h3>
-      <MateCard />
-      <MateCard />
-      <MateCard />
-      <p
-        className='more'
-        onClick={() => navigate('/')}
-      >
-        더보기
-      </p>
+      <h3>{`${teamName} 메이트 찾기`}</h3>
+      {mateCards.map((card, index) => (
+        <MateCard key={index} card={card} />
+      ))}
+      <Link to='/matelist'>더보기</Link>
     </MateCardContainer>
   )
 }

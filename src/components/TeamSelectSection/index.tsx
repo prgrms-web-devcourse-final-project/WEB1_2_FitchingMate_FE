@@ -10,7 +10,7 @@ const TeamSelectSection = ({ selectedTeam, setSelectedTeam }: TeamSelectSectionP
   return (
     <TeamSelectContainer>
       {kboTeamList.map((team) => {
-        const TeamLogo = kboTeamInfo[team].logo; // SVG 컴포넌트를 변수로 할당
+        const TeamLogo = kboTeamInfo[team].logo;
         return (
           <Card
             key={team}

@@ -1,7 +1,12 @@
 import { Bedge } from './style'
 
-const CardBedge = ({ text }: { text?: string }) => {
-  return <Bedge>{text || '벳지'}</Bedge>
+interface CardBedgeProps {
+  text: string
+  style?: React.CSSProperties
+}
+
+const CardBedge = ({ text, style }: CardBedgeProps) => {
+  return <Bedge style={style}>{text}</Bedge>
 }
 
 export default CardBedge
