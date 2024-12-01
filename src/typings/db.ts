@@ -53,3 +53,26 @@ export interface GoodsForm {
   data: GoodsPost
   file: File | null
 }
+export interface Goods {
+  id: number
+  teamName: string
+  title: string
+  category: string
+  price: number
+  imageUrl: string
+}
+export interface GoodsData {
+  content: Goods[]
+  totalPages: number
+  totalElements: number
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+}
+export interface GoodsListResponse {
+  status: string
+  message: string | null
+  data: GoodsData
+  timestamp: string
+  code: number
+}

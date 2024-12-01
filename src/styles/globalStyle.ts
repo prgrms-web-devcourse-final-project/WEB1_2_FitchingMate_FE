@@ -122,6 +122,16 @@ export const SubGlobalContainer = styled.div`
   }
 `
 
+export const SubContainer = styled.div`
+  height: calc(100vh - 48px);
+  overflow-y: scroll;
+  position: relative;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
 export const GlobalFloatAside = styled.aside`
   width: 100%;
   min-width: 360px;

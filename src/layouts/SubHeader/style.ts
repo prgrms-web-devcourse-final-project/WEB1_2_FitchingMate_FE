@@ -20,6 +20,7 @@ export const SubHeaderBox = styled.header`
 `
 export const SubHeaderLeft = styled.div`
   width: 24px;
+  cursor: pointer;
 `
 
 export const SubHeaderText = styled.p`
