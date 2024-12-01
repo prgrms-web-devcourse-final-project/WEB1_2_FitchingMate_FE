@@ -1,6 +1,6 @@
 import fetchApi from './ky'
 
-const mateService = {
+const matePostService = {
   postMatePost: async (formData: FormData) => {
     const response = await fetchApi
       .post(`mates`, {
@@ -12,4 +12,4 @@ const mateService = {
   },
 }
 
-export default mateService
+export default matePostService
