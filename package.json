@@ -15,9 +15,11 @@
   "dependencies": {
     "@stomp/stompjs": "^7.0.0",
     "@tanstack/react-query": "^5.60.2",
+    "dayjs": "^1.11.13",
     "ky": "^1.7.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-intersection-observer": "^9.13.1",
     "react-kakao-maps-sdk": "^1.1.27",
     "react-loading-skeleton": "^3.5.0",
     "react-router-dom": "^6.28.0",

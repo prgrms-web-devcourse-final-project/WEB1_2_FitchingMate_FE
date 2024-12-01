@@ -1,6 +1,6 @@
 import GoodsCard from '@components/GoodsCard'
 import { GoodsCardContainer, CardWrapper } from './style'
-import { kboTeamInfo } from '@utils/kboInfo'
+import { kboTeamInfo } from '@constants/kboInfo'
 import { useNavigate } from 'react-router-dom'
 
 const GoodsCardSection = () => {
@@ -14,7 +14,10 @@ const GoodsCardSection = () => {
         <GoodsCard />
         <GoodsCard />
       </CardWrapper>
-      <p className='more' onClick={() => navigate('/')}>
+      <p
+        className='more'
+        onClick={() => navigate('/')}
+      >
         더보기
       </p>
     </GoodsCardContainer>

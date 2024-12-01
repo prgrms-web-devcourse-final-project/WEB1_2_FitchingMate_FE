@@ -1,8 +1,8 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import React from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 
 import {
   GameDatetimeLocation,
@@ -12,8 +12,8 @@ import {
   Weather,
   MatchUpContainer,
   PaginationContainer, // 추가
-} from './style';
-import { kboTeamInfo } from '@utils/kboInfo';
+} from './style'
+import { kboTeamInfo } from '@constants/kboInfo'
 
 const matchData = [
   {
@@ -32,7 +32,7 @@ const matchData = [
     weather: '맑음 12°C',
     lastUpdated: '15시',
   },
-];
+]
 
 const MatchUpSection = () => {
   return (
@@ -47,8 +47,8 @@ const MatchUpSection = () => {
         modules={[Pagination]}
       >
         {matchData.map((match, index) => {
-          const homeTeamColor = kboTeamInfo[match.homeTeam].color;
-          const awayTeamColor = kboTeamInfo[match.awayTeam].color;
+          const homeTeamColor = kboTeamInfo[match.homeTeam].color
+          const awayTeamColor = kboTeamInfo[match.awayTeam].color
 
           return (
             <SwiperSlide key={index}>
@@ -78,12 +78,13 @@ const MatchUpSection = () => {
                 </LocationWeather>
               </MatchUpContainer>
             </SwiperSlide>
-          );
+          )
         })}
       </Swiper>
-      <PaginationContainer className="custom-pagination" /> {/* 커스텀 페이지네이션 */}
+      <PaginationContainer className='custom-pagination' />{' '}
+      {/* 커스텀 페이지네이션 */}
     </>
-  );
-};
+  )
+}
 
-export default MatchUpSection;
+export default MatchUpSection

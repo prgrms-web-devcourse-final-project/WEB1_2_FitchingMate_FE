@@ -23,6 +23,7 @@ import ProfileMain from '@pages/ProfilePage/ProfileMain'
 import ProfileEdit from '@pages/ProfilePage/ProfileEdit'
 import ReviewPage from '@pages/ProfilePage/ReviewPage'
 import TimelinePage from '@pages/TimelinePage'
+import RedirectHandler from '@pages/LoginPage/AuthCallback/RedirectHandler'
 
 const AppRoutes = () => {
   return (
@@ -124,6 +125,11 @@ const AppRoutes = () => {
       <Route
         path='/notification'
         element={<NotificationPage />}
+      />
+
+      <Route
+        path='/api/auth/login/naver'
+        element={<RedirectHandler />}
       />
     </Routes>
   )

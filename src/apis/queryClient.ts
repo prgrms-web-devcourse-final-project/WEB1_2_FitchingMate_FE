@@ -12,4 +12,8 @@ const queryClient = new QueryClient({
   defaultOptions,
 })
 
+export const QUERY_KEY = {
+  WEEKLY_MATCH: 'weeklyMatch',
+}
+
 export default queryClient
