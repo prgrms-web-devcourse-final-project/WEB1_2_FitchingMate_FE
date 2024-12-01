@@ -1,111 +1,74 @@
-import React from 'react'
+import { useEffect, useState } from 'react';
 import {
   RankingContainer,
   RankingTable,
   TeamCell,
   TeamLogo,
   TeamName,
-} from './style'
-import { kboTeamInfo } from '@constants/kboInfo'
+} from './style';
+import { kboTeamInfo } from '@constants/kboInfo';
+import fetchApi from '@apis/ky';
 
-const rankingData = [
-  {
-    rank: 1,
-    team: 'KIA',
-    games: 144,
-    wins: 87,
-    draws: 2,
-    losses: 55,
-    gamesBehind: 0.0,
-  },
-  {
-    rank: 2,
-    team: '삼성',
-    games: 144,
-    wins: 78,
-    draws: 2,
-    losses: 64,
-    gamesBehind: 9.0,
-  },
-  {
-    rank: 3,
-    team: 'LG',
-    games: 144,
-    wins: 76,
-    draws: 2,
-    losses: 66,
-    gamesBehind: 11.0,
-  },
-  {
-    rank: 4,
-    team: '두산',
-    games: 144,
-    wins: 74,
-    draws: 2,
-    losses: 68,
-    gamesBehind: 13.0,
-  },
-  {
-    rank: 5,
-    team: 'KT',
-    games: 144,
-    wins: 72,
-    draws: 2,
-    losses: 70,
-    gamesBehind: 15.0,
-  },
-  {
-    rank: 6,
-    team: 'SSG',
-    games: 144,
-    wins: 72,
-    draws: 2,
-    losses: 70,
-    gamesBehind: 15.0,
-  },
-  {
-    rank: 7,
-    team: '롯데',
-    games: 144,
-    wins: 66,
-    draws: 4,
-    losses: 74,
-    gamesBehind: 20.0,
-  },
-  {
-    rank: 8,
-    team: '한화',
-    games: 144,
-    wins: 66,
-    draws: 4,
-    losses: 74,
-    gamesBehind: 21.0,
-  },
-  {
-    rank: 9,
-    team: 'NC',
-    games: 144,
-    wins: 61,
-    draws: 2,
-    losses: 86,
-    gamesBehind: 26.0,
-  },
-  {
-    rank: 10,
-    team: '키움',
-    games: 144,
-    wins: 58,
-    draws: 0,
-    losses: 86,
-    gamesBehind: 30.0,
-  },
-]
+interface TeamRanking {
+  id: number;
+  teamName: string;
+  rank: number;
+  gamesPlayed: number;
+  totalGames: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  gamesBehind: number;
+}
 
 const RankingSection = () => {
+  const [rankings, setRankings] = useState<TeamRanking[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    const fetchRankings = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchApi.get('teams/rankings').json<{
+          status: string;
+          data: TeamRanking[];
+        }>();
+
+        console.log('API Response:', response);
+
+        if (response.status === 'SUCCESS') {
+          setRankings(response.data); // 데이터 상태 업데이트
+        } else {
+          throw new Error('데이터를 불러오지 못했습니다.');
+        }
+      } catch (err: any) {
+        setError(err.message || '알 수 없는 오류가 발생했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRankings();
+  }, []);
+
+  if (loading) {
+    return <RankingContainer>로딩 중...</RankingContainer>;
+  }
+
+  if (error) {
+    return <RankingContainer>에러: {error}</RankingContainer>;
+  }
+
+  if (!rankings.length) {
+    return <RankingContainer>순위 데이터를 찾을 수 없습니다.</RankingContainer>;
+  }
+
   return (
     <RankingContainer>
       <h3>
-        2024
+        {currentYear}
         <br />
         KBO 리그 순위
       </h3>
@@ -122,30 +85,42 @@ const RankingSection = () => {
           </tr>
         </thead>
         <tbody>
-          {rankingData.map(
-            ({ rank, team, games, wins, draws, losses, gamesBehind }) => (
-              <tr key={rank}>
-                <td className='rank'>{rank}</td>
-                <td className='team'>
-                  <TeamCell>
-                    <TeamLogo>
-                      {React.createElement(kboTeamInfo[team].logo)}
-                    </TeamLogo>
-                    <TeamName>{team}</TeamName>
-                  </TeamCell>
-                </td>
-                <td className='games'>{games}</td>
-                <td className='wins'>{wins}</td>
-                <td className='draws'>{draws}</td>
-                <td className='losses'>{losses}</td>
-                <td className='gamesBehind'>{gamesBehind.toFixed(1)}</td>
-              </tr>
-            ),
+          {rankings.map(
+            ({
+              id,
+              teamName,
+              rank,
+              gamesPlayed,
+              wins,
+              draws,
+              losses,
+              gamesBehind,
+            }) => {
+              const TeamLogoComponent = kboTeamInfo[teamName]?.logo;
+              return (
+                <tr key={id}>
+                  <td className="rank">{rank}</td>
+                  <td className="team">
+                    <TeamCell>
+                      <TeamLogo>
+                        {TeamLogoComponent && <TeamLogoComponent />}
+                      </TeamLogo>
+                      <TeamName>{teamName}</TeamName>
+                    </TeamCell>
+                  </td>
+                  <td className="games">{gamesPlayed}</td>
+                  <td className="wins">{wins}</td>
+                  <td className="draws">{draws}</td>
+                  <td className="losses">{losses}</td>
+                  <td className="gamesBehind">{gamesBehind.toFixed(1)}</td>
+                </tr>
+              );
+            }
           )}
         </tbody>
       </RankingTable>
     </RankingContainer>
-  )
-}
+  );
+};
 
-export default RankingSection
+export default RankingSection;
