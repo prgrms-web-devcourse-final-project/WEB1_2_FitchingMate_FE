@@ -9,16 +9,28 @@ import {
   CardTitle,
   PlaceholderWrap,
 } from './style'
-import { useState } from 'react'
 import CardBedge from '@components/CardBedge'
 import Placeholder from '@assets/default/placeholder.svg?react'
+import { kboTeamInfo } from '@constants/kboInfo'
 
-const GoodsCard = () => {
-  const [hasImg, setHasImg] = useState(true)
+interface GoodsCardProps {
+  card: {
+    id: number
+    teamName: string
+    title: string
+    category: string
+    price: number
+    imageUrl: string
+  }
+}
+
+const GoodsCard = ({ card }: GoodsCardProps) => {
+  const { teamName, title, category, price, imageUrl } = card
+  const teamInfo = kboTeamInfo[teamName]
 
   return (
     <Link
-      to='/'
+      to={`/goods/${card.id}`}
       style={{
         display: 'block',
         width: 'calc(50% - 10px)',
@@ -26,11 +38,8 @@ const GoodsCard = () => {
     >
       <CardContainer>
         <CardImageWrap>
-          {hasImg ? (
-            <CardImage
-              src='https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSvPJq54lEjicoWC9rOC01vDWK13QxCvbfO5SP-56bJ4angsTsj0j3wb1d9HVDa-Ba0xK12PuW97Xdpt5g'
-              alt='일단 임시'
-            />
+          {imageUrl ? (
+            <CardImage src={imageUrl} alt={title} />
           ) : (
             <PlaceholderWrap>
               <Placeholder />
@@ -38,14 +47,17 @@ const GoodsCard = () => {
           )}
         </CardImageWrap>
         <CardTextWrap>
-          <CardTitle>
-            NC 다이노스 배틀크러쉬 모자 NC 다이노스 배틀크러쉬 모자
-          </CardTitle>
+          <CardTitle>{title}</CardTitle>
           <CardBedgeWrap>
-            <CardBedge />
-            <CardBedge />
+            {/* 팀 이름 뱃지 */}
+            <CardBedge
+              text={teamName}
+              style={{ backgroundColor: teamInfo?.color || '#ccc' }}
+            />
+            {/* 카테고리 뱃지 */}
+            <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>40,000원</CardPrice>
+          <CardPrice>{price.toLocaleString()}원</CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>
