@@ -2,8 +2,14 @@ import TeamSelectSection from '@components/TeamSelectSection'
 import { FilterWrap, GoodsCardWrap, TeamSelectWrap } from './style'
 import PillButtonList from '@components/PillButtonList'
 import GoodsCard from '@components/GoodsCard'
+import goodsService from '@apis/goodsService'
+import { useEffect, useState } from 'react'
+import { FilterButtonList } from './constants'
+import { content } from './mockData'
 
 const GoodsListPage = () => {
+  const [selectedCategory, setSelectedCategory] = useState('1')
+
   return (
     <section>
       <TeamSelectWrap>
@@ -11,26 +17,25 @@ const GoodsListPage = () => {
       </TeamSelectWrap>
       <FilterWrap>
         <PillButtonList
-          buttons={[
-            { text: '전체', id: '전체', disabled: false },
-            { text: '유니폼', id: '유니폼', disabled: false },
-            { text: '모자', id: '모자', disabled: false },
-            { text: '의류', id: '의류', disabled: false },
-            { text: '잡화', id: '잡화', disabled: false },
-            { text: '기념상품', id: '기념상품', disabled: false },
-          ]}
-          mode='radio'
+          buttons={FilterButtonList}
+          defaultSelected={selectedCategory}
+          mode='tab'
+          onSelect={(id) => setSelectedCategory(id)}
         />
       </FilterWrap>
       <GoodsCardWrap>
-        <GoodsCard />
-        <GoodsCard />
-        <GoodsCard />
-        <GoodsCard />
-        <GoodsCard />
-        <GoodsCard />
-        <GoodsCard />
-        <GoodsCard />
+        {content.map((data) => {
+          return (
+            <GoodsCard
+              key={data.id}
+              imgSrc={data.imageUrl}
+              title={data.title}
+              teamName={data.teamName}
+              category={data.category}
+              price={data.price}
+            />
+          )
+        })}
       </GoodsCardWrap>
     </section>
   )

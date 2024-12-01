@@ -13,23 +13,32 @@ import { useState } from 'react'
 import CardBedge from '@components/CardBedge'
 import Placeholder from '@assets/default/placeholder.svg?react'
 
-const GoodsCard = () => {
-  const [hasImg, setHasImg] = useState(true)
+interface GoodsCardPropsType {
+  imgSrc?: string
+  title: string
+  teamName: string
+  category: string
+  price: number
+}
+
+const GoodsCard = ({
+  imgSrc,
+  title,
+  teamName,
+  category,
+  price,
+}: GoodsCardPropsType) => {
+  const hasImg = imgSrc ? true : false
 
   return (
-    <Link
-      to='/'
-      style={{
-        display: 'block',
-        width: 'calc(50% - 10px)',
-      }}
-    >
+    <Link to='/'>
       <CardContainer>
         <CardImageWrap>
           {hasImg ? (
             <CardImage
-              src='https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcSvPJq54lEjicoWC9rOC01vDWK13QxCvbfO5SP-56bJ4angsTsj0j3wb1d9HVDa-Ba0xK12PuW97Xdpt5g'
-              alt='일단 임시'
+              src={imgSrc}
+              alt={title}
+              loading='lazy'
             />
           ) : (
             <PlaceholderWrap>
@@ -38,14 +47,15 @@ const GoodsCard = () => {
           )}
         </CardImageWrap>
         <CardTextWrap>
-          <CardTitle>
-            NC 다이노스 배틀크러쉬 모자 NC 다이노스 배틀크러쉬 모자
-          </CardTitle>
+          <CardTitle>{title}</CardTitle>
           <CardBedgeWrap>
-            <CardBedge />
-            <CardBedge />
+            {/* 팀 */}
+            <CardBedge text={teamName} />
+
+            {/* 카테고리 */}
+            <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>40,000원</CardPrice>
+          <CardPrice>{price.toLocaleString('ko-KR')}원</CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>
