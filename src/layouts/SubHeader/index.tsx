@@ -14,7 +14,7 @@ import Logout from '@assets/icon/exit_line.svg?react'
 import Alarm from '@components/Alarm'
 
 interface SubHeaderPropsType {
-  left: 'back' | 'exit' | 'message'
+  left?: 'back' | 'exit' | 'message'
   center?: string
   right?: 'complete' | 'logout' | 'alarm'
 }
@@ -35,7 +35,7 @@ const SubHeader = ({ left, center, right }: SubHeaderPropsType) => {
   return (
     <SubHeaderBox>
       <SubHeaderLeft>
-        <Link to='/'>{subHeaderLeftContent[left]}</Link>
+        <Link to='/'>{left && subHeaderLeftContent[left]}</Link>
       </SubHeaderLeft>
       <SubHeaderText>{center}</SubHeaderText>
       <SubHeaderRight>{right && subHeaderRightContent[right]}</SubHeaderRight>

@@ -31,10 +31,6 @@ const AppRoutes = () => {
       <Route element={<GlobalLayout />}>
         <Route path='/' />
         <Route
-          path='/chat'
-          element={<ChatPage />}
-        />
-        <Route
           path='/main'
           element={<MainPage />}
         />
@@ -68,6 +64,10 @@ const AppRoutes = () => {
         <Route
           path='/mate-posting'
           element={<MatePostingPage />}
+        />
+        <Route
+          path='/chat'
+          element={<ChatPage />}
         />
         <Route
           path='/chat-room'

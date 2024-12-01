@@ -1,13 +1,13 @@
 import SubHeader from '@layouts/SubHeader'
-import { GlobalContainer } from '@styles/globalStyle'
+import { SubContainer } from '@styles/globalStyle'
 import { Outlet } from 'react-router-dom'
 
 const SubLayout = () => {
   return (
     <div>
-      <GlobalContainer>
+      <SubContainer>
         <Outlet />
-      </GlobalContainer>
+      </SubContainer>
     </div>
   )
 }
