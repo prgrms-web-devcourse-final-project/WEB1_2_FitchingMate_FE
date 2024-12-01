@@ -17,14 +17,13 @@ interface ReviewTypes {
 }
 
 const ReviewPage = () => {
-  const [selectedButton, setSelectedButton] = useState('mate')
+  const GOODS_REVIEW = '1';
+  const MATE_REVIEW = '2';
+  
+  const [selectedButton, setSelectedButton] = useState(GOODS_REVIEW)
   const [reviewDataList, setReviewDataList] = useState<ReviewTypes[] | null>(
     null,
   )
-
-  const onSelectButton = (id: string) => {
-    setSelectedButton(id)
-  }
 
   const decideRatingText = (rating: string) => {
     switch (rating) {
@@ -38,9 +37,9 @@ const ReviewPage = () => {
   }
 
   useEffect(() => {
-    if (selectedButton === 'mate') {
+    if (selectedButton === '2') {
       setReviewDataList(mateReviewList)
-    } else if (selectedButton === 'goods') {
+    } else if (selectedButton === '1') {
       setReviewDataList(goodsReviewList)
     }
   }, [selectedButton])
@@ -55,8 +54,8 @@ const ReviewPage = () => {
         <ReviewButtonWrap>
           <PillButtonList
             buttons={[
-              { id: 'goods', text: '굿즈거래 후기', disabled: false },
-              { id: 'mate', text: '메이트 후기', disabled: false },
+              { id: '1', text: '굿즈거래 후기', disabled: false },
+              { id: '2', text: '메이트 후기', disabled: false },
             ]}
             mode='radio'
             defaultSelected='goods'
@@ -77,8 +76,8 @@ const ReviewPage = () => {
                     <Link to={'/'}>
                       <div>
                         <span>
-                          {selectedButton === 'mate' && '직관후기'}
-                          {selectedButton === 'goods' && '굿즈거래'}
+                          {selectedButton === '2' && '직관후기'}
+                          {selectedButton === '1' && '굿즈거래'}
                         </span>
                         <i>쁘띠 이대호 피규어 & 쁘띠 이대호 빠따</i>
                       </div>
