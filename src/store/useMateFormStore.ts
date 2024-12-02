@@ -17,9 +17,11 @@ interface MateFormStore {
   setTransportation: (transport: string) => void
   setSelectedWeek: (selectedWeek: number) => void
   setImg: (img: File | null) => void
+  setMateFormData: (mateFormData: MatePost) => void
+  setInitialState: () => void
 }
 
-export const useMateFormStore = create<MateFormStore>((set) => ({
+const initialState = {
   matePost: {
     memberId: Number(localStorage.getItem('memberId')) || null,
     teamId: null,
@@ -35,6 +37,10 @@ export const useMateFormStore = create<MateFormStore>((set) => ({
   img: null,
 
   selectedWeek: 1,
+}
+
+export const useMateFormStore = create<MateFormStore>((set) => ({
+  ...initialState,
 
   setSelectedWeek: (selectedWeek) => set(() => ({ selectedWeek })),
   setMemberId: (memberId) =>
@@ -55,4 +61,7 @@ export const useMateFormStore = create<MateFormStore>((set) => ({
   setImg: (img) => set(() => ({ img })),
   setTeamId: (teamId) =>
     set((state) => ({ matePost: { ...state.matePost, teamId } })),
+  setMateFormData: (mateFormData) =>
+    set(() => ({ matePost: { ...mateFormData } })),
+  setInitialState: () => set(() => ({ ...initialState })),
 }))

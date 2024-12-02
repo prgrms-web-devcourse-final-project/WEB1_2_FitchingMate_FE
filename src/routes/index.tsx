@@ -85,10 +85,16 @@ const AppRoutes = () => {
           path={ROUTE_PATH.MATE_DETAIL}
           element={<MateDetailPage />}
         />
-        <Route
-          path={ROUTE_PATH.GOODS_DETAIL}
-          element={<GoodsDetailPage />}
-        />
+        <Route path={ROUTE_PATH.GOODS_DETAIL}>
+          <Route
+            index
+            element={<GoodsDetailPage />}
+          />
+          <Route
+            path='edit'
+            element={<GoodsPostingPage />}
+          />
+        </Route>
         <Route
           path={ROUTE_PATH.GOODS_RECORD}
           element={<GoodsRecordPage />}

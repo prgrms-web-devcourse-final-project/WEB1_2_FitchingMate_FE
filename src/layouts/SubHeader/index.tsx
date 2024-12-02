@@ -17,13 +17,19 @@ interface SubHeaderPropsType {
   left?: 'back' | 'exit' | 'message'
   center?: string
   right?: 'complete' | 'logout' | 'alarm'
+  onClick?: () => void
 }
 
-const SubHeader = ({ left, center, right }: SubHeaderPropsType) => {
+const SubHeader = ({ left, center, right, onClick }: SubHeaderPropsType) => {
   const navigate = useNavigate()
 
+  const handleClick = () => {
+    if (onClick) onClick()
+    navigate(-1)
+  }
+
   const subHeaderLeftContent = {
-    back: <Back onClick={() => navigate(-1)} />,
+    back: <Back onClick={handleClick} />,
     exit: <Exit />,
     message: <SubHeaderMessageText>메시지</SubHeaderMessageText>,
   }
