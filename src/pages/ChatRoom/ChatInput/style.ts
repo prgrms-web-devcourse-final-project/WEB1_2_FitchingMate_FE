@@ -2,13 +2,12 @@ import styled from 'styled-components'
 
 export const ChatInputContainer = styled.div`
   width: 100%;
-  padding: 1.25em 20px;
+  padding: 0.9em 20px;
+  background-color: #fff;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: absolute;
-  bottom: 0;
 
   input {
     width: 87%;
