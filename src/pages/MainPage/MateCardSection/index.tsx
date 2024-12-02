@@ -17,16 +17,15 @@ const fetchMateCards = async (
   teamId: number | null,
 ): Promise<MateCardData[]> => {
   const endpoint =
-    teamId === null ? 'mates/main' : `mates/main?teamId=${teamId}`;
-  const response: MateCardResponse = await fetchApi.get(endpoint).json();
+    teamId === null ? 'mates/main' : `mates/main?teamId=${teamId}`
+  const response: MateCardResponse = await fetchApi.get(endpoint).json()
   console.log(
     '메이트 카드 데이터:',
     `${import.meta.env.VITE_API_ENDPOINT}${endpoint}`,
     response,
-  );
-  return response.data;
-};
-
+  )
+  return response.data
+}
 
 const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
   const teamId = selectedTeam === '전체' ? null : kboTeamInfo[selectedTeam]?.id
@@ -47,13 +46,15 @@ const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
     return (
       <MateCardContainer>
         <h3>{`${teamName} 메이트 찾기`}</h3>
-        <p className='no-mate'>현재 조회 가능한 {teamName}의 메이트 모집글이 없습니다.</p>
+        <p className='no-mate'>
+          현재 조회 가능한 {teamName}의 메이트 모집글이 없습니다.
+        </p>
 
         <MoreSection>
           <Link
             className='more'
-          to={ROUTE_PATH.MATE_LIST}
-        >
+            to={ROUTE_PATH.MATE_LIST}
+          >
             더보기
           </Link>
         </MoreSection>
@@ -65,7 +66,10 @@ const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
     <MateCardContainer>
       <h3>{`${teamName} 메이트 찾기`}</h3>
       {mateCards.map((card) => (
-        <Link to={`${ROUTE_PATH.MATE_DETAIL}/${card.postId}`}>
+        <Link
+          key={card.postId}
+          to={`${ROUTE_PATH.MATE_DETAIL}/${card.postId}`}
+        >
           <MateCard
             key={card.postId}
             card={card}
@@ -76,7 +80,7 @@ const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
         <Link
           className='more'
           to={ROUTE_PATH.MATE_LIST}
-      >
+        >
           더보기
         </Link>
       </MoreSection>
