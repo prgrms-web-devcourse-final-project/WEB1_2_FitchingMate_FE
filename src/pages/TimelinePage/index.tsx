@@ -4,6 +4,7 @@ import TimelineBox from './TimelineBox'
 import { data } from './mockData'
 import { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
+import SubHeader from '@layouts/SubHeader'
 
 console.log(data.length)
 
@@ -14,7 +15,6 @@ const TimelinePage = () => {
   const { ref, inView, entry } = useInView({
     threshold: 0.5,
   })
-  console.log(entry)
 
   useEffect(() => {
     if (inView && hasMore) {
@@ -28,17 +28,23 @@ const TimelinePage = () => {
   }, [inView, hasMore, page])
 
   return (
-    <TimelineWrap>
-      {timelineData.map((match, index) => {
-        return (
-          <TimelineBox
-            info={match}
-            key={index}
-          />
-        )
-      })}
-      <div ref={ref}></div>
-    </TimelineWrap>
+    <>
+      <SubHeader
+        left='back'
+        center='직관 기록페이지'
+      />
+      <TimelineWrap>
+        {timelineData.map((match, index) => {
+          return (
+            <TimelineBox
+              info={match}
+              key={index}
+            />
+          )
+        })}
+        <div ref={ref}></div>
+      </TimelineWrap>
+    </>
   )
 }
 
