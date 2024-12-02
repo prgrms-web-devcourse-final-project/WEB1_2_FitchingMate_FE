@@ -76,3 +76,25 @@ export interface GoodsListResponse {
   timestamp: string
   code: number
 }
+export interface MateCardData {
+  imageUrl: string | null;
+  title: string;
+  status: string;
+  myTeamName: string;
+  rivalTeamName: string;
+  matchTime: string;
+  location: string;
+  maxParticipants: number;
+  age: string;
+  gender: string;
+  transportType: string;
+  postId: number;
+}
+
+export interface MateCardResponse {
+  status: string;
+  message: string | null;
+  data: MateCardData[];
+  timestamp: string;
+  code: number;
+}
