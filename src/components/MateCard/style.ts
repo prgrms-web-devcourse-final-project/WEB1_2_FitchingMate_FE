@@ -6,6 +6,8 @@ export const CardContainer = styled.div`
   gap: 1em;
   padding: 1em 1.25em;
   border-bottom: 1px solid ${({ theme }) => theme.fontColor.cwhite};
+
+  cursor: pointer;
 `
 
 export const CardImageWrap = styled.div`
