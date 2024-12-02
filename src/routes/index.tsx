@@ -59,7 +59,6 @@ const AppRoutes = () => {
           element={<GoodsListPage />}
         />
       </Route>
-
       <Route element={<SubLayout />}>
         <Route
           path={ROUTE_PATH.GOODS_POSTING}
