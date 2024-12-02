@@ -11,6 +11,7 @@ export const ROUTE_PATH = {
   GOODS_POSTING: '/goods-post',
   GOODS_DETAIL: '/goods-detail',
   CHAT: '/chat',
+  CHAT_MATE: '/chat?type=메이트',
   CHAT_ROOM: '/chat-room',
   PROFILE: '/profile',
   PROFILE_EDIT: '/profile/edit',

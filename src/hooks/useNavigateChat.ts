@@ -11,9 +11,13 @@ const useNavigateChat = () => {
   const type = searchParams.get('type')
 
   useEffect(() => {
-    navigate(`${ROUTE_PATH.CHAT}?type=${type}`)
-    setCurrentTab(type as ChatType)
-  }, [])
+    if (type === null) {
+      navigate(ROUTE_PATH.CHAT_MATE)
+    } else {
+      navigate(`${ROUTE_PATH.CHAT}?type=${type}`)
+      setCurrentTab(type as ChatType)
+    }
+  }, [type])
 
   const handleTabClick = (tab: ChatType) => {
     navigate(`${ROUTE_PATH.CHAT}?type=${tab}`)
@@ -21,7 +25,6 @@ const useNavigateChat = () => {
   }
 
   const handleChatCardClick = () => {
-    console.log(currentTab)
     navigate(`${ROUTE_PATH.CHAT_ROOM}?type=${currentTab}`)
   }
 
