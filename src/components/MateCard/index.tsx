@@ -9,10 +9,16 @@ import {
 } from './style'
 import Placeholder from '@assets/default/placeholder.svg?react'
 import CardBedge from '@components/CardBedge'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import { useNavigate } from 'react-router-dom'
 
 const MateCard = () => {
+  const navigate = useNavigate()
+
   return (
-    <CardContainer>
+    // 경로는 추후 수정 필요
+
+    <CardContainer onClick={() => navigate(ROUTE_PATH.MATE_DETAIL)}>
       {/* 여기 이미지 들어갈거임 없으면 플홀 */}
       <CardImageWrap>
         <Placeholder />
