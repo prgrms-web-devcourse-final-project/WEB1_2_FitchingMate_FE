@@ -10,9 +10,12 @@ export const Card = styled.div`
   flex-shrink: 0;
 `
 export const ContentContainer = styled.div`
+  width: calc(100% - 20px);
   display: flex;
   align-items: center;
   gap: 40px;
+
+  cursor: pointer;
 
   @media all and (max-width: 431px) {
     gap: 20px;

@@ -23,8 +23,8 @@ const ChatCard = ({ currentTab, onExitClick }: ChatCardProps) => {
     useNavigatChatRoom(currentTab)
 
   return (
-    <Card onClick={handleChatCardClick}>
-      <ContentContainer>
+    <Card>
+      <ContentContainer onClick={handleChatCardClick}>
         <ProfileWrap>
           <ProfileBedge
             width={3.125}
