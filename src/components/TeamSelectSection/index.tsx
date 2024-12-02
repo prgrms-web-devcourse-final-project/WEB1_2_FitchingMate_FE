@@ -9,7 +9,7 @@ interface TeamSelectSectionProps {
 const TeamSelectSection = ({ selectedTeam, setSelectedTeam }: TeamSelectSectionProps) => {
   return (
     <TeamSelectContainer>
-      {kboTeamList.map((team) => (
+      {kboTeamList.map(({ team }) => (
         <TeamCard
           key={team}
           team={team}
