@@ -1,6 +1,6 @@
 import React from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper/modules'
+import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
@@ -40,11 +40,15 @@ const MatchUpSection = () => {
       <Swiper
         spaceBetween={0}
         slidesPerView={1}
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
         pagination={{
           el: '.custom-pagination', // 커스텀 페이지네이션 컨테이너 설정
           clickable: true,
         }}
-        modules={[Pagination]}
+        modules={[Autoplay, Pagination]}
       >
         {matchData.map((match, index) => {
           const homeTeamColor = kboTeamInfo[match.homeTeam].color

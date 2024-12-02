@@ -6,24 +6,30 @@ import { useEffect, useState } from 'react'
 import { goodsReviewList, mateReviewList } from './mockData'
 import useFormattingDate from '@hooks/useFormattingDate'
 import SubHeader from '@layouts/SubHeader'
+import dayjs from 'dayjs'
 
 interface ReviewTypes {
-  review_id: number
-  visit_id: number
-  reviewer_name: string
-  review_content: string
+  postId: number
+  title: string
+  nickname: string
   rating: string
-  createdAt: string
+  content: string
+  created_at: string
 }
 
+const GOODS_REVIEW = '1'
+const MATE_REVIEW = '2'
+
 const ReviewPage = () => {
-  const GOODS_REVIEW = '1';
-  const MATE_REVIEW = '2';
-  
   const [selectedButton, setSelectedButton] = useState(GOODS_REVIEW)
   const [reviewDataList, setReviewDataList] = useState<ReviewTypes[] | null>(
     null,
   )
+
+  const formatDate = (created_at: string) => {
+    const date = dayjs(created_at)
+    return date.format('YYYY년 MM월 DD일')
+  }
 
   const decideRatingText = (rating: string) => {
     switch (rating) {
@@ -58,8 +64,8 @@ const ReviewPage = () => {
               { id: '2', text: '메이트 후기', disabled: false },
             ]}
             mode='radio'
-            defaultSelected='goods'
-            onSelect={onSelectButton}
+            defaultSelected={selectedButton}
+            onSelect={setSelectedButton}
           />
         </ReviewButtonWrap>
         <ReviewWrap>
@@ -68,9 +74,9 @@ const ReviewPage = () => {
               return (
                 <ReviewBox key={index}>
                   <span>{decideRatingText(data.rating)}</span>
-                  <p>{data.review_content}</p>
+                  <p>{data.content}</p>
                   <em>
-                    ㅎ{data.reviewer_name} · {useFormattingDate(data.createdAt)}
+                    {data.nickname} · {formatDate(data.created_at)}
                   </em>
                   <ReviewLinkBox>
                     <Link to={'/'}>
@@ -79,7 +85,7 @@ const ReviewPage = () => {
                           {selectedButton === '2' && '직관후기'}
                           {selectedButton === '1' && '굿즈거래'}
                         </span>
-                        <i>쁘띠 이대호 피규어 & 쁘띠 이대호 빠따</i>
+                        <i>{data.title}</i>
                       </div>
                       <LinkIcon />
                     </Link>

@@ -19,6 +19,7 @@ import LinkIcon from '@assets/icon/link.svg?react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import SubHeader from '@layouts/SubHeader'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 const ProfileMain = () => {
   const navigate = useNavigate()
@@ -122,21 +123,21 @@ const ProfileMain = () => {
 
         {/* 프로필 하단 이동 섹션 */}
         <ProfileLinkWrap>
-          <Link to={'/'}>
+          <Link to={ROUTE_PATH.REVIEW}>
             <span>후기 모아보기 16개</span>
             <LinkIcon />
           </Link>
-          <Link to={'/'}>
+          <Link to={ROUTE_PATH.GOODS_RECORD}>
             <span>굿즈 판매기록 16개</span>
             <LinkIcon />
           </Link>
           {isMyProfile ? (
             <>
-              <Link to={'/'}>
+              <Link to={ROUTE_PATH.GOODS_RECORD}>
                 <span>굿즈 구매기록 16개</span>
                 <LinkIcon />
               </Link>
-              <Link to={'/'}>
+              <Link to={ROUTE_PATH.TIMELINE}>
                 <span>직관 보관기록 16개</span>
                 <LinkIcon />
               </Link>
