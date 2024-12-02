@@ -107,3 +107,14 @@ export interface MateCardResponse {
   timestamp: string;
   code: number;
 }
+
+export interface TeamRanking {
+  id: number;
+  teamName: string;
+  rank: number;
+  gamesPlayed: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  gamesBehind: number;
+}

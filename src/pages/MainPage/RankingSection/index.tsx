@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   RankingContainer,
   RankingTable,
@@ -8,61 +8,42 @@ import {
 } from './style';
 import { kboTeamInfo } from '@constants/kboInfo';
 import fetchApi from '@apis/ky';
+import { QUERY_KEY } from '@apis/queryClient';
+import { TeamRanking } from '@typings/db';
+import { formatTeamName } from '@utils/formatTeamName';
 
-interface TeamRanking {
-  id: number;
-  teamName: string;
-  rank: number;
-  gamesPlayed: number;
-  totalGames: number;
-  wins: number;
-  draws: number;
-  losses: number;
-  gamesBehind: number;
-}
+const fetchTeamRankings = async (): Promise<TeamRanking[]> => {
+  const response = await fetchApi.get('teams/rankings').json<{
+    status: string;
+    data: TeamRanking[];
+  }>();
+
+  if (response.status !== 'SUCCESS') {
+    throw new Error('데이터를 불러오지 못했습니다.');
+  }
+
+  return response.data;
+};
 
 const RankingSection = () => {
-  const [rankings, setRankings] = useState<TeamRanking[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const currentYear = new Date().getFullYear();
 
-  useEffect(() => {
-    const fetchRankings = async () => {
-      try {
-        setLoading(true);
-        const response = await fetchApi.get('teams/rankings').json<{
-          status: string;
-          data: TeamRanking[];
-        }>();
+  const { data: rankings = [], isLoading, isError } = useQuery({
+    queryKey: [QUERY_KEY.RANKINGS],
+    queryFn: fetchTeamRankings,
+    staleTime: 60000, // 1분 동안 데이터 재검증하지 않음
+  });
 
-        console.log('API Response:', response);
-
-        if (response.status === 'SUCCESS') {
-          setRankings(response.data); // 데이터 상태 업데이트
-        } else {
-          throw new Error('데이터를 불러오지 못했습니다.');
-        }
-      } catch (err: any) {
-        setError(err.message || '알 수 없는 오류가 발생했습니다.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRankings();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <RankingContainer>로딩 중...</RankingContainer>;
   }
 
-  if (error) {
-    return <RankingContainer>에러: {error}</RankingContainer>;
+  if (isError) {
+    return <RankingContainer><p className='error'>데이터를 불러오는 중 문제가 발생했습니다.</p></RankingContainer>;
   }
 
   if (!rankings.length) {
-    return <RankingContainer>순위 데이터를 찾을 수 없습니다.</RankingContainer>;
+    return <RankingContainer><p className='error'>순위 데이터를 찾을 수 없습니다.</p></RankingContainer>;
   }
 
   return (
@@ -96,7 +77,9 @@ const RankingSection = () => {
               losses,
               gamesBehind,
             }) => {
-              const TeamLogoComponent = kboTeamInfo[teamName]?.logo;
+              const formattedTeamName = formatTeamName(teamName); // 팀 이름 포맷
+              const TeamLogoComponent = kboTeamInfo[formattedTeamName]?.logo;
+
               return (
                 <tr key={id}>
                   <td className="rank">{rank}</td>
