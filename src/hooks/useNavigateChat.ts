@@ -1,27 +1,23 @@
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ChatType } from '@pages/ChatPage'
 
 const useNavigateChat = () => {
-  const [currentTab, setCurrentTab] = useState<ChatType | null>(null)
+  const [searchParams, setSearchParams] = useSearchParams()
   const navigate = useNavigate()
 
-  const [searchParams] = useSearchParams()
-  const type = searchParams.get('type')
+  const currentTab = searchParams.get('type') as ChatType
 
+  // 최초 진입시 메이트 채팅탭으로 이동
   useEffect(() => {
-    if (type === null) {
-      navigate(ROUTE_PATH.CHAT_MATE)
-    } else {
-      navigate(`${ROUTE_PATH.CHAT}?type=${type}`)
-      setCurrentTab(type as ChatType)
+    if (currentTab === null) {
+      setSearchParams({ type: '메이트' })
     }
-  }, [type])
+  }, [currentTab])
 
   const handleTabClick = (tab: ChatType) => {
-    navigate(`${ROUTE_PATH.CHAT}?type=${tab}`)
-    setCurrentTab(tab)
+    setSearchParams({ type: tab })
   }
 
   const handleChatCardClick = () => {
