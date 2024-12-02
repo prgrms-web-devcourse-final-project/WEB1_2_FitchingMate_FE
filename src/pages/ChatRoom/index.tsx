@@ -5,10 +5,14 @@ import GeneralChatRoom from './Rooms/GeneralChatRoom'
 import SubHeader from '@layouts/SubHeader'
 
 import useCurrentChatRoom from '@hooks/useCurrentChatRoom'
-export type ChatType = '메이트' | '굿즈' | '일반' | null
+import { Navigate } from 'react-router-dom'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+export type ChatType = '메이트' | '굿즈' | '일반'
 
 const ChatRoom = () => {
   const currentChatType = useCurrentChatRoom()
+
+  if (currentChatType === null) return <Navigate to={ROUTE_PATH.CHAT} />
 
   return (
     <ChatRoomContainer>
