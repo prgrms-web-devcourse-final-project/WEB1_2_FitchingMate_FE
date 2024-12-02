@@ -1,5 +1,5 @@
 export const ROUTE_PATH = {
-  HOME: '/',
+  HOME: '/main',
   MYTEAM: '/myteam',
   MATE_LIST: '/mate-list',
   MATE_POSTING: '/mate-posting',

@@ -14,7 +14,7 @@ import SignupPage from '@pages/LoginPage/SignupPage'
 import MyTeamPage from '@pages/MyTeamPage'
 import MateDetailPage from '@pages/MateDetailPage'
 import MainPage from '@pages/MainPage'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import GoodsDetailPage from '@pages/GoodsDetailPage'
 import GoodsListPage from '@pages/GoodsListPage'
 import FollowPage from '@pages/FollowPage'
@@ -30,6 +30,15 @@ const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<GlobalLayout />}>
+        <Route
+          path='/'
+          element={
+            <Navigate
+              to={ROUTE_PATH.HOME}
+              replace
+            />
+          }
+        />
         <Route
           path={ROUTE_PATH.HOME}
           element={<MainPage />}
