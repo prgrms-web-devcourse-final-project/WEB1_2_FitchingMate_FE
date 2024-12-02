@@ -10,39 +10,33 @@ type SearchResult = kakao.maps.services.PlacesSearchResultItem
 
 const SecondTab = () => {
   // 위치 검색 관리
-  const {
-    keyword,
-    setKeyword,
-    searchResultList,
-    searchLocation,
-    setSearchLocation,
-  } = useLocationSearch()
+  const { location, searchResultList, setLocation } = useLocationSearch()
+  const { placeName } = location
 
   // 드롭다운 상태 관리
   const { dropMenuState, setDropMenuState, dropMenuRef } = useDropdownMenu()
 
   const handleKeywordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDropMenuState(true)
-    setKeyword(e.target.value)
+    const { value } = e.target
+
+    setLocation({ ...location, placeName: value })
   }
 
   const handleResultCardClick = (searchResult: SearchResult) => {
-    const { x, y } = searchResult
-    setSearchLocation({ x: Number(x), y: Number(y) })
+    const { x, y, place_name } = searchResult
 
-    setKeyword(searchResult.place_name)
+    setLocation({
+      placeName: place_name,
+      latitude: y,
+      longitude: x,
+    })
+
     setDropMenuState(false)
   }
 
   const handleInputFocus = () => {
     setDropMenuState(true)
   }
-
-  const mapContent = searchLocation ? (
-    <KakaoMap searchLocation={searchLocation} />
-  ) : (
-    <p>거래할 위치를 선택해주세요</p>
-  )
 
   return (
     <MapSectionContainer>
@@ -60,7 +54,7 @@ const SecondTab = () => {
             type='text'
             onChange={handleKeywordChange}
             onFocus={handleInputFocus}
-            value={keyword}
+            value={placeName}
           />
           {dropMenuState && (
             <ResultList
@@ -70,7 +64,13 @@ const SecondTab = () => {
           )}
         </LocationSearchSection>
       </QuestionSection>
-      <MapSection>{mapContent}</MapSection>
+      <MapSection>
+        {location.latitude && location.longitude ? (
+          <KakaoMap location={location} />
+        ) : (
+          <p>거래할 위치를 선택해주세요</p>
+        )}
+      </MapSection>
     </MapSectionContainer>
   )
 }

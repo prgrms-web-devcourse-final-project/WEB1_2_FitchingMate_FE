@@ -2,7 +2,7 @@ import ImageInput from '@components/ImageInput'
 import { QuestionSection } from '../../FirstTab/style'
 import { ImageConainer } from '../style'
 import { useMateFormStore } from '@store/useMateFormStore'
-import ImageCard from '@pages/GoodsPostingPage/Tabs/FirstTab/ImageSection/ImageCard'
+import { ImageCardContainer } from '@pages/GoodsPostingPage/Tabs/FirstTab/ImageSection/ImageCard/style'
 
 const MAX_IMAGE_COUNT = 1
 
@@ -29,10 +29,16 @@ const ImageSection = () => {
           currentCount={img ? 1 : 0}
           onChangeImage={handleImageChange}
         />
-        <ImageCard
-          image={img}
-          oneDeleteImage={handleDeleteImage}
-        />
+
+        {img && (
+          <ImageCardContainer>
+            <img
+              src={URL.createObjectURL(img)}
+              alt='선택된 이미지'
+            />
+            <button onClick={handleDeleteImage}>X</button>
+          </ImageCardContainer>
+        )}
       </ImageConainer>
     </QuestionSection>
   )

@@ -1,16 +1,17 @@
 import { create } from 'zustand'
-import { GoodsPost, Location } from '@typings/db'
+import { GoodsPost, Location } from '@typings/postForm'
 
 interface GoodsFormStore {
   goods: GoodsPost
+  imageList: File[] | []
 
   setTeamId: (teamId: number | null) => void
   setTitle: (title: string) => void
   setCategory: (category: string) => void
   setContent: (content: string) => void
-  setPrice: (price: number | null) => void
+  setPrice: (price: string) => void
   setLocation: (location: Location) => void
-  setImageList: (imageList: File[] | null) => void
+  setImageList: (imageList: File[] | []) => void
 }
 
 export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
@@ -19,10 +20,10 @@ export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
     title: '',
     category: '',
     content: '',
-    price: null,
+    price: '',
     location: { latitude: null, longitude: null, placeName: '' },
-    imageList: null,
   },
+  imageList: [],
 
   setTeamId: (teamId) =>
     set((state) => ({ goods: { ...state.goods, teamId } })),
@@ -34,6 +35,5 @@ export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
   setPrice: (price) => set((state) => ({ goods: { ...state.goods, price } })),
   setLocation: (location) =>
     set((state) => ({ goods: { ...state.goods, location } })),
-  setImageList: (imageList) =>
-    set((state) => ({ goods: { ...state.goods, imageList } })),
+  setImageList: (imageList) => set(() => ({ imageList })),
 }))

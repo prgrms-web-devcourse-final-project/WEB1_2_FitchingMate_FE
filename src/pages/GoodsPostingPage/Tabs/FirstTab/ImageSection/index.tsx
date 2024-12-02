@@ -4,7 +4,7 @@ import ImageCard from './ImageCard'
 import ImageInput from '@components/ImageInput'
 import useImageChange from '@hooks/useImageChange'
 
-const MAX_IMAGE_COUNT = 15
+const MAX_IMAGE_COUNT = 10
 
 const ImageSection = () => {
   const { imageList, onChangeImage, onDeleteImage, ...restDragHandler } =
@@ -29,7 +29,7 @@ const ImageSection = () => {
             image={image}
             index={index}
             {...restDragHandler}
-            oneDeleteImage={onDeleteImage}
+            onDeleteImage={() => onDeleteImage(index)}
           />
         ))}
       </ImageList>

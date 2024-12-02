@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { MatePost } from '@typings/db'
+import { MatePost } from '@typings/postForm'
 
 interface MateFormStore {
   matePost: MatePost
@@ -52,7 +52,7 @@ export const useMateFormStore = create<MateFormStore>((set) => ({
     set((state) => ({ matePost: { ...state.matePost, gender } })),
   setTransportation: (transportType) =>
     set((state) => ({ matePost: { ...state.matePost, transportType } })),
-  setImg: (img) => set((state) => ({ matePost: { ...state.matePost, img } })),
+  setImg: (img) => set(() => ({ img })),
   setTeamId: (teamId) =>
     set((state) => ({ matePost: { ...state.matePost, teamId } })),
 }))
