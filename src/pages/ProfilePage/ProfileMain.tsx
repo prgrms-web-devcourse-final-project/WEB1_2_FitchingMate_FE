@@ -17,12 +17,22 @@ import GlobalButton from '@components/GlobalButton'
 import MannerIcon from '@assets/icon/baseball.svg?react'
 import LinkIcon from '@assets/icon/link.svg?react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SubHeader from '@layouts/SubHeader'
+
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const ProfileMain = () => {
   const navigate = useNavigate()
   const [isMyProfile, setIsMyProfile] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 2000)
+  }, [])
 
   const onNavigateEdit = () => {
     navigate('/profile/edit')
@@ -38,13 +48,23 @@ const ProfileMain = () => {
         {/* 프로필 상단 섹션 */}
         <ProfileTopWrap>
           <ProfileEditWrap>
-            <ProfileBedge
-              width={6.25}
-              height={6.25}
-              imageSrc='https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20240206075441_1b54f931528a9d36c98db236a5e19d74.jpg'
-              myTeam={'KIA'}
-            />
-            <ProfileUserNickname>빌터</ProfileUserNickname>
+            {isLoading ? (
+              <Skeleton
+                circle
+                width={'6.25em'}
+                height={'6.25em'}
+              />
+            ) : (
+              <ProfileBedge
+                width={6.25}
+                height={6.25}
+                imageSrc='https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20240206075441_1b54f931528a9d36c98db236a5e19d74.jpg'
+                myTeam={'KIA'}
+              />
+            )}
+            <ProfileUserNickname>
+              {isLoading ? <Skeleton /> : '빌터'}
+            </ProfileUserNickname>
             <input
               type='file'
               name=''
