@@ -1,15 +1,14 @@
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import { useQuery } from '@tanstack/react-query'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
 
-import fetchApi from '@apis/ky';
-import { QUERY_KEY } from '@apis/queryClient';
-import { Match } from '@typings/db';
-import { formatMatchTime } from '@utils/formatDate';
-
+import fetchApi from '@apis/ky'
+import { QUERY_KEY } from '@apis/queryClient'
+import { Match } from '@typings/db'
+import { formatMatchTime } from '@utils/formatDate'
+import { ErrorContainer } from '../ResultSection/ResultList/style'
 import {
   GameDatetimeLocation,
   TeamVersus,
@@ -18,34 +17,41 @@ import {
   Weather,
   MatchUpContainer,
   PaginationContainer,
-} from './style';
-import { kboTeamInfo } from '@constants/kboInfo';
+} from './style'
+import { kboTeamInfo } from '@constants/kboInfo'
 
 interface MatchUpSectionProps {
-  selectedTeam: string;
+  selectedTeam: string
 }
 
 const fetchMatches = async (teamId: number | null): Promise<Match[]> => {
-  const endpoint =
-    teamId === null
-      ? 'matches/main'
-      : `matches/team/${teamId}`;
-  const response: any = await fetchApi.get(endpoint).json();
-  console.log('매치업', `${import.meta.env.VITE_API_ENDPOINT}${endpoint}`, response);
-  return response.data;
-};
+  const endpoint = teamId === null ? 'matches/main' : `matches/team/${teamId}`
+  const response: any = await fetchApi.get(endpoint).json()
+  console.log(
+    '매치업',
+    `${import.meta.env.VITE_API_ENDPOINT}${endpoint}`,
+    response,
+  )
+  return response.data
+}
 
 const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
-  const teamId = selectedTeam === '전체' ? null : kboTeamInfo[selectedTeam].id;
+  const teamId = selectedTeam === '전체' ? null : kboTeamInfo[selectedTeam].id
 
   const { data: matches = [], isLoading } = useQuery({
     queryKey: [QUERY_KEY.WEEKLY_MATCH, teamId],
     queryFn: () => fetchMatches(teamId),
     enabled: !!teamId || selectedTeam === '전체',
-  });
+  })
 
   if (isLoading) {
-    return <div>로딩 중...</div>;
+    return <div>로딩 중...</div>
+  }
+
+  if (matches.length === 0) {
+    return (
+      <ErrorContainer>{`${kboTeamInfo[selectedTeam]?.team}의 매치업 데이터가 없습니다.`}</ErrorContainer>
+    )
   }
 
   return (
@@ -65,14 +71,18 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
       >
         {matches.map((match) => {
           // 팀 ID를 기반으로 kboTeamInfo에서 데이터 조회
-          const homeTeamData = Object.values(kboTeamInfo).find((team) => team.id === match.homeTeam.id);
-          const awayTeamData = Object.values(kboTeamInfo).find((team) => team.id === match.awayTeam.id);
+          const homeTeamData = Object.values(kboTeamInfo).find(
+            (team) => team.id === match.homeTeam.id,
+          )
+          const awayTeamData = Object.values(kboTeamInfo).find(
+            (team) => team.id === match.awayTeam.id,
+          )
 
-          const HomeTeamLogo = homeTeamData?.logo;
-          const AwayTeamLogo = awayTeamData?.logo;
+          const HomeTeamLogo = homeTeamData?.logo
+          const AwayTeamLogo = awayTeamData?.logo
 
-          const homeTeamColor = homeTeamData?.color || '#ccc';
-          const awayTeamColor = awayTeamData?.color || '#ccc';
+          const homeTeamColor = homeTeamData?.color || '#ccc'
+          const awayTeamColor = awayTeamData?.color || '#ccc'
 
           return (
             <SwiperSlide key={match.id}>
@@ -86,26 +96,42 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
                   </span>
                 </GameDatetimeLocation>
                 <TeamVersus>
-                  <div>{HomeTeamLogo && <HomeTeamLogo width={50} height={50} />}</div>
+                  <div>
+                    {HomeTeamLogo && (
+                      <HomeTeamLogo
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                  </div>
                   <span>vs</span>
-                  <div>{AwayTeamLogo && <AwayTeamLogo width={50} height={50} />}</div>
+                  <div>
+                    {AwayTeamLogo && (
+                      <AwayTeamLogo
+                        width={50}
+                        height={50}
+                      />
+                    )}
+                  </div>
                 </TeamVersus>
                 <LocationWeather>
                   <UpdateInfo>
-                    {match.location} ({formatMatchTime(match.weather.wtTime)} 기준)
+                    {match.location} ({formatMatchTime(match.weather.wtTime)}{' '}
+                    기준)
                   </UpdateInfo>
                   <Weather>
-                    {match.weather.temperature}°C, {match.weather.pop}% 강수 확률
+                    {match.weather.temperature}°C, {match.weather.pop}% 강수
+                    확률
                   </Weather>
                 </LocationWeather>
               </MatchUpContainer>
             </SwiperSlide>
-          );
+          )
         })}
       </Swiper>
-      <PaginationContainer className="custom-pagination" />
+      <PaginationContainer className='custom-pagination' />
     </>
-  );
-};
+  )
+}
 
-export default MatchUpSection;
+export default MatchUpSection

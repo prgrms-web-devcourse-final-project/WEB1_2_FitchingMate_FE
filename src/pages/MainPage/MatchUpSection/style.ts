@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { theme } from '@styles/theme';
 
+export const ErrorContainer = styled.div`
+  padding: 20px;
+  text-align: center;
+`
+
 export const MatchUpContainer = styled.div<{
   $homeColor: string; // transient prop
   $awayColor: string; // transient prop
