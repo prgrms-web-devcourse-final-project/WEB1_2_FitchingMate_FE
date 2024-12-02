@@ -1,7 +1,7 @@
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
 
 const useImageChange = (maxLength: number) => {
-  const imageList = useGoodsFormStore((state) => state.goods.imageList)
+  const imageList = useGoodsFormStore((state) => state.imageList)
   const setImageList = useGoodsFormStore((state) => state.setImageList)
 
   const onChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +19,7 @@ const useImageChange = (maxLength: number) => {
     setImageList([...imageList, ...currentImageList])
   }
 
-  const onDeleteImage = async (index: number) => {
+  const onDeleteImage = (index: number) => {
     const newImageList = imageList.filter((_, i) => i !== index)
 
     setImageList(newImageList)
