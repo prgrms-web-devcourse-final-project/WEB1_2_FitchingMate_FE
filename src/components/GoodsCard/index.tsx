@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CardBedgeWrap,
   CardContainer,
@@ -9,9 +9,9 @@ import {
   CardTitle,
   PlaceholderWrap,
 } from './style'
-import { useState } from 'react'
 import CardBedge from '@components/CardBedge'
 import Placeholder from '@assets/default/placeholder.svg?react'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 interface GoodsCardPropsType {
   imgSrc?: string
@@ -30,9 +30,12 @@ const GoodsCard = ({
 }: GoodsCardPropsType) => {
   const hasImg = imgSrc ? true : false
 
+  const navigate = useNavigate()
+
   return (
-    <Link to='/'>
-      <CardContainer>
+    // 경로는 추후 수정 필요
+    <Link to={ROUTE_PATH.GOODS_DETAIL}>
+      <CardContainer onClick={() => navigate(ROUTE_PATH.GOODS_DETAIL)}>
         <CardImageWrap>
           {hasImg ? (
             <CardImage
