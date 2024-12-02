@@ -76,6 +76,15 @@ export interface GoodsListResponse {
   timestamp: string
   code: number
 }
+export interface GoodsPostSummary {
+  id: number;
+  teamName: string;
+  title: string;
+  category: string;
+  price: number;
+  imageUrl: string | null;
+}
+
 export interface MateCardData {
   imageUrl: string | null;
   title: string;
