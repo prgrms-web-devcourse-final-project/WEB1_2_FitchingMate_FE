@@ -16,6 +16,7 @@ export const QUERY_KEY = {
   WEEKLY_MATCH: 'weeklyMatch',
   GOODS_LIST: 'goodsList',
   MATE_POST: 'matePost',
+  USER_INFO: 'userInfo',
   RANKINGS: 'rankings',
   COMPLETED_MATCHES: 'completedMatches',
 }
