@@ -8,6 +8,7 @@ import { SubmitContainer, SubmitForm, SubmitTitle } from './style'
 import ProgressSection from '@components/ProgressSection'
 
 import useSubmitMatePost from '@hooks/useSubmitMatePost'
+import SubHeader from '@layouts/SubHeader'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보
@@ -34,6 +35,11 @@ const matePostingComponents = [
   new TabModel(<ThirdTab />, '어떤 직관 모임을 만들까요?'),
 ]
 
+type CategoryList =
+  | typeof FIRST_TAB_VALID_KEYS
+  | typeof SECOND_TAB_VALID_KEYS
+  | typeof THIRD_TAB_VALID_KEYS
+
 const MatePostingPage = () => {
   // 추후 에러 처리 필요
   const { handleSubmit, matePost, isPending, isError, error } =
@@ -44,12 +50,8 @@ const MatePostingPage = () => {
     initialTab: 0,
   })
 
-  const validateTab = (
-    keys:
-      | typeof FIRST_TAB_VALID_KEYS
-      | typeof SECOND_TAB_VALID_KEYS
-      | typeof THIRD_TAB_VALID_KEYS,
-  ) => keys.some((key) => !matePost[key])
+  const validateTab = (categoryList: CategoryList) =>
+    categoryList.some((category) => !matePost[category])
 
   const currentTabDisabled = [
     validateTab(FIRST_TAB_VALID_KEYS),
@@ -58,24 +60,30 @@ const MatePostingPage = () => {
   ]
 
   return (
-    <SubmitContainer>
-      {/* 최상단 타이틀 영역 */}
-      <SubmitTitle>{currentTab.title}</SubmitTitle>
-
-      {/* 직관 모임 등록 폼 영역 */}
-
-      <SubmitForm onSubmit={(e) => e.preventDefault()}>
-        {currentTab.content}
-        {/* 직관 모임 등록 프로세스 영역 */}
-      </SubmitForm>
-
-      <ProgressSection
-        selectedTab={selectedTab}
-        isDisabled={currentTabDisabled[selectedTab]}
-        handleSubmit={handleSubmit}
-        {...restTabInfo}
+    <>
+      <SubHeader
+        left='back'
+        center='메이트 구인하기'
       />
-    </SubmitContainer>
+      <SubmitContainer>
+        {/* 최상단 타이틀 영역 */}
+        <SubmitTitle>{currentTab.title}</SubmitTitle>
+
+        {/* 직관 모임 등록 폼 영역 */}
+
+        <SubmitForm onSubmit={(e) => e.preventDefault()}>
+          {currentTab.content}
+          {/* 직관 모임 등록 프로세스 영역 */}
+        </SubmitForm>
+
+        <ProgressSection
+          selectedTab={selectedTab}
+          isDisabled={currentTabDisabled[selectedTab]}
+          handleSubmit={handleSubmit}
+          {...restTabInfo}
+        />
+      </SubmitContainer>
+    </>
   )
 }
 

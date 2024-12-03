@@ -37,22 +37,6 @@ export interface WeeklyMatchListResponse {
   message: string | null
 }
 
-export interface GoodsPost {
-  memberId: number | null
-  teamId: number | null
-  title: string
-  content: string
-  age: string
-  maxParticipants: string
-  gender: string
-  transportType: string
-  matchId: number | null
-}
-
-export interface GoodsForm {
-  data: GoodsPost
-  file: File | null
-}
 export interface Goods {
   id: number
   teamName: string

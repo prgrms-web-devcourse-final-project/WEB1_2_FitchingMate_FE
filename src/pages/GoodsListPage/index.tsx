@@ -3,10 +3,13 @@ import { FilterWrap, GoodsCardWrap, TeamSelectWrap } from './style'
 import PillButtonList from '@components/PillButtonList'
 import GoodsCard from '@components/GoodsCard'
 import goodsService from '@apis/goodsService'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FilterButtonList } from './constants'
 import { content } from './mockData'
 import { useQuery } from '@tanstack/react-query'
+import { GlobalFloatAside, GlobalFloatButton } from '@styles/globalStyle'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import FloatButton from '@components/FloatButton'
 
 const GoodsListPage = () => {
   const [selectedCategory, setSelectedCategory] = useState('1')
@@ -43,6 +46,7 @@ const GoodsListPage = () => {
           )
         })}
       </GoodsCardWrap>
+      <FloatButton path={ROUTE_PATH.GOODS_POSTING} />
     </section>
   )
 }

@@ -21,6 +21,8 @@ interface GoodsCardProps {
 const GoodsCard = ({ card }: GoodsCardProps) => {
   const { teamName, title, category, price, imageUrl } = card;
 
+  const navigate = useNavigate()
+
   return (
     <Link
       to={`${ROUTE_PATH.GOODS_DETAIL}/${card.id}`}
