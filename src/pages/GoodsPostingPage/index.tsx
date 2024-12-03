@@ -9,30 +9,44 @@ import SecondTab from './Tabs/SecondTab'
 import TabModel from '@utils/Model/tabModel'
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
 import SubHeader from '@layouts/SubHeader'
+import useSubmitGoodsPost from '@hooks/useSubmitGoodsPost'
 
 const goodsPostingComponents = [
   new TabModel(<FirstTab />),
   new TabModel(<SecondTab />),
 ]
 
+const FIRST_TAB_VALID_KEYS = [
+  'teamId',
+  'category',
+  'content',
+  'price',
+  'title',
+] as const
+
+const SECOND_TAB_VALID_KEYS = ['location'] as const
+
+type CategoryList = typeof FIRST_TAB_VALID_KEYS | typeof SECOND_TAB_VALID_KEYS
+
 const GoodsPostingPage = () => {
-  const { currentTab, ...restTabInfo } = useTabs({
+  const {
+    goods,
+    goods: { location },
+  } = useGoodsFormStore()
+  const { handleSubmit, isPending, isError, error } = useSubmitGoodsPost()
+
+  const { currentTab, selectedTab, ...restTabInfo } = useTabs({
     components: goodsPostingComponents,
     initialTab: 0,
   })
 
-  if (!currentTab) return null
+  const validateTab = (categoryList: CategoryList) =>
+    categoryList.some((category) => !goods[category])
 
-  const { goods } = useGoodsFormStore()
-
-  const { title, content, price, category, location } = goods
-
-  const isDisabled = !title || !content || !price || !category
-
-  const handleSubmit = () => {
-    console.log('submit')
-    console.log(goods)
-  }
+  const currentTabDisabled = [
+    validateTab(FIRST_TAB_VALID_KEYS),
+    !location.latitude || !location.longitude,
+  ]
 
   return (
     <>
@@ -49,7 +63,8 @@ const GoodsPostingPage = () => {
         {/* 직관 모임 등록 프로세스 영역 */}
         <ProgressSection
           {...restTabInfo}
-          isDisabled={isDisabled || location === null}
+          selectedTab={selectedTab}
+          isDisabled={currentTabDisabled[selectedTab]}
           handleSubmit={handleSubmit}
         />
       </SubmitContainer>

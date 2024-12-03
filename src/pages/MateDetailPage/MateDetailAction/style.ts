@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { theme } from "@styles/theme";
 
 export const MateDetailActionContainer = styled.div`
+  
   margin-top: 1em;
 `;
 
@@ -15,6 +16,7 @@ export const Notice = styled.div`
 
 export const ActionSection = styled.div`
   display: flex;
+  min-height: 4.5em;
   justify-content: space-between;
   align-items: center;
   padding: 1em 1.25em;
@@ -47,3 +49,5 @@ export const ActionButton = styled.div`
     }
   }
 `;
+
+

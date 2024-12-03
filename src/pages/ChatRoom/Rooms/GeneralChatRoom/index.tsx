@@ -8,7 +8,7 @@ import ChatCard from '../../ChatCard'
 
 import { useModal } from '@hooks/useModal'
 import GeneralModalContent from './GeneralModalContent'
-import ALERT_MESSAGE, { AlertMessageObject } from '@constants/alertMessage'
+import ALERT_MESSAGE from '@constants/alertMessage'
 import { ChatType } from '@pages/ChatPage'
 
 const GeneralChatRoom = ({
@@ -19,7 +19,7 @@ const GeneralChatRoom = ({
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
-  const currentAlertMessage = ALERT_MESSAGE.CHAT_EXIT as AlertMessageObject
+  const currentAlertMessage = ALERT_MESSAGE.CHAT_EXIT
 
   const handleAlertAction = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -28,7 +28,7 @@ const GeneralChatRoom = ({
 
   return (
     <>
-      <ChatCardContainer>
+      <ChatCardContainer $isGeneral={true}>
         <ChatCard isUserChat={true} />
         <ChatCard isUserChat={true} />
         <ChatCard isUserChat={true} />

@@ -11,6 +11,7 @@ import { CHAT_TAB_LIST } from '../index'
 
 import ProfileBedge from '@components/ProfileBedge'
 import ChatExit from '@assets/icon/exit_line.svg?react'
+import useNavigatChatRoom from '@hooks/useNavigatChatRoom'
 
 interface ChatCardProps {
   currentTab: (typeof CHAT_TAB_LIST)[number]
@@ -18,12 +19,12 @@ interface ChatCardProps {
 }
 
 const ChatCard = ({ currentTab, onExitClick }: ChatCardProps) => {
-  const isGoods = currentTab === '굿즈'
-  const isGeneral = currentTab === '일반'
+  const { handleChatCardClick, isGoods, isGeneral } =
+    useNavigatChatRoom(currentTab)
 
   return (
     <Card>
-      <ContentContainer>
+      <ContentContainer onClick={handleChatCardClick}>
         <ProfileWrap>
           <ProfileBedge
             width={3.125}
