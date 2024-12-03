@@ -7,17 +7,40 @@ interface TeamSelectSectionProps {
   onSelectTeam: (team: number) => void
 }
 
+const KBO_NUMBER = 0
+
 const TeamSelectSection = ({
   selectedTeam,
   onSelectTeam,
 }: TeamSelectSectionProps) => {
+  const [kbo, ...restTeamList] = kboTeamList
+
+  const KboLogo = kboTeamInfo[kbo.team].logo
+
   const handleTeamChange = (team: number) => {
     onSelectTeam(team)
   }
 
   return (
     <TeamSelectContainer>
-      {kboTeamList.map(({ team }) => (
+      <Card
+        onClick={() => onSelectTeam(KBO_NUMBER)}
+        $isSelected={selectedTeam === KBO_NUMBER}
+      >
+        {selectedTeam === KBO_NUMBER ? (
+          <KboWhiteLogo
+            width={50}
+            height={50}
+          />
+        ) : (
+          <KboLogo
+            width={50}
+            height={50}
+          />
+        )}
+      </Card>
+
+      {restTeamList.map((team) => (
         <TeamCard
           key={team.id}
           teamInfo={team}
@@ -45,14 +68,13 @@ const TeamCard = ({
   onHandleTeamChange,
 }: TeamCardProps) => {
   const { team } = teamInfo
-
   const Logo = kboTeamInfo[team].logo
   const isSelected = currentTeam === teamInfo.id
 
   return (
     <Card
       onClick={() => onHandleTeamChange(teamInfo.id)}
-      $isselected={isSelected}
+      $isSelected={isSelected}
     >
       <Logo
         width={50}

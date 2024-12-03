@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   CardBedgeWrap,
   CardContainer,
@@ -11,22 +11,15 @@ import {
 } from './style'
 import CardBedge from '@components/CardBedge'
 import Placeholder from '@assets/default/placeholder.svg?react'
+import { GoodsPostSummary } from '@typings/db'
+import { formatPriceWithComma } from '@utils/formatPrice'
 
 interface GoodsCardProps {
-  card: GoodsPostSummary;
+  card: GoodsPostSummary
 }
 
 const GoodsCard = ({ card }: GoodsCardProps) => {
-  const { teamName, title, category, price, imageUrl } = card;
-const GoodsCard = ({
-  imgSrc = '',
-  title = '',
-  teamName = '',
-  category = '',
-  price = 0,
-  id = 0,
-}: GoodsCardPropsType) => {
-  const hasImg = imgSrc ? true : false
+  const { id, teamName, title, category, price, imageUrl } = card
 
   const currentPath = `/goods-detail/${id}`
 
@@ -35,7 +28,11 @@ const GoodsCard = ({
       <CardContainer>
         <CardImageWrap>
           {imageUrl ? (
-            <CardImage src={imageUrl} alt={title} loading="lazy" />
+            <CardImage
+              src={imageUrl}
+              alt={title}
+              loading='lazy'
+            />
           ) : (
             <PlaceholderWrap>
               <Placeholder />
@@ -48,11 +45,11 @@ const GoodsCard = ({
             <CardBedge text={teamName} />
             <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>{price}원</CardPrice>
+          <CardPrice>{formatPriceWithComma(price)}원</CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>
-  );
-};
+  )
+}
 
-export default GoodsCard;
+export default GoodsCard

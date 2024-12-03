@@ -39,19 +39,12 @@ const GoodsListPage = () => {
         ))}
       </FilterWrap>
       <GoodsCardWrap>
-        {data?.content.map(
-          ({ id, imageUrl, title, teamName, category, price }) => (
-            <GoodsCard
-              key={id}
-              id={id}
-              imgSrc={imageUrl}
-              title={title}
-              teamName={teamName}
-              category={category}
-              price={price}
-            />
-          ),
-        )}
+        {data?.content.map((teamInfo) => (
+          <GoodsCard
+            key={teamInfo.id}
+            card={teamInfo}
+          />
+        ))}
       </GoodsCardWrap>
       <FloatButton path={ROUTE_PATH.GOODS_POSTING} />
     </section>

@@ -3,7 +3,6 @@ import { ModalDialog } from './style'
 
 interface ModalPropTypes {
   children: React.ReactNode
-  ref: HTMLDialogElement
 }
 
 const BottomModal = forwardRef<HTMLDialogElement, ModalPropTypes>(

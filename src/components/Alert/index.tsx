@@ -17,9 +17,13 @@ const Alert = forwardRef<HTMLDialogElement, AlertPropTypes>(
 
     const closeModal = async (e: React.MouseEvent) => {
       e.stopPropagation()
+      ref.current?.close() // 모달 닫기
+    }
+
+    const handleClickActionButton = async (e: React.MouseEvent) => {
+      closeModal(e)
 
       await handleAlertClick?.()
-      ref.current?.close() // 모달 닫기
     }
 
     return (
@@ -33,6 +37,7 @@ const Alert = forwardRef<HTMLDialogElement, AlertPropTypes>(
           <GlobalButton
             $isNavy={true}
             text={actionText}
+            onClick={handleClickActionButton}
           />
           <GlobalButton
             text={cancelText}
