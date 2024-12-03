@@ -59,6 +59,13 @@ const ALERT_MESSAGE = {
     actionText: '제외하기',
     cancelText: '취소',
   }),
+
+  DELETE_POST: {
+    title: '게시글 삭제',
+    notice: '게시글을 삭제하시겠습니까?',
+    actionText: '삭제하기',
+    cancelText: '취소',
+  },
 }
 
 export type AlertMessage = keyof typeof ALERT_MESSAGE
