@@ -8,15 +8,14 @@ import {
 
 import PillButton from '@components/PillButton'
 import BottomModal from '@components/BottomModal'
-import useTeamDialog from '@hooks/useTeamDialog'
 import MateFilterOptions from './MateFilterOptions'
-import MateCard from '@components/MateCard'
 
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import FloatButton from '@components/FloatButton'
+import { useModal } from '@hooks/useModal'
 
 const MateListPage = () => {
-  const { bottomModalRef, handleClickSelectButton } = useTeamDialog()
+  const { bottomModalRef, handleOpenBottomModal } = useModal()
 
   return (
     <section>
@@ -27,7 +26,7 @@ const MateListPage = () => {
         <FilterModalButton>
           <PillButton
             text='필터'
-            onClick={handleClickSelectButton}
+            onClick={handleOpenBottomModal}
           />
         </FilterModalButton>
         <FilterSelectOptionWrap>
@@ -36,14 +35,14 @@ const MateListPage = () => {
         </FilterSelectOptionWrap>
       </FilterWrap>
       <div>
+        {/* <MateCard />
         <MateCard />
         <MateCard />
         <MateCard />
         <MateCard />
         <MateCard />
         <MateCard />
-        <MateCard />
-        <MateCard />
+        <MateCard /> */}
       </div>
 
       <FloatButton path={ROUTE_PATH.MATE_POSTING} />

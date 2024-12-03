@@ -7,7 +7,7 @@ export const MateDetailPageContainer = styled.div`
 
 export const MateDetailPhoto = styled.img`
   width: 100%;
-  height: auto;
+  height: 450px;
   object-fit: cover;
 `
 
@@ -26,7 +26,6 @@ export const MateDetailDescription = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
- 
 `
 
 export const UserInfoListWrapper = styled.div`

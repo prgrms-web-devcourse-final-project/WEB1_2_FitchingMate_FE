@@ -12,7 +12,7 @@ const matePostService = {
     return response
   },
 
-  getMatePost: async (matePostId: number) => {
+  getMatePost: async (matePostId: string) => {
     const response = await fetchApi
       .get<MatePostResponse>(`mates/${matePostId}`)
       .json()

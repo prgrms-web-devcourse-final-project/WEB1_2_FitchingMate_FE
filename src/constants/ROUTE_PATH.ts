@@ -3,7 +3,7 @@ export const ROUTE_PATH = {
   MYTEAM: '/myteam',
   MATE_LIST: '/mate-list',
   MATE_POSTING: '/mate-posting',
-  MATE_DETAIL: '/mate-detail',
+  MATE_DETAIL: '/mate-detail/:id',
   LOGIN: '/login',
   SIGNUP: '/login/signup',
   NAVER_LOGIN: '/api/auth/login/naver',
