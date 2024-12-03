@@ -60,3 +60,35 @@ export interface GoodsListResponse {
   timestamp: string
   code: number
 }
+
+export interface GoodsDetail {
+  id: number
+  seller: {
+    memberId: number
+    nickname: string
+    manner: number
+    role: string
+    imageUrl: string
+  }
+  buyer: null
+  teamName: string
+  title: string
+  category: string
+  price: number
+  content: string
+  location: {
+    placeName: string
+    longitude: string
+    latitude: string
+  }
+  imageUrls: string[]
+  status: string
+}
+
+export interface GoodsDetailResponse {
+  status: string
+  message: string | null
+  data: GoodsDetail
+  timestamp: string
+  code: number
+}

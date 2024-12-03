@@ -9,7 +9,7 @@ export const ROUTE_PATH = {
   NAVER_LOGIN: '/api/auth/login/naver',
   GOODS_LIST: '/goods-list',
   GOODS_POSTING: '/goods-post',
-  GOODS_DETAIL: '/goods-detail',
+  GOODS_DETAIL: '/goods-detail/:id',
   CHAT: '/chat',
   CHAT_MATE: '/chat?type=메이트',
   CHAT_ROOM: '/chat-room',
