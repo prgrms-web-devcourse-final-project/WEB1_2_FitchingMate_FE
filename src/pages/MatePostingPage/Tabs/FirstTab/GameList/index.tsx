@@ -15,14 +15,7 @@ const GameList = ({
   isError,
   error,
 }: GameListProps) => {
-  const {
-    matePost: { teamId },
-    selectedWeek,
-  } = useMateFormStore()
-
-  if (teamId === null) {
-    return <GameListPlaceholder>응원팀을 선택해주세요.</GameListPlaceholder>
-  }
+  const { selectedWeek } = useMateFormStore()
 
   if (isLoading) {
     return <GameListPlaceholder>Loading...</GameListPlaceholder>

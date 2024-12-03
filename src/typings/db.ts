@@ -60,45 +60,109 @@ export interface GoodsListResponse {
   timestamp: string
   code: number
 }
+
+export interface Seller {
+  memberId: number
+  nickname: string
+  manner: number
+  role: string
+  imageUrl: string
+}
+
+export interface Location {
+  placeName: string
+  longitude: string
+  latitude: string
+}
+
+export interface GoodsDetail {
+  id: number
+  seller: Seller
+  buyer: null | string // 구매자가 없을 경우 null
+  teamName: string
+  title: string
+  category: string
+  price: number
+  content: string
+  location: Location
+  imageUrls: string[]
+  status: string
+}
+
+export interface GoodsDetailResponse {
+  status: string
+  message: string | null
+  data: GoodsDetail
+  timestamp: string
+  code: number
+}
+
+export interface MatePostData {
+  matchId: number
+  postImageUrl: string
+  title: string
+  status: string
+  myTeamName: string
+  rivalTeamName: string
+  rivalMatchTime: string
+  location: string
+  age: string
+  gender: string
+  transportType: string
+  maxParticipants: number
+  userImageUrl: string
+  nickname: string
+  manner: number
+  content: string
+  postId: number
+}
+
+export interface MatePostResponse {
+  status: string
+  message: string | null
+  data: MatePostData
+  timestamp: string
+  code: number
+}
 export interface GoodsPostSummary {
-  id: number;
-  teamName: string;
-  title: string;
-  category: string;
-  price: number | string;
-  imageUrl: string | null;
+  id: number
+  teamName: string
+  title: string
+  category: string
+  price: number | string
+  imageUrl: string | null
 }
 
 export interface MateCardData {
-  imageUrl: string | null;
-  title: string;
-  status: string;
-  myTeamName: string;
-  rivalTeamName: string;
-  matchTime: string;
-  location: string;
-  maxParticipants: number;
-  age: string;
-  gender: string;
-  transportType: string;
-  postId: number;
+  imageUrl: string | null
+  title: string
+  status: string
+  myTeamName: string
+  rivalTeamName: string
+  matchTime: string
+  location: string
+  maxParticipants: number
+  age: string
+  gender: string
+  transportType: string
+  postId: number
 }
 
 export interface MateCardResponse {
-  status: string;
-  message: string | null;
-  data: MateCardData[];
-  timestamp: string;
-  code: number;
+  status: string
+  message: string | null
+  data: MateCardData[]
+  timestamp: string
+  code: number
 }
 
 export interface TeamRanking {
-  id: number;
-  teamName: string;
-  rank: number;
-  gamesPlayed: number;
-  wins: number;
-  draws: number;
-  losses: number;
-  gamesBehind: number;
+  id: number
+  teamName: string
+  rank: number
+  gamesPlayed: number
+  wins: number
+  draws: number
+  losses: number
+  gamesBehind: number
 }

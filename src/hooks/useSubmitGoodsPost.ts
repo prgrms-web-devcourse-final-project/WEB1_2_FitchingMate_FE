@@ -1,16 +1,28 @@
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
 import usePostGoodsPost from './usePostGoodsPost'
+import { removeCommaFromPrice } from '@utils/formatPrice'
 
-const useSubmitGoodsPost = () => {
+interface UseSubmitGoodsPostProps {
+  memberId: number
+  goodsPostId?: number
+}
+
+const useSubmitGoodsPost = ({
+  memberId,
+  goodsPostId,
+}: UseSubmitGoodsPostProps) => {
   const { goods, imageList } = useGoodsFormStore()
 
-  const { mutateGoodsPost, isPending, isError, error } = usePostGoodsPost(1)
+  const { mutateGoodsPost, isPending, isError, error } = usePostGoodsPost({
+    memberId,
+    goodsPostId,
+  })
 
   const handleSubmit = () => {
     const requestData = {
       ...goods,
       // 숫자 형태로 변환 필요
-      price: 1,
+      price: removeCommaFromPrice(goods.price),
     }
 
     const formData = new FormData()
@@ -28,8 +40,6 @@ const useSubmitGoodsPost = () => {
         formData.append('files', file)
       })
     }
-
-    console.log(formData.get('files'))
 
     mutateGoodsPost(formData)
   }

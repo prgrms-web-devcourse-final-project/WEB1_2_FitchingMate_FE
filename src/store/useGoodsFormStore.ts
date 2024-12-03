@@ -12,9 +12,11 @@ interface GoodsFormStore {
   setPrice: (price: string) => void
   setLocation: (location: Location) => void
   setImageList: (imageList: File[] | []) => void
+  setGoods: (goods: GoodsPost) => void
+  setInitialState: () => void
 }
 
-export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
+const initialState = {
   goods: {
     teamId: null,
     title: '',
@@ -24,6 +26,10 @@ export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
     location: { latitude: null, longitude: null, placeName: '' },
   },
   imageList: [],
+}
+
+export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
+  ...initialState,
 
   setTeamId: (teamId) =>
     set((state) => ({ goods: { ...state.goods, teamId } })),
@@ -36,4 +42,6 @@ export const useGoodsFormStore = create<GoodsFormStore>((set) => ({
   setLocation: (location) =>
     set((state) => ({ goods: { ...state.goods, location } })),
   setImageList: (imageList) => set(() => ({ imageList })),
+  setGoods: (goods) => set(() => ({ goods })),
+  setInitialState: () => set(() => ({ ...initialState })),
 }))
