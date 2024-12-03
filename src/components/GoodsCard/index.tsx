@@ -12,6 +12,7 @@ import {
 import CardBedge from '@components/CardBedge';
 import Placeholder from '@assets/default/placeholder.svg?react';
 import { GoodsPostSummary } from '@typings/db';
+import { ROUTE_PATH } from '@constants/ROUTE_PATH';
 
 interface GoodsCardProps {
   card: GoodsPostSummary;
@@ -21,7 +22,10 @@ const GoodsCard = ({ card }: GoodsCardProps) => {
   const { teamName, title, category, price, imageUrl } = card;
 
   return (
-    <Link to={`/goods/${card.id}`} style={{ display: 'block', width: 'calc(50% - 10px)' }}>
+    <Link
+      to={`${ROUTE_PATH.GOODS_DETAIL}/${card.id}`}
+      style={{ display: 'block', width: 'calc(50% - 10px)' }}
+    >
       <CardContainer>
         <CardImageWrap>
           {imageUrl ? (
