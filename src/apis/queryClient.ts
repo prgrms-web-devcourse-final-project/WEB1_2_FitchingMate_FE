@@ -17,6 +17,8 @@ export const QUERY_KEY = {
   GOODS_LIST: 'goodsList',
   MATE_POST: 'matePost',
   USER_INFO: 'userInfo',
+  RANKINGS: 'rankings',
+  COMPLETED_MATCHES: 'completedMatches',
 }
 
 export default queryClient

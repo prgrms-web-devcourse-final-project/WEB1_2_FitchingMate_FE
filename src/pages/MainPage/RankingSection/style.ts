@@ -3,13 +3,16 @@ import { theme } from '@styles/theme'
 
 export const RankingContainer = styled.div`
   width: 100%;
-  padding: 20px;
+
 
   h3 {
-    font-size: ${theme.fontSize.large};
-    font-weight: ${theme.fontWeight.semi};
-    margin-bottom: 4px;
+    padding: 0.5em 1.25em;
     color: ${theme.fontColor.black};
+  }
+
+  .error {
+    padding: 1em;
+    text-align: center;
   }
 `
 
@@ -35,7 +38,7 @@ export const RankingTable = styled.table`
 
   tr {
     height: 40px;
-
+    font-size: ${theme.fontSize.large};
     @media all and (max-width: 431px) {
       height: 30px;
     }
@@ -49,7 +52,6 @@ export const RankingTable = styled.table`
   td {
     border-bottom: 1px solid ${theme.fontColor.cwhite};
     font-weight: ${theme.fontWeight.bold};
-    font-size: ${theme.fontSize.medium};
   }
 
   .team {

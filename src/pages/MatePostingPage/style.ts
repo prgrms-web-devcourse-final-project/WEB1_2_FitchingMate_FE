@@ -5,8 +5,9 @@ export const SubmitContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
-  height: 100%;
   padding: 20px 0;
+
+  height: calc(100% - 48px);
 `
 
 export const SubmitTitle = styled.h2`

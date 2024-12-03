@@ -12,7 +12,7 @@ export const TeamSelectContainer = styled.div`
   } */
 `
 
-export const Card = styled.div<{ $isselected: boolean }>`
+export const Card = styled.div<{ $isSelected: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,8 +20,8 @@ export const Card = styled.div<{ $isselected: boolean }>`
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: ${({ theme, $isselected }) =>
-    $isselected ? theme.fontColor.navy : theme.fontColor.cwhite};
+  background-color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.fontColor.navy : theme.fontColor.cwhite};
   cursor: pointer;
 
   &:hover {
