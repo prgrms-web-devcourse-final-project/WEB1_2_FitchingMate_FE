@@ -5,6 +5,7 @@ import {
   ProfileFollowWrap,
   ProfileLinkWrap,
   ProfileMannerGraph,
+  ProfileMannerGraphInner,
   ProfileMannerInfo,
   ProfileMannerNotice,
   ProfileMannerTitle,
@@ -16,24 +17,39 @@ import {
 import GlobalButton from '@components/GlobalButton'
 import MannerIcon from '@assets/icon/baseball.svg?react'
 import LinkIcon from '@assets/icon/link.svg?react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 import SubHeader from '@layouts/SubHeader'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import useGetUserInfo from '@hooks/useGetUserInfo'
 
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+
+interface UserInfo {
+  aboutMe: string
+  followerCount: number
+  followingCount: number
+  goodsSoldCount: number
+  imageUrl: string
+  manner: number
+  nickname: string
+  reviewsCount: number
+  teamName: string
+}
 
 const ProfileMain = () => {
   const navigate = useNavigate()
   const [isMyProfile, setIsMyProfile] = useState(true)
-  const [isLoading, setIsLoading] = useState(true)
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+
+  const { getUserInfo, isError, isPending, error } = useGetUserInfo(1)
 
   useEffect(() => {
     setTimeout(() => {
-      setIsLoading(false)
+      setUserInfo(getUserInfo)
     }, 2000)
-  }, [])
+  }, [getUserInfo])
 
   const onNavigateEdit = () => {
     navigate('/profile/edit')
@@ -49,7 +65,7 @@ const ProfileMain = () => {
         {/* 프로필 상단 섹션 */}
         <ProfileTopWrap>
           <ProfileEditWrap>
-            {isLoading ? (
+            {isPending ? (
               <Skeleton
                 circle
                 width={'6.25em'}
@@ -59,12 +75,12 @@ const ProfileMain = () => {
               <ProfileBedge
                 width={6.25}
                 height={6.25}
-                imageSrc='https://entertainimg.kbsmedia.co.kr/cms/uploads/PERSON_20240206075441_1b54f931528a9d36c98db236a5e19d74.jpg'
-                myTeam={'KIA'}
+                imageSrc={userInfo?.imageUrl}
+                myTeam={userInfo?.teamName}
               />
             )}
             <ProfileUserNickname>
-              {isLoading ? <Skeleton /> : '빌터'}
+              {(userInfo && userInfo.nickname) || <Skeleton />}
             </ProfileUserNickname>
             <input
               type='file'
@@ -76,21 +92,18 @@ const ProfileMain = () => {
           <ProfileFollowWrap>
             <div>
               <p>팔로우</p>
-              <p>0</p>
+              <p>{isPending ? <Skeleton /> : userInfo?.followingCount}</p>
             </div>
             <div>
               <p>팔로워</p>
-              <p>0</p>
+              <p>{isPending ? <Skeleton /> : userInfo?.followerCount}</p>
             </div>
           </ProfileFollowWrap>
         </ProfileTopWrap>
 
         {/* 프로필 소개 섹션 */}
         <ProfileNotice>
-          <p>
-            삼성을 사랑하는 삼성빠돌이입니다 같이 라이온즈 직관 가실분
-            찾고있어요 성격좋아요~
-          </p>
+          <p>{(userInfo && userInfo.aboutMe) || <Skeleton />}</p>
         </ProfileNotice>
 
         {/* 프로필 상단 버튼 본인 프로필 유무 */}
@@ -122,11 +135,15 @@ const ProfileMain = () => {
           <ProfileMannerInfo>
             <span>첫 타율 0.300</span>
             <p>
-              0.300
+              {(userInfo && userInfo.manner) || (
+                <Skeleton containerClassName='skeleton-flex' />
+              )}
               <MannerIcon />
             </p>
             <ProfileMannerGraph>
-              <div />
+              {(userInfo && (
+                <ProfileMannerGraphInner width={userInfo.manner * 100} />
+              )) || <Skeleton />}
             </ProfileMannerGraph>
           </ProfileMannerInfo>
         </ProfilePadding>
@@ -144,12 +161,20 @@ const ProfileMain = () => {
         {/* 프로필 하단 이동 섹션 */}
         <ProfileLinkWrap>
           <Link to={ROUTE_PATH.REVIEW}>
-            <span>후기 모아보기 16개</span>
-            <LinkIcon />
+            {(userInfo && (
+              <>
+                <span>후기 모아보기 {userInfo.reviewsCount}개</span>
+                <LinkIcon />
+              </>
+            )) || <Skeleton containerClassName='skeleton-flex' />}
           </Link>
           <Link to={ROUTE_PATH.GOODS_RECORD}>
-            <span>굿즈 판매기록 16개</span>
-            <LinkIcon />
+            {(userInfo && (
+              <>
+                <span>굿즈 판매기록 {userInfo.goodsSoldCount}개</span>
+                <LinkIcon />
+              </>
+            )) || <Skeleton containerClassName='skeleton-flex' />}
           </Link>
           {isMyProfile ? (
             <>
