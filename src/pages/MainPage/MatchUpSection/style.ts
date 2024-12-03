@@ -1,15 +1,20 @@
-import styled from 'styled-components'
-import { theme } from '@styles/theme'
+import styled from 'styled-components';
+import { theme } from '@styles/theme';
+
+export const ErrorContainer = styled.div`
+  padding: 20px;
+  text-align: center;
+`
 
 export const MatchUpContainer = styled.div<{
-  homeColor: string
-  awayColor: string
+  $homeColor: string; // transient prop
+  $awayColor: string; // transient prop
 }>`
   padding: 1.25em;
-  background: ${({ homeColor, awayColor }) =>
-    `linear-gradient(90deg, ${homeColor} 0%, ${awayColor} 100%)`};
+  background: ${({ $homeColor, $awayColor }) =>
+    `linear-gradient(90deg, ${$homeColor} 0%, ${$awayColor} 100%)`};
   color: ${theme.fontColor.white}; /* 텍스트가 잘 보이도록 설정 */
-`
+`;
 
 export const PaginationContainer = styled.div`
   margin-top: 10px; /* 배경 아래로 간격 추가 */
@@ -29,7 +34,7 @@ export const PaginationContainer = styled.div`
     background: ${theme.fontColor.navy}; /* 활성화된 색상 */
     opacity: 1;
   }
-`
+`;
 
 export const GameDatetimeLocation = styled.div`
   display: flex;
@@ -38,7 +43,7 @@ export const GameDatetimeLocation = styled.div`
   margin-bottom: 1.25em;
   font-size: ${theme.fontSize.medium};
   color: ${theme.fontColor.white};
-`
+`;
 
 export const TeamVersus = styled.div`
   display: flex;
@@ -66,7 +71,7 @@ export const TeamVersus = styled.div`
   span {
     font-size: ${theme.fontSize.xlarge};
   }
-`
+`;
 
 export const LocationWeather = styled.div`
   display: flex;
@@ -74,15 +79,15 @@ export const LocationWeather = styled.div`
   align-items: center;
   margin-top: 1em;
   font-size: ${theme.fontSize.medium};
-`
+`;
 
 export const UpdateInfo = styled.div`
   display: flex;
   flex-direction: column;
   color: ${theme.fontColor.white};
-`
+`;
 
 export const Weather = styled.div`
   font-size: ${theme.fontSize.medium};
   color: ${theme.fontColor.white};
-`
+`;

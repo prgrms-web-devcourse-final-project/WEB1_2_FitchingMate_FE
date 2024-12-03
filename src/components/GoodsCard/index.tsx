@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CardBedgeWrap,
   CardContainer,
@@ -12,15 +12,12 @@ import {
 import CardBedge from '@components/CardBedge'
 import Placeholder from '@assets/default/placeholder.svg?react'
 
-interface GoodsCardPropsType {
-  imgSrc?: string
-  title: string
-  teamName: string
-  category: string
-  price: number
-  id: number
+interface GoodsCardProps {
+  card: GoodsPostSummary;
 }
 
+const GoodsCard = ({ card }: GoodsCardProps) => {
+  const { teamName, title, category, price, imageUrl } = card;
 const GoodsCard = ({
   imgSrc = '',
   title = '',
@@ -37,12 +34,8 @@ const GoodsCard = ({
     <Link to={currentPath}>
       <CardContainer>
         <CardImageWrap>
-          {hasImg ? (
-            <CardImage
-              src={imgSrc}
-              alt={title}
-              loading='lazy'
-            />
+          {imageUrl ? (
+            <CardImage src={imageUrl} alt={title} loading="lazy" />
           ) : (
             <PlaceholderWrap>
               <Placeholder />
@@ -52,17 +45,14 @@ const GoodsCard = ({
         <CardTextWrap>
           <CardTitle>{title}</CardTitle>
           <CardBedgeWrap>
-            {/* 팀 */}
             <CardBedge text={teamName} />
-
-            {/* 카테고리 */}
             <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>{price.toLocaleString('ko-KR')}원</CardPrice>
+          <CardPrice>{price}원</CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>
-  )
-}
+  );
+};
 
-export default GoodsCard
+export default GoodsCard;

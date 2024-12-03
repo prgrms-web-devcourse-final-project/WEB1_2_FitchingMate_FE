@@ -17,7 +17,7 @@ const TeamSelectSection = ({
 
   return (
     <TeamSelectContainer>
-      {kboTeamList.map((team) => (
+      {kboTeamList.map(({ team }) => (
         <TeamCard
           key={team.id}
           teamInfo={team}
