@@ -1,9 +1,21 @@
 import { useMateFormStore } from '@store/useMateFormStore'
 import usePostMatePost from './usePostMatePost'
+import { parseParticipants } from '@utils/formatParticipants'
 
-const useSubmitMatePost = () => {
+interface UseSubmitMatePostProps {
+  matePostId: number
+  memberId?: number
+}
+
+const useSubmitMatePost = ({
+  matePostId,
+  memberId,
+}: UseSubmitMatePostProps) => {
   const { matePost, img } = useMateFormStore()
-  const { mutatePost, isPending, isError, error } = usePostMatePost()
+  const { mutatePost, isPending, isError, error } = usePostMatePost({
+    matePostId,
+    memberId,
+  })
 
   const handleSubmit = () => {
     const { maxParticipants, ...rest } = matePost
@@ -11,9 +23,9 @@ const useSubmitMatePost = () => {
     const requestData = {
       ...rest,
       // 숫자 형태로 변환 필요
-      maxParticipants: Number(maxParticipants.replace(/[^0-9]/g, '')),
+      maxParticipants: parseParticipants(maxParticipants),
       // 추후 memberId 식별될 때 뺄 예정
-      memberId: 1,
+      memberId: Number(localStorage.getItem('memberId')) || 1,
       // 추후 matchId 식별될 때 뺄 예정
       matchId: 1,
     }

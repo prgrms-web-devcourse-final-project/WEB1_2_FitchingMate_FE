@@ -9,6 +9,10 @@ import ProgressSection from '@components/ProgressSection'
 
 import useSubmitMatePost from '@hooks/useSubmitMatePost'
 import SubHeader from '@layouts/SubHeader'
+import useGetMatePost from '@hooks/usegetMatePost'
+import useUpdateMateFormData from '@hooks/useUpdateMateFormData'
+import { useMateFormStore } from '@store/useMateFormStore'
+import { useEffect } from 'react'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보
@@ -41,9 +45,39 @@ type CategoryList =
   | typeof THIRD_TAB_VALID_KEYS
 
 const MatePostingPage = () => {
-  // 추후 에러 처리 필요
-  const { handleSubmit, matePost, isPending, isError, error } =
-    useSubmitMatePost()
+  const { matePost, setInitialState } = useMateFormStore()
+
+  /**
+   * 메이트 게시글 생성 및 수정
+   *
+   * 추후 로딩 상태 추가 필요
+   * 에러 상태 추가 필요
+   *
+   * 아마 추후에는 isEdit 상태로 확인할듯
+   *
+   * @param matePostId 게시글 아이디
+   * @param memberId 멤버 아이디
+   */
+
+  const { handleSubmit, isPending, isError, error } = useSubmitMatePost({
+    matePostId: 1,
+    memberId: Number(localStorage.getItem('memberId')) || undefined,
+  })
+
+  /**
+   * 메이트 게시글 수정 폼 데이터 업데이트
+   *
+   * 추후 로딩 상태 추가 필요
+   * 에러 상태 추가 필요
+   *
+   * 추후에는 이거 없애고 post에서 edit으로 들어올 때 해당 게시글 상태 데이터 store 업데이트 해서 들어오면될듯
+   */
+
+  // useUpdateMateFormData(1)
+
+  useEffect(() => {
+    setInitialState()
+  }, [])
 
   const { currentTab, selectedTab, ...restTabInfo } = useTabs({
     components: matePostingComponents,
@@ -56,7 +90,7 @@ const MatePostingPage = () => {
   const currentTabDisabled = [
     validateTab(FIRST_TAB_VALID_KEYS),
     validateTab(SECOND_TAB_VALID_KEYS),
-    validateTab(THIRD_TAB_VALID_KEYS) || isPending,
+    validateTab(THIRD_TAB_VALID_KEYS),
   ]
 
   return (

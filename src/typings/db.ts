@@ -60,6 +60,70 @@ export interface GoodsListResponse {
   timestamp: string
   code: number
 }
+
+export interface Seller {
+  memberId: number
+  nickname: string
+  manner: number
+  role: string
+  imageUrl: string
+}
+
+export interface Location {
+  placeName: string
+  longitude: string
+  latitude: string
+}
+
+export interface GoodsDetail {
+  id: number
+  seller: Seller
+  buyer: null | string // 구매자가 없을 경우 null
+  teamName: string
+  title: string
+  category: string
+  price: number
+  content: string
+  location: Location
+  imageUrls: string[]
+  status: string
+}
+
+export interface GoodsDetailResponse {
+  status: string
+  message: string | null
+  data: GoodsDetail
+  timestamp: string
+  code: number
+}
+
+export interface MatePostData {
+  matchId: number
+  postImageUrl: string
+  title: string
+  status: string
+  myTeamName: string
+  rivalTeamName: string
+  rivalMatchTime: string
+  location: string
+  age: string
+  gender: string
+  transportType: string
+  maxParticipants: number
+  userImageUrl: string
+  nickname: string
+  manner: number
+  content: string
+  postId: number
+}
+
+export interface MatePostResponse {
+  status: string
+  message: string | null
+  data: MatePostData
+  timestamp: string
+  code: number
+}
 export interface GoodsPostSummary {
   id: number
   teamName: string
@@ -101,36 +165,4 @@ export interface TeamRanking {
   draws: number
   losses: number
   gamesBehind: number
-}
-
-export interface GoodsDetail {
-  id: number
-  seller: {
-    memberId: number
-    nickname: string
-    manner: number
-    role: string
-    imageUrl: string
-  }
-  buyer: null
-  teamName: string
-  title: string
-  category: string
-  price: number
-  content: string
-  location: {
-    placeName: string
-    longitude: string
-    latitude: string
-  }
-  imageUrls: string[]
-  status: string
-}
-
-export interface GoodsDetailResponse {
-  status: string
-  message: string | null
-  data: GoodsDetail
-  timestamp: string
-  code: number
 }
