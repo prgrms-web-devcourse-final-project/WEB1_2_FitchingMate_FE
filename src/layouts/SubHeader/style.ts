@@ -40,7 +40,14 @@ export const SubHeaderRight = styled.div`
     float: right;
   }
 `
-export const SubHeaderComplete = styled.span`
+export const SubHeaderComplete = styled.button`
+  appearance: none;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
   text-align: right;
   font-size: ${({ theme }) => theme.fontSize.large};
   font-weight: ${({ theme }) => theme.fontWeight.regular};
