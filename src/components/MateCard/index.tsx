@@ -6,46 +6,69 @@ import {
   BedgeContainer,
   Description,
   CardImageWrap,
-} from './style'
-import Placeholder from '@assets/default/placeholder.svg?react'
-import CardBedge from '@components/CardBedge'
-import { ROUTE_PATH } from '@constants/ROUTE_PATH'
-import { useNavigate } from 'react-router-dom'
+} from './style';
+import Placeholder from '@assets/default/placeholder.svg?react'; // 기본 이미지 컴포넌트
+import CardBedge from '@components/CardBedge';
+import { kboTeamInfo } from '@constants/kboInfo';
+import { formatMatchTime } from '@utils/formatDate';
+import { MateCardData } from '@typings/db';
 
-const MateCard = () => {
-  const navigate = useNavigate()
+interface MateCardProps {
+  card: MateCardData;
+}
+
+const MateCard = ({ card }: MateCardProps) => {
+  const {
+    imageUrl,
+    myTeamName,
+    rivalTeamName,
+    matchTime,
+    location,
+    maxParticipants,
+    status,
+    age,
+    gender,
+    transportType,
+    title,
+    postId,
+  } = card;
+
+  const teamInfo = kboTeamInfo[myTeamName];
 
   return (
-    // 경로는 추후 수정 필요
-
-    <CardContainer onClick={() => navigate(ROUTE_PATH.MATE_DETAIL)}>
-      {/* 여기 이미지 들어갈거임 없으면 플홀 */}
+    <CardContainer>
       <CardImageWrap>
-        <Placeholder />
+        {imageUrl ? (
+          <img src={imageUrl} alt={`${myTeamName} 이미지`} />
+        ) : (
+          <Placeholder width={100} height={100} />
+        )}
       </CardImageWrap>
 
       <CardContent>
-        {/* 경기정보 */}
         <CardContentLeft>
           <Description>
-            <p>피치메이트</p>
-            <p>상대팀 : KT</p>
-            <p>11월 08일 13시 - 문학</p>
+            <p>{title}</p>
+            <p>상대팀: {rivalTeamName}</p>
+            <p>
+              {formatMatchTime(matchTime)} - {location}
+            </p>
           </Description>
           <BedgeContainer>
-            <CardBedge />
-            <CardBedge />
+            <CardBedge text={myTeamName} />
+            <CardBedge text={age} />
+            <CardBedge text={gender} />
+            <CardBedge text={transportType} />
           </BedgeContainer>
         </CardContentLeft>
 
-        {/* 모집정보 */}
         <CardContentRight>
-          <CardBedge text='모집중' />
-          <p>10명</p>
+          <CardBedge text={status} />
+          <p>{maxParticipants}명</p>
         </CardContentRight>
       </CardContent>
     </CardContainer>
-  )
-}
+  );
+};
 
-export default MateCard
+export default MateCard;
