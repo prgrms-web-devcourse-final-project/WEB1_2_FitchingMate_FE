@@ -11,7 +11,6 @@ import { useGoodsFormStore } from '@store/useGoodsFormStore'
 import SubHeader from '@layouts/SubHeader'
 import useSubmitGoodsPost from '@hooks/useSubmitGoodsPost'
 
-import useUpdateFormdata from '@hooks/useUpdateFormdata'
 import { useLocation, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
 
@@ -41,6 +40,15 @@ const GoodsPostingPage = () => {
   } = useGoodsFormStore()
 
   const { id } = useParams()
+  const { state } = useLocation()
+
+  useEffect(() => {
+    return () => {
+      if (!state?.isEdit) {
+        setInitialState()
+      }
+    }
+  }, [])
 
   const goodsPostId = id ? parseInt(id, 10) : undefined
 
@@ -61,17 +69,6 @@ const GoodsPostingPage = () => {
     goodsPostId,
   })
 
-  /**
-   * 굿즈 수정 폼 데이터 업데이트
-   *
-   * 추후 로딩 상태 추가 필요
-   * 에러 상태 추가 필요
-   *
-   * 추후에는 이거 없애고 post에서 edit으로 들어올 때 해당 게시글 상태 데이터 store 업데이트 해서 들어오면될듯
-   */
-
-  // useUpdateFormdata(1)
-
   // 탭 정보 관리
   const { currentTab, selectedTab, ...restTabInfo } = useTabs({
     components: goodsPostingComponents,
@@ -85,12 +82,6 @@ const GoodsPostingPage = () => {
     validateTab(FIRST_TAB_VALID_KEYS) || imageList.length === 0,
     !location.latitude || !location.longitude,
   ]
-
-  useEffect(() => {
-    return () => {
-      setInitialState()
-    }
-  }, [])
 
   return (
     <>

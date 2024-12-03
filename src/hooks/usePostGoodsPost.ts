@@ -9,6 +9,15 @@ interface UsePostGoodsPostProps {
   goodsPostId?: number
 }
 
+/**
+ * 굿즈 게시글 등록 및 수정 요청
+ *
+ * @param memberId 회원 아이디
+ * @param formData 게시글 데이터
+ * @param goodsPostId 게시글 아이디
+ *
+ * @returns
+ */
 const mutationCallback = (
   memberId: number,
   formData: FormData,
@@ -21,6 +30,16 @@ const mutationCallback = (
   return goodsPostService.postGoodsPost(memberId, formData)
 }
 
+/**
+ * 굿즈 게시글 등록 및 수정 요청 훅
+ *
+ * @param memberId 회원 아이디
+ * @param goodsPostId 게시글 아이디
+ *
+ * 추후 멤버 아이디 빠질 예정
+ *
+ * @returns
+ */
 const usePostGoodsPost = ({ memberId, goodsPostId }: UsePostGoodsPostProps) => {
   const navigate = useNavigate()
 
@@ -29,7 +48,10 @@ const usePostGoodsPost = ({ memberId, goodsPostId }: UsePostGoodsPostProps) => {
       mutationCallback(memberId, formData, goodsPostId),
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_POST] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GOODS_POST, goodsPostId],
+      })
     },
 
     onSettled: () => {

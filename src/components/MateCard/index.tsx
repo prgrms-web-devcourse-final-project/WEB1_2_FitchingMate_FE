@@ -6,20 +6,19 @@ import {
   BedgeContainer,
   Description,
   CardImageWrap,
-} from './style';
-import Placeholder from '@assets/default/placeholder.svg?react'; // 기본 이미지 컴포넌트
-import CardBedge from '@components/CardBedge';
-import { kboTeamInfo } from '@constants/kboInfo';
-import { formatMatchTime } from '@utils/formatDate';
-import { MateCardData } from '@typings/db';
+} from './style'
+import Placeholder from '@assets/default/placeholder.svg?react' // 기본 이미지 컴포넌트
+import CardBedge from '@components/CardBedge'
+import { kboTeamInfo } from '@constants/kboInfo'
+import { formatMatchTime } from '@utils/formatDate'
+import { MateCardData } from '@typings/db'
 
 interface MateCardProps {
-  card: MateCardData;
+  card: MateCardData
 }
 
 const MateCard = ({ card }: MateCardProps) => {
   const {
-    imageUrl,
     myTeamName,
     rivalTeamName,
     matchTime,
@@ -31,17 +30,24 @@ const MateCard = ({ card }: MateCardProps) => {
     transportType,
     title,
     postId,
-  } = card;
+    imageUrl,
+  } = card
 
-  const teamInfo = kboTeamInfo[myTeamName];
+  const teamInfo = kboTeamInfo[myTeamName]
 
   return (
     <CardContainer>
       <CardImageWrap>
         {imageUrl ? (
-          <img src={imageUrl} alt={`${myTeamName} 이미지`} />
+          <img
+            src={imageUrl}
+            alt={`${myTeamName} 이미지`}
+          />
         ) : (
-          <Placeholder width={100} height={100} />
+          <Placeholder
+            width={100}
+            height={100}
+          />
         )}
       </CardImageWrap>
 
@@ -50,15 +56,14 @@ const MateCard = ({ card }: MateCardProps) => {
           <Description>
             <p>{title}</p>
             <p>상대팀: {rivalTeamName}</p>
-            <p>
-              {formatMatchTime(matchTime)} - {location}
-            </p>
+            <p>{formatMatchTime(matchTime)}</p>
+            <p>{location}</p>
           </Description>
           <BedgeContainer>
             <CardBedge text={myTeamName} />
-            <CardBedge text={age} />
-            <CardBedge text={gender} />
-            <CardBedge text={transportType} />
+            {age !== '상관없음' && <CardBedge text={age} />}
+            {gender !== '상관없음' && <CardBedge text={gender} />}
+            {transportType !== '상관없음' && <CardBedge text={transportType} />}
           </BedgeContainer>
         </CardContentLeft>
 
@@ -68,7 +73,7 @@ const MateCard = ({ card }: MateCardProps) => {
         </CardContentRight>
       </CardContent>
     </CardContainer>
-  );
-};
+  )
+}
 
-export default MateCard;
+export default MateCard

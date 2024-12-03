@@ -26,6 +26,36 @@ const kboTeamInfo: KboTeamInfo = {
     logo: KBO,
     color: '#002561',
   },
+  KIA: {
+    team: 'KIA 타이거즈',
+    id: 1,
+    logo: Kia,
+    color: '#EA0029',
+  },
+  LG: {
+    team: 'LG 트윈스',
+    id: 2,
+    logo: LG,
+    color: '#C30452',
+  },
+  NC: {
+    team: 'NC 다이노스',
+    id: 3,
+    logo: NC,
+    color: '#315288',
+  },
+  SSG: {
+    team: 'SSG 랜더스',
+    id: 4,
+    logo: SSG,
+    color: '#CE0E2D',
+  },
+  KT: {
+    team: 'KT 위즈',
+    id: 5,
+    logo: KT,
+    color: '#000000',
+  },
   두산: {
     team: '두산 베어스',
     id: 6,
@@ -55,36 +85,6 @@ const kboTeamInfo: KboTeamInfo = {
     id: 10,
     logo: Hanwha,
     color: '#FF6600',
-  },
-  KIA: {
-    team: 'KIA 타이거즈',
-    id: 1,
-    logo: Kia,
-    color: '#EA0029',
-  },
-  KT: {
-    team: 'KT 위즈',
-    id: 5,
-    logo: KT,
-    color: '#000000',
-  },
-  LG: {
-    team: 'LG 트윈스',
-    id: 2,
-    logo: LG,
-    color: '#C30452',
-  },
-  NC: {
-    team: 'NC 다이노스',
-    id: 3,
-    logo: NC,
-    color: '#315288',
-  },
-  SSG: {
-    team: 'SSG 랜더스',
-    id: 4,
-    logo: SSG,
-    color: '#CE0E2D',
   },
 }
 

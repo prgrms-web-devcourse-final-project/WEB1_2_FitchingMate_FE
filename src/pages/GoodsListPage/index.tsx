@@ -1,50 +1,50 @@
 import TeamSelectSection from '@components/TeamSelectSection'
 import { FilterWrap, GoodsCardWrap, TeamSelectWrap } from './style'
-import PillButtonList from '@components/PillButtonList'
 import GoodsCard from '@components/GoodsCard'
 import goodsService from '@apis/goodsService'
 import { useState } from 'react'
-import { FilterButtonList } from './constants'
-import { content } from './mockData'
 import { useQuery } from '@tanstack/react-query'
-import { GlobalFloatAside, GlobalFloatButton } from '@styles/globalStyle'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import FloatButton from '@components/FloatButton'
+import { QUERY_KEY } from '@apis/queryClient'
+import PillButton from '@components/PillButton'
+
+const CATEGORY_LIST = ['전체', '유니폼', '모자', '의류', '잡화', '기념상품']
 
 const GoodsListPage = () => {
-  const [selectedCategory, setSelectedCategory] = useState('1')
+  const [selectedTeam, setSelectedTeam] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState('전체')
 
-  const { data } = useQuery({
-    queryKey: ['goods-list'],
-    queryFn: () => goodsService.getGoodsList(),
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: [QUERY_KEY.GOODS_LIST, selectedTeam, selectedCategory],
+    queryFn: () => goodsService.getGoodsList(selectedTeam, selectedCategory),
   })
 
   return (
     <section>
       <TeamSelectWrap>
-        <TeamSelectSection />
+        <TeamSelectSection
+          selectedTeam={selectedTeam}
+          onSelectTeam={setSelectedTeam}
+        />
       </TeamSelectWrap>
       <FilterWrap>
-        <PillButtonList
-          buttons={FilterButtonList}
-          defaultSelected={selectedCategory}
-          mode='tab'
-          onSelect={(id) => setSelectedCategory(id)}
-        />
+        {CATEGORY_LIST.map((category) => (
+          <PillButton
+            key={category}
+            text={category}
+            $isSelected={selectedCategory === category}
+            onClick={() => setSelectedCategory(category)}
+          />
+        ))}
       </FilterWrap>
       <GoodsCardWrap>
-        {content.map((goodsData) => {
-          return (
-            <GoodsCard
-              key={goodsData.id}
-              imgSrc={goodsData.imageUrl}
-              title={goodsData.title}
-              teamName={goodsData.teamName}
-              category={goodsData.category}
-              price={goodsData.price}
-            />
-          )
-        })}
+        {data?.content.map((teamInfo) => (
+          <GoodsCard
+            key={teamInfo.id}
+            card={teamInfo}
+          />
+        ))}
       </GoodsCardWrap>
       <FloatButton path={ROUTE_PATH.GOODS_POSTING} />
     </section>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { FilterButtonWrap, FilterModalLabel, FilterModalWrap } from '../style'
 import PillButtonList from '@components/PillButtonList'
 import GlobalButton from '@components/GlobalButton'
@@ -31,7 +30,7 @@ const MateFilterOptions = () => {
     <div>
       {options.map((option, index) => {
         return (
-          <FilterModalWrap>
+          <FilterModalWrap key={index}>
             <FilterModalLabel>{option.label}</FilterModalLabel>
             <FilterButtonWrap>
               <PillButtonList
