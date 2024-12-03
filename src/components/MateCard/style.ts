@@ -47,6 +47,7 @@ export const Description = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  padding: 2px 0;
 
   & p {
     font-size: ${({ theme }) => theme.fontSize.medium};

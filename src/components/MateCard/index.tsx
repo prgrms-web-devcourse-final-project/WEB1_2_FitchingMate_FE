@@ -56,15 +56,14 @@ const MateCard = ({ card }: MateCardProps) => {
           <Description>
             <p>{title}</p>
             <p>상대팀: {rivalTeamName}</p>
-            <p>
-              {formatMatchTime(matchTime)} - {location}
-            </p>
+            <p>{formatMatchTime(matchTime)}</p>
+            <p>{location}</p>
           </Description>
           <BedgeContainer>
             <CardBedge text={myTeamName} />
-            <CardBedge text={age} />
-            <CardBedge text={gender} />
-            <CardBedge text={transportType} />
+            {age !== '상관없음' && <CardBedge text={age} />}
+            {gender !== '상관없음' && <CardBedge text={gender} />}
+            {transportType !== '상관없음' && <CardBedge text={transportType} />}
           </BedgeContainer>
         </CardContentLeft>
 
