@@ -1,31 +1,25 @@
 import { ChatListContainer, ChatPageContainer, TabContainer } from './style'
+import { GlobalFloatAside } from '@styles/globalStyle'
 
-import { useRef, useState } from 'react'
+import ALERT_MESSAGE from '@constants/alertMessage'
+
 import ChatCard from './ChatCard'
 import PillButton from '@components/PillButton'
 import Alert from '@components/Alert'
-
-import ALERT_MESSAGE from '@constants/alertMessage'
 import SubHeader from '@layouts/SubHeader'
 import GlobalNav from '@layouts/GlobalNav'
-import { GlobalFloatAside } from '@styles/globalStyle'
+
+import { useModal } from '@hooks/useModal'
+import useNavigateChat from '@hooks/useNavigateChat'
 
 export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]
 
 const ChatPage = () => {
-  const [currentTab, setCurrentTab] = useState<ChatType>('메이트')
+  const { currentTab, handleTabClick } = useNavigateChat()
+  const { alertRef, handleAlertClick } = useModal()
 
-  const alertRef = useRef<HTMLDialogElement>(null)
-
-  const openAlert = () => {
-    alertRef.current?.showModal()
-  }
-
-  const handleTabClick = (tab: ChatType) => {
-    setCurrentTab(tab)
-  }
-
+  if (!currentTab) return null
   return (
     <>
       <SubHeader center='메시지' />
@@ -44,7 +38,7 @@ const ChatPage = () => {
         <ChatListContainer>
           <ChatCard
             currentTab={currentTab}
-            onExitClick={openAlert}
+            onExitClick={handleAlertClick}
           />
         </ChatListContainer>
 

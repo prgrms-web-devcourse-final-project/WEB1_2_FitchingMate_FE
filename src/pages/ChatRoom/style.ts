@@ -1,10 +1,35 @@
 import styled, { css } from 'styled-components'
 
-export const ChatCardContainer = styled.div`
-  /* height: calc(100% - 48px); */
+export const ChatRoomContainer = styled.div`
+  height: calc(100%);
+`
+
+export const ChatCardContainer = styled.div<{ $isGeneral?: boolean }>`
   overflow-y: auto;
   padding: 1em 20px;
-  height: calc(100% - 150px);
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+
+  /* CSS 변수 선언 */
+  --header-height: 47.2px;
+  --banner-height: 100px;
+  --banner-padding: 2em;
+  --footer-height: 58.4px;
+  --bottom-margin: 0.9em;
+  --total-height: calc(
+    var(--header-height) + var(--banner-height) + var(--banner-padding) +
+      var(--footer-height) + var(--bottom-margin)
+  );
+
+  /* 메이트 화면용 높이 계산 */
+  height: calc(100% - var(--total-height));
+
+  ${({ $isGeneral }) =>
+    $isGeneral &&
+    css`
+      height: calc(100% - 134.4px);
+    `}
 
   @media all and (max-width: 431px) {
     height: calc(100% - 25px);

@@ -1,17 +1,7 @@
 import { useRef, useState } from 'react'
 
-const initialTeamState = {
-  team: '',
-  teamId: 0,
-}
-interface HandleTeamSelectProps {
-  team: string
-  teamId: number
-  callback?: (teamId: number) => void
-}
-
 const useTeamDialog = () => {
-  const [selectedTeam, setSelectedTeam] = useState(initialTeamState)
+  const [selectedTeam, setSelectedTeam] = useState('')
 
   const bottomModalRef = useRef<HTMLDialogElement>(null)
 
@@ -19,20 +9,13 @@ const useTeamDialog = () => {
     bottomModalRef.current?.showModal()
   }
 
-  const handleTeamSelect = ({
-    team,
-    teamId,
-    callback,
-  }: HandleTeamSelectProps) => {
-    setSelectedTeam({ team, teamId })
-    callback?.(teamId)
-
+  const handleTeamSelect = (team: string) => {
+    setSelectedTeam(team)
     bottomModalRef.current?.close()
   }
 
   return {
-    selectedTeam: selectedTeam.team,
-    selectedTeamId: selectedTeam.teamId,
+    selectedTeam,
     bottomModalRef,
     handleClickSelectButton,
     handleTeamSelect,

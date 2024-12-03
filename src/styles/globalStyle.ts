@@ -115,15 +115,7 @@ export const GlobalContainer = styled.div`
   }
 `
 export const SubGlobalContainer = styled.div`
-  height: calc(100vh - 48px);
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`
-
-export const SubContainer = styled.div`
-  height: calc(100vh - 48px);
+  height: 100vh;
   overflow-y: scroll;
   position: relative;
 

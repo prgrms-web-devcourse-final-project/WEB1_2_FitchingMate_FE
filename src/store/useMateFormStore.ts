@@ -1,12 +1,10 @@
 import { create } from 'zustand'
-import { GoodsPost } from '@typings/db'
+import { MatePost } from '@typings/postForm'
 
-interface MatePost extends GoodsPost {
-  img: File | null
-}
 interface MateFormStore {
   matePost: MatePost
   selectedWeek: number
+  img: File | null
 
   setMemberId: (memberId: number) => void
   setTeamId: (teamId: number) => void
@@ -31,9 +29,10 @@ export const useMateFormStore = create<MateFormStore>((set) => ({
     maxParticipants: '',
     gender: '',
     transportType: '',
-    img: null,
     matchId: null,
   },
+
+  img: null,
 
   selectedWeek: 1,
 
@@ -53,7 +52,7 @@ export const useMateFormStore = create<MateFormStore>((set) => ({
     set((state) => ({ matePost: { ...state.matePost, gender } })),
   setTransportation: (transportType) =>
     set((state) => ({ matePost: { ...state.matePost, transportType } })),
-  setImg: (img) => set((state) => ({ matePost: { ...state.matePost, img } })),
+  setImg: (img) => set(() => ({ img })),
   setTeamId: (teamId) =>
     set((state) => ({ matePost: { ...state.matePost, teamId } })),
 }))

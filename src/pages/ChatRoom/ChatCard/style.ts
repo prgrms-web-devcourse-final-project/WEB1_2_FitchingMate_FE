@@ -9,7 +9,6 @@ export const CardContainer = styled.div<{ $isUserChat: boolean }>`
   font-size: ${({ theme }) => theme.fontSize.large};
 `
 export const CardContent = styled.div`
-  margin-bottom: 15px;
   display: flex;
   gap: 5px;
 `

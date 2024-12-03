@@ -1,5 +1,4 @@
 import TeamSelectSection from '@components/TeamSelectSection'
-import React, { useRef } from 'react'
 import {
   FilterModalButton,
   FilterSelectOptionWrap,
@@ -12,6 +11,9 @@ import BottomModal from '@components/BottomModal'
 import useTeamDialog from '@hooks/useTeamDialog'
 import MateFilterOptions from './MateFilterOptions'
 import MateCard from '@components/MateCard'
+
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import FloatButton from '@components/FloatButton'
 
 const MateListPage = () => {
   const { bottomModalRef, handleClickSelectButton } = useTeamDialog()
@@ -43,6 +45,8 @@ const MateListPage = () => {
         <MateCard />
         <MateCard />
       </div>
+
+      <FloatButton path={ROUTE_PATH.MATE_POSTING} />
       <BottomModal ref={bottomModalRef}>
         <MateFilterOptions />
       </BottomModal>

@@ -1,16 +1,16 @@
 import { useEffect, useRef } from 'react'
-import { Map, MapMarker } from 'react-kakao-maps-sdk'
+import { MapMarker } from 'react-kakao-maps-sdk'
+import { KakaoMapContainer } from './style'
 
 interface KakaoMapProps {
-  searchLocation: {
-    y: number
-    x: number
+  location: {
+    placeName: string
+    latitude: string | null
+    longitude: string | null
   }
 }
 
-const KakaoMap = ({ searchLocation }: KakaoMapProps) => {
-  const { y, x } = searchLocation
-
+const KakaoMap = ({ location }: KakaoMapProps) => {
   const mapRef = useRef<kakao.maps.Map>(null)
 
   useEffect(() => {
@@ -29,10 +29,12 @@ const KakaoMap = ({ searchLocation }: KakaoMapProps) => {
     return () => {
       window.removeEventListener('resize', reSizeHandler)
     }
-  }, [mapRef])
+  }, [])
+
+  const { latitude, longitude } = location
 
   const kakaoMapOptions = {
-    center: { lat: y, lng: x },
+    center: { lat: Number(latitude), lng: Number(longitude) },
     style: {
       width: '100%',
       height: '100%',
@@ -44,12 +46,12 @@ const KakaoMap = ({ searchLocation }: KakaoMapProps) => {
 
   return (
     <>
-      <Map
+      <KakaoMapContainer
         ref={mapRef}
         {...kakaoMapOptions}
       >
-        <MapMarker position={{ lat: y, lng: x }} />
-      </Map>
+        <MapMarker position={kakaoMapOptions.center} />
+      </KakaoMapContainer>
     </>
   )
 }

@@ -1,16 +1,21 @@
-import { useState } from 'react'
+import { ChatRoomContainer } from './style'
 import GoodsChatRoom from './Rooms/GoodsChatRoom'
 import MateChatRoom from './Rooms/MateChatRoom'
 import GeneralChatRoom from './Rooms/GeneralChatRoom'
 import SubHeader from '@layouts/SubHeader'
 
-export type ChatType = '메이트' | '굿즈' | '일반' | null
+import useCurrentChatRoom from '@hooks/useCurrentChatRoom'
+import { Navigate } from 'react-router-dom'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+export type ChatType = '메이트' | '굿즈' | '일반'
 
 const ChatRoom = () => {
-  const [currentChatType, setCurrentChatType] = useState<ChatType>('일반')
+  const currentChatType = useCurrentChatRoom()
+
+  if (currentChatType === null) return <Navigate to={ROUTE_PATH.CHAT} />
 
   return (
-    <>
+    <ChatRoomContainer>
       <SubHeader left='back' />
       {currentChatType === '메이트' && (
         <MateChatRoom currentChatType={currentChatType} />
@@ -21,7 +26,7 @@ const ChatRoom = () => {
       {currentChatType === '일반' && (
         <GeneralChatRoom currentChatType={currentChatType} />
       )}
-    </>
+    </ChatRoomContainer>
   )
 }
 

@@ -1,48 +1,27 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import useDebounce from './useDebounce'
 import useSearchMap from './useSearchMap'
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
-import { Location } from '@utils/Model/GoodsModel'
 
-interface SearchLocation {
-  x: number
-  y: number
-}
+const DEBOUNCE_DELAY = 300
 
 const useLocationSearch = () => {
-  const [keyword, setKeyword] = useState('')
-  const DEBOUNCE_DELAY = 300
-  const debounceKeyword = useDebounce(keyword, DEBOUNCE_DELAY)
-
-  const { searchResultList } = useSearchMap(debounceKeyword)
-  const [searchLocation, setSearchLocation] = useState<SearchLocation | null>(
-    null,
-  )
-
+  const location = useGoodsFormStore((state) => state.goods.location)
   const setLocation = useGoodsFormStore((state) => state.setLocation)
 
-  useEffect(() => {
-    if (!searchLocation || !keyword) return
+  const debouncePlaceName = useDebounce(location.placeName, DEBOUNCE_DELAY)
 
-    const location = new Location(
-      searchLocation.x.toString(),
-      searchLocation.y.toString(),
-      keyword,
-    )
-
-    setLocation(location)
-  }, [searchLocation, keyword])
+  const { searchResultList } = useSearchMap(debouncePlaceName)
 
   useEffect(() => {
-    if (keyword === '') setSearchLocation(null)
-  }, [keyword])
+    if (debouncePlaceName === '')
+      setLocation({ ...location, latitude: null, longitude: null })
+  }, [debouncePlaceName])
 
   return {
-    keyword,
-    setKeyword,
+    location,
+    setLocation,
     searchResultList,
-    searchLocation,
-    setSearchLocation,
   }
 }
 
