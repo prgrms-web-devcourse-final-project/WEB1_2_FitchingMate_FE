@@ -3,8 +3,8 @@ import {
   ProfileImageEdit,
   ProfileImageEditWrap,
 } from './style'
-import { useState } from 'react'
-import { handleImageUpload, onProfileEditSubmit } from './methods'
+import { FormEvent, useState } from 'react'
+import { handleImageUpload } from './methods'
 
 import Camera from '@assets/icon/camera.svg?react'
 import Select from '@assets/icon/down.svg?react'
@@ -12,15 +12,45 @@ import BottomModal from '@components/BottomModal'
 import useTeamDialog from '@hooks/useTeamDialog'
 import BottomModalOption from './BottomModalOption'
 import SubHeader from '@layouts/SubHeader'
+import useGetMyInfo from '@hooks/useGetMyInfo'
+import useEditMyInfo from '@hooks/useEditMyInfo'
 
 // 소개글 글자제한
 const MAX_LENGTH = 200
 
 const ProfileEdit = () => {
   const [isUpload, setIsUpload] = useState(false)
-  const [profileImg, setProfileImg] = useState<string | undefined>(undefined)
+  const [profileImg, setProfileImg] = useState<File | undefined>(undefined)
+  const [profileImgSrc, setProfileImgSrc] = useState<string | undefined>(
+    undefined,
+  )
   const [userNickName, setUserNickName] = useState<string>('빌터')
   const [textareaValue, setTextareaValue] = useState('저는 빌터 인간 입니다')
+
+  const { mutateMyInfo, error, isError, isPending } = useEditMyInfo()
+
+  // 프로파일 수정 사항 서브밋
+  const onProfileEditSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log(selectedTeamId)
+    const dataObject = {
+      // 팀아이디 수정요청
+      teamId: selectedTeamId,
+      nickname: userNickName,
+      aboutMe: textareaValue,
+      // 멤버아이디 수정요청
+      memberId: 2,
+    }
+    const formData = new FormData()
+
+    formData.append(
+      'data',
+      new Blob([JSON.stringify(dataObject)], { type: 'application/json' }),
+    )
+    profileImg && formData.append('image', profileImg)
+
+    mutateMyInfo(formData)
+  }
 
   // 소개글 글자제한
   const validateDescription = (description: string) => {
@@ -37,6 +67,7 @@ const ProfileEdit = () => {
 
   const {
     selectedTeam,
+    selectedTeamId,
     bottomModalRef,
     handleClickSelectButton,
     handleTeamSelect,
@@ -45,17 +76,7 @@ const ProfileEdit = () => {
   return (
     <>
       {/* 폼 (내용) */}
-      <form
-        onSubmit={(e) => {
-          onProfileEditSubmit(
-            e,
-            userNickName,
-            textareaValue,
-            selectedTeam,
-            profileImg,
-          )
-        }}
-      >
+      <form onSubmit={onProfileEditSubmit}>
         {/* 서브헤더 */}
         <SubHeader
           left='back'
@@ -71,7 +92,7 @@ const ProfileEdit = () => {
               />
             ) : (
               <img
-                src={profileImg}
+                src={profileImgSrc}
                 alt=''
               />
             )}
@@ -86,7 +107,7 @@ const ProfileEdit = () => {
             style={{ display: 'none' }}
             accept='image/gif, image/jpeg, image/png'
             onChange={(e) => {
-              handleImageUpload(e, setProfileImg, setIsUpload)
+              handleImageUpload(e, setProfileImg, setProfileImgSrc, setIsUpload)
             }}
           />
         </ProfileImageEditWrap>
@@ -125,7 +146,7 @@ const ProfileEdit = () => {
         </ProfileEditInputWrap>
 
         <BottomModal ref={bottomModalRef}>
-          <BottomModalOption onClose={handleTeamSelect} />
+          <BottomModalOption onSelectTeam={handleTeamSelect} />
         </BottomModal>
       </form>
     </>
