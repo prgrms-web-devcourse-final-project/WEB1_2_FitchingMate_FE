@@ -103,6 +103,10 @@ export const GlobalStyle = createGlobalStyle`
   img {
     display: block;
   }
+
+  .skeleton-flex {
+    flex: 4;
+  }
 `
 
 export const GlobalContainer = styled.div`
@@ -133,6 +137,7 @@ export const GlobalFloatAside = styled.aside`
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 999;
 `
 
 export const GlobalFloatButton = styled.div`

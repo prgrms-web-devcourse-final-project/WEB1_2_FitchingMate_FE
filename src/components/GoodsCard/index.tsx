@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import {
   CardBedgeWrap,
   CardContainer,
@@ -8,41 +8,28 @@ import {
   CardTextWrap,
   CardTitle,
   PlaceholderWrap,
-} from './style'
-import CardBedge from '@components/CardBedge'
-import Placeholder from '@assets/default/placeholder.svg?react'
-import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+} from './style';
+import CardBedge from '@components/CardBedge';
+import Placeholder from '@assets/default/placeholder.svg?react';
+import { GoodsPostSummary } from '@typings/db';
+import { ROUTE_PATH } from '@constants/ROUTE_PATH';
 
-interface GoodsCardPropsType {
-  imgSrc?: string
-  title: string
-  teamName: string
-  category: string
-  price: number
+interface GoodsCardProps {
+  card: GoodsPostSummary;
 }
 
-const GoodsCard = ({
-  imgSrc = '',
-  title = '',
-  teamName = '',
-  category = '',
-  price = 0,
-}: GoodsCardPropsType) => {
-  const hasImg = imgSrc ? true : false
-
-  const navigate = useNavigate()
+const GoodsCard = ({ card }: GoodsCardProps) => {
+  const { teamName, title, category, price, imageUrl } = card;
 
   return (
-    // 경로는 추후 수정 필요
-    <Link to={ROUTE_PATH.GOODS_DETAIL}>
-      <CardContainer onClick={() => navigate(ROUTE_PATH.GOODS_DETAIL)}>
+    <Link
+      to={`${ROUTE_PATH.GOODS_DETAIL}/${card.id}`}
+      style={{ display: 'block', width: 'calc(50% - 10px)' }}
+    >
+      <CardContainer>
         <CardImageWrap>
-          {hasImg ? (
-            <CardImage
-              src={imgSrc}
-              alt={title}
-              loading='lazy'
-            />
+          {imageUrl ? (
+            <CardImage src={imageUrl} alt={title} loading="lazy" />
           ) : (
             <PlaceholderWrap>
               <Placeholder />
@@ -52,17 +39,14 @@ const GoodsCard = ({
         <CardTextWrap>
           <CardTitle>{title}</CardTitle>
           <CardBedgeWrap>
-            {/* 팀 */}
             <CardBedge text={teamName} />
-
-            {/* 카테고리 */}
             <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>{price.toLocaleString('ko-KR')}원</CardPrice>
+          <CardPrice>{price}원</CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>
-  )
-}
+  );
+};
 
-export default GoodsCard
+export default GoodsCard;

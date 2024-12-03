@@ -124,3 +124,45 @@ export interface MatePostResponse {
   timestamp: string
   code: number
 }
+export interface GoodsPostSummary {
+  id: number
+  teamName: string
+  title: string
+  category: string
+  price: number | string
+  imageUrl: string | null
+}
+
+export interface MateCardData {
+  imageUrl: string | null
+  title: string
+  status: string
+  myTeamName: string
+  rivalTeamName: string
+  matchTime: string
+  location: string
+  maxParticipants: number
+  age: string
+  gender: string
+  transportType: string
+  postId: number
+}
+
+export interface MateCardResponse {
+  status: string
+  message: string | null
+  data: MateCardData[]
+  timestamp: string
+  code: number
+}
+
+export interface TeamRanking {
+  id: number
+  teamName: string
+  rank: number
+  gamesPlayed: number
+  wins: number
+  draws: number
+  losses: number
+  gamesBehind: number
+}

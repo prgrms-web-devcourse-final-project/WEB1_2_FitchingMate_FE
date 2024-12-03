@@ -5,6 +5,10 @@ interface ProfilePadding {
   paddingTop: number
 }
 
+interface MannerWidth {
+  width: number
+}
+
 export const ProfilePadding = styled.div<ProfilePadding>`
   padding: ${({ paddingTop }) => paddingTop}em 20px;
 `
@@ -119,15 +123,15 @@ export const ProfileMannerGraph = styled.div`
   background-color: ${theme.fontColor.cwhite};
   position: relative;
   overflow: hidden;
+`
 
-  & > div {
-    width: 30%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: ${theme.fontColor.navy};
-  }
+export const ProfileMannerGraphInner = styled.div<MannerWidth>`
+  width: ${({ width }) => `${width}%`};
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: ${theme.fontColor.navy};
 `
 
 export const ProfileMannerNotice = styled.div`
