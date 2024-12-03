@@ -66,6 +66,7 @@ export const Description = styled.div`
 export const BedgeContainer = styled.div`
   display: flex;
   gap: 8px;
+  margin-top: 0.25em;
 `
 export const CardContentRight = styled.div`
   display: flex;

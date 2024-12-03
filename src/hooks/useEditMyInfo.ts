@@ -6,7 +6,7 @@ const useEditMyInfo = () => {
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: (formData: FormData) => userService.editMyInfo(formData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MY_INFO] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MY_INFO, 1] })
     },
     onSettled: (data, error) => {
       console.log(data, error)

@@ -36,14 +36,22 @@ const MateListPage = () => {
         </FilterSelectOptionWrap>
       </FilterWrap>
       <div>
-        <MateCard />
-        <MateCard />
-        <MateCard />
-        <MateCard />
-        <MateCard />
-        <MateCard />
-        <MateCard />
-        <MateCard />
+        <MateCard
+          card={{
+            imageUrl: 'string',
+            title: 'string',
+            status: '모집중',
+            myTeamName: 'string',
+            rivalTeamName: 'string',
+            matchTime: '2024-12-03T14:56:25.941Z',
+            location: 'string',
+            maxParticipants: 0,
+            age: '상관없음',
+            gender: '상관없음',
+            transportType: '상관없음',
+            postId: 0,
+          }}
+        />
       </div>
 
       <FloatButton path={ROUTE_PATH.MATE_POSTING} />

@@ -10,6 +10,7 @@ export const Bedge = styled.div<BedgeProps>`
   justify-content: center;
   width: fit-content;
   height: 1.5em; /* 고정 높이 */
+  line-height: 1.5em; /* 고정 높이 */
   padding: 0 0.625em; /* 텍스트 주변의 여백 */
   color: ${({ theme }) => theme.fontColor.white};
   background-color: ${({ $bgcolor, theme }) =>
