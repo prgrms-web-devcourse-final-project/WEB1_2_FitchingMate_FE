@@ -29,7 +29,7 @@ export const Button = styled.button<{
   $isDisabled?: boolean
 }>`
   width: ${({ $isPrevious }) => ($isPrevious ? '65%' : '100%')};
-  padding: 1.25em 0;
+  padding: 1em 0;
   border-radius: 8px;
   font-size: ${({ theme }) => theme.fontSize.xlarge};
   font-weight: ${({ theme }) => theme.fontWeight.semi};
