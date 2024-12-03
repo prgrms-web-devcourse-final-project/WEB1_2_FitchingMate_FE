@@ -1,12 +1,22 @@
-import { GoodsListResponse } from '@typings/db'
+import { GoodsDetailResponse, GoodsListResponse } from '@typings/db'
 import fetchApi from './ky'
 
+const KBO_NUMBER = 0
+
 const goodsService = {
-  getGoodsList: async () => {
+  getGoodsList: async (teamId?: number, category?: string) => {
+    let endpoint = 'goods?'
+    if (teamId !== KBO_NUMBER) endpoint += `teamId=${teamId}&`
+    if (category !== '전체') endpoint += `category=${category}&`
+
+    const response = await fetchApi.get<GoodsListResponse>(endpoint).json()
+
+    return response.data
+  },
+
+  getGoodsDetail: async (goodsId: string) => {
     const response = await fetchApi
-      .get<GoodsListResponse>(
-        `goods?teamId=1&category=유니폼&page=0&size=1&sort=string`,
-      )
+      .get<GoodsDetailResponse>(`goods/${goodsId}`)
       .json()
 
     return response.data

@@ -10,15 +10,23 @@ export const FilterWrap = styled.div`
   padding: 0.75em 20px;
   border-bottom: 1px solid ${theme.border};
 
+  display: flex;
+  justify-content: space-between;
+
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  & > button {
+    flex-shrink: 0;
+  }
+
   & > div {
     width: 100%;
     white-space: nowrap;
     overflow-x: scroll;
     flex-wrap: nowrap;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 `
 

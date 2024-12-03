@@ -34,6 +34,14 @@ const goodsPostService = {
 
     return response
   },
+
+  deleteGoodsPost: async (memberId: number, goodsPostId: number) => {
+    const response = await fetchApi
+      .delete(`goods/${memberId}/post/${goodsPostId}`)
+      .json()
+
+    return response
+  },
 }
 
 export default goodsPostService

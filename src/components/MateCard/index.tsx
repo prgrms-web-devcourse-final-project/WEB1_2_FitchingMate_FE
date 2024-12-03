@@ -19,7 +19,6 @@ interface MateCardProps {
 
 const MateCard = ({ card }: MateCardProps) => {
   const {
-    imageUrl,
     myTeamName,
     rivalTeamName,
     matchTime,
@@ -31,6 +30,7 @@ const MateCard = ({ card }: MateCardProps) => {
     transportType,
     title,
     postId,
+    imageUrl,
   } = card
 
   const teamInfo = kboTeamInfo[myTeamName]
