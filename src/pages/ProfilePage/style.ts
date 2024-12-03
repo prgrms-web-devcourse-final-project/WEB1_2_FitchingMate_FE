@@ -24,18 +24,18 @@ export const ProfileEditWrap = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 0 20px;
-  flex: 2;
+  gap: 0 1.25em;
+  flex: 5;
 `
 
 export const ProfileUserNickname = styled.p`
+  width: calc(100% - (5.3125em + 1.25em + 5px));
   font-size: ${theme.fontSize.large};
   font-weight: ${theme.fontWeight.semi};
   color: ${theme.fontColor.black};
 `
 
 export const ProfileFollowWrap = styled.div`
-  width: calc(100% - 150px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,9 +44,17 @@ export const ProfileFollowWrap = styled.div`
   font-size: ${theme.fontSize.large};
   font-weight: ${theme.fontWeight.semi};
   color: ${theme.fontColor.black};
+  flex: 6;
 
-  & > div {
-    width: 35%;
+  & > a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+
+    & > div {
+      width: 100%;
+    }
   }
 `
 

@@ -25,34 +25,40 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
-interface UserInfo {
-  aboutMe: string
-  followerCount: number
-  followingCount: number
-  goodsSoldCount: number
-  imageUrl: string
-  manner: number
-  nickname: string
-  reviewsCount: number
-  teamName: string
-}
+import useGetMyInfo from '@hooks/useGetMyInfo'
+import { UserInfo } from '@typings/userForm'
 
 const ProfileMain = () => {
   const navigate = useNavigate()
-  const [isMyProfile, setIsMyProfile] = useState(true)
+  const [userId, setUserId] = useState(1)
+  const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
+
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
-  const { getUserInfo, isError, isPending, error } = useGetUserInfo(1)
+  const myInfoResult = useGetMyInfo(1)
+  const userInfoResult = useGetUserInfo(2)
 
   useEffect(() => {
-    setTimeout(() => {
-      setUserInfo(getUserInfo)
-    }, 2000)
-  }, [getUserInfo])
+    const currentUserId = localStorage.getItem('userId')
+    if (Number(currentUserId) === userId) {
+      setIsMyProfile(true)
+    } else {
+      setIsMyProfile(false)
+    }
+  }, [userId])
+
+  useEffect(() => {
+    if (isMyProfile !== null) {
+      if (isMyProfile) {
+        setUserInfo(myInfoResult.getMyInfo)
+      } else {
+        setUserInfo(userInfoResult.getUserInfo)
+      }
+    }
+  }, [isMyProfile, myInfoResult.getMyInfo, userInfoResult.getUserInfo])
 
   const onNavigateEdit = () => {
-    navigate('/profile/edit')
+    navigate('/profile/edit', { state: { ...userInfo } })
   }
 
   return (
@@ -65,16 +71,16 @@ const ProfileMain = () => {
         {/* 프로필 상단 섹션 */}
         <ProfileTopWrap>
           <ProfileEditWrap>
-            {isPending ? (
+            {myInfoResult.isPending || userInfoResult.isPending ? (
               <Skeleton
                 circle
-                width={'6.25em'}
-                height={'6.25em'}
+                width={'5.3125em'}
+                height={'5.3125em'}
               />
             ) : (
               <ProfileBedge
-                width={6.25}
-                height={6.25}
+                width={5.3125}
+                height={5.3125}
                 imageSrc={userInfo?.imageUrl}
                 myTeam={userInfo?.teamName}
               />
@@ -90,14 +96,28 @@ const ProfileMain = () => {
             />
           </ProfileEditWrap>
           <ProfileFollowWrap>
-            <div>
-              <p>팔로우</p>
-              <p>{isPending ? <Skeleton /> : userInfo?.followingCount}</p>
-            </div>
-            <div>
-              <p>팔로워</p>
-              <p>{isPending ? <Skeleton /> : userInfo?.followerCount}</p>
-            </div>
+            <Link to={ROUTE_PATH.FOLLOW}>
+              <div>
+                <p>팔로우</p>
+                <p>
+                  {myInfoResult.isPending || userInfoResult.isPending ? (
+                    <Skeleton />
+                  ) : (
+                    userInfo?.followingCount
+                  )}
+                </p>
+              </div>
+              <div>
+                <p>팔로워</p>
+                <p>
+                  {myInfoResult.isPending || userInfoResult.isPending ? (
+                    <Skeleton />
+                  ) : (
+                    userInfo?.followerCount
+                  )}
+                </p>
+              </div>
+            </Link>
           </ProfileFollowWrap>
         </ProfileTopWrap>
 
@@ -179,12 +199,20 @@ const ProfileMain = () => {
           {isMyProfile ? (
             <>
               <Link to={ROUTE_PATH.GOODS_RECORD}>
-                <span>굿즈 구매기록 16개</span>
-                <LinkIcon />
+                {(userInfo && (
+                  <>
+                    <span>굿즈 구매기록 {userInfo.goodsBoughtCount}개</span>
+                    <LinkIcon />
+                  </>
+                )) || <Skeleton containerClassName='skeleton-flex' />}
               </Link>
               <Link to={ROUTE_PATH.TIMELINE}>
-                <span>직관 보관기록 16개</span>
-                <LinkIcon />
+                {(userInfo && (
+                  <>
+                    <span>직관 보관기록 {userInfo.visitsCount}개</span>
+                    <LinkIcon />
+                  </>
+                )) || <Skeleton containerClassName='skeleton-flex' />}
               </Link>
             </>
           ) : null}
