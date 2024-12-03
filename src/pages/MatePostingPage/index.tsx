@@ -12,6 +12,7 @@ import SubHeader from '@layouts/SubHeader'
 import useGetMatePost from '@hooks/usegetMatePost'
 import useUpdateMateFormData from '@hooks/useUpdateMateFormData'
 import { useMateFormStore } from '@store/useMateFormStore'
+import { useEffect } from 'react'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보
@@ -74,6 +75,10 @@ const MatePostingPage = () => {
 
   // useUpdateMateFormData(1)
 
+  useEffect(() => {
+    setInitialState()
+  }, [])
+
   const { currentTab, selectedTab, ...restTabInfo } = useTabs({
     components: matePostingComponents,
     initialTab: 0,
@@ -88,14 +93,11 @@ const MatePostingPage = () => {
     validateTab(THIRD_TAB_VALID_KEYS),
   ]
 
-  const handleBackClick = () => setInitialState()
-
   return (
     <>
       <SubHeader
         left='back'
         center='메이트 구인하기'
-        onClick={handleBackClick}
       />
       <SubmitContainer>
         {/* 최상단 타이틀 영역 */}

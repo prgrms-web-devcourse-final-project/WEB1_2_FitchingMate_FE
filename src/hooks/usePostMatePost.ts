@@ -54,6 +54,9 @@ const usePostMatePost = ({ matePostId, memberId }: UsePostMatePostProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_POST] })
+    },
+
+    onSettled: () => {
       navigate(ROUTE_PATH.MATE_LIST)
     },
   })

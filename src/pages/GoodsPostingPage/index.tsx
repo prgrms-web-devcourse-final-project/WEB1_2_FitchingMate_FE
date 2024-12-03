@@ -13,6 +13,7 @@ import useSubmitGoodsPost from '@hooks/useSubmitGoodsPost'
 
 import useUpdateFormdata from '@hooks/useUpdateFormdata'
 import { useLocation, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const goodsPostingComponents = [
   new TabModel(<FirstTab />),
@@ -85,14 +86,17 @@ const GoodsPostingPage = () => {
     !location.latitude || !location.longitude,
   ]
 
-  const handleBackClick = () => setInitialState()
+  useEffect(() => {
+    return () => {
+      setInitialState()
+    }
+  }, [])
 
   return (
     <>
       <SubHeader
         left='back'
         center='굿즈 거래하기'
-        onClick={handleBackClick}
       />
       <SubmitContainer>
         {/* 직관 모임 등록 폼 영역 */}

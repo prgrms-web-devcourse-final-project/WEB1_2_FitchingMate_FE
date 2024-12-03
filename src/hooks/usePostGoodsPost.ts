@@ -3,6 +3,7 @@ import goodsPostService from '@apis/goodsPostService'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
+
 interface UsePostGoodsPostProps {
   memberId: number
   goodsPostId?: number
@@ -29,6 +30,9 @@ const usePostGoodsPost = ({ memberId, goodsPostId }: UsePostGoodsPostProps) => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_POST] })
+    },
+
+    onSettled: () => {
       navigate(ROUTE_PATH.GOODS_LIST)
     },
   })
