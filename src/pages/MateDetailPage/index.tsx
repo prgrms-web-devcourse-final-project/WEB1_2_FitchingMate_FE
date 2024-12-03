@@ -8,12 +8,12 @@ import {
 import UserInfoList from '@components/UserInfoList'
 import MateDetailCard from './MateDetailCard'
 import MateDetailAction from './MateDetailAction'
-import MateDetailDefaultPhoto from '@assets/default/detail_test.jpg'
 import SubHeader from '@layouts/SubHeader'
 import { QUERY_KEY } from '@apis/queryClient'
 import { useQuery } from '@tanstack/react-query'
 import matePostService from '@apis/matePostService'
 import { useParams } from 'react-router-dom'
+import MateCard from '@components/MateCard'
 
 const MateDetailPage = () => {
   const { id: matePostId } = useParams()
@@ -28,13 +28,26 @@ const MateDetailPage = () => {
 
   if (!matePost) return
 
-  const { manner, nickname, content, userImageUrl, postImageUrl, title } =
-    matePost
+  const {
+    manner,
+    nickname,
+    content,
+    userImageUrl,
+    postImageUrl,
+    title,
+    rivalTeamName,
+    status,
+    location,
+    maxParticipants,
+    myTeamName,
+    rivalMatchTime,
+  } = matePost
 
   const mateHost = {
     manner,
     nickname,
     imageUrl: userImageUrl,
+    rivalMatchTime,
   }
 
   return (
@@ -48,7 +61,10 @@ const MateDetailPage = () => {
           src={postImageUrl}
           alt='피치메이트 이미지'
         />
-        <MateDetailCard title={title} />
+        <MateCard
+          card={matePost}
+          $isDetailPage={true}
+        />
         <UserInfoListWrapper>
           <UserInfoList seller={mateHost} />
         </UserInfoListWrapper>

@@ -15,9 +15,10 @@ import { MateCardData } from '@typings/db'
 
 interface MateCardProps {
   card: MateCardData
+  $isDetailPage?: boolean
 }
 
-const MateCard = ({ card }: MateCardProps) => {
+const MateCard = ({ card, $isDetailPage }: MateCardProps) => {
   const {
     myTeamName,
     rivalTeamName,
@@ -37,20 +38,21 @@ const MateCard = ({ card }: MateCardProps) => {
 
   return (
     <CardContainer>
-      <CardImageWrap>
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={`${myTeamName} 이미지`}
-          />
-        ) : (
-          <Placeholder
-            width={100}
-            height={100}
-          />
-        )}
-      </CardImageWrap>
-
+      {!$isDetailPage && (
+        <CardImageWrap>
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={`${myTeamName} 이미지`}
+            />
+          ) : (
+            <Placeholder
+              width={100}
+              height={100}
+            />
+          )}
+        </CardImageWrap>
+      )}
       <CardContent>
         <CardContentLeft>
           <Description>
