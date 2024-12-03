@@ -67,8 +67,14 @@ const GoodsDetailPage = () => {
     },
   })
 
+  /**
+   * 굿즈 채팅방 생성 요청
+   *
+   * 체크완료 추후 수정 필요
+   */
+
   const { mutate: createGoodsChatroom } = useMutation({
-    mutationFn: () => goodsChatService.createGoodsChatroom(1, seller.memberId),
+    mutationFn: () => goodsChatService.createGoodsChatroom(2, 30),
     onSettled: (data, error) => {
       console.log(data, error)
     },
@@ -214,10 +220,9 @@ const GoodsDetailPage = () => {
                 </>
               ) : isAble ? (
                 <GoodsBottomButton
+                  type='button'
                   $isNavy={true}
-                  onClick={() => {
-                    createGoodsChatroom()
-                  }}
+                  onClick={() => createGoodsChatroom()}
                 >
                   대화 나누기
                 </GoodsBottomButton>

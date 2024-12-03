@@ -1,14 +1,9 @@
-import fetchApi from 'ky'
+import fetchApi from './ky'
 
 const goodsChatService = {
   createGoodsChatroom: async (buyerId: number, goodsPostId: number) => {
     const response = await fetchApi
-      .post(`/goods/chat/7`, {
-        searchParams: {
-          buyerId,
-          goodsPostId,
-        },
-      })
+      .post(`goods/chat?buyerId=${buyerId}&goodsPostId=${goodsPostId}`)
       .json()
 
     return response
