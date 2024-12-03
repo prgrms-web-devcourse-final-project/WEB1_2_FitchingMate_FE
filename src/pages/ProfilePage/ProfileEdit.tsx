@@ -44,11 +44,6 @@ const ProfileEdit = () => {
 
   return (
     <>
-      {/* 서브헤더 */}
-      <SubHeader
-        left='back'
-        center='프로필 수정 페이지'
-      />
       {/* 폼 (내용) */}
       <form
         onSubmit={(e) => {
@@ -61,6 +56,12 @@ const ProfileEdit = () => {
           )
         }}
       >
+        {/* 서브헤더 */}
+        <SubHeader
+          left='back'
+          center='프로필 수정 페이지'
+          right='complete'
+        />
         <ProfileImageEditWrap>
           <ProfileImageEdit htmlFor='edit_img'>
             {!isUpload ? (

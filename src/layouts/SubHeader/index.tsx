@@ -29,7 +29,7 @@ const SubHeader = ({ left, center, right }: SubHeaderPropsType) => {
   }
 
   const subHeaderRightContent = {
-    complete: <SubHeaderComplete>완료</SubHeaderComplete>,
+    complete: <SubHeaderComplete type='submit'>완료</SubHeaderComplete>,
     logout: <Logout />,
     alarm: <Alarm />,
   }
