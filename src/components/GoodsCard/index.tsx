@@ -42,7 +42,7 @@ const GoodsCard = ({ card }: GoodsCardProps) => {
             <CardBedge text={teamName} />
             <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>{price.toLocaleString()}원</CardPrice>
+          <CardPrice>{price}원</CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>

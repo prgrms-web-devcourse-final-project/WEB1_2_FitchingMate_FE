@@ -81,7 +81,7 @@ export interface GoodsPostSummary {
   teamName: string;
   title: string;
   category: string;
-  price: number;
+  price: number | string;
   imageUrl: string | null;
 }
 
