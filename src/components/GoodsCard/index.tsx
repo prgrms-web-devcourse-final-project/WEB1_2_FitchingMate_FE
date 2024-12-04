@@ -45,7 +45,11 @@ const GoodsCard = ({ card }: GoodsCardProps) => {
             <CardBedge text={teamName} />
             <CardBedge text={category} />
           </CardBedgeWrap>
-          <CardPrice>{formatPriceWithComma(price)}원</CardPrice>
+          <CardPrice>
+            {formatPriceWithComma(price) === '0'
+              ? '나눔'
+              : `${formatPriceWithComma(price)}원`}
+          </CardPrice>
         </CardTextWrap>
       </CardContainer>
     </Link>

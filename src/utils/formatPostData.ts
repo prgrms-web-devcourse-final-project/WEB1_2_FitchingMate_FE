@@ -1,7 +1,9 @@
 import { kboTeamInfo } from '@constants/kboInfo'
 import { GoodsDetail, MatePostData } from '@typings/db'
-import { formatPriceWithComma } from './formatPrice'
-import { formatParticipants } from './formatParticipants'
+import { formatPriceWithComma, removeCommaFromPrice } from './formatPrice'
+import { formatParticipants, parseParticipants } from './formatParticipants'
+import { GoodsPost, MatePost } from '@typings/postForm'
+import { formatMatchWeek } from './formatMatchWeek'
 
 export const getTeamIdByName = (teamName: string): number => {
   if (teamName === '전체') return 0
@@ -45,7 +47,7 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
       matchId,
     },
 
-    selectedWeek: 1,
+    selectedWeek: formatMatchWeek(matchId),
 
     img: new File([], postImageUrl),
   }
@@ -66,4 +68,66 @@ export const transformGoodsDetailToFormData = (goodsDetail: GoodsDetail) => {
     },
     imageList: imageUrls.map((imageUrl) => new File([], imageUrl)),
   }
+}
+
+export const transformMatePostToSubmitData = (
+  matePost: MatePost,
+  img: File | null,
+) => {
+  const { maxParticipants, ...rest } = matePost
+
+  const requestData = {
+    ...rest,
+    // 숫자 형태로 변환 필요
+    maxParticipants: parseParticipants(maxParticipants),
+    // 추후 memberId 식별될 때 뺄 예정
+    memberId: Number(localStorage.getItem('memberId')) || 1,
+    // 추후 matchId 식별될 때 뺄 예정
+    matchId: 1,
+  }
+
+  const formData = new FormData()
+
+  formData.append(
+    'data',
+    new Blob([JSON.stringify(requestData)], {
+      type: 'application/json',
+    }),
+  )
+
+  // 파일이 존재할 경우에만 추가
+  if (img instanceof File) {
+    formData.append('file', img)
+  }
+
+  return formData
+}
+
+export const transformGoodsDetailToSubmitData = (
+  goods: GoodsPost,
+  imageList: File[],
+) => {
+  const requestData = {
+    ...goods,
+    // 숫자 형태로 변환 필요
+    price: removeCommaFromPrice(goods.price),
+  }
+
+  const formData = new FormData()
+
+  formData.append(
+    'data',
+    new Blob([JSON.stringify(requestData)], {
+      type: 'application/json',
+    }),
+  )
+
+  // 파일이 존재할 경우에만 추가
+  if (imageList.length > 0) {
+    imageList.forEach((file) => {
+      formData.append('files', file)
+    })
+  }
+
+  return formData
 }

@@ -41,19 +41,40 @@ import goodsChatService from '@apis/goodsChatService'
 import KakaoMapContainer from './KakaoMapContainer'
 
 const GoodsDetailPage = () => {
-  const [isOwner, setIsOwner] = useState(false)
-  const [isAble, setIsAble] = useState(true)
+  const [isOwner, setIsOwner] = useState(true)
+  const [isAble, setIsAble] = useState(false)
 
   const { id: goodsId } = useParams()
 
-  // 굿즈 게시글 상세 조회
+  /**
+   * 굿즈 게시글 상세 조회
+   *
+   * @param goodsId 굿즈 게시글 id
+   * @queryKey [QUERY_KEY.GOODS_POST, goodsId]
+   *
+   * 추후 로딩 에러 처리 필요
+   */
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: [QUERY_KEY.GOODS_POST, goodsId],
+
     queryFn: () => goodsService.getGoodsDetail(goodsId as string),
+
     enabled: !!goodsId,
   })
 
   // 굿즈 게시글 삭제 요청
+  console.log(data)
+
+  /**
+   * 굿즈 게시글 삭제
+   *
+   * @param memberId 회원 id
+   * @param goodsPostId 굿즈 게시글 id
+   *
+   * 추후 로딩 에러 처리 필요
+   */
+
   const {
     mutate: deleteGoodsPost,
     isPending: isDeletePending,
@@ -72,11 +93,15 @@ const GoodsDetailPage = () => {
   /**
    * 굿즈 채팅방 생성 요청
    *
+   * @param buyerId 구매자 아이디 ( 본인 회원 ID)
+   * @param goodsPostId 굿즈 게시글 아이디
+   *
    * 체크완료 추후 수정 필요
    */
 
   const { mutate: createGoodsChatroom } = useMutation({
     mutationFn: () => goodsChatService.createGoodsChatroom(2, 30),
+
     onSettled: (data, error) => {
       console.log(data, error)
     },
@@ -89,6 +114,7 @@ const GoodsDetailPage = () => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
 
+  // 알럿 관리
   const { alertRef, handleAlertClick } = useModal()
 
   if (!data) return null
@@ -101,7 +127,7 @@ const GoodsDetailPage = () => {
   // 알럿에서 굿즈 게시글 삭제 처리
   const handleDeleteGoodsPost = () => {
     deleteGoodsPost({
-      memberId: data.seller.memberId,
+      memberId: data.seller.memberId, // 추후 본인 회원 ID 넣기
       goodsPostId: data.id,
     })
   }
@@ -115,7 +141,7 @@ const GoodsDetailPage = () => {
     setImageList(imageList)
 
     navigate(`${pathname}/edit`, {
-      state: { isEdit: true },
+      state: { isEdit: true, goodsPostId: data.id },
     })
   }
 
@@ -188,7 +214,11 @@ const GoodsDetailPage = () => {
 
         <GlobalFloatAside>
           <GoodsBottomWrap>
-            <GoodsPriceText>{formatPriceWithComma(price)}원</GoodsPriceText>
+            <GoodsPriceText>
+              {formatPriceWithComma(price) === '0'
+                ? '나눔'
+                : `${formatPriceWithComma(price)}원`}
+            </GoodsPriceText>
             <GoodsBottomButtonWrap>
               {isOwner ? (
                 <>
