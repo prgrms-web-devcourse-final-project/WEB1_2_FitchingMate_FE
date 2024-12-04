@@ -44,6 +44,8 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
     enabled: !!teamId || selectedTeam === '전체',
   })
 
+  console.log(matches)
+
   if (isLoading) {
     return <div>로딩 중...</div>
   }
@@ -116,13 +118,16 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
                 </TeamVersus>
                 <LocationWeather>
                   <UpdateInfo>
-                    {match.location} ({formatMatchTime(match.weather.wtTime)}{' '}
-                    기준)
+                    {match.location}
+                    {match.weather &&
+                      ` (${formatMatchTime(match.weather.wtTime)} 기준)`}
                   </UpdateInfo>
-                  <Weather>
-                    {match.weather.temperature}°C, {match.weather.pop}% 강수
-                    확률
-                  </Weather>
+                  {match.weather && (
+                    <Weather>
+                      {match.weather.temperature}°C, {match.weather.pop}% 강수
+                      확률
+                    </Weather>
+                  )}
                 </LocationWeather>
               </MatchUpContainer>
             </SwiperSlide>

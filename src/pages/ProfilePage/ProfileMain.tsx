@@ -30,7 +30,7 @@ import { UserInfo } from '@typings/userForm'
 
 const ProfileMain = () => {
   const navigate = useNavigate()
-  const [userId, setUserId] = useState(1)
+  const [userId, setUserId] = useState(0)
   const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
 
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)

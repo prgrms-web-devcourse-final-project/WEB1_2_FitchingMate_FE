@@ -12,12 +12,17 @@ import { useModal } from '@hooks/useModal'
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { ChatType } from '@pages/ChatPage'
+import useGetGoodsPost from '@hooks/usegetGoodsPost'
 
 const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
   const { goodsAlertStatus } = useGoodsChatStore()
+
+  const { goodsPost } = useGetGoodsPost(30)
+
+  console.log(goodsPost)
 
   const currentAlertMessage = () => {
     const { type, userName } = goodsAlertStatus
@@ -30,9 +35,11 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     return message
   }
 
+  if (!goodsPost) return null
+
   return (
     <>
-      <GoodsListCard />
+      <GoodsListCard goodsPost={goodsPost} />
 
       <ChatCardContainer>
         <ChatCard isUserChat={true} />

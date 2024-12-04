@@ -39,6 +39,9 @@ const MateCard = ({ card, $isDetailPage }: MateCardProps) => {
   const navigate = useNavigate()
 
   const currentPath = ROUTE_PATH.MATE_DETAIL.replace(':id', postId.toString())
+  console.log(imageUrl)
+
+  console.log(card)
 
   return (
     <CardContainer
