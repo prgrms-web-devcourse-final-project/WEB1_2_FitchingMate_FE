@@ -7,20 +7,21 @@ const ReviewSelectBox = ({ onRadioChange, selectedRating }) => {
     <ReviewSelectRating>
       <ul>
         {ratingData.map((rating, index) => {
+          const SvgComponent = rating.svg
           return (
             <li key={index}>
               <ReviewSelectLabel
-                htmlFor={rating.value}
-                className={selectedRating === rating.value ? 'active' : ''}
+                htmlFor={rating.text}
+                className={selectedRating === rating.text ? 'active' : ''}
               >
                 <div>
-                  <rating.svg />
+                  <SvgComponent />
                 </div>
-                <p>별로에요</p>
+                <p>{rating.text}</p>
               </ReviewSelectLabel>
               <input
                 type='radio'
-                id={rating.value}
+                id={rating.text}
                 name='review_rating'
                 style={{ display: 'none' }}
                 onChange={(e) => {
