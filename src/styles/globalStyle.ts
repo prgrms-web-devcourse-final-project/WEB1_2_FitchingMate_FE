@@ -146,6 +146,19 @@ export const GlobalFloatAside = styled.aside`
   z-index: 999;
 `
 
+export const GlobalUpButton = styled.div`
+  display: inline;
+  padding: 14px;
+  position: absolute;
+  bottom: calc(125px + 8px);
+  right: 8px;
+  border-radius: 50%;
+  filter: drop-shadow(2px 2px 5px #00000025);
+  background-color: ${theme.fontColor.white};
+
+  cursor: pointer;
+`
+
 export const GlobalFloatButton = styled.div`
   display: inline;
   padding: 14px;

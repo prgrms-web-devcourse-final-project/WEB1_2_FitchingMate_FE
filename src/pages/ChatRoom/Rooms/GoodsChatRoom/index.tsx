@@ -13,6 +13,8 @@ import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { ChatType } from '@pages/ChatPage'
 import useGetGoodsPost from '@hooks/usegetGoodsPost'
+import goodsChatService from '@apis/goodsChatService'
+import { useQuery } from '@tanstack/react-query'
 
 const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
@@ -20,9 +22,12 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
   const { goodsAlertStatus } = useGoodsChatStore()
 
-  const { goodsPost } = useGetGoodsPost(30)
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ['goodsChatroom', 1],
+  //   queryFn: () => goodsChatService.getGoodsChatroom(2),
+  // })
 
-  console.log(goodsPost)
+  // console.log(data)
 
   const currentAlertMessage = () => {
     const { type, userName } = goodsAlertStatus
@@ -35,11 +40,9 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     return message
   }
 
-  if (!goodsPost) return null
-
   return (
     <>
-      <GoodsListCard goodsPost={goodsPost} />
+      {/* <GoodsListCard /> */}
 
       <ChatCardContainer>
         <ChatCard isUserChat={true} />
