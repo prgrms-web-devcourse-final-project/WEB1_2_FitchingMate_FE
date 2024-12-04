@@ -17,32 +17,54 @@ import FloatButton from '@components/FloatButton'
 import { useModal } from '@hooks/useModal'
 import { kboTeamList } from '@constants/kboInfo'
 
-import { getTotalMateList, getMateListByTeam } from '@apis/mateListService'
+import { getMateList } from '@apis/mateListService'
 
 const MateListPage = () => {
-  const [selectedTeam, setSelectedTeam] = useState<number>(kboTeamList[0].id)
-  const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } = useModal()
-  const [mates, setMates] = useState<any[]>([]) // Mate 데이터 상태
+  const [selectedTeam, setSelectedTeam] = useState<number | null>(
+    kboTeamList[0].id,
+  ) // 팀 선택 상태
+  const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } =
+    useModal()
+  const [mates, setMates] = useState<any[]>([]) // 메이트 목록 상태
 
-  const fetchMates = async (teamId: number) => {
+  // 필터 상태
+  const [selectedFilters, setSelectedFilters] = useState({
+    sortType: '최신 작성일 순',
+    age: null,
+    gender: null,
+    maxParticipants: null,
+    transportType: null,
+  })
+
+  // 메이트 목록 API 호출
+  const fetchMates = async () => {
     try {
-      const response: any =
-        teamId === kboTeamList[0].id // 전체 팀인 경우
-          ? await getTotalMateList()
-          : await getMateListByTeam(teamId) // 특정 팀인 경우
+      const response = await getMateList({
+        teamId: selectedTeam,
+        ...selectedFilters,
+      })
       setMates(response.data.content)
     } catch (error) {
       console.error('Failed to fetch mates:', error)
     }
   }
 
-  const handleTeamSelect = (team: number) => {
+  // 팀 선택 핸들러
+  const handleTeamSelect = (team: number | null) => {
     setSelectedTeam(team)
   }
 
+  // 필터 변경 핸들러
+  const handleFilterChange = (filters: Partial<typeof selectedFilters>) => {
+    setSelectedFilters((prevFilters) => ({
+      ...prevFilters,
+      ...filters,
+    }))
+  }
+
   useEffect(() => {
-    fetchMates(selectedTeam)
-  }, [selectedTeam])
+    fetchMates()
+  }, [selectedTeam, selectedFilters]) // 팀 선택 및 필터 변경 시 API 호출
 
   return (
     <section>
@@ -61,8 +83,14 @@ const MateListPage = () => {
           />
         </FilterModalButton>
         <FilterSelectOptionWrap>
-          <p>20대</p>
-          <p>남자</p>
+          {selectedFilters.age && <p>{selectedFilters.age}</p>}
+          {selectedFilters.gender && <p>{selectedFilters.gender}</p>}
+          {selectedFilters.maxParticipants && (
+            <p>{selectedFilters.maxParticipants}</p>
+          )}
+          {selectedFilters.transportType && (
+            <p>{selectedFilters.transportType}</p>
+          )}
         </FilterSelectOptionWrap>
       </FilterWrap>
       <div>
@@ -77,7 +105,11 @@ const MateListPage = () => {
       <FloatButton path={ROUTE_PATH.MATE_POSTING} />
 
       <BottomModal ref={bottomModalRef}>
-        <MateFilterOptions onClose={handleCloseBottomModal} />
+        <MateFilterOptions
+          onClose={handleCloseBottomModal}
+          selectedFilters={selectedFilters}
+          onFilterChange={handleFilterChange}
+        />
       </BottomModal>
     </section>
   )
