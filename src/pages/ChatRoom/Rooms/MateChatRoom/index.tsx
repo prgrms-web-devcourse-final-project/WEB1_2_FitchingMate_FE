@@ -23,7 +23,7 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     useModal()
 
   const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
-    useGetMatePost(15)
+    useGetMatePost(6)
 
   console.log(matePost)
 
