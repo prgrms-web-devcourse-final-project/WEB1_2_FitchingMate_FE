@@ -53,8 +53,6 @@ const GoodsDetailPage = () => {
     enabled: !!goodsId,
   })
 
-  console.log(data)
-
   // 굿즈 게시글 삭제 요청
   const {
     mutate: deleteGoodsPost,
