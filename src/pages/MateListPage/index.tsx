@@ -17,6 +17,7 @@ import { useModal } from '@hooks/useModal'
 import { kboTeamList } from '@constants/kboInfo'
 
 import { getMateList } from '@apis/mateListService'
+import MateCard from '@components/MateCard'
 
 const MateListPage = () => {
   const [selectedTeam, setSelectedTeam] = useState<number | null>(
