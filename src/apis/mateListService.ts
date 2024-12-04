@@ -38,8 +38,14 @@ export const getMateList = async (params: MateListParams) => {
   }
   if (params.age) searchParams.append('age', params.age)
   if (params.gender) searchParams.append('gender', params.gender)
-  if (params.maxParticipants) searchParams.append('maxParticipants', params.maxParticipants)
-  if (params.transportType) searchParams.append('transportType', params.transportType)
+  if (params.maxParticipants) {
+    const parsedValue = parseInt(params.maxParticipants.replace('명', ''), 10)
+    if (!isNaN(parsedValue)) {
+      searchParams.append('maxParticipants', parsedValue.toString())
+    }
+  }
+  if (params.transportType)
+    searchParams.append('transportType', params.transportType)
 
   // 요청
   const response = await fetchApi.get(`mates?${searchParams.toString()}`).json()
