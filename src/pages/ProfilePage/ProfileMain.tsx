@@ -66,6 +66,7 @@ const ProfileMain = () => {
       <SubHeader
         left='back'
         center='프로필 페이지'
+        right='logout'
       />
       <section>
         {/* 프로필 상단 섹션 */}
