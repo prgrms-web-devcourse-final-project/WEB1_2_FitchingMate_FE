@@ -7,11 +7,13 @@ import TabModel from '@utils/Model/tabModel'
 import { SubmitContainer, SubmitForm, SubmitTitle } from './style'
 import ProgressSection from '@components/ProgressSection'
 
-import useSubmitMatePost from '@hooks/useSubmitMatePost'
 import SubHeader from '@layouts/SubHeader'
 import { useMateFormStore } from '@store/useMateFormStore'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+import usePostMatePost from '@hooks/usePostMatePost'
+import useEditMatePost from '@hooks/useEditMatePost'
+import { transformMatePostToSubmitData } from '@utils/formatPostData'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보
@@ -44,27 +46,34 @@ type CategoryList =
   | typeof THIRD_TAB_VALID_KEYS
 
 const MatePostingPage = () => {
-  const { matePost, setInitialState } = useMateFormStore()
-
-  const { state } = useLocation()
+  // 폼 상태 관리
+  const { matePost, img, setInitialState } = useMateFormStore()
 
   /**
    * 메이트 게시글 생성 및 수정
    *
    * 추후 로딩 상태 추가 필요
    * 에러 상태 추가 필요
-   *
-   * 아마 추후에는 isEdit 상태로 확인할듯
+   * 멤버 아이디 추후 식별 가능할 때 뺄 예정
    *
    * @param matePostId 게시글 아이디
    * @param memberId 멤버 아이디
    */
 
-  const { handleSubmit, isPending, isError, error } = useSubmitMatePost({
-    matePostId: 20,
-    memberId: 1,
-  })
+  // 수정시 게시글 정보 관리 idEdit, postId 식별
+  const { state } = useLocation()
+  const matePostId = state?.postId
 
+  const { mutatePost, isPostPending, isPostError, postError } =
+    usePostMatePost()
+
+  const { mutateEditMatePost, isEditPending, isEditError, editError } =
+    useEditMatePost({
+      memberId: 1,
+      matePostId,
+    })
+
+  // 초기 상태 초기화
   useEffect(() => {
     return () => {
       if (!state?.isEdit) {
@@ -78,6 +87,7 @@ const MatePostingPage = () => {
     initialTab: 0,
   })
 
+  // 탭 유효성 검사
   const validateTab = (categoryList: CategoryList) =>
     categoryList.some((category) => !matePost[category])
 
@@ -86,6 +96,18 @@ const MatePostingPage = () => {
     validateTab(SECOND_TAB_VALID_KEYS),
     validateTab(THIRD_TAB_VALID_KEYS),
   ]
+
+  // 게시글 등록 요청
+  const handleSubmit = () => {
+    const submitFormData = transformMatePostToSubmitData(matePost, img)
+
+    if (state?.isEdit) {
+      mutateEditMatePost(submitFormData)
+      return
+    }
+
+    mutatePost(submitFormData)
+  }
 
   return (
     <>

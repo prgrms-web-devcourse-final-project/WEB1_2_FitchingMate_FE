@@ -4,22 +4,17 @@ import { useNavigate } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
 
-/**
- * 굿즈 게시글 등록 및 수정 요청 훅
- *
- * @param memberId 회원 아이디
- *
- * 추후 멤버 아이디 빠질 예정
- *
- * @returns
- */
+interface UseEditGoodsPostProps {
+  memberId: number
+  goodsPostId: number
+}
 
-const usePostGoodsPost = (memberId: number) => {
+const useEditGoodsPost = ({ memberId, goodsPostId }: UseEditGoodsPostProps) => {
   const navigate = useNavigate()
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: async (formData: FormData) =>
-      goodsPostService.postGoodsPost(memberId, formData),
+      goodsPostService.editGoodsPost(memberId, goodsPostId, formData),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
@@ -32,11 +27,11 @@ const usePostGoodsPost = (memberId: number) => {
   })
 
   return {
-    mutateGoodsPost: mutate,
-    isPostPending: isPending,
-    isPostError: isError,
-    postError: error,
+    mutateEditGoodsPost: mutate,
+    isEditPending: isPending,
+    isEditError: isError,
+    editError: error,
   }
 }
 
-export default usePostGoodsPost
+export default useEditGoodsPost

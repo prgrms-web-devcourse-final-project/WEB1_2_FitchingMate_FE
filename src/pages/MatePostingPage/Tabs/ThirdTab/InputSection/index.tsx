@@ -14,7 +14,7 @@ const InputSection = () => {
   }
   return (
     <ProductNameContainer>
-      <label htmlFor='title'>상품 이름</label>
+      <label htmlFor='title'>모집명</label>
       <input
         type='text'
         id='title'
