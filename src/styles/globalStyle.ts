@@ -45,6 +45,12 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  textarea {
+    &::D-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   #root {
     width: 100%;
     max-width: 480px;

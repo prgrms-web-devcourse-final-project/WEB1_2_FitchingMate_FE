@@ -5,7 +5,7 @@ const ProductNameSection = () => {
   const title = useGoodsFormStore((state) => state.goods.title)
   const setTitle = useGoodsFormStore((state) => state.setTitle)
 
-  const MAX_LENGTH = 25
+  const MAX_LENGTH = 20
 
   const validateProductName = (value: string) => {
     return value.trim().length <= MAX_LENGTH
