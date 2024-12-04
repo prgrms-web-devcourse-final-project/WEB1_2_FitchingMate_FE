@@ -9,42 +9,38 @@ import {
 } from '../style'
 
 import Placeholder from '@assets/default/placeholder.svg?react'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import dayjs from 'dayjs'
 
 interface GoodsBoxPropTypes {
+  postId: number
   title: string
-  image?: string
+  imageUrl: string
   price: number
-  writer: string
-  createdAt: string // 추후 수정
+  author: string
+  createdAt: string
 }
 
 const GoodsRecordBox = ({
+  postId,
   title,
-  image,
+  imageUrl,
   price,
-  writer,
+  author,
   createdAt,
 }: GoodsBoxPropTypes) => {
-  const formattingDate = (createdAt: string) => {
-    const date = new Date(createdAt)
-
-    const year = date.getFullYear()
-    const month = ('0' + (date.getMonth() + 1)).slice(-2)
-    const day = ('0' + date.getDate()).slice(-2)
-
-    return `${year}-${month}-${day}`
-  }
+  const time = dayjs(createdAt)
 
   return (
     <Link
-      to={'/'}
+      to={`${ROUTE_PATH.GOODS_DETAIL}/${postId}`}
       style={{ width: '100%', display: 'block' }}
     >
       <GoodsRecordBoxWrap>
         <GoodsImageWrap>
-          {image ? (
+          {imageUrl ? (
             <img
-              src={image}
+              src={imageUrl}
               alt={title}
             />
           ) : (
@@ -55,8 +51,8 @@ const GoodsRecordBox = ({
           <GoodsRecordTitle>{title}</GoodsRecordTitle>
           <GoodsRecordPrice>{price.toLocaleString('ko-KR')}원</GoodsRecordPrice>
           <GoodsInfo>
-            <span>{writer}</span>
-            <span>{formattingDate(createdAt)}</span>
+            <span>{author}</span>
+            <span>{time.format('YYYY-MM-DD')}</span>
           </GoodsInfo>
         </GoodsRecordTextWrap>
       </GoodsRecordBoxWrap>
