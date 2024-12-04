@@ -76,3 +76,14 @@ export const GoodsInfo = styled.div`
   font-weight: ${theme.fontWeight.regular};
   color: ${theme.fontColor.black};
 `
+
+export const NoGoodsList = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: ${theme.fontSize.xlarge};
+  font-weight: ${theme.fontWeight.semi};
+  font-size: ${theme.fontColor.black};
+`

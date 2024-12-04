@@ -22,6 +22,7 @@ export const QUERY_KEY = {
   RANKINGS: 'rankings',
   COMPLETED_MATCHES: 'completedMatches',
   GOODS_POST: 'goodsPost',
+  GOODS_RECORD: 'goodsRecord',
 }
 
 export default queryClient
