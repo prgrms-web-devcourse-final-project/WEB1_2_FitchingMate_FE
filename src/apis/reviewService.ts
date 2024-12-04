@@ -33,6 +33,14 @@ const reviewService = {
 
     return response
   },
+
+  getTimelineList: async (page: number) => {
+    const response = await fetchApi
+      .get(`profile/timeline?page=${page}&size=0`)
+      .json()
+
+    return response.data
+  },
 }
 
 export default reviewService
