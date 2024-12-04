@@ -1,13 +1,16 @@
+import { text } from 'stream/consumers'
 import styled from 'styled-components'
 
-export const GameCard = styled.div<{ $isActive?: boolean }>`
+export const GameCard = styled.label<{ $isActive?: boolean }>`
   width: 100%;
-  padding: 10px;
+  padding: 0.625em 0;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
+  font-size: inherit !important;
+  font-weight: inherit !important;
   color: ${({ theme, $isActive }) =>
     $isActive ? theme.fontColor.cwhite : theme.fontColor.black};
   background-color: ${({ theme, $isActive }) =>
@@ -15,16 +18,30 @@ export const GameCard = styled.div<{ $isActive?: boolean }>`
 `
 
 export const InputContainer = styled.span`
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  width: 20%;
+  gap: 0.625em;
 
   & input[type='checkbox'] {
-    display: block;
+    display: inline-block;
+    vertical-align: middle;
     appearance: checkbox;
-    width: 20px;
-    height: 20px;
+    width: 1.25em;
+    height: 1.25em;
 
     accent-color: ${({ theme }) => theme.fontColor.navy};
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
   }
+
+  & > span {
+    margin-left: 0.5em;
+  }
+`
+
+export const LocationText = styled.p`
+  width: 45%;
+  text-align: center;
 `

@@ -189,7 +189,10 @@ const ProfileMain = () => {
               </>
             )) || <Skeleton containerClassName='skeleton-flex' />}
           </Link>
-          <Link to={ROUTE_PATH.GOODS_RECORD}>
+          <Link
+            to={ROUTE_PATH.GOODS_RECORD}
+            state={{ type: 'sold' }}
+          >
             {(userInfo && (
               <>
                 <span>굿즈 판매기록 {userInfo.goodsSoldCount}개</span>
@@ -199,7 +202,10 @@ const ProfileMain = () => {
           </Link>
           {isMyProfile ? (
             <>
-              <Link to={ROUTE_PATH.GOODS_RECORD}>
+              <Link
+                to={ROUTE_PATH.GOODS_RECORD}
+                state={{ type: 'bought' }}
+              >
                 {(userInfo && (
                   <>
                     <span>굿즈 구매기록 {userInfo.goodsBoughtCount}개</span>

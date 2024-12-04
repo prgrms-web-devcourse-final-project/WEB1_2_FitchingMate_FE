@@ -8,6 +8,7 @@ import MateCard from '@components/MateCard'
 import { MateCardContainer, MoreSection } from './style'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import { MateCardData, MateCardResponse } from '@typings/db'
+import MainMateCard from '@components/MainMateCard'
 
 interface MateCardSectionProps {
   selectedTeam: string
@@ -66,7 +67,7 @@ const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
     <MateCardContainer>
       <h3>{`${teamName} 메이트 찾기`}</h3>
       {mateCards.map((card) => (
-        <MateCard
+        <MainMateCard
           key={card.postId}
           card={card}
         />
