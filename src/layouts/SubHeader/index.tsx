@@ -30,7 +30,7 @@ const SubHeader = ({ left, center, right, onClick }: SubHeaderPropsType) => {
 
   const subHeaderLeftContent = {
     back: <Back onClick={handleClick} />,
-    exit: <Exit />,
+    exit: <Exit onClick={handleClick} />,
     message: <SubHeaderMessageText>메시지</SubHeaderMessageText>,
   }
 

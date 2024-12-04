@@ -1,6 +1,6 @@
-import FuckingBat from '@assets/icon/baseball.svg?react'
+import BatIcon from '@assets/icon/baseball.svg?react'
 
-import { DescriptionContainer, ProfileContainer } from './style'
+import { DescriptionContainer, ProfileContainer, ProfileManner } from './style'
 import ProfileBedge from '@components/ProfileBedge'
 import { GoodsDetail } from '@typings/db'
 
@@ -28,8 +28,8 @@ const UserInfoList = ({ seller }: UserInfoListProps) => {
         <p>{nickname}</p>
       </ProfileContainer>
       <p>
-        {manner}
-        <FuckingBat />
+        <ProfileManner>{manner}</ProfileManner>
+        <BatIcon />
       </p>
     </DescriptionContainer>
   )

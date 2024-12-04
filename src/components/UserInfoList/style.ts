@@ -22,3 +22,7 @@ export const ProfileContainer = styled.div`
 
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `
+
+export const ProfileManner = styled.span`
+  color: ${({ theme }) => theme.fontColor.navy};
+`
