@@ -10,12 +10,9 @@ const BottomModalOption = ({ onSelectTeam }: BottomModalOptionProps) => {
   const { setTeamId } = useGoodsFormStore()
   const [_, ...restTeamList] = kboTeamList
 
-  const { setTeamId } = useGoodsFormStore()
-
   const handleSelectTeam = (team: string, id: number) => {
     setTeamId(id)
     onSelectTeam(team, id)
-    setTeamId(id)
   }
 
   return (
