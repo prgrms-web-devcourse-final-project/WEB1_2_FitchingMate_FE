@@ -2,7 +2,11 @@ import { FilterButtonWrap, FilterModalLabel, FilterModalWrap } from '../style'
 import PillButtonList from '@components/PillButtonList'
 import GlobalButton from '@components/GlobalButton'
 
-const MateFilterOptions = () => {
+interface MateFilterOptionsProps {
+  onClose: () => void
+}
+
+const MateFilterOptions: React.FC<MateFilterOptionsProps> = ({ onClose }) => {
   const options = [
     {
       label: '정렬',
@@ -10,19 +14,19 @@ const MateFilterOptions = () => {
     },
     {
       label: '나이대',
-      value: ['10대', '20대', '30대', '40대', '50대 이상', '상관 없음'],
+      value: ['상관 없음', '10대', '20대', '30대', '40대', '50대 이상'],
     },
     {
       label: '성별',
-      value: ['남자', '여자', '상관 없음'],
+      value: ['상관 없음', '남자', '여자'],
     },
     {
       label: '인원',
-      value: ['2명', '3명', '4명', '5명', '6명', '7명', '8명', '9명', '10명'],
+      value: ['상관 없음', '2명', '3명', '4명', '5명', '6명', '7명', '8명', '9명', '10명'],
     },
     {
       label: '이동수단',
-      value: ['자차', '대중교통', '상관 없음'],
+      value: ['상관 없음', '자차', '대중교통'],
     },
   ]
 
@@ -48,6 +52,7 @@ const MateFilterOptions = () => {
       <GlobalButton
         $isNavy={true}
         text='완료'
+        onClick={onClose} // props로 받은 onClose 호출
       />
     </div>
   )

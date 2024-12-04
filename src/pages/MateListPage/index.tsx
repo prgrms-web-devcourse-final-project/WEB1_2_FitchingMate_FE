@@ -21,12 +21,12 @@ import { getTotalMateList, getMateListByTeam } from '@apis/mateListService'
 
 const MateListPage = () => {
   const [selectedTeam, setSelectedTeam] = useState<number>(kboTeamList[0].id)
-  const { bottomModalRef, handleOpenBottomModal } = useModal()
+  const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } = useModal()
   const [mates, setMates] = useState<any[]>([]) // Mate 데이터 상태
 
   const fetchMates = async (teamId: number) => {
     try {
-      const response =
+      const response: any =
         teamId === kboTeamList[0].id // 전체 팀인 경우
           ? await getTotalMateList()
           : await getMateListByTeam(teamId) // 특정 팀인 경우
@@ -67,13 +67,17 @@ const MateListPage = () => {
       </FilterWrap>
       <div>
         {mates.map((card) => (
-          <MateCard key={card.postId} card={card} />
+          <MateCard
+            key={card.postId}
+            card={card}
+          />
         ))}
       </div>
 
       <FloatButton path={ROUTE_PATH.MATE_POSTING} />
+
       <BottomModal ref={bottomModalRef}>
-        <MateFilterOptions />
+        <MateFilterOptions onClose={handleCloseBottomModal} />
       </BottomModal>
     </section>
   )
