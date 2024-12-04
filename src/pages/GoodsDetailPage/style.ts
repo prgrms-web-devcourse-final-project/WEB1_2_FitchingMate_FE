@@ -5,6 +5,14 @@ interface ButtonPropTypes {
   $isNavy: boolean
 }
 
+export const GoodsDetailWrap = styled.section`
+  padding: 0 0 75px;
+
+  @media all and (max-width: 431px) {
+    padding: 0 0 65px;
+  }
+`
+
 export const SwiperContainer = styled.div`
   position: relative;
 `
@@ -131,7 +139,7 @@ export const GoodsNoticeWrap = styled.div`
 
 export const GoodsDetailText = styled.div`
   width: 100%;
-  max-height: 190px;
+  min-height: 190px;
   overflow-y: scroll;
   padding: 1em;
   background-color: ${theme.fontColor.cwhite};
