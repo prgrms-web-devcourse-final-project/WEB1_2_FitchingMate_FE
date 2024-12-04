@@ -63,6 +63,7 @@ const GoodsDetailPage = () => {
     enabled: !!goodsId,
   })
 
+  // 굿즈 게시글 삭제 요청
   console.log(data)
 
   /**

@@ -1,21 +1,18 @@
-import Worst from '@assets/character/character-worst.svg?react'
-import Normal from '@assets/character/character-normal.svg?react'
-import Best from '@assets/character/character-best.svg?react'
+import BAD from '@assets/character/character-worst.svg?react'
+import GOOD from '@assets/character/character-normal.svg?react'
+import GREAT from '@assets/character/character-best.svg?react'
 
 export const ratingData = [
   {
-    value: 'BAD',
-    text: '별로에요',
-    svg: Worst,
+    text: '별로예요',
+    svg: BAD,
   },
   {
-    value: 'GOOD',
     text: '좋아요!',
-    svg: Normal,
+    svg: GOOD,
   },
   {
-    value: 'GREAT',
-    text: '최고에요!',
-    svg: Best,
+    text: '최고예요!',
+    svg: GREAT,
   },
 ]

@@ -23,6 +23,8 @@ export const QUERY_KEY = {
   COMPLETED_MATCHES: 'completedMatches',
   GOODS_POST: 'goodsPost',
   GOODS_RECORD: 'goodsRecord',
+  MATE_REVIEW: 'mateReview',
+  GOODS_REVIEW: 'goodsReview',
 }
 
 export default queryClient
