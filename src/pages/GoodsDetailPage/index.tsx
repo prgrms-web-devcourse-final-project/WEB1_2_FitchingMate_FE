@@ -39,8 +39,8 @@ import { useModal } from '@hooks/useModal'
 import goodsChatService from '@apis/goodsChatService'
 
 const GoodsDetailPage = () => {
-  const [isOwner, setIsOwner] = useState(false)
-  const [isAble, setIsAble] = useState(true)
+  const [isOwner, setIsOwner] = useState(true)
+  const [isAble, setIsAble] = useState(false)
 
   const { id: goodsId } = useParams()
 
@@ -69,6 +69,9 @@ const GoodsDetailPage = () => {
 
   /**
    * 굿즈 채팅방 생성 요청
+   *
+   * @param sellerId 판매자 아이디
+   * @param goodsPostId 굿즈 게시글 아이디
    *
    * 체크완료 추후 수정 필요
    */
@@ -113,7 +116,7 @@ const GoodsDetailPage = () => {
     setImageList(imageList)
 
     navigate(`${pathname}/edit`, {
-      state: { isEdit: true },
+      state: { isEdit: true, goodsPostId: data.id },
     })
   }
 
@@ -201,7 +204,11 @@ const GoodsDetailPage = () => {
 
         <GlobalFloatAside>
           <GoodsBottomWrap>
-            <GoodsPriceText>{formatPriceWithComma(price)}원</GoodsPriceText>
+            <GoodsPriceText>
+              {formatPriceWithComma(price) === '0'
+                ? '나눔'
+                : `${formatPriceWithComma(price)}원`}
+            </GoodsPriceText>
             <GoodsBottomButtonWrap>
               {isOwner ? (
                 <>

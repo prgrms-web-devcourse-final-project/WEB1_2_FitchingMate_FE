@@ -9,10 +9,12 @@ import SecondTab from './Tabs/SecondTab'
 import TabModel from '@utils/Model/tabModel'
 import { useGoodsFormStore } from '@store/useGoodsFormStore'
 import SubHeader from '@layouts/SubHeader'
-import useSubmitGoodsPost from '@hooks/useSubmitGoodsPost'
 
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { transformGoodsDetailToSubmitData } from '@utils/formatPostData'
+import usePostGoodsPost from '@hooks/usePostGoodsPost'
+import useEditGoodsPost from '@hooks/useEditGoodsPost'
 
 const goodsPostingComponents = [
   new TabModel(<FirstTab />),
@@ -39,9 +41,35 @@ const GoodsPostingPage = () => {
     setInitialState,
   } = useGoodsFormStore()
 
-  const { id } = useParams()
-  const { state } = useLocation()
+  /**
+   * 굿즈 등록 폼 제출 및 수정 폼 데이터 업데이트
+   *
+   * 추후 로딩 상태 추가 필요
+   * 에러 상태 추가 필요
+   * 추후 멤버 아이디 빠질 예정
+   *
+   * @param memberId 멤버 아이디
+   */
 
+  // 굿즈 포스팅 수정 시 넘어오는 isEdit 상태, postId 정보 확인
+  const { state } = useLocation()
+  const goodsPostId = state?.isEdit ? state.goodsPostId : undefined
+
+  // 굿즈 등록 요청
+  const { mutateGoodsPost, isPostPending, isPostError, postError } =
+    usePostGoodsPost(1)
+
+  // 굿즈 수정 요청
+  const { mutateEditGoodsPost, isEditPending, isEditError, editError } =
+    useEditGoodsPost({ memberId: 1, goodsPostId })
+
+  // 탭 정보 관리
+  const { currentTab, selectedTab, ...restTabInfo } = useTabs({
+    components: goodsPostingComponents,
+    initialTab: 0,
+  })
+
+  // 굿즈 등록 폼 초기화
   useEffect(() => {
     return () => {
       if (!state?.isEdit) {
@@ -50,31 +78,6 @@ const GoodsPostingPage = () => {
     }
   }, [])
 
-  const goodsPostId = id ? parseInt(id, 10) : undefined
-
-  /**
-   * 굿즈 등록 폼 제출 및 수정 폼 데이터 업데이트
-   *
-   * 추후 로딩 상태 추가 필요
-   * 에러 상태 추가 필요
-   *
-   * 아마 추후에는 isEdit 상태로 확인할듯
-   *
-   * @param memberId 멤버 아이디
-   * @param goodsPostId 게시글 아이디
-   */
-
-  const { handleSubmit, isPending, isError, error } = useSubmitGoodsPost({
-    memberId: 1,
-    goodsPostId,
-  })
-
-  // 탭 정보 관리
-  const { currentTab, selectedTab, ...restTabInfo } = useTabs({
-    components: goodsPostingComponents,
-    initialTab: 0,
-  })
-
   const validateTab = (categoryList: CategoryList) =>
     categoryList.some((category) => !goods[category])
 
@@ -82,6 +85,17 @@ const GoodsPostingPage = () => {
     validateTab(FIRST_TAB_VALID_KEYS) || imageList.length === 0,
     !location.latitude || !location.longitude,
   ]
+
+  const handleSubmit = () => {
+    const formData = transformGoodsDetailToSubmitData(goods, imageList)
+
+    if (state?.isEdit) {
+      mutateEditGoodsPost(formData)
+      return
+    }
+
+    mutateGoodsPost(formData)
+  }
 
   return (
     <>
