@@ -9,7 +9,17 @@ const SELECTOPTION_LIST = [
   {
     label: '인원',
     id: 'maxParticipants',
-    optionList: ['2명', '3명', '4명', '5명', '사용자 지정'],
+    optionList: [
+      '2명',
+      '3명',
+      '4명',
+      '5명',
+      '6명',
+      '7명',
+      '8명',
+      '9명',
+      '10명',
+    ],
   },
   {
     label: '성별',
