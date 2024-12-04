@@ -12,11 +12,23 @@ export const GameSection = styled(QuestionSection)`
 export const GameButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow-x: scroll;
+
+  @media all and (max-width: 431px) {
+    gap: 0.625em;
+    justify-content: flex-start;
+  }
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 export const GameButton = styled.button<{ $isActive?: boolean }>`
   width: fit-content;
-  padding: 8px 16px;
+  padding: 0.5em 1em;
   border-radius: 9999px;
 
   color: ${({ theme, $isActive }) =>
