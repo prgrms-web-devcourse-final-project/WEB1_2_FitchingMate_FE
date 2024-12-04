@@ -22,20 +22,44 @@ const MateDetailPage = () => {
   const { id: matePostId } = useParams()
   const navigate = useNavigate()
 
+  /**
+   * 메이트 게시글 조회
+   * @params matePostId 게시글 id
+   * @queryKey [QUERY_KEY.MATE_POST, matePostId]
+   *
+   * 추후 로딩 에러 처리 필요
+   */
+
   const {
     data: matePost,
     isLoading,
     isError,
     error,
   } = useQuery({
-    queryKey: [QUERY_KEY.MATE_POST],
+    queryKey: [QUERY_KEY.MATE_POST, matePostId],
 
     queryFn: () => matePostService.getMatePost(matePostId as string),
 
     enabled: !!matePostId,
   })
 
-  const { mutate: deletePost, isPending: isDeletingPost } = useMutation({
+  /**
+   * 메이트 게시글 삭제
+   * @params memberId 회원 id
+   * @params matePostId 게시글 id
+   *
+   * 현재는 success 시 메이트 게시글 목록 조회 쿼리 업데이트
+   *
+   * 추후 로딩 에러 처리 필요
+   * 콘솔 제거 필요
+   */
+
+  const {
+    mutate: deletePost,
+    isPending: isDeletingPost,
+    isError: isDeleteError,
+    error: deleteError,
+  } = useMutation({
     mutationFn: () => matePostService.deleteMatePost(1, matePostId as string),
 
     onSuccess: () => {
@@ -48,6 +72,7 @@ const MateDetailPage = () => {
     },
   })
 
+  // 게시글 삭제 알럿창
   const { alertRef, handleAlertClick } = useModal()
 
   if (!matePost) return
