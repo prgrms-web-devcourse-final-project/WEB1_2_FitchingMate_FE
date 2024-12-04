@@ -1,10 +1,19 @@
-import FuckingBat from '@assets/icon/baseball.svg?react'
+import BatIcon from '@assets/icon/baseball.svg?react'
 
-import { DescriptionContainer, ProfileContainer } from './style'
+import { DescriptionContainer, ProfileContainer, ProfileManner } from './style'
 import ProfileBedge from '@components/ProfileBedge'
 import { GoodsDetail } from '@typings/db'
 
-const UserInfoList = ({ seller }: { seller: GoodsDetail['seller'] }) => {
+interface MateHost {
+  manner: number
+  nickname: string
+  imageUrl: string
+}
+interface UserInfoListProps {
+  seller: MateHost | GoodsDetail['seller']
+}
+
+const UserInfoList = ({ seller }: UserInfoListProps) => {
   const { nickname, manner, imageUrl } = seller
 
   return (
@@ -16,12 +25,11 @@ const UserInfoList = ({ seller }: { seller: GoodsDetail['seller'] }) => {
           isChat={true}
           imageSrc={imageUrl}
         />
-
         <p>{nickname}</p>
       </ProfileContainer>
       <p>
-        {manner}
-        <FuckingBat />
+        <ProfileManner>{manner}</ProfileManner>
+        <BatIcon />
       </p>
     </DescriptionContainer>
   )

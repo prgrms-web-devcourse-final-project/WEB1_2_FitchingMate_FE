@@ -10,7 +10,6 @@ import {
 import PillButton from '@components/PillButton'
 import BottomModal from '@components/BottomModal'
 import MateFilterOptions from './MateFilterOptions'
-import MateCard from '@components/MateCard'
 
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import FloatButton from '@components/FloatButton'

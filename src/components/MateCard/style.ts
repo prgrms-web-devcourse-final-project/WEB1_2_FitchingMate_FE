@@ -1,13 +1,21 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-export const CardContainer = styled.div`
-  width: 100%;
+export const CardContainer = styled.div<{ $isDetailPage?: boolean }>`
   display: flex;
+
+  width: 100%;
   gap: 1em;
   padding: 1em 1.25em;
   border-bottom: 1px solid ${({ theme }) => theme.fontColor.cwhite};
 
   cursor: pointer;
+
+  ${({ $isDetailPage }) =>
+    $isDetailPage &&
+    css`
+      cursor: default;
+      border-bottom: none;
+    `}
 `
 
 export const CardImageWrap = styled.div`
@@ -32,10 +40,16 @@ export const CardImageWrap = styled.div`
   }
 `
 
-export const CardContent = styled.div`
+export const CardContent = styled.div<{ $isDetailPage?: boolean }>`
   display: flex;
   justify-content: space-between;
   width: calc(100% - 100px);
+
+  ${({ $isDetailPage }) =>
+    $isDetailPage &&
+    css`
+      width: 100%;
+    `}
 `
 export const CardContentLeft = styled.div`
   display: flex;
@@ -66,7 +80,7 @@ export const Description = styled.div`
 export const BedgeContainer = styled.div`
   display: flex;
   gap: 8px;
-  margin-top: 0.25em;
+  margin-top: 0.6em;
 `
 export const CardContentRight = styled.div`
   display: flex;

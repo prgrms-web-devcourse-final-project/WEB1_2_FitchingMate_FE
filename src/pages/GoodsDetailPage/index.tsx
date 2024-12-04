@@ -9,6 +9,7 @@ import {
   GoodsDetailMapWrap,
   GoodsDetailText,
   GoodsDetailTop,
+  GoodsDetailWrap,
   GoodsNoticeWrap,
   GoodsPriceText,
   PaginationContainer,
@@ -37,6 +38,7 @@ import Alert from '@components/Alert'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { useModal } from '@hooks/useModal'
 import goodsChatService from '@apis/goodsChatService'
+import KakaoMapContainer from './KakaoMapContainer'
 
 const GoodsDetailPage = () => {
   const [isOwner, setIsOwner] = useState(false)
@@ -50,6 +52,8 @@ const GoodsDetailPage = () => {
     queryFn: () => goodsService.getGoodsDetail(goodsId as string),
     enabled: !!goodsId,
   })
+
+  console.log(data)
 
   // 굿즈 게시글 삭제 요청
   const {
@@ -130,7 +134,7 @@ const GoodsDetailPage = () => {
   } = data
 
   return (
-    <>
+    <GoodsDetailWrap>
       <SubHeader
         left='back'
         center='굿즈 거래하기'
@@ -176,26 +180,11 @@ const GoodsDetailPage = () => {
             <h2>거래 장소</h2>
             <p>{location.placeName}</p>
             <GoodsDetailMapInner>
-              <Map
-                center={{
-                  lat: Number(location.latitude),
-                  lng: Number(location.longitude),
-                }}
-                style={{ width: '100%', height: '115px' }}
-              >
-                <MapMarker
-                  position={{
-                    lat: Number(location.latitude),
-                    lng: Number(location.longitude),
-                  }}
-                />
-              </Map>
-            </GoodsDetailMapInner>{' '}
-            {data.status === '거래중' ? (
-              <CardBedge text='거래중' />
-            ) : (
-              <CardBedge text='거래완료' />
-            )}
+              <KakaoMapContainer
+                latitude={location.latitude}
+                longitude={location.longitude}
+              />
+            </GoodsDetailMapInner>
           </GoodsDetailMapWrap>
         </GoodsNoticeWrap>
 
@@ -244,7 +233,7 @@ const GoodsDetailPage = () => {
           handleAlertClick={handleDeleteGoodsPost}
         />
       </section>
-    </>
+    </GoodsDetailWrap>
   )
 }
 

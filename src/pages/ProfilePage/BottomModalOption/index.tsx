@@ -7,9 +7,11 @@ interface BottomModalOptionProps {
 }
 
 const BottomModalOption = ({ onSelectTeam }: BottomModalOptionProps) => {
+  const { setTeamId } = useGoodsFormStore()
   const [_, ...restTeamList] = kboTeamList
 
   const handleSelectTeam = (team: string, id: number) => {
+    setTeamId(id)
     onSelectTeam(team, id)
   }
 

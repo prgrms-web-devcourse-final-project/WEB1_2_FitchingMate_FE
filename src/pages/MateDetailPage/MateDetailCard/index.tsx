@@ -1,37 +1,58 @@
 import {
-    CardContainer,
-    CardContent,
-    CardContentLeft,
-    CardContentRight,
-    BedgeContainer,
+  CardContainer,
+  CardContent,
+  CardContentLeft,
+  CardContentRight,
+  BedgeContainer,
   Description,
 } from './style'
 import CardBedge from '@components/CardBedge'
+import { formatMatchTime } from '@utils/formatDate'
 
-const MateDetailCard = () => {
+interface MateDetailCardProps {
+  title: string
+  rivalTeamName: string
+  location: string
+  status: string
+  maxParticipants: number
+  myTeamName: string
+  rivalMatchTime: string
+}
+
+const MateDetailCard = ({
+  title,
+  rivalTeamName,
+  location,
+  status,
+  maxParticipants,
+  myTeamName,
+  rivalMatchTime,
+}: MateDetailCardProps) => {
   return (
-    <CardContainer>  
-        <CardContent>
-          {/* 경기정보 */}
-          <CardContentLeft>
-            <Description>
-              <p>피치메이트</p>
-              <p>상대팀 : KT</p>
-              <p>11월 08일 13시 - 문학</p>
-            </Description>
-            <BedgeContainer>
-              <CardBedge />
-              <CardBedge />
-            </BedgeContainer>
-          </CardContentLeft>
-  
-          {/* 모집정보 */}
-          <CardContentRight>
-            <CardBedge text='모집중' />
-            <p>10명</p>
-          </CardContentRight>
-        </CardContent>
-      </CardContainer>
+    <CardContainer>
+      <CardContent>
+        {/* 경기정보 */}
+        <CardContentLeft>
+          <Description>
+            <p>{title}</p>
+            <p>상대팀 : {rivalTeamName}</p>
+            <p>
+              {formatMatchTime(rivalMatchTime)} - {location}
+            </p>
+          </Description>
+          <BedgeContainer>
+            <CardBedge text={myTeamName} />
+            <CardBedge />
+          </BedgeContainer>
+        </CardContentLeft>
+
+        {/* 모집정보 */}
+        <CardContentRight>
+          <CardBedge text={status} />
+          <p>{maxParticipants}명</p>
+        </CardContentRight>
+      </CardContent>
+    </CardContainer>
   )
 }
 
