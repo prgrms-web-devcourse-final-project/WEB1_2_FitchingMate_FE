@@ -9,10 +9,9 @@ import ProgressSection from '@components/ProgressSection'
 
 import useSubmitMatePost from '@hooks/useSubmitMatePost'
 import SubHeader from '@layouts/SubHeader'
-import useGetMatePost from '@hooks/usegetMatePost'
-import useUpdateMateFormData from '@hooks/useUpdateMateFormData'
 import { useMateFormStore } from '@store/useMateFormStore'
 import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보
@@ -47,6 +46,8 @@ type CategoryList =
 const MatePostingPage = () => {
   const { matePost, setInitialState } = useMateFormStore()
 
+  const { state } = useLocation()
+
   /**
    * 메이트 게시글 생성 및 수정
    *
@@ -60,23 +61,16 @@ const MatePostingPage = () => {
    */
 
   const { handleSubmit, isPending, isError, error } = useSubmitMatePost({
-    matePostId: 1,
-    memberId: Number(localStorage.getItem('memberId')) || undefined,
+    matePostId: 20,
+    memberId: 1,
   })
 
-  /**
-   * 메이트 게시글 수정 폼 데이터 업데이트
-   *
-   * 추후 로딩 상태 추가 필요
-   * 에러 상태 추가 필요
-   *
-   * 추후에는 이거 없애고 post에서 edit으로 들어올 때 해당 게시글 상태 데이터 store 업데이트 해서 들어오면될듯
-   */
-
-  // useUpdateMateFormData(1)
-
   useEffect(() => {
-    setInitialState()
+    return () => {
+      if (!state?.isEdit) {
+        setInitialState()
+      }
+    }
   }, [])
 
   const { currentTab, selectedTab, ...restTabInfo } = useTabs({
