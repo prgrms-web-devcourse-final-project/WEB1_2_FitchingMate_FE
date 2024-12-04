@@ -6,12 +6,92 @@ import {
   MateDetailActionWrapper,
 } from './style'
 import UserInfoList from '@components/UserInfoList'
-import MateDetailCard from './MateDetailCard'
 import MateDetailAction from './MateDetailAction'
-import MateDetailDefaultPhoto from '@assets/default/detail_test.jpg'
 import SubHeader from '@layouts/SubHeader'
+import queryClient, { QUERY_KEY } from '@apis/queryClient'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import matePostService from '@apis/matePostService'
+import { useNavigate, useParams } from 'react-router-dom'
+import MateCard from '@components/MateCard'
+import Alert from '@components/Alert'
+import { useModal } from '@hooks/useModal'
+import ALERT_MESSAGE from '@constants/alertMessage'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 const MateDetailPage = () => {
+  const { id: matePostId } = useParams()
+  const navigate = useNavigate()
+
+  const { data: matePost } = useQuery({
+    queryKey: [QUERY_KEY.MATE_POST],
+
+    queryFn: () => matePostService.getMatePost(matePostId as string),
+
+    enabled: !!matePostId,
+  })
+
+  const { mutate: deletePost, isPending: isDeletingPost } = useMutation({
+    mutationFn: () => matePostService.deleteMatePost(1, matePostId as string),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_POST] })
+      navigate(ROUTE_PATH.MATE_LIST)
+    },
+
+    onSettled: (data) => {
+      console.log(data)
+    },
+  })
+
+  const { alertRef, handleAlertClick } = useModal()
+
+  if (!matePost) return
+
+  const {
+    manner,
+    nickname,
+    content,
+    userImageUrl,
+    postImageUrl,
+    rivalMatchTime,
+    title,
+    status,
+    myTeamName,
+    rivalTeamName,
+    location,
+    maxParticipants,
+    age,
+    gender,
+    transportType,
+    postId,
+  } = matePost
+
+  const mateCard = {
+    age,
+    gender,
+    transportType,
+    postId,
+    title,
+    status,
+    myTeamName,
+    rivalTeamName,
+    imageUrl: postImageUrl,
+    matchTime: rivalMatchTime,
+    location,
+    maxParticipants,
+  }
+
+  const mateHost = {
+    manner,
+    nickname,
+    imageUrl: userImageUrl,
+    rivalMatchTime,
+  }
+
+  const handleDeletePost = () => {
+    deletePost()
+  }
+
   return (
     <>
       <SubHeader
@@ -20,24 +100,30 @@ const MateDetailPage = () => {
       />
       <MateDetailPageContainer>
         <MateDetailPhoto
-          src={MateDetailDefaultPhoto}
+          src={postImageUrl}
           alt='피치메이트 이미지'
         />
-        <MateDetailCard />
+        <MateCard
+          card={mateCard}
+          $isDetailPage
+        />
         <UserInfoListWrapper>
-          <UserInfoList />
+          <UserInfoList seller={mateHost} />
         </UserInfoListWrapper>
-        <MateDetailDescription>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque, autem. Sint ab et impedit odit error iste laborum provident voluptatum quos assumenda. Sed expedita consequatur molestiae ullam architecto dolores odit.
-          Error, accusamus modi incidunt inventore numquam voluptatibus beatae eveniet, sed autem nulla eaque. Placeat aliquam enim laboriosam maiores quo nihil nisi minima voluptatum accusantium explicabo. Excepturi eius odit consequatur eaque.
-          Corporis quibusdam odit voluptate dolores excepturi iusto et explicabo perspiciatis quam. Facilis soluta eum aliquam debitis dolore minima, odio quam, veritatis voluptatem corporis tenetur, sed illum ipsa voluptates inventore. Id.
-          Tempore cumque recusandae dolor similique nesciunt minus assumenda, pariatur molestiae, fugit vel nisi nemo nihil facere. Nostrum saepe autem corrupti! Impedit beatae deserunt consectetur natus enim nulla voluptate vero sunt.</p>
-          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem, sunt officiis repellendus cupiditate culpa vitae ipsa ab, minima eveniet esse ea, maiores quidem. Natus fugit laborum itaque doloremque odit reprehenderit.</p>
-        </MateDetailDescription>
+        <MateDetailDescription>{content}</MateDetailDescription>
         <MateDetailActionWrapper>
-          <MateDetailAction />
+          <MateDetailAction
+            matePost={matePost}
+            handleAlertClick={handleAlertClick}
+          />
         </MateDetailActionWrapper>
       </MateDetailPageContainer>
+
+      <Alert
+        ref={alertRef}
+        {...ALERT_MESSAGE.DELETE_POST}
+        handleAlertClick={handleDeletePost}
+      />
     </>
   )
 }

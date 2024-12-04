@@ -66,15 +66,10 @@ const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
     <MateCardContainer>
       <h3>{`${teamName} 메이트 찾기`}</h3>
       {mateCards.map((card) => (
-        <Link
+        <MateCard
           key={card.postId}
-          to={`${ROUTE_PATH.MATE_DETAIL}/${card.postId}`}
-        >
-          <MateCard
-            key={card.postId}
-            card={card}
-          />
-        </Link>
+          card={card}
+        />
       ))}
       <MoreSection>
         <Link

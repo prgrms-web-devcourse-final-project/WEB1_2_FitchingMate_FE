@@ -81,10 +81,6 @@ const AppRoutes = () => {
           path={ROUTE_PATH.CHAT_ROOM}
           element={<ChatRoom />}
         />
-        <Route
-          path={ROUTE_PATH.MATE_DETAIL}
-          element={<MateDetailPage />}
-        />
         <Route path={ROUTE_PATH.GOODS_DETAIL}>
           <Route
             index
@@ -93,6 +89,16 @@ const AppRoutes = () => {
           <Route
             path='edit'
             element={<GoodsPostingPage />}
+          />
+        </Route>
+        <Route path={ROUTE_PATH.MATE_DETAIL}>
+          <Route
+            index
+            element={<MateDetailPage />}
+          />
+          <Route
+            path='edit'
+            element={<MatePostingPage />}
           />
         </Route>
         <Route

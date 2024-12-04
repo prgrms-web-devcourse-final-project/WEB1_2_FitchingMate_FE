@@ -24,9 +24,11 @@ const mutationCallback = (
   goodsPostId?: number,
 ) => {
   if (goodsPostId) {
+    console.log('edit')
     return goodsPostService.editGoodsPost(memberId, goodsPostId, formData)
   }
 
+  console.log('post')
   return goodsPostService.postGoodsPost(memberId, formData)
 }
 
@@ -49,13 +51,11 @@ const usePostGoodsPost = ({ memberId, goodsPostId }: UsePostGoodsPostProps) => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEY.GOODS_POST, goodsPostId],
-      })
+      navigate(ROUTE_PATH.GOODS_LIST)
     },
 
-    onSettled: () => {
-      navigate(ROUTE_PATH.GOODS_LIST)
+    onSettled: (data, error) => {
+      console.log(data, error)
     },
   })
 
