@@ -27,6 +27,43 @@ const TimelinePage = () => {
     }
   }, [inView, hasMore, page])
 
+  /* const [timelineData, setTimelineData] = useState(data.slice(0, 5))
+  const [hasMore, setHasMore] = useState(true)
+  const [page, setPage] = useState(1)
+  const { ref, inView, entry } = useInView({
+    threshold: 0.5,
+  })
+
+  const {
+    data: timelineList,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isError,
+    error,
+  } = useInfiniteQuery({
+    queryKey: [QUERY_KEY.TIMELINE_LIST],
+    queryFn: ({ pageParam = 1 }) => reviewService.getTimelineList(pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPageList) => lastPage.nextPage ?? false,
+  })
+
+  console.log(timelineList?.pages)
+
+  useEffect(() => {
+    if (inView && hasMore) {
+      fetchNextPage()
+    }
+  }, [inView, hasMore, page])
+
+  useEffect(() => {
+    if (timelineList) {
+      const allPageListData = timelineList.pages.flatMap((page) => page.data)
+      setTimelineData(allPageListData)
+      setHasMore(timelineList.pages[timelineList.pages.length - 1].hasMore)
+    }
+  }, [timelineList]) */
+
   return (
     <>
       <SubHeader

@@ -1,5 +1,5 @@
 import { formatMatchTime } from '@utils/formatDate'
-import { GameCard, InputContainer } from './style'
+import { GameCard, InputContainer, LocationText } from './style'
 import { Match } from '@typings/db'
 import { formatTeamName } from '@utils/formatTeamName'
 import { useMateFormStore } from '@store/useMateFormStore'
@@ -26,17 +26,17 @@ const GameListCard = ({ match }: GameListCardProps) => {
   }
 
   return (
-    <GameCard>
+    <GameCard htmlFor={String(matchId)}>
       <InputContainer>
         <input
           type='checkbox'
-          id='match_id'
+          id={String(matchId)}
           checked={currentMatchId === matchId}
           onChange={handleChangeCheckbox}
         />
         <span>{formatTeamName(awayTeamName)}</span>
       </InputContainer>
-      <p>{location}</p>
+      <LocationText>{location}</LocationText>
       <p>{formatMatchTime(matchTime)}</p>
     </GameCard>
   )
