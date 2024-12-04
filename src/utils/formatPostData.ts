@@ -3,6 +3,7 @@ import { GoodsDetail, MatePostData } from '@typings/db'
 import { formatPriceWithComma, removeCommaFromPrice } from './formatPrice'
 import { formatParticipants, parseParticipants } from './formatParticipants'
 import { GoodsPost, MatePost } from '@typings/postForm'
+import { formatMatchWeek } from './formatMatchWeek'
 
 export const getTeamIdByName = (teamName: string): number => {
   if (teamName === '전체') return 0
@@ -46,7 +47,7 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
       matchId,
     },
 
-    selectedWeek: 1,
+    selectedWeek: formatMatchWeek(matchId),
 
     img: new File([], postImageUrl),
   }

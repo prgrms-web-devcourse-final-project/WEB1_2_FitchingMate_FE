@@ -17,24 +17,28 @@ interface MateDetailActionProps {
 }
 
 const MateDetailAction = ({
-  matePost: MatePostData,
+  matePost: matePostData,
   handleAlertClick,
 }: MateDetailActionProps) => {
   const navigate = useNavigate()
-  const { id: postId } = useParams()
 
   const { setMateFormData, setSelectedWeek, setImg } = useMateFormStore()
 
+  const { postId } = matePostData
+
   const handleEditClick = () => {
-    const postFormData = transformMatePostToFormData(MatePostData)
+    const postFormData = transformMatePostToFormData(matePostData)
 
     const { matePost, selectedWeek, img } = postFormData
 
     setMateFormData(matePost)
-    setSelectedWeek(selectedWeek)
+    setSelectedWeek(selectedWeek as number)
     setImg(img)
 
-    navigate(`/mate-detail/${postId}/edit`, { state: { isEdit: true } })
+    // 수정상태 넘기기
+    navigate(`/mate-detail/${postId}/edit`, {
+      state: { isEdit: true, postId },
+    })
   }
 
   const isConditionMatched = false // 조건 일치 여부

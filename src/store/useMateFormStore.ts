@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import { MatePost } from '@typings/postForm'
-import { MatePostData } from '@typings/db'
 
 interface MateFormStore {
   matePost: MatePost

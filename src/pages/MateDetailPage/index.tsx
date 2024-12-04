@@ -22,7 +22,12 @@ const MateDetailPage = () => {
   const { id: matePostId } = useParams()
   const navigate = useNavigate()
 
-  const { data: matePost } = useQuery({
+  const {
+    data: matePost,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: [QUERY_KEY.MATE_POST],
 
     queryFn: () => matePostService.getMatePost(matePostId as string),
