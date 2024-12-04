@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import TeamSelectSection from '@components/TeamSelectSection'
 import {
   FilterModalButton,
@@ -15,34 +16,32 @@ import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import FloatButton from '@components/FloatButton'
 import { useModal } from '@hooks/useModal'
 import { kboTeamList } from '@constants/kboInfo'
-import { useState, useEffect } from 'react'
-import { getTotalMateList } from '@apis/mateListService'
+
+import { getTotalMateList, getMateListByTeam } from '@apis/mateListService'
 
 const MateListPage = () => {
   const [selectedTeam, setSelectedTeam] = useState<number>(kboTeamList[0].id)
   const { bottomModalRef, handleOpenBottomModal } = useModal()
-  const [loading, setLoading] = useState(false)
-  const [mates, setMates] = useState<any[]>([])
+  const [mates, setMates] = useState<any[]>([]) // Mate 데이터 상태
+
+  const fetchMates = async (teamId: number) => {
+    try {
+      const response =
+        teamId === kboTeamList[0].id // 전체 팀인 경우
+          ? await getTotalMateList()
+          : await getMateListByTeam(teamId) // 특정 팀인 경우
+      setMates(response.data.content)
+    } catch (error) {
+      console.error('Failed to fetch mates:', error)
+    }
+  }
 
   const handleTeamSelect = (team: number) => {
     setSelectedTeam(team)
   }
 
   useEffect(() => {
-    const fetchMates = async () => {
-      setLoading(true)
-      try {
-        const data: any = await getTotalMateList(selectedTeam)
-        console.log(data)
-        setMates(data.data.content)
-      } catch (error) {
-        console.error('Failed to fetch mates:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchMates()
+    fetchMates(selectedTeam)
   }, [selectedTeam])
 
   return (
@@ -67,29 +66,9 @@ const MateListPage = () => {
         </FilterSelectOptionWrap>
       </FilterWrap>
       <div>
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          mates.map((mate) => (
-            <MateCard
-              key={mate.postId}
-              card={{
-                imageUrl: mate.imageUrl,
-                title: mate.title,
-                status: mate.status,
-                myTeamName: mate.myTeamName,
-                rivalTeamName: mate.rivalTeamName,
-                matchTime: mate.matchTime,
-                location: mate.location,
-                maxParticipants: mate.maxParticipants,
-                age: mate.age,
-                gender: mate.gender,
-                transportType: mate.transportType,
-                postId: mate.postId,
-              }}
-            />
-          ))
-        )}
+        {mates.map((card) => (
+          <MateCard key={card.postId} card={card} />
+        ))}
       </div>
 
       <FloatButton path={ROUTE_PATH.MATE_POSTING} />
