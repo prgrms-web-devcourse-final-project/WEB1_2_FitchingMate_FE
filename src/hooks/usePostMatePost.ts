@@ -16,20 +16,22 @@ import { ROUTE_PATH } from '@constants/ROUTE_PATH'
  */
 
 const mutationCallback = (
-  matePostId: number,
+  memberId: number,
   formData: FormData,
-  memberId?: number,
+  matePostId?: number,
 ) => {
-  if (memberId) {
+  if (matePostId) {
+    console.log('edit')
     return matePostService.editMatePost(memberId, matePostId, formData)
   }
 
+  console.log('post')
   return matePostService.postMatePost(formData)
 }
 
 interface UsePostMatePostProps {
-  matePostId: number
-  memberId?: number
+  matePostId?: number
+  memberId: number
 }
 
 /**
@@ -45,19 +47,15 @@ const usePostMatePost = ({ matePostId, memberId }: UsePostMatePostProps) => {
   const navigate = useNavigate()
 
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: async (formData: FormData) => {
-      if (memberId) {
-        return mutationCallback(matePostId, formData, memberId)
-      }
-
-      return mutationCallback(matePostId, formData)
-    },
+    mutationFn: async (formData: FormData) =>
+      mutationCallback(memberId, formData, matePostId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_POST] })
+      navigate(ROUTE_PATH.MATE_LIST)
     },
 
-    onSettled: () => {
-      navigate(ROUTE_PATH.MATE_LIST)
+    onSettled: (data, error) => {
+      console.log(data, error)
     },
   })
 

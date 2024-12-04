@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { MatePost } from '@typings/postForm'
+import { MatePostData } from '@typings/db'
 
 interface MateFormStore {
   matePost: MatePost
@@ -61,7 +62,6 @@ export const useMateFormStore = create<MateFormStore>((set) => ({
   setImg: (img) => set(() => ({ img })),
   setTeamId: (teamId) =>
     set((state) => ({ matePost: { ...state.matePost, teamId } })),
-  setMateFormData: (mateFormData) =>
-    set(() => ({ matePost: { ...mateFormData } })),
+  setMateFormData: (mateFormData) => set(() => ({ matePost: mateFormData })),
   setInitialState: () => set(() => ({ ...initialState })),
 }))

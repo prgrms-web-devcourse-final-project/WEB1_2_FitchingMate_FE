@@ -9,9 +9,11 @@ import {
 } from './style'
 import Placeholder from '@assets/default/placeholder.svg?react' // 기본 이미지 컴포넌트
 import CardBedge from '@components/CardBedge'
-import { kboTeamInfo } from '@constants/kboInfo'
+
 import { formatMatchTime } from '@utils/formatDate'
 import { MateCardData } from '@typings/db'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import { useNavigate } from 'react-router-dom'
 
 interface MateCardProps {
   card: MateCardData
@@ -34,10 +36,15 @@ const MateCard = ({ card, $isDetailPage }: MateCardProps) => {
     imageUrl,
   } = card
 
-  const teamInfo = kboTeamInfo[myTeamName]
+  const navigate = useNavigate()
+
+  const currentPath = ROUTE_PATH.MATE_DETAIL.replace(':id', postId.toString())
 
   return (
-    <CardContainer>
+    <CardContainer
+      onClick={() => navigate(currentPath)}
+      $isDetailPage={$isDetailPage}
+    >
       {!$isDetailPage && (
         <CardImageWrap>
           {imageUrl ? (
@@ -53,7 +60,7 @@ const MateCard = ({ card, $isDetailPage }: MateCardProps) => {
           )}
         </CardImageWrap>
       )}
-      <CardContent>
+      <CardContent $isDetailPage={$isDetailPage}>
         <CardContentLeft>
           <Description>
             <p>{title}</p>
