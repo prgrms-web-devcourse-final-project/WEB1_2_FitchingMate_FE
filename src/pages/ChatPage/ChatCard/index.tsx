@@ -35,11 +35,12 @@ const ChatCard = ({
     opponentNickname,
     lastChatSentAt,
     lastChatContent,
+    chatRoomId,
   } = goodsChatroomContent
-  console.log(goodsChatroomContent)
+
   return (
     <Card>
-      <ContentContainer onClick={handleChatCardClick}>
+      <ContentContainer onClick={() => handleChatCardClick(chatRoomId)}>
         <ProfileWrap>
           {opponentImageUrl ? (
             <ProfileBedge

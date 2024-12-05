@@ -12,11 +12,13 @@ import { useModal } from '@hooks/useModal'
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { ChatType } from '@pages/ChatPage'
-import useGetGoodsPost from '@hooks/usegetGoodsPost'
+
 import goodsChatService from '@apis/goodsChatService'
 import { useQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import { formatChatContent } from '@utils/formatChatContent'
+import { useGoodsChatExit } from '@hooks/useChatExit'
+import { useParams } from 'react-router-dom'
 
 const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
@@ -24,12 +26,32 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
   const { goodsAlertStatus } = useGoodsChatStore()
 
-  const { data, isLoading } = useQuery({
-    queryKey: [QUERY_KEY.GOODS_CHATROOM, 1],
-    queryFn: () => goodsChatService.getGoodsChatroom(1),
+  const { id: chatRoomId } = useParams()
+  console.log(chatRoomId)
+
+  /**
+   * 채팅방 상세 조회
+   * 채팅방 상세 조회 성공 시 쿼리 데이터 갱신
+   */
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: [QUERY_KEY.GOODS_CHATROOM, chatRoomId],
+    queryFn: () => goodsChatService.getGoodsChatroom(chatRoomId as string),
   })
 
-  if (!data) return null
+  /**
+   * 채팅방 나가기
+   * 채팅방 나가기 버튼 클릭 시 호출
+   * 채팅방 나가기 성공 시 쿼리 데이터 갱신
+   */
+
+  const {
+    goodsExitMutate,
+    isGoodsExitPending,
+    isGoodsExitError,
+    goodsExitError,
+  } = useGoodsChatExit(chatRoomId as string)
+
+  if (!data || !chatRoomId) return null
 
   const {
     imageUrl,
@@ -41,9 +63,7 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     initialMessages,
   } = data
 
-  console.log(initialMessages)
-
-  const { content } = initialMessages
+  const { content: messageList } = initialMessages
 
   const formatData = {
     imageUrls: [imageUrl],
@@ -64,8 +84,6 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
     return message
   }
-
-  console.log(content)
 
   return (
     <>
@@ -98,6 +116,7 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
       <Alert
         ref={alertRef}
         {...currentAlertMessage()}
+        handleAlertClick={goodsExitMutate}
       />
     </>
   )

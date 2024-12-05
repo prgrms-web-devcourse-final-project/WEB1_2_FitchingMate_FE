@@ -9,6 +9,8 @@ import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import { useQuery } from '@tanstack/react-query'
 import goodsChatService from '@apis/goodsChatService'
 import GoodsUserCard from '../GoodsUserCard'
+import { QUERY_KEY } from '@apis/queryClient'
+import { useCompletePost } from '@hooks/useCompletePost'
 
 interface ChatBottomModalProps {
   handleAlertClick: () => void
@@ -25,9 +27,16 @@ const GoodsModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
     isError,
     error,
   } = useQuery({
-    queryKey: ['goodsChatParticipantList'],
+    queryKey: [QUERY_KEY.GOODS_CHAT_PARTICIPANT],
     queryFn: () => goodsChatService.goodsParticipantList(1),
   })
+
+  // const {
+  //   completeGoodsPost,
+  //   isCompleteGoodsPostPending,
+  //   isCompleteGoodsPostError,
+  //   completeGoodsPostError,
+  // } = useCompletePost()
 
   const handleExitChatClick = () => {
     setGoodsAlertStatus({ type: 'CHAT_EXIT' })

@@ -43,13 +43,9 @@ const goodsPostService = {
     return response
   },
 
-  completeGoodsPost: async (
-    memberId: number,
-    goodsPostId: number,
-    buyerId: number,
-  ) => {
+  completeGoodsPost: async (goodsPostId: string, buyerId: string) => {
     const response = await fetchApi
-      .post(`goods/${memberId}/post/${goodsPostId}/complete?buyerId=${buyerId}`)
+      .post(`goods/${goodsPostId}/complete?buyerId=${buyerId}`)
       .json()
 
     return response

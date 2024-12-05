@@ -3,7 +3,6 @@ import { GlobalFloatAside } from '@styles/globalStyle'
 
 import ALERT_MESSAGE from '@constants/alertMessage'
 
-import ChatCard from './ChatCard'
 import PillButton from '@components/PillButton'
 import Alert from '@components/Alert'
 import SubHeader from '@layouts/SubHeader'

@@ -24,7 +24,7 @@ const goodsChatService = {
   },
 
   // 채팅 페이지 => 채팅방 상세
-  getGoodsChatroom: async (chatRoomId: number) => {
+  getGoodsChatroom: async (chatRoomId: string) => {
     const response = await fetchApi
       .get<GoodsChatroomResponse>(`goods/chat/${chatRoomId}`)
       .json()
@@ -47,7 +47,7 @@ const goodsChatService = {
     return response
   },
 
-  exitGoodsChat: async (chatRoomId: number) => {
+  exitGoodsChat: async (chatRoomId: string) => {
     const response = await fetchApi.delete(`goods/chat/${chatRoomId}`).json()
 
     return response
