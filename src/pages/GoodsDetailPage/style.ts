@@ -126,6 +126,10 @@ export const GoodsBottomButton = styled.button<ButtonPropTypes>`
   letter-spacing: -0.025em;
 
   border-radius: 4px;
+
+  &:disabled {
+    background-color: #d9d9d9;
+  }
 `
 
 export const GoodsNoticeWrap = styled.div`
