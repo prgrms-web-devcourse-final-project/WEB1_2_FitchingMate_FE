@@ -12,14 +12,13 @@ import BottomModal from '@components/BottomModal'
 import useTeamDialog from '@hooks/useTeamDialog'
 import BottomModalOption from './BottomModalOption'
 import SubHeader from '@layouts/SubHeader'
-import useGetMyInfo from '@hooks/useGetMyInfo'
 import useEditMyInfo from '@hooks/useEditMyInfo'
 import { useLocation } from 'react-router-dom'
 import { UserInfo } from '@typings/userForm'
 import { kboTeamInfo } from '@constants/kboInfo'
 
 // 소개글 글자제한
-const MAX_LENGTH = 200
+const MAX_LENGTH = 500
 
 const ProfileEdit = () => {
   const location = useLocation()

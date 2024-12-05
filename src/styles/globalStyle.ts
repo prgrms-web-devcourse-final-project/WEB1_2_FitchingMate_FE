@@ -45,6 +45,12 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  textarea {
+    &::D-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   #root {
     width: 100%;
     max-width: 480px;
@@ -138,6 +144,19 @@ export const GlobalFloatAside = styled.aside`
   right: 0;
   bottom: 0;
   z-index: 999;
+`
+
+export const GlobalUpButton = styled.div`
+  display: inline;
+  padding: 14px;
+  position: absolute;
+  bottom: calc(125px + 8px);
+  right: 8px;
+  border-radius: 50%;
+  filter: drop-shadow(2px 2px 5px #00000025);
+  background-color: ${theme.fontColor.white};
+
+  cursor: pointer;
 `
 
 export const GlobalFloatButton = styled.div`

@@ -4,12 +4,18 @@ import fetchApi from './ky'
 const KBO_NUMBER = 0
 
 const goodsService = {
-  getGoodsList: async (teamId?: number, category?: string) => {
+  getGoodsList: async (
+    teamId?: number,
+    category?: string,
+    pageParam?: number,
+  ) => {
     let endpoint = 'goods?'
     if (teamId !== KBO_NUMBER) endpoint += `teamId=${teamId}&`
     if (category !== '전체') endpoint += `category=${category}&`
 
-    const response = await fetchApi.get<GoodsListResponse>(endpoint).json()
+    const response = await fetchApi
+      .get<GoodsListResponse>(`${endpoint}page=${pageParam}`)
+      .json()
 
     return response.data
   },

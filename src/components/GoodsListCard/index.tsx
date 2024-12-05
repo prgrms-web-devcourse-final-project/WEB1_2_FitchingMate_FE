@@ -1,3 +1,4 @@
+import { GoodsDetail } from '@typings/db'
 import {
   Container,
   GoodsListCardContainer,
@@ -6,32 +7,39 @@ import {
 } from './style'
 
 import CardBedge from '@components/CardBedge'
+import { formatPriceWithComma } from '@utils/formatPrice'
 
-const GoodsListCard = () => {
+interface GoodsListCardProps {
+  goodsPost: GoodsDetail
+}
+
+const GoodsListCard = ({ goodsPost }: GoodsListCardProps) => {
+  const { imageUrls, title, price, status, category, teamName } = goodsPost
+
   return (
     <Container>
       <div>
         <img
-          src='https://placehold.co/55x55'
-          alt='ㅇㅁㄴㄹ'
+          src={imageUrls[0]}
+          alt='상품 이미지'
         />
         <GoodsListCardContainer>
           <div>
             <BedgeContainer>
               <div>
-                <CardBedge text='모자' />
-                <CardBedge text='NC' />
+                <CardBedge text={category} />
+                <CardBedge text={teamName} />
               </div>
-              <CardBedge text='거래중' />
+              <CardBedge text={status} />
             </BedgeContainer>
             <GoodsInfoContainer>
-              <p>NC 다이노스 배틀크러쉬 모자</p>
-              <p>25,000원</p>
+              <p>{title}</p>
+              <p>{formatPriceWithComma(price)}원</p>
             </GoodsInfoContainer>
           </div>
         </GoodsListCardContainer>
       </div>
-      <button>후기 보내기</button>
+      {status === '거래중' && <button>후기 보내기</button>}
     </Container>
   )
 }

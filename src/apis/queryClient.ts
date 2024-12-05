@@ -26,6 +26,7 @@ export const QUERY_KEY = {
   MATE_REVIEW: 'mateReview',
   GOODS_REVIEW: 'goodsReview',
   TIMELINE_LIST: 'timelineList',
+  GOODS_CHAT_LIST: 'goodsChatList',
 }
 
 export default queryClient

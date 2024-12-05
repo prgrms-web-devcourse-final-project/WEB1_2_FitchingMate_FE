@@ -2,7 +2,7 @@ import { useMateFormStore } from '@store/useMateFormStore'
 import { Textarea } from '../style'
 import { DescriptionContainer } from '@pages/GoodsPostingPage/Tabs/FirstTab/DescriptionSection/style'
 
-const MAX_CONTENT_LENGTH = 200
+const MAX_CONTENT_LENGTH = 500
 
 const TextAreaSection = () => {
   const {
@@ -11,7 +11,10 @@ const TextAreaSection = () => {
   } = useMateFormStore()
 
   const handleChangeContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value)
+    const value = e.target.value
+    if (value.length <= MAX_CONTENT_LENGTH) {
+      setContent(value)
+    }
   }
 
   return (

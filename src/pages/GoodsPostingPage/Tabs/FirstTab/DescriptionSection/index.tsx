@@ -6,7 +6,7 @@ const DescriptionSection = () => {
   const description = useGoodsFormStore((state) => state.goods.content)
   const setDescription = useGoodsFormStore((state) => state.setContent)
 
-  const MAX_LENGTH = 200
+  const MAX_LENGTH = 500
 
   const validateDescription = (description: string) => {
     return description.length <= MAX_LENGTH

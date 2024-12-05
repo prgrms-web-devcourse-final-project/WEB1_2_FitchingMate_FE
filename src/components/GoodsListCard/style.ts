@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
-  padding: 20px 20px 10px 20px;
+  padding: 10px 20px;
 
   & > div:first-child {
     display: flex;
@@ -16,7 +16,7 @@ export const Container = styled.div`
   }
 
   & > button {
-    margin-top: 10px;
+    margin-top: 6px;
     padding: 5px 10px;
     border-radius: 5px;
     background-color: transparent;

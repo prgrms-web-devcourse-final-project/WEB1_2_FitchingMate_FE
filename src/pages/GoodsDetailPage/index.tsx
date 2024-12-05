@@ -22,8 +22,8 @@ import 'swiper/css/pagination'
 import UserInfoList from '@components/UserInfoList'
 import CardBedge from '@components/CardBedge'
 import { GlobalFloatAside } from '@styles/globalStyle'
-import { useState } from 'react'
-import { Map, MapMarker } from 'react-kakao-maps-sdk'
+import { useEffect, useState } from 'react'
+
 import SubHeader from '@layouts/SubHeader'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import goodsService from '@apis/goodsService'
@@ -41,8 +41,8 @@ import goodsChatService from '@apis/goodsChatService'
 import KakaoMapContainer from './KakaoMapContainer'
 
 const GoodsDetailPage = () => {
-  const [isOwner, setIsOwner] = useState(true)
-  const [isAble, setIsAble] = useState(false)
+  const [isOwner, setIsOwner] = useState(false)
+  const [isAble, setIsAble] = useState(true)
 
   const { id: goodsId } = useParams()
 
@@ -62,9 +62,6 @@ const GoodsDetailPage = () => {
 
     enabled: !!goodsId,
   })
-
-  // 굿즈 게시글 삭제 요청
-  console.log(data)
 
   /**
    * 굿즈 게시글 삭제
@@ -100,7 +97,7 @@ const GoodsDetailPage = () => {
    */
 
   const { mutate: createGoodsChatroom } = useMutation({
-    mutationFn: () => goodsChatService.createGoodsChatroom(2, 30),
+    mutationFn: () => goodsChatService.createGoodsChatroom(3, 107),
 
     onSettled: (data, error) => {
       console.log(data, error)
