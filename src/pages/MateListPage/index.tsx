@@ -22,6 +22,7 @@ import { useTopRef } from '@hooks/useTopRef'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import { useInView } from 'react-intersection-observer'
+import MainMateCard from '@components/MainMateCard'
 
 const MateListPage = () => {
   const [selectedTeam, setSelectedTeam] = useState<number | null>(
@@ -114,7 +115,7 @@ const MateListPage = () => {
       </FilterWrap>
       <div>
         {mateList.map((mate) => (
-          <MateCard
+          <MainMateCard
             key={mate.postId}
             card={mate}
           />
