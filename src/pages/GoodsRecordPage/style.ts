@@ -10,6 +10,15 @@ export const GoodsSection = styled.section`
   padding: 20px;
 `
 
+export const GoodsRecordBoxContainer = styled.div`
+  width: 100%;
+
+  & > a {
+    display: block;
+    width: 100%;
+  }
+`
+
 export const GoodsRecordBoxWrap = styled.div`
   padding: 1em;
   border: 1px solid #eee;

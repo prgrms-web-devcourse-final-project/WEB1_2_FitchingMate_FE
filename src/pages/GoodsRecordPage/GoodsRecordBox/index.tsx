@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import {
   GoodsImageWrap,
   GoodsInfo,
+  GoodsRecordBoxContainer,
   GoodsRecordBoxWrap,
   GoodsRecordPrice,
   GoodsRecordTextWrap,
@@ -32,31 +33,32 @@ const GoodsRecordBox = ({
   const time = dayjs(createdAt)
 
   return (
-    <Link
-      to={`${ROUTE_PATH.GOODS_DETAIL}/${postId}`}
-      style={{ width: '100%', display: 'block' }}
-    >
-      <GoodsRecordBoxWrap>
-        <GoodsImageWrap>
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt={title}
-            />
-          ) : (
-            <Placeholder />
-          )}
-        </GoodsImageWrap>
-        <GoodsRecordTextWrap>
-          <GoodsRecordTitle>{title}</GoodsRecordTitle>
-          <GoodsRecordPrice>{price.toLocaleString('ko-KR')}원</GoodsRecordPrice>
-          <GoodsInfo>
-            <span>{author}</span>
-            <span>{time.format('YYYY-MM-DD')}</span>
-          </GoodsInfo>
-        </GoodsRecordTextWrap>
-      </GoodsRecordBoxWrap>
-    </Link>
+    <GoodsRecordBoxContainer>
+      <Link to={`/goods-detail/${postId}`}>
+        <GoodsRecordBoxWrap>
+          <GoodsImageWrap>
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={title}
+              />
+            ) : (
+              <Placeholder />
+            )}
+          </GoodsImageWrap>
+          <GoodsRecordTextWrap>
+            <GoodsRecordTitle>{title}</GoodsRecordTitle>
+            <GoodsRecordPrice>
+              {price.toLocaleString('ko-KR')}원
+            </GoodsRecordPrice>
+            <GoodsInfo>
+              <span>{author}</span>
+              <span>{time.format('YYYY-MM-DD')}</span>
+            </GoodsInfo>
+          </GoodsRecordTextWrap>
+        </GoodsRecordBoxWrap>
+      </Link>
+    </GoodsRecordBoxContainer>
   )
 }
 
