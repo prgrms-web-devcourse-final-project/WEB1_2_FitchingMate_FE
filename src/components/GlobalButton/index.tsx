@@ -5,6 +5,7 @@ interface GlobalButtonProps {
   $isNavy?: boolean
   $width?: number
   onClick?: (e: React.MouseEvent) => void
+  $disabled? : boolean
 }
 
 const GlobalButton = ({ text, ...rest }: GlobalButtonProps) => {
