@@ -1,54 +1,58 @@
 import PillButtonList from '@components/PillButtonList'
-import { ReviewBox, ReviewButtonWrap, ReviewLinkBox, ReviewWrap } from './style'
-import { Link } from 'react-router-dom'
-import LinkIcon from '@assets/icon/link.svg?react'
-import { useEffect, useState } from 'react'
-import { goodsReviewList, mateReviewList } from './mockData'
-import useFormattingDate from '@hooks/useFormattingDate'
+import { ReviewButtonWrap } from './style'
 import SubHeader from '@layouts/SubHeader'
-import dayjs from 'dayjs'
 
-interface ReviewTypes {
-  postId: number
-  title: string
-  nickname: string
-  rating: string
-  content: string
-  created_at: string
-}
+import { useEffect, useState } from 'react'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { QUERY_KEY } from '@apis/queryClient'
+import reviewService from '@apis/reviewService'
+import ReviewBoxComponent from './ReviewBoxComponent'
+import { useInView } from 'react-intersection-observer'
 
 const GOODS_REVIEW = '1'
 const MATE_REVIEW = '2'
 
 const ReviewPage = () => {
-  const [selectedButton, setSelectedButton] = useState(GOODS_REVIEW)
-  const [reviewDataList, setReviewDataList] = useState<ReviewTypes[] | null>(
-    null,
-  )
+  const [selectedReview, setSelectedReview] = useState(GOODS_REVIEW)
+  const { ref, inView } = useInView({
+    threshold: 0.9,
+    triggerOnce: true,
+  })
 
-  const formatDate = (created_at: string) => {
-    const date = dayjs(created_at)
-    return date.format('YYYY년 MM월 DD일')
-  }
-
-  const decideRatingText = (rating: string) => {
-    switch (rating) {
-      case 'BAD':
-        return <>별로에요</>
-      case 'GOOD':
-        return <>좋았어요!</>
-      case 'GREAT':
-        return <>최고에요!</>
+  const decideReviewType = (reviewType: string) => {
+    if (reviewType === '1') {
+      return 'goods'
+    } else {
+      return 'mate'
     }
   }
+
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.REVIEW_LIST, selectedReview],
+      queryFn: ({ pageParam }) =>
+        reviewService.getReviewList(
+          decideReviewType(selectedReview),
+          1,
+          pageParam,
+        ),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage: any) => {
+        return lastPage.hasNext ? lastPage.pageNumber + 1 : undefined
+      },
+    })
 
   useEffect(() => {
-    if (selectedButton === '2') {
-      setReviewDataList(mateReviewList)
-    } else if (selectedButton === '1') {
-      setReviewDataList(goodsReviewList)
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
+      console.log(data)
     }
-  }, [selectedButton])
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  if (!data) return null
+
+  const { pages } = data
+  const reviewList = pages.flatMap((page) => page.content)
 
   return (
     <>
@@ -64,36 +68,20 @@ const ReviewPage = () => {
               { id: '2', text: '메이트 후기', disabled: false },
             ]}
             mode='radio'
-            defaultSelected={selectedButton}
-            onSelect={setSelectedButton}
+            defaultSelected={selectedReview}
+            onSelect={setSelectedReview}
           />
         </ReviewButtonWrap>
-        <ReviewWrap>
-          {reviewDataList &&
-            reviewDataList.map((data, index) => {
-              return (
-                <ReviewBox key={index}>
-                  <span>{decideRatingText(data.rating)}</span>
-                  <p>{data.content}</p>
-                  <em>
-                    {data.nickname} · {formatDate(data.created_at)}
-                  </em>
-                  <ReviewLinkBox>
-                    <Link to={'/'}>
-                      <div>
-                        <span>
-                          {selectedButton === '2' && '직관후기'}
-                          {selectedButton === '1' && '굿즈거래'}
-                        </span>
-                        <i>{data.title}</i>
-                      </div>
-                      <LinkIcon />
-                    </Link>
-                  </ReviewLinkBox>
-                </ReviewBox>
-              )
-            })}
-        </ReviewWrap>
+        <ReviewBoxComponent
+          reviewList={reviewList}
+          selectedReview={selectedReview}
+        />
+        {hasNextPage && !isFetchingNextPage ? (
+          <div
+            ref={ref}
+            style={{ height: '50vh' }}
+          ></div>
+        ) : null}
       </section>
     </>
   )
