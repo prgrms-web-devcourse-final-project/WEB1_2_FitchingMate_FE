@@ -1,4 +1,8 @@
-import { GoodsChatroom, GoodsChatroomResponse } from '@typings/db'
+import {
+  GoodsChatParticipantResponse,
+  GoodsChatroom,
+  GoodsChatroomResponse,
+} from '@typings/db'
 import fetchApi from './ky'
 
 const goodsChatService = {
@@ -25,7 +29,7 @@ const goodsChatService = {
       .get<GoodsChatroomResponse>(`goods/chat/${chatRoomId}`)
       .json()
 
-    return response
+    return response.data
   },
 
   getChatList: async (
@@ -49,12 +53,12 @@ const goodsChatService = {
     return response
   },
 
-  goodsParticipantList: async (chatRoomId: number, memberId: number) => {
+  goodsParticipantList: async (chatRoomId: number) => {
     const response = await fetchApi
-      .get(`goods/chat/${chatRoomId}/members?memberId=${memberId}`)
+      .get<GoodsChatParticipantResponse>(`goods/chat/${chatRoomId}/members`)
       .json()
 
-    return response
+    return response.data
   },
 }
 

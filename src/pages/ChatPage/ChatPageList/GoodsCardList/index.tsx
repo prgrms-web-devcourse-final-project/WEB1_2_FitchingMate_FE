@@ -9,17 +9,13 @@ const GoodsCardList = ({ onExitClick }: { onExitClick: () => void }) => {
     goodsChatListErrorMessage,
   } = useGoodsChatPage()
 
-  console.log(goodsChatList)
-  const handleExitClick = () => {
-    onExitClick()
-  }
   return (
     <>
       {goodsChatList?.content?.map((goodsChat) => (
         <ChatCard
           key={goodsChat.chatRoomId}
           currentTab='굿즈'
-          onExitClick={() => {}}
+          onExitClick={onExitClick}
           goodsChatroomContent={goodsChat}
         />
       ))}

@@ -230,3 +230,17 @@ export interface GoodsChatroomResponse {
   timestamp: string
   code: number
 }
+
+export interface GoodsChatParticipant {
+  memberId: number
+  nickname: string
+  imageUrl?: string
+}
+
+export interface GoodsChatParticipantResponse {
+  status: string
+  message: string | null
+  data: GoodsChatParticipant[]
+  timestamp: string
+  code: number
+}

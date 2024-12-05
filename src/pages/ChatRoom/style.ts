@@ -110,3 +110,14 @@ export const GeneralChatButton = styled.button`
   font-size: ${({ theme }) => theme.fontSize.large};
   font-weight: ${({ theme }) => theme.fontWeight.semi};
 `
+export const EnterChatMessage = styled.div`
+  padding: 0.2em 0;
+  border-radius: 15px;
+  text-align: center;
+
+  background-color: ${({ theme }) => theme.fontColor.navy};
+  color: ${({ theme }) => theme.fontColor.cwhite};
+
+  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+`
