@@ -1,7 +1,8 @@
+import { GoodsChatroom, GoodsChatroomResponse } from '@typings/db'
 import fetchApi from './ky'
 
 const goodsChatService = {
-  createGoodsChatroom: async (buyerId: number, goodsPostId: number) => {
+  createGoodsChatroom: async (buyerId: number, goodsPostId: string) => {
     const response = await fetchApi
       .post(`goods/chat?buyerId=${buyerId}&goodsPostId=${goodsPostId}`)
       .json()
@@ -9,18 +10,19 @@ const goodsChatService = {
     return response
   },
 
-  getGoodsChatList: async (memberId: number, page: number, size: number) => {
+  // 채팅 페이지 => 채팅방 목록
+  getGoodsChatroomList: async (page: number, size: number) => {
     const response = await fetchApi
-      .get(`goods/chat?memberId=${memberId}&page=${page}&size=${size}`)
+      .get<GoodsChatroom>(`goods/chat?page=${page}&size=${size}`)
       .json()
 
-    return response
+    return response.data
   },
 
   // 채팅 페이지 => 채팅방 상세
-  getGoodsChatroom: async (chatRoomId: number, memberId: number) => {
+  getGoodsChatroom: async (chatRoomId: number) => {
     const response = await fetchApi
-      .get(`goods/chat/${chatRoomId}?memberId=${memberId}`)
+      .get<GoodsChatroomResponse>(`goods/chat/${chatRoomId}`)
       .json()
 
     return response
@@ -41,10 +43,8 @@ const goodsChatService = {
     return response
   },
 
-  exitGoodsChat: async (chatRoomId: number, memberId: number) => {
-    const response = await fetchApi
-      .delete(`goods/chat/${chatRoomId}?memberId=${memberId}`)
-      .json()
+  exitGoodsChat: async (chatRoomId: number) => {
+    const response = await fetchApi.delete(`goods/chat/${chatRoomId}`).json()
 
     return response
   },

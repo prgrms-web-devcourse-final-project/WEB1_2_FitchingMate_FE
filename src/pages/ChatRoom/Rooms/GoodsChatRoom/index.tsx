@@ -22,12 +22,12 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
   const { goodsAlertStatus } = useGoodsChatStore()
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ['goodsChatroom', 1],
-  //   queryFn: () => goodsChatService.getGoodsChatroom(2),
-  // })
+  const { data, isLoading } = useQuery({
+    queryKey: ['goodsChatroom', 1],
+    queryFn: () => goodsChatService.getGoodsChatroom(1),
+  })
 
-  // console.log(data)
+  console.log(data)
 
   const currentAlertMessage = () => {
     const { type, userName } = goodsAlertStatus

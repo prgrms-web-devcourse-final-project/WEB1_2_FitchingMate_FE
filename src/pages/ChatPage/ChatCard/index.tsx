@@ -12,34 +12,58 @@ import { CHAT_TAB_LIST } from '../index'
 import ProfileBedge from '@components/ProfileBedge'
 import ChatExit from '@assets/icon/exit_line.svg?react'
 import useNavigatChatRoom from '@hooks/useNavigatChatRoom'
+import { GoodsChatroomContent } from '@typings/db'
+import { formatChatTime } from '@utils/formatDate'
 
 interface ChatCardProps {
   currentTab: (typeof CHAT_TAB_LIST)[number]
   onExitClick: () => void
+  goodsChatroomContent: GoodsChatroomContent
 }
 
-const ChatCard = ({ currentTab, onExitClick }: ChatCardProps) => {
+const ChatCard = ({
+  currentTab,
+  onExitClick,
+  goodsChatroomContent,
+}: ChatCardProps) => {
   const { handleChatCardClick, isGoods, isGeneral } =
     useNavigatChatRoom(currentTab)
 
+  const {
+    opponentImageUrl,
+    goodsMainImageUrl,
+    opponentNickname,
+    lastChatSentAt,
+    lastChatContent,
+  } = goodsChatroomContent
+  console.log(goodsChatroomContent)
   return (
     <Card>
       <ContentContainer onClick={handleChatCardClick}>
         <ProfileWrap>
-          <ProfileBedge
-            width={3.125}
-            height={3.125}
-            isChat
-          />
-          {!isGeneral && <img src='https://placehold.co/40x40' />}
+          {opponentImageUrl ? (
+            <ProfileBedge
+              width={3.125}
+              height={3.125}
+              isChat
+              imageSrc={opponentImageUrl}
+            />
+          ) : (
+            <ProfileBedge
+              width={3.125}
+              height={3.125}
+              isChat
+            />
+          )}
+          {goodsMainImageUrl && <img src={goodsMainImageUrl} />}
         </ProfileWrap>
 
         <ChatContent>
           <UserInfoContainer>
-            <h2>삐삐 푸들</h2>
-            {isGoods && <p>상남동 · 1주 전</p>}
+            <h2>{opponentNickname}</h2>
+            {isGoods && <p>{formatChatTime(lastChatSentAt)}</p>}
           </UserInfoContainer>
-          <p>경비실 앞에 있겠습니다</p>
+          <p>{lastChatContent}</p>
         </ChatContent>
       </ContentContainer>
 

@@ -11,6 +11,7 @@ import GlobalNav from '@layouts/GlobalNav'
 
 import { useModal } from '@hooks/useModal'
 import useNavigateChat from '@hooks/useNavigateChat'
+import GoodsCardList from './ChatPageList/GoodsCardList'
 
 export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]
@@ -20,6 +21,7 @@ const ChatPage = () => {
   const { alertRef, handleAlertClick } = useModal()
 
   if (!currentTab) return null
+
   return (
     <>
       <SubHeader center='메시지' />
@@ -36,10 +38,9 @@ const ChatPage = () => {
         </TabContainer>
 
         <ChatListContainer>
-          <ChatCard
-            currentTab={currentTab}
-            onExitClick={handleAlertClick}
-          />
+          {currentTab === '굿즈' && (
+            <GoodsCardList onExitClick={handleAlertClick} />
+          )}
         </ChatListContainer>
 
         <Alert

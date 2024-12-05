@@ -97,7 +97,8 @@ const GoodsDetailPage = () => {
    */
 
   const { mutate: createGoodsChatroom } = useMutation({
-    mutationFn: () => goodsChatService.createGoodsChatroom(3, 107),
+    mutationFn: () =>
+      goodsChatService.createGoodsChatroom(3, goodsId as string),
 
     onSettled: (data, error) => {
       console.log(data, error)
