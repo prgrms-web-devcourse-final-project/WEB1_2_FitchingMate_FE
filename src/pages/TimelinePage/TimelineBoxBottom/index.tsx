@@ -28,19 +28,21 @@ const TimelineBoxBottom = ({ review }: TimelineBottomPropTypes) => {
       <TimelineReviewWrap>
         {review.map((info, index) => {
           return (
-            <TimelineReviewBox>
+            <TimelineReviewBox key={index}>
               <div>
-                <TimelineReviewer>{info.username}</TimelineReviewer>
-                <TimelineReviewInner>
-                  {info.review_content && info.review_content}
-                </TimelineReviewInner>
+                <TimelineReviewer>{info.nickname}</TimelineReviewer>
+                {info.content ? (
+                  <TimelineReviewInner>{info.content}</TimelineReviewInner>
+                ) : null}
               </div>
               <div>
-                {info.isReviewed ? (
+                {info.rating !== null ? (
                   typeof info.rating === 'string' && decideRating(info.rating)
                 ) : (
                   <TimelineSendReview>
-                    <Link to={'/review/write'}>후기 보내기</Link>
+                    <Link to={`/review/write/${info.memberId}`}>
+                      후기 보내기
+                    </Link>
                   </TimelineSendReview>
                 )}
               </div>
