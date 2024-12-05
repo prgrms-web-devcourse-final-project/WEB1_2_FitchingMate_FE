@@ -36,7 +36,7 @@ const reviewService = {
 
   getTimelineList: async (page: number = 0) => {
     const response = await fetchApi
-      .get(`profile/timeline?page=${page}&size=12`)
+      .get(`profile/timeline?page=${page}&size=5`)
       .json()
 
     return response.data
