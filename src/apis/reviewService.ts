@@ -1,3 +1,4 @@
+import { data } from './../pages/TimelinePage/mockData'
 import fetchApi from './ky'
 
 const reviewService = {
@@ -32,6 +33,14 @@ const reviewService = {
       .json()
 
     return response
+  },
+
+  getReviewList: async (type: string, memberId: number, page: number) => {
+    const response = await fetchApi
+      .get(`profile/${memberId}/review/${type}?page=${page}&size=5`)
+      .json()
+
+    return response.data
   },
 
   getTimelineList: async (page: number) => {
