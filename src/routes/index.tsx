@@ -25,6 +25,7 @@ import ReviewPage from '@pages/ProfilePage/ReviewPage'
 import TimelinePage from '@pages/TimelinePage'
 import RedirectHandler from '@pages/LoginPage/AuthCallback/RedirectHandler'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import Spinner from '@components/Spinner'
 
 const AppRoutes = () => {
   return (
@@ -150,6 +151,11 @@ const AppRoutes = () => {
       <Route
         path={ROUTE_PATH.NAVER_LOGIN}
         element={<RedirectHandler />}
+      />
+
+      <Route
+        path={'/spin'}
+        element={<Spinner />}
       />
     </Routes>
   )
