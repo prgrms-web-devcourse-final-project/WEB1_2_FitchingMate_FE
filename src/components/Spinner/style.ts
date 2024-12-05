@@ -26,27 +26,17 @@ export const SpinnerWrap = styled.div`
 
 export const SpinnerRound = styled.div`
   position: relative;
-  width: 6.25em;
-  height: 6.25em;
+  width: 5em;
+  height: 5em;
 
   border-radius: 50%;
-  animation: ${SpinAnimation} 1s linear infinite;
-  background: linear-gradient(
-    135deg,
-    transparent,
-    ${theme.fontColor.navy},
-    transparent,
-    ${theme.fontColor.navy}
-  );
-  background-size: 300% 300%;
-  animation:
-    ${SpinBackGroundAnimation} 3s ease infinite,
-    ${SpinAnimation} 1s linear infinite;
+  animation: ${SpinAnimation} 2s linear infinite;
+  background: conic-gradient(transparent 20%, ${theme.fontColor.navy});
 
   &::after {
     content: '';
     display: block;
-    width: 90%;
+    width: 80%;
     height: 80%;
     border-radius: 50%;
     position: absolute;
