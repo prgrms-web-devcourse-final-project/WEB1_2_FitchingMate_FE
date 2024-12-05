@@ -88,31 +88,10 @@ export const CardContentLeft = styled.div`
   width: 100%;
 `
 
-export const Description = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 2px 0;
-
-  & p {
-    font-size: ${({ theme }) => theme.fontSize.medium};
-  }
-
-  & p:first-child {
-    font-size: ${({ theme }) => theme.fontSize.large};
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
-    margin-bottom: 4px;
-
-    @media all and (max-width: 431px) {
-      margin-bottom: 0;
-    }
-  }
-`
-
 export const InListDescription = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   padding: 2px 0;
 
   & p {
@@ -128,11 +107,7 @@ export const InListDescription = styled.div`
     text-overflow: ellipsis;
     font-size: ${({ theme }) => theme.fontSize.large};
     font-weight: ${({ theme }) => theme.fontWeight.bold};
-    margin-bottom: 4px;
-
-    @media all and (max-width: 431px) {
-      margin-bottom: 0;
-    }
+    margin-bottom: 0.25em;
   }
 `
 
@@ -140,6 +115,10 @@ export const BedgeContainer = styled.div`
   display: flex;
   gap: 8px;
   margin-top: 0.5em;
+
+  @media all and (max-width: 431px) {
+    margin-top: 0.375em;
+  }
 `
 export const CardContentRight = styled.div`
   display: flex;
