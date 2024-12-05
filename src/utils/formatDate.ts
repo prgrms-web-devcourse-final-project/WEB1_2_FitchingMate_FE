@@ -9,8 +9,8 @@ export const formatMatchTime = (date: string) => {
 
 export const formatReviewPageTime = (date: string) => {
   return dayjs(date).format('YYYY년 MM월 DD일')
+}
 
 export const formatTimelineDate = (date: string) => {
   return dayjs(date).format('YYYY.MM.DD')
-
 }
