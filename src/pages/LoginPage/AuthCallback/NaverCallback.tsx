@@ -3,6 +3,7 @@ import fetchApi from '@apis/ky'
 import { NaverLoginResponse } from '@typings/db'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import { loginPost } from '@apis/loginService'
 
 const NaverCallback = () => {
   const navigate = useNavigate()
@@ -30,7 +31,17 @@ const NaverCallback = () => {
               state: { profile: response.naverProfileResponse },
             })
           } else {
-            // 추후 로그인 처리
+            try {
+              // 로그인 API 호출
+              const loginResponse = await loginPost(
+                response.naverProfileResponse.email
+              )
+
+              // 메인 페이지로 이동
+              navigate(ROUTE_PATH.HOME)
+            } catch (error) {
+              console.error('로그인 처리 중 오류가 발생했습니다:', error)
+            }
           }
         } else {
           console.error('code 또는 state가 누락되었습니다.')
