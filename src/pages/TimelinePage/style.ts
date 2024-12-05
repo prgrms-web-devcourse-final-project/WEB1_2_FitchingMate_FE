@@ -26,7 +26,7 @@ export const TimelineBoxWrap = styled.div`
 
 export const TimelineColorBox = styled.div<BoxColor>`
   margin-top: 0.875em;
-  padding: 1.25em 0;
+  padding: 1.25em 0 0;
   background: linear-gradient(
     -30deg,
     ${({ $homeColor }) => $homeColor},
@@ -49,7 +49,7 @@ export const TimelineRotate = styled.div<RotatePropTypes>`
 
 export const TimelineBoxTopText = styled.div`
   color: ${theme.fontColor.white};
-  padding: 0 20px;
+  padding: 0 20px 20px;
 
   display: flex;
   justify-content: space-between;
@@ -68,7 +68,9 @@ export const TimelineBoxTopText = styled.div`
 `
 
 export const TimelineBottomBox = styled.div`
-  margin-top: 1.25em;
+  background-color: ${theme.fontColor.black};
+  padding-bottom: 20px;
+  border-radius: 8px;
 
   & > h2 {
     font-size: ${theme.fontSize.xlarge};
