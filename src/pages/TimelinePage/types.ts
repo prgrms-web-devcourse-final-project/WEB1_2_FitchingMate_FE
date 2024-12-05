@@ -1,13 +1,22 @@
 export interface Review {
-  isReviewed: boolean
-  username: string
-  review_content?: string | undefined
-  rating?: 'GOOD' | 'GREAT' | 'BAD' | undefined
+  memberId: number
+  nickname: string
+  rating: string | null
+  content: string | null
 }
 export interface MatchInfo {
-  match_time: string
-  home_team_id: string
-  away_team_id: string
+  awayTeamName: string
+  homeTeamName: string
   location: string
-  review_list: Review[]
+  matchTime: string
+  reviews: Review[]
+}
+
+export interface TimelineResponse {
+  content: MatchInfo[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
 }

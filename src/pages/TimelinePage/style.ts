@@ -5,6 +5,11 @@ interface RotatePropTypes {
   className: string | null
 }
 
+interface BoxColor {
+  $homeColor: string
+  $awayColor: string
+}
+
 export const TimelineWrap = styled.section`
   padding: 20px;
 `
@@ -19,10 +24,14 @@ export const TimelineBoxWrap = styled.div`
   }
 `
 
-export const TimelineColorBox = styled.div`
+export const TimelineColorBox = styled.div<BoxColor>`
   margin-top: 0.875em;
   padding: 1.25em 0;
-  background-color: #074ca1;
+  background: linear-gradient(
+    -30deg,
+    ${({ $homeColor }) => $homeColor},
+    ${({ $awayColor }) => $awayColor}
+  );
   border-radius: 8px;
 `
 
