@@ -25,6 +25,7 @@ import ReviewPage from '@pages/ProfilePage/ReviewPage'
 import TimelinePage from '@pages/TimelinePage'
 import RedirectHandler from '@pages/LoginPage/AuthCallback/RedirectHandler'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import NaverCallback from '@pages/LoginPage/AuthCallback/NaverCallback'
 
 const AppRoutes = () => {
   return (
@@ -54,6 +55,10 @@ const AppRoutes = () => {
         <Route
           path={ROUTE_PATH.LOGIN}
           element={<LoginPage />}
+        />
+        <Route 
+          path={ROUTE_PATH.NAVER_CALLBACK}
+          element={<NaverCallback/>}
         />
         <Route
           path={ROUTE_PATH.SIGNUP}
@@ -145,11 +150,6 @@ const AppRoutes = () => {
       <Route
         path={ROUTE_PATH.NOTIFICATION}
         element={<NotificationPage />}
-      />
-
-      <Route
-        path={ROUTE_PATH.NAVER_LOGIN}
-        element={<RedirectHandler />}
       />
     </Routes>
   )
