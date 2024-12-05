@@ -7,9 +7,9 @@ export const TeamSelectContainer = styled.div`
 
   /* 스크롤바 일단 살려둠 */
 
-  /* &::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
-  } */
+  }
 `
 
 export const Card = styled.div<{ $isSelected: boolean }>`
