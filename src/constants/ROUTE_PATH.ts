@@ -6,7 +6,7 @@ export const ROUTE_PATH = {
   MATE_DETAIL: '/mate-detail/:id',
   LOGIN: '/login',
   SIGNUP: '/login/signup',
-  NAVER_LOGIN: '/api/auth/login/naver',
+  NAVER_CALLBACK: '/api/auth/login/naver',
   GOODS_LIST: '/goods-list',
   GOODS_POSTING: '/goods-post',
   GOODS_DETAIL: '/goods-detail/:id',

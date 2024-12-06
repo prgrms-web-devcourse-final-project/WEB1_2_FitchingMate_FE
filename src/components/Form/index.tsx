@@ -14,11 +14,12 @@ interface Field {
 interface FormProps {
   // onSubmit: (formData: { [key: string]: string }) => void;
   fieldList?: Field[];
+  onChange?: (fieldName: string, value: string) => void;
 }
 
 function Form({
-  // onSubmit,
   fieldList = [{ name: '라벨', placeholder: '플레이스 홀더' }],
+  onChange,
 }: FormProps) {
   const initialFormState = fieldList.reduce(
     (acc, field) => {
@@ -32,14 +33,13 @@ function Form({
 
   const handleChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
+    if (onChange) {
+      onChange(field, value); // 상위 컴포넌트로 변경된 값 전달
+    }
   };
 
-  // const handleSubmit = () => {
-  //   onSubmit(formData);
-  // };
-
   return (
-    // <StyledForm onSubmit={handleSubmit}>
+
       <StyledForm>
       {fieldList.map((field) => (
         <StyledInputWrapper key={field.name}>
@@ -53,9 +53,6 @@ function Form({
           />
         </StyledInputWrapper>
       ))}
-      {/* <button type="button" onClick={handleSubmit}>
-        제출
-      </button> */}
     </StyledForm>
   );
 }

@@ -166,3 +166,18 @@ export interface TeamRanking {
   losses: number
   gamesBehind: number
 }
+
+export interface NaverLoginResponse {
+  grantType: string;
+  accessToken: string;
+  refreshToken: string;
+  isNewMember: boolean;
+  naverProfileResponse: NaverProfileResponse;
+}
+
+export interface NaverProfileResponse {
+  name: string;
+  email: string;
+  gender: string;
+  birthyear: string;
+}
