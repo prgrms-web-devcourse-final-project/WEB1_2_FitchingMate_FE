@@ -19,6 +19,9 @@ import { QUERY_KEY } from '@apis/queryClient'
 import { formatChatContent } from '@utils/formatChatContent'
 import { useGoodsChatExit } from '@hooks/useChatExit'
 import { useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import SockJS from 'sockjs-client'
+import { Client } from '@stomp/stompjs'
 
 const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
@@ -49,6 +52,58 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     isGoodsExitError,
     goodsExitError,
   } = useGoodsChatExit(chatRoomId as string)
+
+  const accessToken = import.meta.env.VITE_TOKEN
+  const wsUrl = import.meta.env.VITE_SOCKET_ENDPOINT
+
+  useEffect(() => {
+    console.log('Attempting to connect to WebSocket...')
+
+    const client = new Client({
+      webSocketFactory: () => new SockJS(wsUrl),
+
+      debug: (str: string) => console.log('STOMP Debug:', str),
+
+      connectHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+
+      onConnect: (frame) => {
+        console.log('Successfully connected:', frame)
+
+        // 연결 성공 후 구독 설정
+        client.subscribe(`/sub/chat/mate/${chatRoomId}`, (message) => {
+          console.log('Received message:', message.body)
+        })
+      },
+
+      onStompError: (frame) => {
+        console.error('STOMP Error:', frame)
+      },
+
+      onWebSocketError: (event) => {
+        console.error('WebSocket Error:', event)
+      },
+
+      onWebSocketClose: (event) => {
+        console.log('WebSocket Connection Closed:', event)
+      },
+    })
+
+    try {
+      console.log('Activating STOMP client...')
+      client.activate()
+    } catch (error) {
+      console.error('Error activating STOMP client:', error)
+    }
+
+    return () => {
+      console.log('Cleaning up WebSocket connection...')
+      if (client.active) {
+        client.deactivate()
+      }
+    }
+  }, [chatRoomId, accessToken])
 
   if (!data || !chatRoomId) return null
 
