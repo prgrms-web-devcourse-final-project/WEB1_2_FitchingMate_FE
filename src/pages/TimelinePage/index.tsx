@@ -1,31 +1,39 @@
+import SubHeader from '@layouts/SubHeader'
 import { TimelineWrap } from './style'
 import TimelineBox from './TimelineBox'
 
-import { data } from './mockData'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useInView } from 'react-intersection-observer'
-import SubHeader from '@layouts/SubHeader'
-
-console.log(data.length)
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { QUERY_KEY } from '@apis/queryClient'
+import reviewService from '@apis/reviewService'
 
 const TimelinePage = () => {
-  const [timelineData, setTimelineData] = useState(data.slice(0, 5))
-  const [hasMore, setHasMore] = useState(true)
-  const [page, setPage] = useState(1)
-  const { ref, inView, entry } = useInView({
-    threshold: 0.5,
-  })
+  const { ref, inView } = useInView()
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.TIMELINE_LIST],
+
+      queryFn: ({ pageParam }) => reviewService.getTimelineList(pageParam),
+
+      initialPageParam: 0,
+
+      getNextPageParam: (lastPage: any) => {
+        return lastPage.hasNext ? lastPage.pageNumber + 1 : undefined
+      },
+    })
 
   useEffect(() => {
-    if (inView && hasMore) {
-      const nextPageData = data.slice(page * 5, page * 5 + 5)
-      setTimelineData((prev) => [...prev, ...nextPageData])
-      setPage(page + 1)
-      if (nextPageData.length < 5) {
-        setHasMore(false)
-      }
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
     }
-  }, [inView, hasMore, page])
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  if (!data) return null
+
+  const { pages } = data
+  const timelineList = pages.flatMap((page) => page.content)
 
   return (
     <>
@@ -34,11 +42,11 @@ const TimelinePage = () => {
         center='직관 기록페이지'
       />
       <TimelineWrap>
-        {timelineData.map((match, index) => {
+        {timelineList.map((match, index) => {
           return (
             <TimelineBox
-              info={match}
               key={index}
+              info={match}
             />
           )
         })}

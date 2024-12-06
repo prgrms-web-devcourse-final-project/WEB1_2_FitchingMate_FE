@@ -82,8 +82,6 @@ export const transformMatePostToSubmitData = (
     maxParticipants: parseParticipants(maxParticipants),
     // 추후 memberId 식별될 때 뺄 예정
     memberId: Number(localStorage.getItem('memberId')) || 1,
-    // 추후 matchId 식별될 때 뺄 예정
-    matchId: 1,
   }
 
   const formData = new FormData()
@@ -130,4 +128,16 @@ export const transformGoodsDetailToSubmitData = (
   }
 
   return formData
+}
+
+export const transformMatePostToCardData = (matePost: MatePostData) => {
+  const { postImageUrl, rivalMatchTime, ...restData } = matePost
+
+  const cardData = {
+    imageUrl: postImageUrl,
+    matchTime: rivalMatchTime,
+    ...restData,
+  }
+
+  return cardData
 }

@@ -22,8 +22,10 @@ export const QUERY_KEY = {
   RANKINGS: 'rankings',
   COMPLETED_MATCHES: 'completedMatches',
   GOODS_POST: 'goodsPost',
-  MATE_REVIEW: 'mateReview',
-  GOODS_REVIEW: 'goodsReview',
+  GOODS_RECORD: 'goodsRecord',
+  REVIEW_LIST: 'reviewList',
+  TIMELINE_LIST: 'timelineList',
+  GOODS_CHAT_LIST: 'goodsChatList',
 }
 
 export default queryClient

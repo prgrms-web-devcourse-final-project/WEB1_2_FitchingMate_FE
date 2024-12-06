@@ -13,12 +13,19 @@ import ALERT_MESSAGE from '@constants/alertMessage'
 
 import { useMateChatStore } from '@store/useMateChatStore'
 import { ChatType } from '@pages/ChatPage'
+import useGetMatePost from '@hooks/usegetMatePost'
+import { transformMatePostToCardData } from '@utils/formatPostData'
 
 const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
+  const { currentAlertStatus } = useMateChatStore()
+
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
-  const { currentAlertStatus } = useMateChatStore()
+  const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
+    useGetMatePost(6)
+
+  console.log(matePost)
 
   const currentAlertMessage = () => {
     const { type, userName } = currentAlertStatus
@@ -31,9 +38,13 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     return message
   }
 
+  if (!matePost) return null
+
+  const cardData = transformMatePostToCardData(matePost)
+
   return (
     <>
-      <MateCard />
+      <MateCard card={cardData} />
 
       <ChatCardContainer>
         <ChatCard isUserChat={true} />

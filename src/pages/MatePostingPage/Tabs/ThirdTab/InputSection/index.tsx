@@ -1,7 +1,7 @@
 import { useMateFormStore } from '@store/useMateFormStore'
 import { ProductNameContainer } from '@pages/GoodsPostingPage/Tabs/FirstTab/ProductNameSection/style'
 
-const MAX_LENGTH = 25
+const MAX_LENGTH = 20
 
 const InputSection = () => {
   const {
@@ -10,7 +10,10 @@ const InputSection = () => {
   } = useMateFormStore()
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value)
+    const value = e.target.value
+    if (value.length <= MAX_LENGTH) {
+      setTitle(value)
+    }
   }
   return (
     <ProductNameContainer>

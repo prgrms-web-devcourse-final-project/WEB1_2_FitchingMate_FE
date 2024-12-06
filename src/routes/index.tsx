@@ -25,6 +25,7 @@ import ReviewPage from '@pages/ProfilePage/ReviewPage'
 import TimelinePage from '@pages/TimelinePage'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import NaverCallback from '@pages/LoginPage/AuthCallback/NaverCallback'
+import Spinner from '@components/Spinner'
 
 const AppRoutes = () => {
   return (
@@ -149,6 +150,10 @@ const AppRoutes = () => {
       <Route
         path={ROUTE_PATH.NOTIFICATION}
         element={<NotificationPage />}
+      />
+      <Route
+        path={'/spin'}
+        element={<Spinner />}
       />
     </Routes>
   )

@@ -10,6 +10,15 @@ export const GoodsSection = styled.section`
   padding: 20px;
 `
 
+export const GoodsRecordBoxContainer = styled.div`
+  width: 100%;
+
+  & > a {
+    display: block;
+    width: 100%;
+  }
+`
+
 export const GoodsRecordBoxWrap = styled.div`
   padding: 1em;
   border: 1px solid #eee;
@@ -75,4 +84,15 @@ export const GoodsInfo = styled.div`
   font-size: ${theme.fontSize.small};
   font-weight: ${theme.fontWeight.regular};
   color: ${theme.fontColor.black};
+`
+
+export const NoGoodsList = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: ${theme.fontSize.xlarge};
+  font-weight: ${theme.fontWeight.semi};
+  font-size: ${theme.fontColor.black};
 `

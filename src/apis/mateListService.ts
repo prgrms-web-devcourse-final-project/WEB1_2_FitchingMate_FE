@@ -28,7 +28,10 @@ export const getMateListByTeam = async (teamId: number) => {
 }
 
 // 메이트 목록 조회 (필터 적용)
-export const getMateList = async (params: MateListParams) => {
+export const getMateList = async (
+  params: MateListParams,
+  pageParam: number = 0,
+) => {
   const searchParams = new URLSearchParams()
 
   // 조건 추가 (sortType이 "최신 작성일 순"이면 추가하지 않음)
@@ -38,10 +41,19 @@ export const getMateList = async (params: MateListParams) => {
   }
   if (params.age) searchParams.append('age', params.age)
   if (params.gender) searchParams.append('gender', params.gender)
-  if (params.maxParticipants) searchParams.append('maxParticipants', params.maxParticipants)
-  if (params.transportType) searchParams.append('transportType', params.transportType)
+  if (params.maxParticipants) {
+    const parsedValue = parseInt(params.maxParticipants.replace('명', ''), 10)
+    if (!isNaN(parsedValue)) {
+      searchParams.append('maxParticipants', parsedValue.toString())
+    }
+  }
+  if (params.transportType)
+    searchParams.append('transportType', params.transportType)
 
   // 요청
-  const response = await fetchApi.get(`mates?${searchParams.toString()}`).json()
-  return response
+  const response = await fetchApi
+    .get(`mates?${searchParams.toString()}&page=${pageParam}`)
+    .json()
+
+  return response.data
 }

@@ -18,6 +18,11 @@ import { kboTeamList } from '@constants/kboInfo'
 
 import { getMateList } from '@apis/mateListService'
 import MateCard from '@components/MateCard'
+import { useTopRef } from '@hooks/useTopRef'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { QUERY_KEY } from '@apis/queryClient'
+import { useInView } from 'react-intersection-observer'
+import MainMateCard from '@components/MainMateCard'
 
 const MateListPage = () => {
   const [selectedTeam, setSelectedTeam] = useState<number | null>(
@@ -25,7 +30,6 @@ const MateListPage = () => {
   ) // 팀 선택 상태
   const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } =
     useModal()
-  const [mates, setMates] = useState<any[]>([]) // 메이트 목록 상태
 
   // 필터 상태
   const [selectedFilters, setSelectedFilters] = useState({
@@ -35,19 +39,6 @@ const MateListPage = () => {
     maxParticipants: null,
     transportType: null,
   })
-
-  // 메이트 목록 API 호출
-  const fetchMates = async () => {
-    try {
-      const response = await getMateList({
-        teamId: selectedTeam,
-        ...selectedFilters,
-      })
-      setMates(response.data.content)
-    } catch (error) {
-      console.error('Failed to fetch mates:', error)
-    }
-  }
 
   // 팀 선택 핸들러
   const handleTeamSelect = (team: number | null) => {
@@ -62,15 +53,44 @@ const MateListPage = () => {
     }))
   }
 
+  // 페이지 상단 버튼 핸들러
+  const { topRef, handleUpButtonClick } = useTopRef()
+
+  // 무한 스크롤 핸들러
+  const { ref, inView } = useInView()
+
+  // 메이트 목록 API 호출
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: [QUERY_KEY.MATE_LIST, { selectedTeam, ...selectedFilters }],
+
+      queryFn: ({ pageParam }) =>
+        getMateList({ teamId: selectedTeam, ...selectedFilters }, pageParam),
+
+      initialPageParam: 0,
+
+      getNextPageParam: (lastPage: any) =>
+        lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
+    })
+
+  // 무한 스크롤 핸들러
   useEffect(() => {
-    fetchMates()
-  }, [selectedTeam, selectedFilters]) // 팀 선택 및 필터 변경 시 API 호출
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  if (!data) return null
+
+  // 메이트 목록 추출
+  const { pages } = data
+  const mateList = pages.flatMap((page) => page.content)
 
   return (
-    <section>
+    <section ref={topRef}>
       <TeamSelectWrap>
         <TeamSelectSection
-          selectedTeam={selectedTeam}
+          selectedTeam={selectedTeam as number}
           onSelectTeam={handleTeamSelect}
         />
       </TeamSelectWrap>
@@ -94,15 +114,20 @@ const MateListPage = () => {
         </FilterSelectOptionWrap>
       </FilterWrap>
       <div>
-        {mates.map((card) => (
-          <MateCard
-            key={card.postId}
-            card={card}
+        {mateList.map((mate) => (
+          <MainMateCard
+            key={mate.postId}
+            card={mate}
           />
         ))}
       </div>
 
-      <FloatButton path={ROUTE_PATH.MATE_POSTING} />
+      <div ref={ref} />
+
+      <FloatButton
+        path={ROUTE_PATH.MATE_POSTING}
+        handleUpButtonClick={handleUpButtonClick}
+      />
 
       <BottomModal ref={bottomModalRef}>
         <MateFilterOptions

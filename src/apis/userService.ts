@@ -22,6 +22,18 @@ const userService = {
 
     return response
   },
+
+  getGoodsRecordList: async (
+    memberId: number,
+    callingType: string,
+    page: number,
+  ) => {
+    const response = await fetchApi
+      .get(`profile/${memberId}/goods/${callingType}?page=${page}size=5`)
+      .json()
+
+    return response.data
+  },
 }
 
 export default userService

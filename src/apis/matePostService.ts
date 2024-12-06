@@ -46,6 +46,63 @@ const matePostService = {
 
     return response
   },
+
+  /**
+   * 모집 완료 요청 : 체크완료
+   *
+   * @param memberId
+   * @param matePostId
+   * @param data
+   * @returns
+   *
+   * {
+   *  "status": "모집완료",
+   * "participantIds": [2, 3, 4]
+   * }
+   *
+   * 추후 memberId 삭제
+   */
+
+  completeRecruitmentMatePost: async (
+    memberId: number,
+    matePostId: number,
+    data: { status: string; participantIds: number[] },
+  ) => {
+    const response = await fetchApi
+      .patch(`mates/${memberId}/${matePostId}/status`, {
+        json: data,
+      })
+      .json()
+
+    return response
+  },
+
+  /**
+   * 모집 완료 요청 : 체크완료
+   *
+   * @param memberId
+   * @param matePostId
+   * @param data
+   * @returns
+   *
+   * {
+   *  "participantIds": [2, 3, 4]
+   * }
+   */
+
+  completeMatePost: async (
+    memberId: number,
+    matePostId: number,
+    data: { participantIds: number[] },
+  ) => {
+    const response = await fetchApi
+      .patch(`mates/${memberId}/${matePostId}/complete`, {
+        json: data,
+      })
+      .json()
+
+    return response
+  },
 }
 
 export default matePostService
