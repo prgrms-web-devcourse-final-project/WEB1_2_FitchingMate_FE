@@ -24,6 +24,10 @@ jobs:
         run: npm ci
 
       - name: 프로젝트 빌드
+        env:
+          VITE_MAP_API_KEY: ${{ secrets.VITE_MAP_API_KEY }}
+          VITE_API_ENDPOINT: ${{ secrets.VITE_API_ENDPOINT }}
+          VITE_TOKEN: ${{ secrets.VITE_TOKEN }}
         run: vite build
 
       - name: AWS Resource에 접근할 수 있게 AWS credentials 설정
