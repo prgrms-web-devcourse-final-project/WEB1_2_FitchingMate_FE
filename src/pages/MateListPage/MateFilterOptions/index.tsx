@@ -27,7 +27,7 @@ const MateFilterOptions: React.FC<MateFilterOptionsProps> = ({
     {
       label: '나이대',
       key: 'age',
-      value: ['상관 없음', '10대', '20대', '30대', '40대', '50대 이상'],
+      value: ['상관 없음', '10대', '20대', '30대', '40대', '50대이상'],
     },
     {
       label: '성별',
