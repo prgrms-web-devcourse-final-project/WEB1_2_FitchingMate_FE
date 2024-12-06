@@ -124,13 +124,7 @@ const AppRoutes = () => {
         />
         <Route
           path={ROUTE_PATH.REVIEW_WRITE}
-          element={
-            <ReviewWritePage
-              reviewType='GOODS'
-              title='string'
-              username='유저네임'
-            />
-          }
+          element={<ReviewWritePage />}
         />
         <Route
           path={ROUTE_PATH.TIMELINE}

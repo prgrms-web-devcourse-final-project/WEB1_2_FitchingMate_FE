@@ -1,6 +1,6 @@
-import BAD from '@assets/character/character-worst.svg?react'
-import GOOD from '@assets/character/character-normal.svg?react'
-import GREAT from '@assets/character/character-best.svg?react'
+import BAD from '@assets/character/character-worst.png'
+import GOOD from '@assets/character/character-normal.png'
+import GREAT from '@assets/character/character-best.png'
 
 export const ratingData = [
   {

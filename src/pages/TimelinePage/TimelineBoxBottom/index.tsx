@@ -15,9 +15,10 @@ import { decideRating } from '../methods'
 
 interface TimelineBottomPropTypes {
   review: Review[]
+  matePostId: number
 }
 
-const TimelineBoxBottom = ({ review }: TimelineBottomPropTypes) => {
+const TimelineBoxBottom = ({ review, matePostId }: TimelineBottomPropTypes) => {
   return (
     <TimelineBottomBox>
       <TimelineBottomImage
@@ -40,7 +41,14 @@ const TimelineBoxBottom = ({ review }: TimelineBottomPropTypes) => {
                   typeof info.rating === 'string' && decideRating(info.rating)
                 ) : (
                   <TimelineSendReview>
-                    <Link to={`/review/write/${info.memberId}`}>
+                    <Link
+                      to={`/review/write`}
+                      state={{
+                        type: 'MATE',
+                        memberId: info.memberId,
+                        postId: matePostId,
+                      }}
+                    >
                       후기 보내기
                     </Link>
                   </TimelineSendReview>
