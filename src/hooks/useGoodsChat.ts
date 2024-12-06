@@ -2,9 +2,9 @@ import { useMutation } from '@tanstack/react-query'
 import goodsChatService from '@apis/goodsChatService'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
 
-const useExitGoodsChat = (chatRoomId: number, memberId: number) => {
+const useExitGoodsChat = (chatRoomId: string) => {
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: () => goodsChatService.exitGoodsChat(chatRoomId, memberId),
+    mutationFn: () => goodsChatService.exitGoodsChat(chatRoomId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({

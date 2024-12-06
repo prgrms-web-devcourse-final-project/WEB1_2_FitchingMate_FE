@@ -53,7 +53,7 @@ const goodsChatService = {
     return response
   },
 
-  goodsParticipantList: async (chatRoomId: number) => {
+  goodsParticipantList: async (chatRoomId: string) => {
     const response = await fetchApi
       .get<GoodsChatParticipantResponse>(`goods/chat/${chatRoomId}/members`)
       .json()

@@ -8,17 +8,24 @@ const ChatInput = ({
 }: {
   handleOpenBottomModal: () => void
 }) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+  }
+
   return (
     <>
-      <ChatInputContainer>
-        <button onClick={handleOpenBottomModal}>
+      <ChatInputContainer onSubmit={handleSubmit}>
+        <button
+          type='button'
+          onClick={handleOpenBottomModal}
+        >
           <UpIcon />
         </button>
         <input
           type='text'
           placeholder='메시지를 입력해주세요.'
         />
-        <button>
+        <button type='submit'>
           <SendIcon />
         </button>
       </ChatInputContainer>

@@ -11,6 +11,8 @@ import GlobalNav from '@layouts/GlobalNav'
 import { useModal } from '@hooks/useModal'
 import useNavigateChat from '@hooks/useNavigateChat'
 import GoodsCardList from './ChatPageList/GoodsCardList'
+import { useGoodsChatStore } from '@store/useGoodsChatStore'
+import { useGoodsChatExit } from '@hooks/useChatExit'
 
 export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]
@@ -18,8 +20,16 @@ export type ChatType = (typeof CHAT_TAB_LIST)[number]
 const ChatPage = () => {
   const { currentTab, handleTabClick } = useNavigateChat()
   const { alertRef, handleAlertClick } = useModal()
+  const { currentChatRoomId } = useGoodsChatStore()
+
+  // 굿즈 채팅방 나가기
+  const { goodsExitMutate } = useGoodsChatExit(currentChatRoomId as string)
 
   if (!currentTab) return null
+
+  const handleExitClick = () => {
+    goodsExitMutate()
+  }
 
   return (
     <>
@@ -48,6 +58,7 @@ const ChatPage = () => {
           notice={ALERT_MESSAGE.CHAT_EXIT.notice}
           actionText='나가기'
           cancelText='취소'
+          handleAlertClick={handleExitClick}
         />
       </ChatPageContainer>
       <GlobalFloatAside>

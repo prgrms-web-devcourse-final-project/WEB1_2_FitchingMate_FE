@@ -27,7 +27,6 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
   const { goodsAlertStatus } = useGoodsChatStore()
 
   const { id: chatRoomId } = useParams()
-  console.log(chatRoomId)
 
   /**
    * 채팅방 상세 조회
@@ -85,21 +84,22 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     return message
   }
 
+  console.log(messageList)
+
   return (
     <>
       <GoodsListCard goodsPost={formatData} />
 
       <ChatCardContainer>
-        <EnterChatMessage>
-          {formatChatContent('tester3님이 대화를 시작했습니다.')}
-        </EnterChatMessage>
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
+        {messageList?.map((message) =>
+          message.messageType !== 'TALK' ? (
+            <EnterChatMessage key={message.chatMessageId}>
+              {formatChatContent(message.message)}
+            </EnterChatMessage>
+          ) : (
+            <ChatCard isUserChat={true} />
+          ),
+        )}
       </ChatCardContainer>
 
       <GlobalFloatAside>
@@ -109,7 +109,7 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
       <BottomModal ref={bottomModalRef}>
         <GoodsModalContent
           handleAlertClick={handleAlertClick}
-          currentChatType={currentChatType}
+          chatRoomId={chatRoomId}
         />
       </BottomModal>
 

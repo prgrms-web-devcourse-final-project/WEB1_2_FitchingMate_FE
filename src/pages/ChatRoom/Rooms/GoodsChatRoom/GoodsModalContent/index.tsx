@@ -14,10 +14,13 @@ import { useCompletePost } from '@hooks/useCompletePost'
 
 interface ChatBottomModalProps {
   handleAlertClick: () => void
-  currentChatType: ChatType
+  chatRoomId: string
 }
 
-const GoodsModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
+const GoodsModalContent = ({
+  handleAlertClick,
+  chatRoomId,
+}: ChatBottomModalProps) => {
   const { isOwner, isTrade, goodsAlertStatus, setGoodsAlertStatus } =
     useGoodsChatStore()
 
@@ -28,7 +31,7 @@ const GoodsModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
     error,
   } = useQuery({
     queryKey: [QUERY_KEY.GOODS_CHAT_PARTICIPANT],
-    queryFn: () => goodsChatService.goodsParticipantList(1),
+    queryFn: () => goodsChatService.goodsParticipantList(chatRoomId),
   })
 
   // const {

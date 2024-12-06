@@ -78,8 +78,8 @@ const GoodsDetailPage = () => {
     isError: isDeleteError,
     error: deleteError,
   } = useMutation({
-    mutationFn: (data: { memberId: number; goodsPostId: number }) =>
-      goodsPostService.deleteGoodsPost(data.memberId, data.goodsPostId),
+    mutationFn: (goodsPostId: number) =>
+      goodsPostService.deleteGoodsPost(goodsPostId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
@@ -124,10 +124,7 @@ const GoodsDetailPage = () => {
 
   // 알럿에서 굿즈 게시글 삭제 처리
   const handleDeleteGoodsPost = () => {
-    deleteGoodsPost({
-      memberId: data.seller.memberId, // 추후 본인 회원 ID 넣기
-      goodsPostId: data.id,
-    })
+    deleteGoodsPost(data.id)
   }
 
   // 굿즈 게시글 수정 버튼 클릭 이벤트 = > 굿즈 게시글 수정 폼 데이터 관리

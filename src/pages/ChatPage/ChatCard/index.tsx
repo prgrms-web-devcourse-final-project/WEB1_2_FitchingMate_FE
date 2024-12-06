@@ -14,6 +14,7 @@ import ChatExit from '@assets/icon/exit_line.svg?react'
 import useNavigatChatRoom from '@hooks/useNavigatChatRoom'
 import { GoodsChatroomContent } from '@typings/db'
 import { formatChatTime } from '@utils/formatDate'
+import { useGoodsChatStore } from '@store/useGoodsChatStore'
 
 interface ChatCardProps {
   currentTab: (typeof CHAT_TAB_LIST)[number]
@@ -26,8 +27,7 @@ const ChatCard = ({
   onExitClick,
   goodsChatroomContent,
 }: ChatCardProps) => {
-  const { handleChatCardClick, isGoods, isGeneral } =
-    useNavigatChatRoom(currentTab)
+  const { handleChatCardClick, isGoods } = useNavigatChatRoom(currentTab)
 
   const {
     opponentImageUrl,
@@ -37,6 +37,17 @@ const ChatCard = ({
     lastChatContent,
     chatRoomId,
   } = goodsChatroomContent
+
+  /**
+   * 알럿 창 띄울때 채팅방 id 저장
+   * 채팅방 삭제를 위한 채팅방 id 저장
+   */
+  const { setCurrentChatRoomId } = useGoodsChatStore()
+
+  const handleExitClick = () => {
+    setCurrentChatRoomId(chatRoomId.toString())
+    onExitClick()
+  }
 
   return (
     <Card>
@@ -68,7 +79,7 @@ const ChatCard = ({
         </ChatContent>
       </ContentContainer>
 
-      <ExitButton onClick={onExitClick}>
+      <ExitButton onClick={handleExitClick}>
         <ChatExit
           width={20}
           height={20}
