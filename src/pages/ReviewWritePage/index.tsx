@@ -31,7 +31,8 @@ interface ReviewPagePropTypes {
 const ReviewWritePage = ({}) => {
   const location = useLocation()
   const [reviewType, setReviewType] = useState(location.state.type)
-  const [reviewerId, setReviewerId] = useState(location.state.memberId)
+  const [myId, setMyId] = useState(0)
+  const [revieweeId, setRevieweeId] = useState(location.state.memberId)
   const [postId, setPostId] = useState(location.state.postId)
   const [reviewerName, setReviewerName] = useState()
   const [selectedRating, setSelectedRating] = useState('')
@@ -43,13 +44,13 @@ const ReviewWritePage = ({}) => {
 
     if (reviewType === 'MATE') {
       const jsonData = {
-        revieweeId: reviewerId,
+        revieweeId: revieweeId,
         rating: selectedRating,
         content: reviewContent,
       }
 
       postMateReview({
-        memberId: reviewerId,
+        memberId: myId,
         matePostId: postId,
         jsonData: JSON.stringify(jsonData),
       })
@@ -60,7 +61,7 @@ const ReviewWritePage = ({}) => {
       }
 
       postGoodsReview({
-        reviewerId: reviewerId,
+        reviewerId: myId,
         goodsPostId: postId,
         jsonData: JSON.stringify(jsonData),
       })
@@ -107,7 +108,7 @@ const ReviewWritePage = ({}) => {
     isPending: userIsPending,
     isError: userIsError,
     error: userError,
-  } = useGetUserInfo(reviewerId)
+  } = useGetUserInfo(revieweeId)
 
   useEffect(() => {
     if (userData) {

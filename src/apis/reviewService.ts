@@ -8,7 +8,7 @@ const reviewService = {
     jsonData: unknown,
   ) => {
     const response = await fetchApi
-      .post(`mates/${memberid}/${postId}/reviews`, {
+      .post(`mates/${memberid + 1}/${postId}/reviews`, {
         headers: {
           'Content-Type': 'application/json',
         },
