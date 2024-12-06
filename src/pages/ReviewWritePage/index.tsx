@@ -15,6 +15,12 @@ import reviewService from '@apis/reviewService'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
 import { useLocation } from 'react-router-dom'
 import userService from '@apis/userService'
+import useGetUserInfo from '@hooks/useGetUserInfo'
+import {
+  useGetReviewDetail,
+  useMutateGoodsReview,
+  useMutateMateReview,
+} from '@hooks/useReviewHooks'
 
 interface ReviewPagePropTypes {
   reviewType: 'GOODS' | 'MATE'
@@ -42,7 +48,6 @@ const ReviewWritePage = ({}) => {
         content: reviewContent,
       }
 
-      console.log(jsonData)
       postMateReview({
         memberId: reviewerId,
         matePostId: postId,
@@ -54,7 +59,6 @@ const ReviewWritePage = ({}) => {
         reviewContent: reviewContent,
       }
 
-      console.log(jsonData)
       postGoodsReview({
         reviewerId: reviewerId,
         goodsPostId: postId,
@@ -79,21 +83,7 @@ const ReviewWritePage = ({}) => {
     isPending: mateIsPending,
     isError: mateIsError,
     error: mateError,
-  } = useMutation({
-    mutationFn: (data: {
-      memberId: number
-      matePostId: number
-      jsonData: unknown
-    }) =>
-      reviewService.postMateReview(
-        data.memberId,
-        data.matePostId,
-        data.jsonData,
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_REVIEW] })
-    },
-  })
+  } = useMutateMateReview()
 
   // 굿즈 리뷰 뮤테이트 함수
   const {
@@ -101,41 +91,23 @@ const ReviewWritePage = ({}) => {
     isPending: goodsIsPeding,
     isError: goodsIsError,
     error: goodsError,
-  } = useMutation({
-    mutationFn: (data: {
-      reviewerId: number
-      goodsPostId: number
-      jsonData: unknown
-    }) =>
-      reviewService.postGoodsReview(
-        data.reviewerId,
-        data.goodsPostId,
-        data.jsonData,
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_REVIEW] })
-    },
-  })
+  } = useMutateGoodsReview()
 
+  // 포스트 정보 불러오는 함수
   const {
     data: reviewDetailData,
     isPending: reviewIsPending,
     isError: reviewIsError,
     error: reviewError,
-  } = useQuery({
-    queryKey: [QUERY_KEY.REVIEW_DATA, reviewType],
-    queryFn: () => reviewService.getReviewDetailData(postId, reviewType),
-  })
+  } = useGetReviewDetail(reviewType, postId)
 
+  // 리뷰 대상 정보 불러오는 함수
   const {
-    data: userData,
+    getUserInfo: userData,
     isPending: userIsPending,
     isError: userIsError,
     error: userError,
-  } = useQuery({
-    queryKey: [QUERY_KEY.USER_INFO, reviewerId],
-    queryFn: () => userService.getUserInfo(reviewerId),
-  })
+  } = useGetUserInfo(reviewerId)
 
   useEffect(() => {
     if (userData) {
