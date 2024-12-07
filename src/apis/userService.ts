@@ -29,7 +29,7 @@ const userService = {
     page: number,
   ) => {
     const response = await fetchApi
-      .get(`profile/${memberId}/goods/${callingType}?page=${page}size=5`)
+      .get(`profile/${memberId}/goods/${callingType}?page=${page}`)
       .json()
 
     return response.data
