@@ -22,7 +22,6 @@ const Alert = forwardRef<HTMLDialogElement, AlertPropTypes>(
 
     const handleClickActionButton = async (e: React.MouseEvent) => {
       closeModal(e)
-
       await handleAlertClick?.()
     }
 

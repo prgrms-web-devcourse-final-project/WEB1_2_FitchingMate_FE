@@ -1,23 +1,45 @@
 import { ChatType } from '@pages/ChatPage'
 import {
   ChatBottomModalContainer,
+  Section,
   SubmitButtonContainer,
 } from '@pages/ChatRoom/style'
 
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
-import UserListSection from '../../UserListSection'
+import { useQuery } from '@tanstack/react-query'
+import goodsChatService from '@apis/goodsChatService'
+import GoodsUserCard from '../GoodsUserCard'
+import { QUERY_KEY } from '@apis/queryClient'
+import { useCompletePost } from '@hooks/useCompletePost'
 
 interface ChatBottomModalProps {
   handleAlertClick: () => void
-  currentChatType: ChatType
+  chatRoomId: string
 }
 
 const GoodsModalContent = ({
   handleAlertClick,
-  currentChatType,
+  chatRoomId,
 }: ChatBottomModalProps) => {
   const { isOwner, isTrade, goodsAlertStatus, setGoodsAlertStatus } =
     useGoodsChatStore()
+
+  const {
+    data: userList,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [QUERY_KEY.GOODS_CHAT_PARTICIPANT],
+    queryFn: () => goodsChatService.goodsParticipantList(chatRoomId),
+  })
+
+  // const {
+  //   completeGoodsPost,
+  //   isCompleteGoodsPostPending,
+  //   isCompleteGoodsPostError,
+  //   completeGoodsPostError,
+  // } = useCompletePost()
 
   const handleExitChatClick = () => {
     setGoodsAlertStatus({ type: 'CHAT_EXIT' })
@@ -31,10 +53,17 @@ const GoodsModalContent = ({
 
   return (
     <ChatBottomModalContainer>
-      <UserListSection
-        currentChatType={currentChatType}
-        handleAlertClick={handleAlertClick}
-      />
+      <Section>
+        <h2>대화상대</h2>
+        <div>
+          {userList?.map((user) => (
+            <GoodsUserCard
+              key={user.memberId}
+              user={user}
+            />
+          ))}
+        </div>
+      </Section>
       <SubmitButtonContainer $isOwner={isOwner}>
         <button onClick={handleExitChatClick}>채팅방 나가기</button>
         <button

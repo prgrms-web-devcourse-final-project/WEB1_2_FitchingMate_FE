@@ -25,6 +25,8 @@ const GameList = ({
     return <GameListPlaceholder>{error?.message}</GameListPlaceholder>
   }
 
+  console.log(weeklyMatchData, selectedWeek)
+
   const matchList = weeklyMatchData?.[selectedWeek - 1].matches
 
   return (

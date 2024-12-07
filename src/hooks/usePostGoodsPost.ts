@@ -14,12 +14,12 @@ import queryClient, { QUERY_KEY } from '@apis/queryClient'
  * @returns
  */
 
-const usePostGoodsPost = (memberId: number) => {
+const usePostGoodsPost = () => {
   const navigate = useNavigate()
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: async (formData: FormData) =>
-      goodsPostService.postGoodsPost(memberId, formData),
+      goodsPostService.postGoodsPost(formData),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })

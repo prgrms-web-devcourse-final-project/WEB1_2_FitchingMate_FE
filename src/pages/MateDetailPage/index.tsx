@@ -43,6 +43,7 @@ const MateDetailPage = () => {
     enabled: !!matePostId,
   })
 
+  console.log(matePost)
   /**
    * 메이트 게시글 삭제
    * @params memberId 회원 id

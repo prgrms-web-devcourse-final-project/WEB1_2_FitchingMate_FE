@@ -3,8 +3,18 @@ import { UserInfo, UserListCardContainer } from './style'
 
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
 
-const GoodsUserCard = () => {
+interface GoodsUserCardProps {
+  user: {
+    memberId: number
+    nickname: string
+    imageUrl?: string
+  }
+}
+
+const GoodsUserCard = ({ user }: GoodsUserCardProps) => {
   const { isOwner } = useGoodsChatStore()
+
+  const { memberId, nickname, imageUrl } = user
 
   return (
     <UserListCardContainer>
@@ -12,8 +22,12 @@ const GoodsUserCard = () => {
         <ProfileBedge
           height={3}
           width={3}
+          imageSrc={imageUrl}
+          isChat={true}
         />
-        <p>빌터 {isOwner && <span>(판매자)</span>}</p>
+        <p>
+          {nickname} {isOwner && <span>(판매자)</span>}
+        </p>
       </UserInfo>
     </UserListCardContainer>
   )

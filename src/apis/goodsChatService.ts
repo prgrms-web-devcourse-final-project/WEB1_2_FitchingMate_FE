@@ -1,7 +1,12 @@
+import {
+  GoodsChatParticipantResponse,
+  GoodsChatroom,
+  GoodsChatroomResponse,
+} from '@typings/db'
 import fetchApi from './ky'
 
 const goodsChatService = {
-  createGoodsChatroom: async (buyerId: number, goodsPostId: number) => {
+  createGoodsChatroom: async (buyerId: number, goodsPostId: string) => {
     const response = await fetchApi
       .post(`goods/chat?buyerId=${buyerId}&goodsPostId=${goodsPostId}`)
       .json()
@@ -9,21 +14,22 @@ const goodsChatService = {
     return response
   },
 
-  getGoodsChatList: async (memberId: number, page: number, size: number) => {
+  // 채팅 페이지 => 채팅방 목록
+  getGoodsChatroomList: async (page: number, size: number) => {
     const response = await fetchApi
-      .get(`goods/chat?memberId=${memberId}&page=${page}&size=${size}`)
+      .get<GoodsChatroomResponse>(`goods/chat?page=${page}&size=${size}`)
       .json()
 
-    return response
+    return response.data
   },
 
   // 채팅 페이지 => 채팅방 상세
-  getGoodsChatroom: async (chatRoomId: number, memberId: number) => {
+  getGoodsChatroom: async (chatRoomId: string) => {
     const response = await fetchApi
-      .get(`goods/chat/${chatRoomId}?memberId=${memberId}`)
+      .get<GoodsChatroomResponse>(`goods/chat/${chatRoomId}`)
       .json()
 
-    return response
+    return response.data
   },
 
   getChatList: async (
@@ -41,20 +47,18 @@ const goodsChatService = {
     return response
   },
 
-  exitGoodsChat: async (chatRoomId: number, memberId: number) => {
-    const response = await fetchApi
-      .delete(`goods/chat/${chatRoomId}?memberId=${memberId}`)
-      .json()
+  exitGoodsChat: async (chatRoomId: string) => {
+    const response = await fetchApi.delete(`goods/chat/${chatRoomId}`).json()
 
     return response
   },
 
-  goodsParticipantList: async (chatRoomId: number, memberId: number) => {
+  goodsParticipantList: async (chatRoomId: string) => {
     const response = await fetchApi
-      .get(`goods/chat/${chatRoomId}/members?memberId=${memberId}`)
+      .get<GoodsChatParticipantResponse>(`goods/chat/${chatRoomId}/members`)
       .json()
 
-    return response
+    return response.data
   },
 }
 
