@@ -18,7 +18,14 @@ interface TimelineBoxPropTypes {
 }
 
 const TimelineBox = ({ info }: TimelineBoxPropTypes) => {
-  const { awayTeamName, homeTeamName, location, matchTime, reviews } = info
+  const {
+    awayTeamName,
+    homeTeamName,
+    location,
+    matchTime,
+    reviews,
+    matePostId,
+  } = info
   const [visible, setVisible] = useState(false)
   const date = dayjs(matchTime).format('YYYY년 MM월 DD일')
   const $homeColor = kboTeamInfo[homeTeamName].color
@@ -47,7 +54,12 @@ const TimelineBox = ({ info }: TimelineBoxPropTypes) => {
             <Rotate />
           </TimelineRotate>
         </TimelineBoxTopText>
-        {visible ? <TimelineBoxBottom review={reviews} /> : null}
+        {visible ? (
+          <TimelineBoxBottom
+            review={reviews}
+            matePostId={matePostId}
+          />
+        ) : null}
       </TimelineColorBox>
     </TimelineBoxWrap>
   )

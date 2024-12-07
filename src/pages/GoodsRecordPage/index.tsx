@@ -47,7 +47,7 @@ const GoodsRecordPage = () => {
 
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
-      console.log(inView)
+      console.log(data)
       fetchNextPage()
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])

@@ -3,12 +3,14 @@ export interface Review {
   nickname: string
   rating: string | null
   content: string | null
+  postId: number
 }
 export interface MatchInfo {
   awayTeamName: string
   homeTeamName: string
   location: string
   matchTime: string
+  matePostId: number
   reviews: Review[]
 }
 

@@ -8,7 +8,7 @@ const reviewService = {
     jsonData: unknown,
   ) => {
     const response = await fetchApi
-      .post(`mates/${memberid}/${postId}/reviews`, {
+      .post(`mates/${memberid + 1}/${postId}/reviews`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -42,11 +42,18 @@ const reviewService = {
 
     return response.data
   },
-    
+
   getTimelineList: async (page: number = 0) => {
     const response = await fetchApi
       .get(`profile/timeline?page=${page}&size=5`)
       .json()
+
+    return response.data
+  },
+
+  getReviewDetailData: async (postId: number, type: string) => {
+    const reviewType = type === 'GOODS' ? 'goods' : 'mates'
+    const response = await fetchApi.get(`${reviewType}/${postId}`).json()
 
     return response.data
   },

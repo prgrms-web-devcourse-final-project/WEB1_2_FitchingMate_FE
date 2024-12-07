@@ -92,7 +92,7 @@ export const ReviewSelectRating = styled.div`
 
 export const ReviewSelectLabel = styled.label`
   cursor: pointer;
-  &.active svg {
+  &.active img {
     filter: grayscale(0) !important;
   }
 
@@ -110,7 +110,7 @@ export const ReviewSelectLabel = styled.label`
       border-radius: 25px;
     }
 
-    & > svg {
+    & > img {
       width: 100%;
       height: 100%;
       filter: grayscale(1);

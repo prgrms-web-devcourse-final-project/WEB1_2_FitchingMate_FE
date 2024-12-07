@@ -7,7 +7,7 @@ const ReviewSelectBox = ({ onRadioChange, selectedRating }) => {
     <ReviewSelectRating>
       <ul>
         {ratingData.map((rating, index) => {
-          const SvgComponent = rating.svg
+          const imgSrc = rating.svg
           return (
             <li key={index}>
               <ReviewSelectLabel
@@ -15,7 +15,10 @@ const ReviewSelectBox = ({ onRadioChange, selectedRating }) => {
                 className={selectedRating === rating.text ? 'active' : ''}
               >
                 <div>
-                  <SvgComponent />
+                  <img
+                    src={imgSrc}
+                    alt={rating.text}
+                  />
                 </div>
                 <p>{rating.text}</p>
               </ReviewSelectLabel>
