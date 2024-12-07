@@ -11,7 +11,6 @@ import GoodsModalContent from './GoodsModalContent'
 import { useModal } from '@hooks/useModal'
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import ALERT_MESSAGE from '@constants/alertMessage'
-import { ChatType } from '@pages/ChatPage'
 
 import goodsChatService from '@apis/goodsChatService'
 import { useQuery } from '@tanstack/react-query'
@@ -19,22 +18,21 @@ import { QUERY_KEY } from '@apis/queryClient'
 import { formatChatContent } from '@utils/formatChatContent'
 import { useGoodsChatExit } from '@hooks/useChatExit'
 import { useParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import SockJS from 'sockjs-client'
-import { Client } from '@stomp/stompjs'
+import { useSocket } from '@hooks/useSocket'
 
-const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
+const GoodsChatRoom = () => {
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
   const { goodsAlertStatus } = useGoodsChatStore()
 
-  const { id: chatRoomId } = useParams()
+  const { type: chatType, id: chatRoomId } = useParams()
 
   /**
    * 채팅방 상세 조회
    * 채팅방 상세 조회 성공 시 쿼리 데이터 갱신
    */
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: [QUERY_KEY.GOODS_CHATROOM, chatRoomId],
     queryFn: () => goodsChatService.getGoodsChatroom(chatRoomId as string),
@@ -53,59 +51,18 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     goodsExitError,
   } = useGoodsChatExit(chatRoomId as string)
 
-  const accessToken = import.meta.env.VITE_TOKEN
-  const wsUrl = import.meta.env.VITE_SOCKET_ENDPOINT
+  /**
+   * 소켓 연결 훅
+   *
+   * @param chatType 채팅방 타입
+   * @param chatRoomId 채팅방 아이디
+   *
+   * @returns submitChat 함수
+   */
 
-  useEffect(() => {
-    console.log('Attempting to connect to WebSocket...')
+  const { submitChat } = useSocket(chatType as string, chatRoomId as string)
 
-    const client = new Client({
-      webSocketFactory: () => new SockJS(wsUrl),
-
-      debug: (str: string) => console.log('STOMP Debug:', str),
-
-      connectHeaders: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-
-      onConnect: (frame) => {
-        console.log('Successfully connected:', frame)
-
-        // 연결 성공 후 구독 설정
-        client.subscribe(`/sub/chat/mate/${chatRoomId}`, (message) => {
-          console.log('Received message:', message.body)
-        })
-      },
-
-      onStompError: (frame) => {
-        console.error('STOMP Error:', frame)
-      },
-
-      onWebSocketError: (event) => {
-        console.error('WebSocket Error:', event)
-      },
-
-      onWebSocketClose: (event) => {
-        console.log('WebSocket Connection Closed:', event)
-      },
-    })
-
-    try {
-      console.log('Activating STOMP client...')
-      client.activate()
-    } catch (error) {
-      console.error('Error activating STOMP client:', error)
-    }
-
-    return () => {
-      console.log('Cleaning up WebSocket connection...')
-      if (client.active) {
-        client.deactivate()
-      }
-    }
-  }, [chatRoomId, accessToken])
-
-  if (!data || !chatRoomId) return null
+  if (!data || !chatRoomId || !submitChat) return null
 
   const {
     imageUrl,
@@ -147,18 +104,24 @@ const GoodsChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
       <ChatCardContainer>
         {messageList?.map((message) =>
-          message.messageType !== 'TALK' ? (
+          message.messageType !== '대화' ? (
             <EnterChatMessage key={message.chatMessageId}>
               {formatChatContent(message.message)}
             </EnterChatMessage>
           ) : (
-            <ChatCard isUserChat={true} />
+            <ChatCard
+              key={message.chatMessageId}
+              isUserChat={true}
+            />
           ),
         )}
       </ChatCardContainer>
 
       <GlobalFloatAside>
-        <ChatInput handleOpenBottomModal={handleOpenBottomModal} />
+        <ChatInput
+          handleOpenBottomModal={handleOpenBottomModal}
+          submitChat={submitChat}
+        />
       </GlobalFloatAside>
 
       <BottomModal ref={bottomModalRef}>

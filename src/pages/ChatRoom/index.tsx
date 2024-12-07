@@ -19,9 +19,7 @@ const ChatRoom = () => {
       {currentChatType === '메이트' && (
         <MateChatRoom currentChatType={currentChatType} />
       )}
-      {currentChatType === '굿즈' && (
-        <GoodsChatRoom currentChatType={currentChatType} />
-      )}
+      {currentChatType === '굿즈' && <GoodsChatRoom />}
       {currentChatType === '일반' && (
         <GeneralChatRoom currentChatType={currentChatType} />
       )}

@@ -13,6 +13,7 @@ import useNavigateChat from '@hooks/useNavigateChat'
 import GoodsCardList from './ChatPageList/GoodsCardList'
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import { useGoodsChatExit } from '@hooks/useChatExit'
+import MateCardList from './ChatPageList/MateCardList'
 
 export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]
@@ -49,6 +50,9 @@ const ChatPage = () => {
         <ChatListContainer>
           {currentTab === '굿즈' && (
             <GoodsCardList onExitClick={handleAlertClick} />
+          )}
+          {currentTab === '메이트' && (
+            <MateCardList onExitClick={handleAlertClick} />
           )}
         </ChatListContainer>
 

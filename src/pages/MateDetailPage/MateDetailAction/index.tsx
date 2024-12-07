@@ -10,6 +10,7 @@ import {
 import { transformMatePostToFormData } from '@utils/formatPostData'
 import { MatePostData } from '@typings/db'
 import { useMateFormStore } from '@store/useMateFormStore'
+import { useCreateMateChatRoom } from '@hooks/useCreateChatRoom'
 
 interface MateDetailActionProps {
   matePost: MatePostData
@@ -28,6 +29,9 @@ const MateDetailAction = ({
   // 메이트 게시글 id
   const { postId } = matePostData
 
+  const { createChatRoom, createIsPending, createIsError, createError } =
+    useCreateMateChatRoom(postId.toString())
+
   /**
    * 메이트 수정 페이지 이동
    *
@@ -38,7 +42,6 @@ const MateDetailAction = ({
 
   const handleEditClick = () => {
     const postFormData = transformMatePostToFormData(matePostData)
-
     const { matePost, selectedWeek, img } = postFormData
 
     setMateFormData(matePost)
@@ -51,9 +54,9 @@ const MateDetailAction = ({
     })
   }
 
-  const isConditionMatched = false // 조건 일치 여부
+  const isConditionMatched = true // 조건 일치 여부
   const isRecruitmentComplete = false // 모집 완료 여부
-  const isHost = true // 방장 여부
+  const isHost = false // 방장 여부
   const totalParticipants = 20 // 참여자 수
   const isStatusCompleted = false // 직관 완료 여부
 
@@ -88,7 +91,7 @@ const MateDetailAction = ({
                 </>
               ) : isConditionMatched ? (
                 !isRecruitmentComplete ? (
-                  <button>대화 나누기</button>
+                  <button onClick={(e) => createChatRoom}>대화 나누기</button>
                 ) : (
                   <button disabled>모집 완료</button>
                 )

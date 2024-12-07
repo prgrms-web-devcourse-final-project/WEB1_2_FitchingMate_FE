@@ -39,6 +39,7 @@ import ALERT_MESSAGE from '@constants/alertMessage'
 import { useModal } from '@hooks/useModal'
 import goodsChatService from '@apis/goodsChatService'
 import KakaoMapContainer from './KakaoMapContainer'
+import { useCreateGoodsChatroom } from '@hooks/useCreateChatRoom'
 
 const GoodsDetailPage = () => {
   const [isOwner, setIsOwner] = useState(false)
@@ -87,23 +88,12 @@ const GoodsDetailPage = () => {
     },
   })
 
-  /**
-   * 굿즈 채팅방 생성 요청
-   *
-   * @param buyerId 구매자 아이디 ( 본인 회원 ID)
-   * @param goodsPostId 굿즈 게시글 아이디
-   *
-   * 체크완료 추후 수정 필요
-   */
-
-  const { mutate: createGoodsChatroom } = useMutation({
-    mutationFn: () =>
-      goodsChatService.createGoodsChatroom(3, goodsId as string),
-
-    onSettled: (data, error) => {
-      console.log(data, error)
-    },
-  })
+  const {
+    createGoodsChatroom,
+    createGoodsChatroomIsPending,
+    createGoodsChatroomIsError,
+    createGoodsChatroomError,
+  } = useCreateGoodsChatroom(3, goodsId as string)
 
   // 굿즈 게시글 수정 폼 데이터 관리
   const { setGoods, setImageList } = useGoodsFormStore()
