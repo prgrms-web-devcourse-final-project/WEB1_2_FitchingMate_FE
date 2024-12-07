@@ -15,14 +15,32 @@ export const useSocket = (chatType: string, chatRoomId: string) => {
     const client = new Client({
       webSocketFactory: () => new SockJS(wsUrl),
 
+      debug: (str: string) => console.log('STOMP Debug:', str),
+
       heartbeatIncoming: 0,
       heartbeatOutgoing: 0,
 
-      onConnect: () => {
+      onConnect: (frame) => {
+        console.log('연결 성공:', frame)
+
         // 연결 성공 후 구독 설정
-        client.subscribe(subscribePoint, () => {
-          socketRef.current = client
+        client.subscribe(subscribePoint, (message) => {
+          console.log('메시지 수신:', message.body)
         })
+
+        socketRef.current = client
+      },
+
+      onStompError: (frame) => {
+        console.error('스톰프 에러:', frame)
+      },
+
+      onWebSocketError: (event) => {
+        console.error('웹소켓 에러:', event)
+      },
+
+      onWebSocketClose: (event) => {
+        console.log('연결 종료:', event)
       },
     })
 

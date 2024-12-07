@@ -5,7 +5,6 @@ import GoodsListCard from '@components/GoodsListCard'
 import BottomModal from '@components/BottomModal'
 import Alert from '@components/Alert'
 import { ChatCardContainer, EnterChatMessage } from '../../style'
-import ChatCard from '../../ChatCard'
 import GoodsModalContent from './GoodsModalContent'
 
 import { useModal } from '@hooks/useModal'
