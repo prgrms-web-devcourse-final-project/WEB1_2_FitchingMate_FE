@@ -7,16 +7,19 @@ import {
 } from './style'
 import PillButton from '@components/PillButton'
 import { useMateChatStore } from '@store/useMateChatStore'
+import { MateChatMember } from '@typings/mateChat'
 
 interface MateUserCardProps {
+  member: MateChatMember
   handleAlertClick: () => void
 }
 
-const MateUserCard = ({ handleAlertClick }: MateUserCardProps) => {
+const MateUserCard = ({ member, handleAlertClick }: MateUserCardProps) => {
   const { isOwner, recruitStatus, setCurrentAlertStatus } = useMateChatStore()
+  const { imageUrl, nickname, memberId } = member
 
   const handleExcludeClick = () => {
-    setCurrentAlertStatus({ type: 'EXCLUDE_USER', userName: '빌터' })
+    setCurrentAlertStatus({ type: 'EXCLUDE_USER', userName: nickname })
     handleAlertClick()
   }
 
@@ -28,8 +31,12 @@ const MateUserCard = ({ handleAlertClick }: MateUserCardProps) => {
         <ProfileBedge
           height={3}
           width={3}
+          imageSrc={imageUrl}
+          isChat
         />
-        <p>빌터 {isOwner && <span>(모임장)</span>}</p>
+        <p>
+          {nickname} {isOwner && <span>(모임장)</span>}
+        </p>
       </UserInfo>
       <ButtonContainer>
         {isCompleteRecruit && (

@@ -14,28 +14,29 @@ import { useMateChatStore } from '@store/useMateChatStore'
 import { ChatType } from '@pages/ChatPage'
 import useGetMatePost from '@hooks/usegetMatePost'
 import { transformMatePostToCardData } from '@utils/formatPostData'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import mateChatService from '@apis/mateChatService'
 import { QUERY_KEY } from '@apis/queryClient'
 import { useSocket } from '@hooks/useSocket'
 import { formatChatContent } from '@utils/formatChatContent'
-import ChatCard from '@pages/ChatPage/ChatCard'
 import MateChatCard from '@pages/ChatRoom/ChatCard/MateChatCard'
+import MainMateCard from '@components/MainMateCard'
+import { useEffect } from 'react'
+import { RecruitStatus } from './RecruitStatusSection'
 
 const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
   // 채팅방 알럿 상태 관리
-  const { currentAlertStatus } = useMateChatStore()
+  const { currentAlertStatus, setRecruitStatus } = useMateChatStore()
 
+  const {
+    state: { postId },
+  } = useLocation()
   // 모달 관리
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
   const { id: chatRoomId, type: chatType } = useParams()
-
-  // 채팅방과 연동된 메이트 게시글 조회
-  const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
-    useGetMatePost(Number(chatRoomId))
 
   // 채팅방 상세 조회
   const {
@@ -49,6 +50,10 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
       mateChatService.getMateChatRoomDetail(chatRoomId as string, 0),
   })
 
+  // 채팅방과 연동된 메이트 게시글 조회
+  const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
+    useGetMatePost(postId as number)
+
   /**
    * 소켓 연동
    *
@@ -60,6 +65,15 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
    * @returns 소켓 연동 함수
    */
   const { submitChat } = useSocket(chatType as ChatType, chatRoomId as string)
+
+  // 메이트 게시글 상태 업데이트
+  useEffect(() => {
+    if (matePost) {
+      setRecruitStatus(matePost.status as RecruitStatus)
+    }
+  }, [matePost])
+
+  if (!messageList) return null
 
   const currentAlertMessage = () => {
     const { type, userName } = currentAlertStatus
@@ -74,13 +88,11 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
   if (!matePost) return null
 
-  console.log(messageList)
-
   const cardData = transformMatePostToCardData(matePost)
 
   return (
     <>
-      <MateCard card={cardData} />
+      <MainMateCard card={cardData} />
 
       <ChatCardContainer>
         {messageList?.content?.map((message) =>

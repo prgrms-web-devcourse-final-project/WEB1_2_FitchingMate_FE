@@ -33,6 +33,7 @@ export const QUERY_KEY = {
   GOODS_CHAT_PARTICIPANT: 'goodsChatParticipant',
   MATE_CHAT_LIST: 'mateChatList',
   MATE_CHATROOM: 'mateChatroom',
+  MATE_CHAT_MEMBERS: 'mateChatMembers',
 }
 
 export default queryClient

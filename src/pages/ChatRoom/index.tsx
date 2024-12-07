@@ -4,8 +4,9 @@ import MateChatRoom from './Rooms/MateChatRoom'
 import GeneralChatRoom from './Rooms/GeneralChatRoom'
 import SubHeader from '@layouts/SubHeader'
 
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useLocation, useParams } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+
 export type ChatType = '메이트' | '굿즈' | '일반'
 
 const ChatRoom = () => {

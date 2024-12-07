@@ -5,9 +5,10 @@ import { RecruitStatus } from '@pages/ChatRoom/Rooms/MateChatRoom/RecruitStatusS
 
 interface MateChatRoomStore {
   isOwner: boolean
-  recruitStatus: RecruitStatus
+  recruitStatus: RecruitStatus | null
   currentAlertStatus: { type: AlertMessage; userName?: string }
   participants: string[]
+  mateChatRoomId: string | null
 
   setIsOwner: (isOwner: boolean) => void
   setRecruitStatus: (recruitStatus: RecruitStatus) => void
@@ -16,13 +17,15 @@ interface MateChatRoomStore {
     userName?: string
   }) => void
   setParticipants: (participants: []) => void
+  setMateChatRoomId: (mateChatRoomId: string) => void
 }
 
 export const useMateChatStore = create<MateChatRoomStore>((set) => ({
   isOwner: true,
-  recruitStatus: '직관완료',
+  recruitStatus: null,
   currentAlertStatus: { type: 'DEAL_COMPLETE', userName: '' },
   participants: [],
+  mateChatRoomId: null,
 
   setIsOwner: (isOwner: boolean) => set({ isOwner }),
   setRecruitStatus: (recruitStatus: RecruitStatus) => set({ recruitStatus }),
@@ -31,4 +34,5 @@ export const useMateChatStore = create<MateChatRoomStore>((set) => ({
     userName?: string
   }) => set({ currentAlertStatus }),
   setParticipants: (participants: string[]) => set({ participants }),
+  setMateChatRoomId: (mateChatRoomId: string) => set({ mateChatRoomId }),
 }))

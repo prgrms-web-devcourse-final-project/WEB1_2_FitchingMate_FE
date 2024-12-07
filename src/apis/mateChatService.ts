@@ -1,4 +1,5 @@
 import {
+  MateChatMembers,
   MateChatRoomDetail,
   MateChatRoomDetailResponse,
   MateChatRoomListResponse,
@@ -34,7 +35,7 @@ const mateChatService = {
   getMateChatRoomDetail: async (chatroomId: string, page: number) => {
     const response = await fetchApi
       .get<MateChatRoomDetail>(
-        `mates/chat/${chatroomId}/messages?page=${page}&size=20`,
+        `mates/chat/${chatroomId}/messages?page=0&size=20`,
       )
       .json()
 
@@ -47,6 +48,14 @@ const mateChatService = {
       .delete(`mates/chat/${mateChatRoomId}/leave`)
       .json()
     return response
+  },
+
+  getMateChatMembers: async (chatroomId: string) => {
+    const response = await fetchApi
+      .get<MateChatMembers>(`mates/chat/${chatroomId}/members`)
+      .json()
+
+    return response.data
   },
 }
 

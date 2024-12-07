@@ -76,3 +76,17 @@ export interface MateChatRoomDetail {
   timestamp: string
   code: number
 }
+
+export interface MateChatMember {
+  memberId: number
+  nickname: string
+  imageUrl: string
+}
+
+export interface MateChatMembers {
+  status: string
+  message: null
+  data: MateChatMember[]
+  timestamp: string
+  code: number
+}

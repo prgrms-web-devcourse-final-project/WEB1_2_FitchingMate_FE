@@ -28,6 +28,7 @@ export const useGoodsChatExit = (chatRoomId: string) => {
 }
 
 export const useMateChatExit = (chatRoomId: string) => {
+  console.log(chatRoomId)
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: () => mateChatService.exitMateChat(chatRoomId),
 
