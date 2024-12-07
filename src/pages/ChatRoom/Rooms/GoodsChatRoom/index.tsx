@@ -109,10 +109,7 @@ const GoodsChatRoom = () => {
               {formatChatContent(message.message)}
             </EnterChatMessage>
           ) : (
-            <ChatCard
-              key={message.chatMessageId}
-              isUserChat={true}
-            />
+            <div>asdfsadf</div>
           ),
         )}
       </ChatCardContainer>

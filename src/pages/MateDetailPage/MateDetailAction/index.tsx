@@ -91,7 +91,12 @@ const MateDetailAction = ({
                 </>
               ) : isConditionMatched ? (
                 !isRecruitmentComplete ? (
-                  <button onClick={(e) => createChatRoom}>대화 나누기</button>
+                  <button
+                    type='button'
+                    onClick={createChatRoom}
+                  >
+                    대화 나누기
+                  </button>
                 ) : (
                   <button disabled>모집 완료</button>
                 )

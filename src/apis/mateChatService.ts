@@ -31,11 +31,14 @@ const mateChatService = {
   },
 
   //  메이트 채팅방 상세 조회
-  getMateChatRoomDetail: async (chatroomId: string) => {
+  getMateChatRoomDetail: async (chatroomId: string, page: number) => {
     const response = await fetchApi
-      .get<MateChatRoomDetail>(`/api/mates/chat/${chatroomId}/messages`)
+      .get<MateChatRoomDetail>(
+        `mates/chat/${chatroomId}/messages?page=${page}&size=20`,
+      )
       .json()
-    return response
+
+    return response.data
   },
 
   //  메이트 채팅방 나가기

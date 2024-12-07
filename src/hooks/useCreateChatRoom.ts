@@ -10,6 +10,11 @@ export const useCreateMateChatRoom = (matePostId: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_CHAT_LIST] })
     },
+
+    onSettled: (data, error) => {
+      console.log(data)
+      console.error(error)
+    },
   })
 
   return {

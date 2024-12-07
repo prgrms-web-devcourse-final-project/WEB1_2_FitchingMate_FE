@@ -24,7 +24,7 @@ interface InitialMessage {
   pageSize: number
 }
 
-interface Message {
+export interface Message {
   messageId: number
   roomId: number
   senderId: number

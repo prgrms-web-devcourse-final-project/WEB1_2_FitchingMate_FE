@@ -17,7 +17,7 @@ const goodsChatService = {
   // 채팅 페이지 => 채팅방 목록
   getGoodsChatroomList: async (page: number, size: number) => {
     const response = await fetchApi
-      .get<GoodsChatroom>(`goods/chat?page=${page}&size=${size}`)
+      .get<GoodsChatroomResponse>(`goods/chat?page=${page}&size=${size}`)
       .json()
 
     return response.data
