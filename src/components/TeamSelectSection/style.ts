@@ -5,8 +5,6 @@ export const TeamSelectContainer = styled.div`
   overflow-x: scroll;
   gap: 12px;
 
-  /* 스크롤바 일단 살려둠 */
-
   &::-webkit-scrollbar {
     display: none;
   }
