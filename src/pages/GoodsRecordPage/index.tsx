@@ -7,6 +7,8 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import userService from '@apis/userService'
 import { useInView } from 'react-intersection-observer'
+import { RefContainer } from '@styles/globalStyle'
+import Spinner from '@components/Spinner'
 
 const HEADER_TEXT = {
   sold: '굿즈 판매기록',
@@ -103,10 +105,9 @@ const GoodsRecordPage = () => {
         )}
       </GoodsSection>
       {hasNextPage && (
-        <div
-          ref={loadMoreRef}
-          style={{ height: '200px' }}
-        ></div>
+        <RefContainer ref={loadMoreRef}>
+          {isFetchingNextPage && <Spinner />}
+        </RefContainer>
       )}
     </>
   )

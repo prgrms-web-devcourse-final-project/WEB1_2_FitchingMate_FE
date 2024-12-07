@@ -8,6 +8,8 @@ import { QUERY_KEY } from '@apis/queryClient'
 import reviewService from '@apis/reviewService'
 import ReviewBoxComponent from './ReviewBoxComponent'
 import { useInView } from 'react-intersection-observer'
+import { RefContainer } from '@styles/globalStyle'
+import Spinner from '@components/Spinner'
 
 const GOODS_REVIEW = '1'
 const MATE_REVIEW = '2'
@@ -76,10 +78,9 @@ const ReviewPage = () => {
           selectedReview={selectedReview}
         />
         {hasNextPage && (
-          <div
-            ref={ref}
-            style={{ height: '200px' }}
-          ></div>
+          <RefContainer ref={ref}>
+            {isFetchingNextPage && <Spinner />}
+          </RefContainer>
         )}
       </section>
     </>

@@ -7,6 +7,8 @@ import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import reviewService from '@apis/reviewService'
+import Spinner from '@components/Spinner'
+import { RefContainer } from '@styles/globalStyle'
 
 const TimelinePage = () => {
   const observerRef = useRef<IntersectionObserver | null>(null)
@@ -68,10 +70,9 @@ const TimelinePage = () => {
           )
         })}
         {hasNextPage && (
-          <div
-            ref={loadMoreRef}
-            style={{ height: '200px' }}
-          ></div>
+          <RefContainer ref={loadMoreRef}>
+            {isFetchingNextPage && <Spinner />}
+          </RefContainer>
         )}
       </TimelineWrap>
     </>
