@@ -13,9 +13,10 @@ const GOODS_REVIEW = '1'
 const MATE_REVIEW = '2'
 
 const ReviewPage = () => {
+  const [myId, setMyId] = useState(0)
   const [selectedReview, setSelectedReview] = useState(GOODS_REVIEW)
   const { ref, inView } = useInView({
-    triggerOnce: false,
+    threshold: 0.5,
   })
 
   const decideReviewType = (reviewType: string) => {
@@ -32,7 +33,7 @@ const ReviewPage = () => {
       queryFn: ({ pageParam }) =>
         reviewService.getReviewList(
           decideReviewType(selectedReview),
-          1,
+          myId + 1,
           pageParam,
         ),
       initialPageParam: 0,
@@ -74,12 +75,12 @@ const ReviewPage = () => {
           reviewList={reviewList}
           selectedReview={selectedReview}
         />
-        {hasNextPage && !isFetchingNextPage ? (
+        {hasNextPage && (
           <div
             ref={ref}
             style={{ height: '200px' }}
           ></div>
-        ) : null}
+        )}
       </section>
     </>
   )
