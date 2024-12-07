@@ -1,11 +1,16 @@
 import fetchApi from '@apis/ky'
+import { useUserStore } from '@store/useUserStore'
 
 // 로그인 API 응답 타입 정의
 interface LoginResponseData {
-  memberId: number
-  grantType: string
   accessToken: string
+  age: number
+  gender: string
+  grantType: string
+  memberId: number
+  nickname: string
   refreshToken: string
+  teamId: number
 }
 
 interface LoginResponse {
@@ -15,6 +20,9 @@ interface LoginResponse {
   timestamp: string
   code: number
 }
+
+const { setAge, setGender, setMemberId, setNickname, setTeamId } =
+  useUserStore.getState()
 
 // 로그인 요청 함수
 export const loginPost = async (email: string): Promise<LoginResponseData> => {
@@ -37,6 +45,15 @@ export const loginPost = async (email: string): Promise<LoginResponseData> => {
     // localStorage.setItem('refreshToken', refreshToken);
 
     console.log('로그인 성공:', response.data)
+    const { age, gender, memberId, nickname, teamId } = response.data
+
+    // 상태 업데이트
+    setAge(age)
+    setGender(gender)
+    setMemberId(memberId)
+    setNickname(nickname)
+    setTeamId(teamId)
+
     return response.data // `data` 객체를 반환
   } catch (error) {
     console.error('로그인 실패:', error)
