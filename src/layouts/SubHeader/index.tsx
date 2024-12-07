@@ -5,6 +5,7 @@ import {
   SubHeaderLeft,
   SubHeaderMessageText,
   SubHeaderRight,
+  SubHeaderSvgWrap,
   SubHeaderText,
 } from './style'
 
@@ -29,8 +30,16 @@ const SubHeader = ({ left, center, right, onClick }: SubHeaderPropsType) => {
   }
 
   const subHeaderLeftContent = {
-    back: <Back onClick={handleClick} />,
-    exit: <Exit onClick={handleClick} />,
+    back: (
+      <SubHeaderSvgWrap onClick={handleClick}>
+        <Back />
+      </SubHeaderSvgWrap>
+    ),
+    exit: (
+      <SubHeaderSvgWrap onClick={handleClick}>
+        <Exit />
+      </SubHeaderSvgWrap>
+    ),
     message: <SubHeaderMessageText>메시지</SubHeaderMessageText>,
   }
 
