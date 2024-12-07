@@ -34,6 +34,7 @@ const TimelinePage = () => {
 
   const { pages } = data
   const timelineList = pages.flatMap((page) => page.content)
+  console.log(timelineList)
 
   return (
     <>

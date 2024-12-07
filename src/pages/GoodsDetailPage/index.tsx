@@ -39,11 +39,12 @@ import ALERT_MESSAGE from '@constants/alertMessage'
 import { useModal } from '@hooks/useModal'
 import goodsChatService from '@apis/goodsChatService'
 import KakaoMapContainer from './KakaoMapContainer'
+import GoodsHostButton from './GoodsHostButton'
+import GoodsVisitorButton from './GoodsVisitorButton'
 import { useCreateGoodsChatroom } from '@hooks/useCreateChatRoom'
 
 const GoodsDetailPage = () => {
-  const [isOwner, setIsOwner] = useState(false)
-  const [isAble, setIsAble] = useState(true)
+  const [localUserId, setLocalUserId] = useState(localStorage.getItem('userId'))
 
   const { id: goodsId } = useParams()
 
@@ -108,7 +109,7 @@ const GoodsDetailPage = () => {
   if (!data) return null
 
   // 굿즈 게시글 삭제 버튼 클릭 이벤트 = > 알럿 오픈
-  const handleClickDeleteButton = () => {
+  const onClickDeleteButton = () => {
     handleAlertClick()
   }
 
@@ -118,7 +119,7 @@ const GoodsDetailPage = () => {
   }
 
   // 굿즈 게시글 수정 버튼 클릭 이벤트 = > 굿즈 게시글 수정 폼 데이터 관리
-  const handleClickEditButton = () => {
+  const onClickEditButton = () => {
     const formattedData = transformGoodsDetailToFormData(data)
     const { goods, imageList } = formattedData
 
@@ -205,36 +206,16 @@ const GoodsDetailPage = () => {
                 : `${formatPriceWithComma(price)}원`}
             </GoodsPriceText>
             <GoodsBottomButtonWrap>
-              {isOwner ? (
-                <>
-                  <GoodsBottomButton
-                    $isNavy={true}
-                    onClick={handleClickDeleteButton}
-                  >
-                    삭제하기
-                  </GoodsBottomButton>
-                  <GoodsBottomButton
-                    $isNavy={true}
-                    onClick={handleClickEditButton}
-                  >
-                    수정하기
-                  </GoodsBottomButton>
-                </>
-              ) : isAble ? (
-                <GoodsBottomButton
-                  type='button'
-                  $isNavy={true}
-                  onClick={() => createGoodsChatroom()}
-                >
-                  대화 나누기
-                </GoodsBottomButton>
+              {Number(localUserId) === seller.memberId ? (
+                <GoodsHostButton
+                  onClickDeleteButton={onClickDeleteButton}
+                  onClickEditButton={onClickEditButton}
+                />
               ) : (
-                <GoodsBottomButton
-                  $isNavy={false}
-                  disabled={true}
-                >
-                  대화 나누기
-                </GoodsBottomButton>
+                <GoodsVisitorButton
+                  createGoodsChatroom={createGoodsChatroom}
+                  isDisable={status === '거래완료' ? true : false}
+                />
               )}
             </GoodsBottomButtonWrap>
           </GoodsBottomWrap>

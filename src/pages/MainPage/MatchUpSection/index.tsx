@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
-
 import fetchApi from '@apis/ky'
 import { QUERY_KEY } from '@apis/queryClient'
 import { Match } from '@typings/db'
@@ -18,33 +17,32 @@ import {
   MatchUpContainer,
   PaginationContainer,
 } from './style'
-import { kboTeamInfo } from '@constants/kboInfo'
+import { kboTeamInfo, kboTeamList } from '@constants/kboInfo'
 
 interface MatchUpSectionProps {
-  selectedTeam: string
+  selectedTeam: number
 }
 
-const fetchMatches = async (teamId: number | null): Promise<Match[]> => {
-  const endpoint = teamId === null ? 'matches/main' : `matches/team/${teamId}`
+const fetchMatches = async (teamId: number): Promise<Match[]> => {
+  const endpoint = teamId === 0 ? 'matches/main' : `matches/team/${teamId}`
   const response: any = await fetchApi.get(endpoint).json()
-  console.log(
-    '매치업',
-    `${import.meta.env.VITE_API_ENDPOINT}${endpoint}`,
-    response,
-  )
   return response.data
 }
 
 const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
-  const teamId = selectedTeam === '전체' ? null : kboTeamInfo[selectedTeam].id
+  const teamId = selectedTeam === 0 ? 0 : kboTeamList[selectedTeam].id
+
+  if (selectedTeam !== 0 && !kboTeamList[selectedTeam].id) {
+    return (
+      <ErrorContainer>잘못된 팀 선택입니다. 다시 시도해주세요.</ErrorContainer>
+    )
+  }
 
   const { data: matches = [], isLoading } = useQuery({
     queryKey: [QUERY_KEY.WEEKLY_MATCH, teamId],
     queryFn: () => fetchMatches(teamId),
-    enabled: !!teamId || selectedTeam === '전체',
+    enabled: !!teamId || selectedTeam === 0,
   })
-
-  console.log(matches)
 
   if (isLoading) {
     return <div>로딩 중...</div>
@@ -52,7 +50,7 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
 
   if (matches.length === 0) {
     return (
-      <ErrorContainer>{`${kboTeamInfo[selectedTeam]?.team}의 매치업 데이터가 없습니다.`}</ErrorContainer>
+      <ErrorContainer>{`${kboTeamList[selectedTeam]?.team}의 매치업 데이터가 없습니다.`}</ErrorContainer>
     )
   }
 
@@ -72,7 +70,6 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
         modules={[Autoplay, Pagination]}
       >
         {matches.map((match) => {
-          // 팀 ID를 기반으로 kboTeamInfo에서 데이터 조회
           const homeTeamData = Object.values(kboTeamInfo).find(
             (team) => team.id === match.homeTeam.id,
           )

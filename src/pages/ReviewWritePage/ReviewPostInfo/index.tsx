@@ -6,7 +6,15 @@ import {
   ReviewPostText,
 } from '../style'
 
-const ReviewPostInfo = ({ title, reviewType, username }) => {
+const ReviewPostInfo = ({
+  reviewType,
+  title,
+  nickname,
+}: {
+  reviewType: string
+  title: string
+  nickname: string | undefined
+}) => {
   return (
     <ReviewPostWrap>
       <ReviewPostImage>
@@ -17,11 +25,11 @@ const ReviewPostInfo = ({ title, reviewType, username }) => {
         <ReviewPostText>
           {reviewType === 'GOODS' ? (
             <>
-              거래한 이웃 &nbsp;<span>{username}</span>
+              거래한 이웃 &nbsp;<span>{nickname}</span>
             </>
           ) : (
             <>
-              함께한 메이트 &nbsp;<span>{username}</span>
+              함께한 메이트 &nbsp;<span>{nickname}</span>
             </>
           )}
         </ReviewPostText>

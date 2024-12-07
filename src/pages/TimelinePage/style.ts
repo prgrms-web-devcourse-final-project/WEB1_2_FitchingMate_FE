@@ -106,7 +106,7 @@ export const TimelineReviewBox = styled.div`
     width: calc(100% - 80px);
   }
 
-  & svg {
+  & img {
     width: 50px;
     height: 50px;
   }

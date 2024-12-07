@@ -23,8 +23,8 @@ import ProfileMain from '@pages/ProfilePage/ProfileMain'
 import ProfileEdit from '@pages/ProfilePage/ProfileEdit'
 import ReviewPage from '@pages/ProfilePage/ReviewPage'
 import TimelinePage from '@pages/TimelinePage'
-import RedirectHandler from '@pages/LoginPage/AuthCallback/RedirectHandler'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import NaverCallback from '@pages/LoginPage/AuthCallback/NaverCallback'
 import Spinner from '@components/Spinner'
 
 const AppRoutes = () => {
@@ -55,6 +55,10 @@ const AppRoutes = () => {
         <Route
           path={ROUTE_PATH.LOGIN}
           element={<LoginPage />}
+        />
+        <Route 
+          path={ROUTE_PATH.NAVER_CALLBACK}
+          element={<NaverCallback/>}
         />
         <Route
           path={ROUTE_PATH.SIGNUP}
@@ -124,13 +128,7 @@ const AppRoutes = () => {
         />
         <Route
           path={ROUTE_PATH.REVIEW_WRITE}
-          element={
-            <ReviewWritePage
-              reviewType='GOODS'
-              title='string'
-              username='유저네임'
-            />
-          }
+          element={<ReviewWritePage />}
         />
         <Route
           path={ROUTE_PATH.TIMELINE}
@@ -147,12 +145,6 @@ const AppRoutes = () => {
         path={ROUTE_PATH.NOTIFICATION}
         element={<NotificationPage />}
       />
-
-      <Route
-        path={ROUTE_PATH.NAVER_LOGIN}
-        element={<RedirectHandler />}
-      />
-
       <Route
         path={'/spin'}
         element={<Spinner />}

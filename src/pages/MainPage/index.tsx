@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import { MainPageContainer, TeamSelectWrapper } from './style';
-import MatchUpSection from './MatchUpSection';
-import TeamSelectSection from '@components/TeamSelectSection';
-import MateCardSection from './MateCardSection';
-import GoodsCardSection from './GoodsCardSection';
-import RankingSection from './RankingSection';
-import ResultSection from './ResultSection';
-import { kboTeamList } from '@constants/kboInfo';
+import { useState } from 'react'
+import { MainPageContainer, TeamSelectWrapper } from './style'
+import MatchUpSection from './MatchUpSection'
+import MateCardSection from './MateCardSection'
+import GoodsCardSection from './GoodsCardSection'
+import RankingSection from './RankingSection'
+import ResultSection from './ResultSection'
+import TeamSelectSection from '@components/TeamSelectSection'
+import { kboTeamList } from '@constants/kboInfo'
 
 const MainPage = () => {
-  const [selectedTeam, setSelectedTeam] = useState<string>(kboTeamList[0].team);
+  const [selectedTeam, setSelectedTeam] = useState<number>(kboTeamList[0].id)
 
-  const handleTeamSelect = (team: string) => {
-    setSelectedTeam(team);
-  };
+  const handleTeamSelect = (team: number) => {
+    setSelectedTeam(team)
+  }
 
   return (
     <MainPageContainer>
@@ -22,7 +22,7 @@ const MainPage = () => {
       <TeamSelectWrapper>
         <TeamSelectSection
           selectedTeam={selectedTeam}
-          setSelectedTeam={handleTeamSelect}
+          onSelectTeam={handleTeamSelect}
         />
       </TeamSelectWrapper>
 
@@ -30,13 +30,13 @@ const MainPage = () => {
 
       <GoodsCardSection selectedTeam={selectedTeam} />
 
-      {selectedTeam === '전체' ? (
+      {selectedTeam === 0 ? (
         <RankingSection />
       ) : (
         <ResultSection selectedTeam={selectedTeam} />
       )}
     </MainPageContainer>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage
