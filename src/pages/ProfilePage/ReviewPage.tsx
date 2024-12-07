@@ -15,7 +15,7 @@ const MATE_REVIEW = '2'
 const ReviewPage = () => {
   const [selectedReview, setSelectedReview] = useState(GOODS_REVIEW)
   const { ref, inView } = useInView({
-    threshold: 0.9,
+    triggerOnce: false,
   })
 
   const decideReviewType = (reviewType: string) => {
@@ -26,7 +26,7 @@ const ReviewPage = () => {
     }
   }
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: [QUERY_KEY.REVIEW_LIST, selectedReview],
       queryFn: ({ pageParam }) =>

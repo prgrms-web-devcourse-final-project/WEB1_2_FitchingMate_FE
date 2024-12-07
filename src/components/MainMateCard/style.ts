@@ -27,6 +27,7 @@ export const CardImageWrap = styled.div`
   width: 25%;
   border-radius: 4px;
   position: relative;
+  overflow: hidden;
 
   @media all and (max-width: 431px) {
     width: 100px;
@@ -38,6 +39,9 @@ export const CardImageWrap = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
 
     @media all and (max-width: 431px) {
       transform: scale(1) !important;
@@ -54,9 +58,6 @@ export const CardImageWrap = styled.div`
     content: '';
     display: block;
     padding-bottom: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
 
     @media all and (max-width: 431px) {
       content: none;
