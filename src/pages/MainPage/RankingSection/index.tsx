@@ -31,12 +31,12 @@ const RankingSection = () => {
 
   // 랭킹이 오전 9시에 업데이트되는 경우와 오후 10시에 업데이트되는 경우를 고려한 staleTime 계산
   const now = dayjs()
-  const nextUpdateHour = now.hour() < 9 ? 9 : 22 
+  const nextUpdateHour = now.hour() < 9 ? 9 : 22
 
   let nextUpdateTime =
     now.hour() >= 22
-      ? now.add(1, 'day').hour(9).minute(0).second(0).millisecond(0) 
-      : now.hour(nextUpdateHour).minute(0).second(0).millisecond(0) 
+      ? now.add(1, 'day').hour(9).minute(0).second(0).millisecond(0)
+      : now.hour(nextUpdateHour).minute(0).second(0).millisecond(0)
 
   const staleTime = nextUpdateTime.diff(now)
 
@@ -47,7 +47,7 @@ const RankingSection = () => {
   } = useQuery({
     queryKey: [QUERY_KEY.RANKINGS],
     queryFn: fetchTeamRankings,
-    staleTime
+    staleTime,
   })
 
   if (isLoading) {

@@ -1,18 +1,18 @@
-import { ResultSectionContainer } from './style';
-import ResultSummary from './ResultSummary';
-import ResultList from './ResultList';
+import { ResultSectionContainer } from './style'
+import ResultSummary from './ResultSummary'
+import ResultList from './ResultList'
 
 interface ResultSectionProps {
-  selectedTeam: string;
+  selectedTeam: number
 }
 
 const ResultSection = ({ selectedTeam }: ResultSectionProps) => {
   return (
     <ResultSectionContainer>
-      <ResultSummary teamKey={selectedTeam} />
+      <ResultSummary selectedTeam={selectedTeam} />
       <ResultList teamKey={selectedTeam} />
     </ResultSectionContainer>
-  );
-};
+  )
+}
 
-export default ResultSection;
+export default ResultSection

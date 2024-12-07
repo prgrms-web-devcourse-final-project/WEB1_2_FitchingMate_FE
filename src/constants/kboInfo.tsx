@@ -93,6 +93,8 @@ const kboTeamList = Object.keys(kboTeamInfo).map((team) => ({
   team,
   id: kboTeamInfo[team].id,
   color: kboTeamInfo[team].color,
+  logo: kboTeamInfo[team].logo,
+  fullName: kboTeamInfo[team].team
 }))
 
 export { kboTeamInfo, kboTeamList }
