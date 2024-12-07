@@ -39,8 +39,6 @@ export const UserInfoListWrapper = styled.div`
 export const MateDetailActionWrapper = styled.div`
   position: fixed;
   bottom: 0;
-  width: 100vw;
+  width: 100%;
   max-width: 480px;
-  min-height: 100px;
-  background-color: ${theme.fontColor.white};
 `
