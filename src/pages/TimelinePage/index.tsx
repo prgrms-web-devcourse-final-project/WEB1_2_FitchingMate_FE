@@ -2,14 +2,15 @@ import SubHeader from '@layouts/SubHeader'
 import { TimelineWrap } from './style'
 import TimelineBox from './TimelineBox'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import reviewService from '@apis/reviewService'
 
 const TimelinePage = () => {
-  const { ref, inView } = useInView()
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -25,16 +26,31 @@ const TimelinePage = () => {
     })
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage()
+    if (isFetchingNextPage || !hasNextPage) return
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            fetchNextPage()
+          }
+        },
+        { threshold: 1.0 },
+      )
     }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+    if (loadMoreRef.current) {
+      observerRef.current.observe(loadMoreRef.current)
+    }
+    return () => {
+      if (observerRef.current && loadMoreRef.current) {
+        observerRef.current.unobserve(loadMoreRef.current)
+      }
+    }
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage])
 
   if (!data) return null
 
   const { pages } = data
   const timelineList = pages.flatMap((page) => page.content)
-  console.log(timelineList)
 
   return (
     <>
@@ -51,7 +67,12 @@ const TimelinePage = () => {
             />
           )
         })}
-        <div ref={ref}></div>
+        {hasNextPage && (
+          <div
+            ref={loadMoreRef}
+            style={{ height: '200px' }}
+          ></div>
+        )}
       </TimelineWrap>
     </>
   )

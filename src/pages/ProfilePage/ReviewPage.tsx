@@ -16,7 +16,6 @@ const ReviewPage = () => {
   const [selectedReview, setSelectedReview] = useState(GOODS_REVIEW)
   const { ref, inView } = useInView({
     threshold: 0.9,
-    triggerOnce: true,
   })
 
   const decideReviewType = (reviewType: string) => {
@@ -45,7 +44,6 @@ const ReviewPage = () => {
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
-      console.log(data)
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
@@ -79,7 +77,7 @@ const ReviewPage = () => {
         {hasNextPage && !isFetchingNextPage ? (
           <div
             ref={ref}
-            style={{ height: '50vh' }}
+            style={{ height: '200px' }}
           ></div>
         ) : null}
       </section>
