@@ -1,21 +1,15 @@
 import { GoodsDetailResponse, GoodsListResponse } from '@typings/db'
 import fetchApi from './ky'
 const goodsPostService = {
-  postGoodsPost: async (memberId: number, formData: FormData) => {
-    const response = await fetchApi
-      .post(`goods/${memberId}`, { body: formData })
-      .json()
+  postGoodsPost: async (formData: FormData) => {
+    const response = await fetchApi.post(`goods`, { body: formData }).json()
 
     return response
   },
 
-  editGoodsPost: async (
-    memberId: number,
-    goodsId: number,
-    formData: FormData,
-  ) => {
+  editGoodsPost: async (goodsId: number, formData: FormData) => {
     const response = await fetchApi
-      .put(`goods/${memberId}/post/${goodsId}`, { body: formData })
+      .put(`goods/${goodsId}`, { body: formData })
       .json()
 
     return response
@@ -35,21 +29,15 @@ const goodsPostService = {
     return response
   },
 
-  deleteGoodsPost: async (memberId: number, goodsPostId: number) => {
-    const response = await fetchApi
-      .delete(`goods/${memberId}/post/${goodsPostId}`)
-      .json()
+  deleteGoodsPost: async (goodsPostId: number) => {
+    const response = await fetchApi.delete(`goods/${goodsPostId}`).json()
 
     return response
   },
 
-  completeGoodsPost: async (
-    memberId: number,
-    goodsPostId: number,
-    buyerId: number,
-  ) => {
+  completeGoodsPost: async (goodsPostId: string, buyerId: string) => {
     const response = await fetchApi
-      .post(`goods/${memberId}/post/${goodsPostId}/complete?buyerId=${buyerId}`)
+      .post(`goods/${goodsPostId}/complete?buyerId=${buyerId}`)
       .json()
 
     return response

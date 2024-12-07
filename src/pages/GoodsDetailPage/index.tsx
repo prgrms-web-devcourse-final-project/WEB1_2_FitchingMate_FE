@@ -41,6 +41,7 @@ import goodsChatService from '@apis/goodsChatService'
 import KakaoMapContainer from './KakaoMapContainer'
 import GoodsHostButton from './GoodsHostButton'
 import GoodsVisitorButton from './GoodsVisitorButton'
+import { useCreateGoodsChatroom } from '@hooks/useCreateChatRoom'
 
 const GoodsDetailPage = () => {
   const [localUserId, setLocalUserId] = useState(localStorage.getItem('userId'))
@@ -79,8 +80,8 @@ const GoodsDetailPage = () => {
     isError: isDeleteError,
     error: deleteError,
   } = useMutation({
-    mutationFn: (data: { memberId: number; goodsPostId: number }) =>
-      goodsPostService.deleteGoodsPost(data.memberId, data.goodsPostId),
+    mutationFn: (goodsPostId: number) =>
+      goodsPostService.deleteGoodsPost(goodsPostId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
@@ -88,22 +89,12 @@ const GoodsDetailPage = () => {
     },
   })
 
-  /**
-   * 굿즈 채팅방 생성 요청
-   *
-   * @param buyerId 구매자 아이디 ( 본인 회원 ID)
-   * @param goodsPostId 굿즈 게시글 아이디
-   *
-   * 체크완료 추후 수정 필요
-   */
-
-  const { mutate: createGoodsChatroom } = useMutation({
-    mutationFn: () => goodsChatService.createGoodsChatroom(3, 107),
-
-    onSettled: (data, error) => {
-      console.log(data, error)
-    },
-  })
+  const {
+    createGoodsChatroom,
+    createGoodsChatroomIsPending,
+    createGoodsChatroomIsError,
+    createGoodsChatroomError,
+  } = useCreateGoodsChatroom(3, goodsId as string)
 
   // 굿즈 게시글 수정 폼 데이터 관리
   const { setGoods, setImageList } = useGoodsFormStore()
@@ -124,10 +115,7 @@ const GoodsDetailPage = () => {
 
   // 알럿에서 굿즈 게시글 삭제 처리
   const handleDeleteGoodsPost = () => {
-    deleteGoodsPost({
-      memberId: data.seller.memberId, // 추후 본인 회원 ID 넣기
-      goodsPostId: data.id,
-    })
+    deleteGoodsPost(data.id)
   }
 
   // 굿즈 게시글 수정 버튼 클릭 이벤트 = > 굿즈 게시글 수정 폼 데이터 관리

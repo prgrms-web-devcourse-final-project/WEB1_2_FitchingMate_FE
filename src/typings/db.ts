@@ -168,16 +168,94 @@ export interface TeamRanking {
 }
 
 export interface NaverLoginResponse {
-  grantType: string;
-  accessToken: string;
-  refreshToken: string;
-  isNewMember: boolean;
-  naverProfileResponse: NaverProfileResponse;
+  grantType: string
+  accessToken: string
+  refreshToken: string
+  isNewMember: boolean
+  naverProfileResponse: NaverProfileResponse
 }
 
 export interface NaverProfileResponse {
-  name: string;
-  email: string;
-  gender: string;
-  birthyear: string;
+  name: string
+  email: string
+  gender: string
+  birthyear: string
+}
+
+export interface GoodsChatroomContent {
+  chatRoomId: number
+  opponentNickname: string
+  lastChatContent: string
+  lastChatSentAt: string
+  placeName: string
+  goodsMainImageUrl: string
+  opponentImageUrl: string
+}
+
+export interface GoodsChatroom {
+  status: string
+  message: string | null
+  data: {
+    content: GoodsChatroomContent[]
+    totalPages: number
+    totalElements: number
+    hasNext: boolean
+    pageNumber: number
+    pageSize: number
+  }
+  timestamp: string
+  code: number
+}
+
+interface GoodChatMessage {
+  chatMessageId: number
+  roomId: number
+  senderId: number
+  senderNickname: string
+  message: string
+  messageType: string
+  senderImageUrl: string
+  sentAt: string
+}
+
+export interface GoodsChatroomData {
+  chatRoomId: number
+  goodsPostId: number
+  teamName: string
+  title: string
+  category: string
+  price: number
+  postStatus: string
+  chatRoomStatus: string
+  imageUrl: string
+
+  initialMessages: {
+    content: GoodChatMessage[]
+    totalPages: number
+    totalElements: number
+    hasNext: boolean
+    pageNumber: number
+    pageSize: number
+  }
+}
+export interface GoodsChatroomResponse {
+  status: string
+  message: string | null
+  data: GoodsChatroomData
+  timestamp: string
+  code: number
+}
+
+export interface GoodsChatParticipant {
+  memberId: number
+  nickname: string
+  imageUrl?: string
+}
+
+export interface GoodsChatParticipantResponse {
+  status: string
+  message: string | null
+  data: GoodsChatParticipant[]
+  timestamp: string
+  code: number
 }

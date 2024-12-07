@@ -6,16 +6,19 @@ import {
   ContentWrapper,
   ContentWrapperInner,
   UserProfileWrapper,
-} from './style'
+} from '../style'
 import { Message } from '@typings/mateChat'
+import { formatChatContent } from '@utils/formatChatContent'
+import { formatChatTime } from '@utils/formatDate'
 
 interface ChatCardProps {
-  isUserChat: boolean
   message: Message
 }
 
-const ChatCard = ({ isUserChat, message }: ChatCardProps) => {
+const MateChatCard = ({ message }: ChatCardProps) => {
   const { senderId, senderNickname, message: chatMessage, sendTime } = message
+
+  const isUserChat = senderId === 1
 
   return (
     <CardContainer $isUserChat={isUserChat}>
@@ -35,16 +38,14 @@ const ChatCard = ({ isUserChat, message }: ChatCardProps) => {
               )}
             </UserProfileWrapper>
             <ContentText $isUserChat={isUserChat}>
-              안녕하세요 빌터입니다.안녕하세요 빌터입니다.안녕하세요
-              빌터입니다.안녕하세요 빌터입니다.안녕하세요 빌터입니다.안녕하세요
-              빌터입니다.안녕하세요 빌터입니다.안녕하세요 빌터입니다.안녕하세요
+              {formatChatContent(chatMessage)}
             </ContentText>
           </ContentWrapperInner>
-          <p>오후 6:58</p>
+          <p>{formatChatTime(sendTime)}</p>
         </ContentWrapper>
       </CardContent>
     </CardContainer>
   )
 }
 
-export default ChatCard
+export default MateChatCard

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ChatInputContainer = styled.div`
+export const ChatInputContainer = styled.form`
   width: 100%;
   padding: 0.9em 20px;
   background-color: #fff;
