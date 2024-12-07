@@ -1,43 +1,33 @@
-import React from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import fetchApi from '@apis/ky'
 import { QUERY_KEY } from '@apis/queryClient'
-import { kboTeamInfo } from '@constants/kboInfo'
-import MateCard from '@components/MateCard'
+import { kboTeamList } from '@constants/kboInfo'
 import { MateCardContainer, MoreSection } from './style'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import { MateCardData, MateCardResponse } from '@typings/db'
 import MainMateCard from '@components/MainMateCard'
 
 interface MateCardSectionProps {
-  selectedTeam: string
+  selectedTeam: number
 }
 
-const fetchMateCards = async (
-  teamId: number | null,
-): Promise<MateCardData[]> => {
-  const endpoint =
-    teamId === null ? 'mates/main' : `mates/main?teamId=${teamId}`
+const fetchMateCards = async (teamId: number): Promise<MateCardData[]> => {
+  const endpoint = teamId === 0 ? 'mates/main' : `mates/main?teamId=${teamId}`
   const response: MateCardResponse = await fetchApi.get(endpoint).json()
-  console.log(
-    '메이트 카드 데이터:',
-    `${import.meta.env.VITE_API_ENDPOINT}${endpoint}`,
-    response,
-  )
   return response.data
 }
 
 const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
-  const teamId = selectedTeam === '전체' ? null : kboTeamInfo[selectedTeam]?.id
+  const teamId = selectedTeam === 0 ? 0 : kboTeamList[selectedTeam].id
 
   const { data: mateCards = [], isLoading } = useQuery({
     queryKey: [QUERY_KEY.MATE_POST, teamId],
     queryFn: () => fetchMateCards(teamId),
-    enabled: !!teamId || selectedTeam === '전체',
+    enabled: !!teamId || selectedTeam === 0,
   })
 
-  const teamName = kboTeamInfo[selectedTeam]?.team || 'KBO'
+  const teamName = kboTeamList[selectedTeam]?.team || 'KBO'
 
   if (isLoading) {
     return <div>로딩 중...</div>

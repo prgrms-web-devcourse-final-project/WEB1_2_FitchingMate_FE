@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 import { theme } from '@styles/theme'
-import { kboTeamInfo } from '@constants/kboInfo'
+import { kboTeamInfo,kboTeamList } from '@constants/kboInfo'
 
 interface ResultSummaryContainerProps {
-  teamKey: string // 팀 이름 키
+  $teamId: number // 팀 이름 키
 }
 
 export const ResultSummaryContainer = styled.div<ResultSummaryContainerProps>`
@@ -11,9 +11,9 @@ export const ResultSummaryContainer = styled.div<ResultSummaryContainerProps>`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  background-color: ${({ teamKey }) =>
-    kboTeamInfo[teamKey]?.color ||
-    '#004aad'}; /* 팀 색상 적용 (기본값: 파란색) */
+  background-color: ${({ $teamId }) =>
+    kboTeamList[$teamId]?.color ||
+    theme.fontColor.navy};
   padding: 8px 20px;
   color: ${theme.fontColor.white};
 `
@@ -28,7 +28,7 @@ export const TeamInfo = styled.div`
     margin-right: 10px;
   }
 
-  .team-name {
+  .team-name, .rank {
     font-size: ${theme.fontSize.small};
     font-weight: ${theme.fontWeight.regular};
   }
@@ -42,4 +42,7 @@ export const GameStats = styled.div`
   .win-draw-loss {
     margin-top: 5px;
   }
+`
+export const teamLogo = styled.img`
+
 `

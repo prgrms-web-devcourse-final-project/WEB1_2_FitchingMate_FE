@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import GoodsCard from '@components/GoodsCard'
 import { GoodsCardContainer, CardWrapper, MoreSection } from './style'
-import { kboTeamInfo } from '@constants/kboInfo'
+import { kboTeamList } from '@constants/kboInfo'
 import { Link } from 'react-router-dom'
 import { QUERY_KEY } from '@apis/queryClient'
 import fetchApi from '@apis/ky'
@@ -9,14 +9,11 @@ import { GoodsPostSummary } from '@typings/db'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 interface GoodsCardSectionProps {
-  selectedTeam: string
+  selectedTeam: number
 }
 
-const fetchGoodsCards = async (
-  teamId: number | null,
-): Promise<GoodsPostSummary[]> => {
-  const endpoint =
-    teamId === null ? 'goods/main' : `goods/main?teamId=${teamId}`
+const fetchGoodsCards = async (teamId: number): Promise<GoodsPostSummary[]> => {
+  const endpoint = teamId === 0 ? 'goods/main' : `goods/main?teamId=${teamId}`
   const response = await fetchApi
     .get(endpoint)
     .json<{ data: GoodsPostSummary[] }>()
@@ -24,7 +21,7 @@ const fetchGoodsCards = async (
 }
 
 const GoodsCardSection = ({ selectedTeam }: GoodsCardSectionProps) => {
-  const teamId = selectedTeam === '전체' ? null : kboTeamInfo[selectedTeam]?.id
+  const teamId = selectedTeam === 0 ? 0 : kboTeamList[selectedTeam].id
 
   const {
     data: goodsCards = [],
@@ -33,10 +30,10 @@ const GoodsCardSection = ({ selectedTeam }: GoodsCardSectionProps) => {
   } = useQuery({
     queryKey: [QUERY_KEY.GOODS_LIST, teamId],
     queryFn: () => fetchGoodsCards(teamId),
-    enabled: !!teamId || selectedTeam === '전체',
+    enabled: !!teamId || selectedTeam === 0,
   })
 
-  const teamName = kboTeamInfo[selectedTeam]?.team || 'KBO'
+  const teamName = kboTeamList[selectedTeam]?.team || 'KBO'
 
   if (isLoading) {
     return (
@@ -50,9 +47,14 @@ const GoodsCardSection = ({ selectedTeam }: GoodsCardSectionProps) => {
     return (
       <GoodsCardContainer>
         <h3>{`${teamName} 굿즈 거래하기`}</h3>
-        <p className='no-goods'>{`${teamName} 굿즈를 찾을 수 없습니다.`}  </p>
+        <p className='no-goods'>{`${teamName} 굿즈를 찾을 수 없습니다.`} </p>
         <MoreSection>
-          <Link className='more' to={ROUTE_PATH.GOODS_LIST}>더보기</Link>
+          <Link
+            className='more'
+            to={ROUTE_PATH.GOODS_LIST}
+          >
+            더보기
+          </Link>
         </MoreSection>
       </GoodsCardContainer>
     )
@@ -70,7 +72,12 @@ const GoodsCardSection = ({ selectedTeam }: GoodsCardSectionProps) => {
         ))}
       </CardWrapper>
       <MoreSection>
-        <Link className='more' to={ROUTE_PATH.GOODS_LIST}>더보기</Link>
+        <Link
+          className='more'
+          to={ROUTE_PATH.GOODS_LIST}
+        >
+          더보기
+        </Link>
       </MoreSection>
     </GoodsCardContainer>
   )
