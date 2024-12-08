@@ -17,7 +17,6 @@ import useEditMyInfo from '@hooks/useEditMyInfo'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { UserInfo } from '@typings/userForm'
 import { kboTeamInfo } from '@constants/kboInfo'
-import { toast } from 'react-toastify'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import Spinner from '@components/Spinner'
 import { useUserStore } from '@store/useUserStore'
@@ -29,7 +28,7 @@ const ProfileEdit = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const { memberId } = useUserStore().userInfo
+  const memberId = Number(localStorage.getItem('memberId'))
 
   const [isUpload, setIsUpload] = useState(false)
   const [currentTeamId, setCurrentTeamId] = useState<number | null>(null)

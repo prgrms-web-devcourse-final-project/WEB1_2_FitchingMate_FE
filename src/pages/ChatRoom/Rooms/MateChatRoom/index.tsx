@@ -1,7 +1,10 @@
 import { useModal } from '@hooks/useModal'
 
-import { ChatCardContainer, EnterChatMessage } from '../../style'
-import MateCard from '@components/MateCard'
+import {
+  ChatCardContainer,
+  EnterChatMessage,
+  MateChatCardContainer,
+} from '../../style'
 import { GlobalFloatAside } from '@styles/globalStyle'
 import ChatInput from '@pages/ChatRoom/ChatInput'
 import BottomModal from '@components/BottomModal'
@@ -11,31 +14,53 @@ import MateModalContent from './MateModalContent'
 import ALERT_MESSAGE from '@constants/alertMessage'
 
 import { useMateChatStore } from '@store/useMateChatStore'
-import { ChatType } from '@pages/ChatPage'
 import useGetMatePost from '@hooks/usegetMatePost'
 import { transformMatePostToCardData } from '@utils/formatPostData'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import mateChatService from '@apis/mateChatService'
 import { QUERY_KEY } from '@apis/queryClient'
 import { useSocket } from '@hooks/useSocket'
 import { formatChatContent } from '@utils/formatChatContent'
-import ChatCard from '@pages/ChatPage/ChatCard'
 import MateChatCard from '@pages/ChatRoom/ChatCard/MateChatCard'
+import MainMateCard from '@components/MainMateCard'
+import { useEffect, useRef, useState } from 'react'
+import { RecruitStatus } from './RecruitStatusSection'
+import { useCompleteMate, useCompleteMatePost } from '@hooks/useCompleteMate'
 
-const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
+export interface MateChatMessage {
+  message: string
+  messageId: number
+  messageType: string
+  roomId: number
+  sendTime: string
+  senderId: number
+  senderImageUrl: string
+  senderNickname: string
+}
+
+const MateChatRoom = () => {
+  const [currentMessageList, setCurrentMessageList] = useState<
+    MateChatMessage[]
+  >([])
+
   // 채팅방 알럿 상태 관리
-  const { currentAlertStatus } = useMateChatStore()
+  const {
+    currentAlertStatus,
+    setRecruitStatus,
+    recruitStatus,
+    participants,
+    confirmedParticipants,
+  } = useMateChatStore()
 
+  const {
+    state: { postId },
+  } = useLocation()
   // 모달 관리
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
   const { id: chatRoomId, type: chatType } = useParams()
-
-  // 채팅방과 연동된 메이트 게시글 조회
-  const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
-    useGetMatePost(Number(chatRoomId))
 
   // 채팅방 상세 조회
   const {
@@ -45,9 +70,28 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
     error,
   } = useQuery({
     queryKey: [QUERY_KEY.MATE_CHATROOM, chatRoomId],
-    queryFn: () =>
-      mateChatService.getMateChatRoomDetail(chatRoomId as string, 0),
+    queryFn: () => mateChatService.getMateChatRoomDetail(chatRoomId as string),
   })
+
+  // 채팅방과 연동된 메이트 게시글 조회
+  const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
+    useGetMatePost(postId as number)
+
+  // 모집중 <-> 모집완료 상태 변경
+  const {
+    changeMateRecruitStatus,
+    isMateRecruitStatusPending,
+    isMateRecruitStatusError,
+    mateRecruitStatusError,
+  } = useCompleteMate()
+
+  // 직관완료 요청
+  const {
+    completeMatePost,
+    isCompleteMatePostPending,
+    isCompleteMatePostError,
+    completeMatePostError,
+  } = useCompleteMatePost(postId as string)
 
   /**
    * 소켓 연동
@@ -58,8 +102,57 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
    * @param chatRoomId 채팅방 id
    *
    * @returns 소켓 연동 함수
+   * handleMessage 함수
+   * 채팅 데이터가 업데이트 될 때마다 스테이트에 관리
    */
-  const { submitChat } = useSocket(chatType as ChatType, chatRoomId as string)
+
+  const handleMessage = (message: MateChatMessage) => {
+    setCurrentMessageList((prev) => {
+      if (prev.length >= 20) {
+        const startIndex = 0
+        const endIndex = currentMessageList.length - 1
+        const prevSlice = prev.slice(startIndex, endIndex)
+
+        return [message, ...prevSlice]
+      }
+
+      return [message, ...prev]
+    })
+  }
+
+  const { submitChat } = useSocket({
+    chatType: chatType as string,
+    chatRoomId: chatRoomId as string,
+    onListen: handleMessage,
+  })
+
+  /**
+   * 스크롤 관련 처리
+   *
+   * 채팅 데이터가 업데이트 될 때마다 스크롤을 최하단으로 이동
+   */
+  const chatContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (currentMessageList.length > 0 && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    }
+  }, [matePost, currentMessageList])
+
+  useEffect(() => {
+    if (messageList) {
+      setCurrentMessageList(messageList.content)
+    }
+  }, [messageList])
+
+  // 메이트 게시글 상태 업데이트
+  useEffect(() => {
+    if (matePost) {
+      setRecruitStatus(matePost.status as RecruitStatus)
+    }
+  }, [matePost])
+
+  if (!messageList) return null
 
   const currentAlertMessage = () => {
     const { type, userName } = currentAlertStatus
@@ -74,16 +167,44 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
   if (!matePost) return null
 
-  console.log(messageList)
-
   const cardData = transformMatePostToCardData(matePost)
+
+  const handleChangeMateRecruitStatus = () => {
+    const recruitData = {
+      status: recruitStatus as RecruitStatus,
+      participantIds: participants,
+    }
+
+    changeMateRecruitStatus(recruitData)
+  }
+
+  const handleCompleteMatePost = () => {
+    const recruitData = {
+      participantIds: confirmedParticipants,
+    }
+
+    completeMatePost(recruitData)
+  }
+
+  const handleAlertAction = () => {
+    if (
+      currentAlertStatus.type === 'MATE_STATUS_CHANGE' ||
+      currentAlertStatus.type === 'MATE_COMPLETE'
+    ) {
+      handleChangeMateRecruitStatus()
+    }
+
+    if (currentAlertStatus.type === 'GAME_COMPLETE') {
+      handleCompleteMatePost()
+    }
+  }
 
   return (
     <>
-      <MateCard card={cardData} />
+      <MainMateCard card={cardData} />
 
-      <ChatCardContainer>
-        {messageList?.content?.map((message) =>
+      <MateChatCardContainer ref={chatContainerRef}>
+        {[...currentMessageList]?.reverse().map((message) =>
           message.messageType !== '대화' ? (
             <EnterChatMessage key={message.messageId}>
               {formatChatContent(message.message)}
@@ -95,7 +216,7 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
             />
           ),
         )}
-      </ChatCardContainer>
+      </MateChatCardContainer>
 
       <GlobalFloatAside>
         <ChatInput
@@ -105,15 +226,13 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
       </GlobalFloatAside>
 
       <BottomModal ref={bottomModalRef}>
-        <MateModalContent
-          handleAlertClick={handleAlertClick}
-          currentChatType={currentChatType}
-        />
+        <MateModalContent handleAlertClick={handleAlertClick} />
       </BottomModal>
 
       <Alert
         ref={alertRef}
         {...currentAlertMessage()}
+        handleAlertClick={handleAlertAction}
       />
     </>
   )

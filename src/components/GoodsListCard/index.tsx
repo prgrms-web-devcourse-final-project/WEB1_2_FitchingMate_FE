@@ -16,6 +16,7 @@ interface GoodsListCardProps {
 }
 
 const GoodsListCard = ({ goodsPost }: GoodsListCardProps) => {
+  if (!goodsPost) return null
   const { imageUrls, title, price, status, category, teamName } = goodsPost
 
   return (
@@ -40,7 +41,9 @@ const GoodsListCard = ({ goodsPost }: GoodsListCardProps) => {
             </BedgeContainer>
             <GoodsInfoContainer>
               <p>{title}</p>
-              {price && <p>{formatPriceWithComma(price)}원</p>}
+              {formatPriceWithComma(price as number) === '0'
+                ? '나눔'
+                : `${formatPriceWithComma(price as number)}원`}
             </GoodsInfoContainer>
           </div>
         </GoodsListCardContainer>

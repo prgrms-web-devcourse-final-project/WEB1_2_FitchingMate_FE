@@ -7,8 +7,6 @@ export type AlertMessageObject = {
   }
 }
 
-type AlertMessageFunction = (userName: string) => AlertMessageObject
-
 const ALERT_MESSAGE = {
   CHAT_EXIT: {
     title: '채팅방 나가기',

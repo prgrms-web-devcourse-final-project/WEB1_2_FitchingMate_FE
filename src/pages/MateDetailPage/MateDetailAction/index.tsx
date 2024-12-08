@@ -45,6 +45,7 @@ const MateDetailAction = ({
       return false // 나이가 10살 미만이거나 숫자가 아니면 false
     }
 
+
     // 나이를 범위로 변환
     let userAgeGroup: string
     if (ageAsNumber < 10) {
@@ -137,7 +138,7 @@ const MateDetailAction = ({
         <>
           <ChattingPeople>대화중인 메이트 - {totalParticipants}</ChattingPeople>
           <ActionButton>
-            <button>대화 나누기</button>
+            <button onClick={createChatRoom}>대화 나누기</button>
           </ActionButton>
         </>
       )
