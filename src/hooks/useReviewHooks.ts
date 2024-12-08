@@ -5,18 +5,11 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 
 export const useMutateMateReview = () =>
   useMutation({
-    mutationFn: (data: {
-      memberId: number
-      matePostId: number
-      jsonData: unknown
-    }) =>
-      reviewService.postMateReview(
-        data.memberId,
-        data.matePostId,
-        data.jsonData,
-      ),
+    mutationFn: (data: { matePostId: number; jsonData: unknown }) =>
+      reviewService.postMateReview(data.matePostId, data.jsonData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_REVIEW] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.TIMELINE_LIST] })
     },
   })
 

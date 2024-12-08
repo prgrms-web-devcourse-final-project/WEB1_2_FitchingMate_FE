@@ -42,9 +42,10 @@ import KakaoMapContainer from './KakaoMapContainer'
 import GoodsHostButton from './GoodsHostButton'
 import GoodsVisitorButton from './GoodsVisitorButton'
 import { useCreateGoodsChatroom } from '@hooks/useCreateChatRoom'
+import { useUserStore } from '@store/useUserStore'
 
 const GoodsDetailPage = () => {
-  const [localUserId, setLocalUserId] = useState(localStorage.getItem('userId'))
+  const { memberId } = useUserStore().userInfo
 
   const { id: goodsId } = useParams()
 
@@ -206,7 +207,7 @@ const GoodsDetailPage = () => {
                 : `${formatPriceWithComma(price)}원`}
             </GoodsPriceText>
             <GoodsBottomButtonWrap>
-              {Number(localUserId) === seller.memberId ? (
+              {Number(memberId) === seller.memberId ? (
                 <GoodsHostButton
                   onClickDeleteButton={onClickDeleteButton}
                   onClickEditButton={onClickEditButton}

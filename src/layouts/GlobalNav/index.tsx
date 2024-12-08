@@ -18,7 +18,7 @@ import { useUserStore } from '@store/useUserStore'
 const GlobalNav = () => {
   const { pathname } = useLocation()
   const [isLogin, setIsLogin] = useState<boolean>(false)
-  const { memberId } = useUserStore().userInfo
+  const memberId = localStorage.getItem('memberId')
 
   useEffect(() => {
     const token = localStorage.getItem('token')

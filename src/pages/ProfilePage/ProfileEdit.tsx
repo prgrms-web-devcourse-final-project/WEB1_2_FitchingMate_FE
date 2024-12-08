@@ -3,6 +3,7 @@ import {
   ProfileImageEdit,
   ProfileImageEditWrap,
   ProfileSpinnerWrap,
+  ValidateText,
 } from './style'
 import { FormEvent, useEffect, useState } from 'react'
 import { handleImageUpload } from './methods'
@@ -17,10 +18,10 @@ import useEditMyInfo from '@hooks/useEditMyInfo'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { UserInfo } from '@typings/userForm'
 import { kboTeamInfo } from '@constants/kboInfo'
-import { toast } from 'react-toastify'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import Spinner from '@components/Spinner'
 import { useUserStore } from '@store/useUserStore'
+import { toast } from 'react-toastify'
 
 // 소개글 글자제한
 const MAX_LENGTH = 500
@@ -29,7 +30,7 @@ const ProfileEdit = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const { memberId } = useUserStore().userInfo
+  const memberId = Number(localStorage.getItem('memberId'))
 
   const [isUpload, setIsUpload] = useState(false)
   const [currentTeamId, setCurrentTeamId] = useState<number | null>(null)
@@ -39,7 +40,9 @@ const ProfileEdit = () => {
     undefined,
   )
 
-  const { mutateMyInfo, error, isError, isPending, isSuccess } = useEditMyInfo()
+  const { mutateMyInfo, error, isError, isPending, isSuccess } = useEditMyInfo(
+    Number(memberId),
+  )
 
   // 프로파일 수정 사항 서브밋
   const onProfileEditSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -50,7 +53,7 @@ const ProfileEdit = () => {
       nickname: userInfo?.nickname,
       aboutMe: userInfo?.aboutMe,
       // 멤버아이디 수정요청
-      memberId: 1,
+      memberId: memberId,
     }
     const formData = new FormData()
 
@@ -58,12 +61,14 @@ const ProfileEdit = () => {
       'data',
       new Blob([JSON.stringify(dataObject)], { type: 'application/json' }),
     )
-    profileImg && formData.append('image', profileImg)
+    profileImg && formData.append('file', profileImg)
 
     try {
       mutateMyInfo(formData)
       navigate(`${ROUTE_PATH.PROFILE}/${memberId}`)
-    } catch (err) {}
+    } catch (err) {
+      toast('이런! 오류가 발생했어요.')
+    }
   }
 
   // 소개글 글자제한
@@ -174,9 +179,9 @@ const ProfileEdit = () => {
               handleChange(e)
             }}
           ></textarea>
-          <p>
+          <ValidateText>
             {userInfo?.aboutMe ? userInfo?.aboutMe.length : '0'}/{MAX_LENGTH}
-          </p>
+          </ValidateText>
         </ProfileEditInputWrap>
 
         <ProfileEditInputWrap>

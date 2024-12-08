@@ -27,13 +27,13 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useGetMyInfo from '@hooks/useGetMyInfo'
 import { UserInfo } from '@typings/userForm'
-import { toast } from 'react-toastify'
-import { useUserStore } from '@store/useUserStore'
 
 import Alert from '@components/Alert'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { logoutPost } from '@apis/logoutService'
 import { unregisterDelete } from '@apis/unregisterService'
+import { formatManner } from '@utils/formatManner'
+
 
 const ProfileMain = () => {
   const logoutAlertRef = useRef<HTMLDialogElement | null>(null) // 로그아웃용 ref
@@ -42,13 +42,13 @@ const ProfileMain = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
-  const { memberId: loginMemberId } = useUserStore().userInfo
+  const loginMemberId = localStorage.getItem('memberId')
 
   const [userId, setUserId] = useState(id)
   const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
-  const myInfoResult = useGetMyInfo(loginMemberId)
+  const myInfoResult = useGetMyInfo(Number(loginMemberId))
   const userInfoResult = useGetUserInfo(
     typeof id === 'string' ? Number(id) : null,
   )
@@ -74,13 +74,14 @@ const ProfileMain = () => {
   }
 
   useEffect(() => {
-    if (loginMemberId === Number(userId)) {
+    if (Number(loginMemberId) === Number(userId)) {
       setIsMyProfile(true)
     } else {
       setIsMyProfile(false)
     }
   }, [userId])
 
+  // 자기 프로필 판단해서 데이터 로드함
   useEffect(() => {
     if (isMyProfile !== null) {
       if (isMyProfile) {
@@ -91,6 +92,7 @@ const ProfileMain = () => {
     }
   }, [isMyProfile, myInfoResult.getMyInfo, userInfoResult.getUserInfo])
 
+  // 프로필 수정 페이지 이동함수
   const onNavigateEdit = () => {
     navigate('/profile/edit', { state: { ...userInfo } })
   }
@@ -131,7 +133,7 @@ const ProfileMain = () => {
               style={{ display: 'none' }}
             />
           </ProfileEditWrap>
-          <ProfileFollowWrap>
+          {/* <ProfileFollowWrap>
             <Link to={ROUTE_PATH.FOLLOW}>
               <div>
                 <p>팔로우</p>
@@ -142,12 +144,18 @@ const ProfileMain = () => {
                 <p>{userInfo?.followerCount}</p>
               </div>
             </Link>
-          </ProfileFollowWrap>
+          </ProfileFollowWrap> */}
         </ProfileTopWrap>
 
         {/* 프로필 소개 섹션 */}
         <ProfileNotice>
-          <p>{userInfo?.aboutMe}</p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: userInfo?.aboutMe
+                ? userInfo?.aboutMe.replace(/\n/g, '<br>')
+                : '',
+            }}
+          ></p>
         </ProfileNotice>
 
         {/* 프로필 상단 버튼 본인 프로필 유무 */}
@@ -179,15 +187,13 @@ const ProfileMain = () => {
           <ProfileMannerInfo>
             <span>첫 타율 0.300</span>
             <p>
-              {(userInfo && userInfo.manner) || (
-                <Skeleton containerClassName='skeleton-flex' />
-              )}
+              {userInfo && formatManner(userInfo.manner)}
               <MannerIcon />
             </p>
             <ProfileMannerGraph>
-              {(userInfo && (
+              {userInfo && (
                 <ProfileMannerGraphInner width={userInfo.manner * 100} />
-              )) || <Skeleton />}
+              )}
             </ProfileMannerGraph>
           </ProfileMannerInfo>
         </ProfilePadding>

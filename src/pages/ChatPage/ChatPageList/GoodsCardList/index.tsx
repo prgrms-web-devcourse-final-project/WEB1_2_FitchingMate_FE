@@ -11,7 +11,7 @@ const GoodsCardList = ({ onExitClick }: { onExitClick: () => void }) => {
 
   return (
     <>
-      {goodsChatList?.content?.map((goodsChat) => (
+      {goodsChatList?.data?.content?.map((goodsChat) => (
         <ChatCard
           key={goodsChat.chatRoomId}
           currentTab='굿즈'

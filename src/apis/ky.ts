@@ -4,7 +4,9 @@ import ky from 'ky'
 const END_POINT = import.meta.env.VITE_API_ENDPOINT
 
 const prepareRequestsWithAuth = (request: Request) => {
-  const authToken = localStorage.getItem('token') || import.meta.env.VITE_TOKEN
+  const authToken =
+    window.localStorage.getItem('token') || import.meta.env.VITE_TOKEN
+
   request.headers.set('Authorization', `Bearer ${authToken}`)
 }
 
