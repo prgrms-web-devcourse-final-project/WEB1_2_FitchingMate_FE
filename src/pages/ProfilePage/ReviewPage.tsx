@@ -18,6 +18,9 @@ const MATE_REVIEW = '2'
 
 const ReviewPage = () => {
   const { id: pageId } = useParams()
+  const memberId = localStorage.getItem('memberId')
+
+  const [isMy, setIsMy] = useState(false)
   const [selectedReview, setSelectedReview] = useState(GOODS_REVIEW)
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -30,6 +33,14 @@ const ReviewPage = () => {
       return 'mate'
     }
   }
+
+  useEffect(() => {
+    if (pageId === memberId) {
+      setIsMy(true)
+    } else {
+      setIsMy(false)
+    }
+  }, [memberId])
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
