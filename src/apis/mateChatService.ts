@@ -37,9 +37,7 @@ const mateChatService = {
     console.log(123, chatroomId)
 
     const response = await fetchApi
-      .get<MateChatRoomDetail>(
-        `mates/chat/${chatroomId}/messages?page=0&size=20`,
-      )
+      .get<MateChatRoomDetail>(`mates/chat/${chatroomId}/messages?page=0`)
       .json()
 
     return response.data

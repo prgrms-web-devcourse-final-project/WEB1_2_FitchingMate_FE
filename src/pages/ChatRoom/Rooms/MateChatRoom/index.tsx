@@ -1,6 +1,10 @@
 import { useModal } from '@hooks/useModal'
 
-import { ChatCardContainer, EnterChatMessage } from '../../style'
+import {
+  ChatCardContainer,
+  EnterChatMessage,
+  MateChatCardContainer,
+} from '../../style'
 import { GlobalFloatAside } from '@styles/globalStyle'
 import ChatInput from '@pages/ChatRoom/ChatInput'
 import BottomModal from '@components/BottomModal'
@@ -10,7 +14,6 @@ import MateModalContent from './MateModalContent'
 import ALERT_MESSAGE from '@constants/alertMessage'
 
 import { useMateChatStore } from '@store/useMateChatStore'
-import { ChatType } from '@pages/ChatPage'
 import useGetMatePost from '@hooks/usegetMatePost'
 import { transformMatePostToCardData } from '@utils/formatPostData'
 import { useLocation, useParams } from 'react-router-dom'
@@ -24,14 +27,23 @@ import MainMateCard from '@components/MainMateCard'
 import { useEffect, useRef, useState } from 'react'
 import { RecruitStatus } from './RecruitStatusSection'
 import { useCompleteMate, useCompleteMatePost } from '@hooks/useCompleteMate'
-import { GoodsChatMessage } from '@typings/db'
+
+export interface MateChatMessage {
+  message: string
+  messageId: number
+  messageType: string
+  roomId: number
+  sendTime: string
+  senderId: number
+  senderImageUrl: string
+  senderNickname: string
+}
 
 const MateChatRoom = () => {
   const [currentMessageList, setCurrentMessageList] = useState<
-    GoodsChatMessage[]
+    MateChatMessage[]
   >([])
 
-  // 채팅방 알럿 상태 관리
   // 채팅방 알럿 상태 관리
   const {
     currentAlertStatus,
@@ -60,8 +72,6 @@ const MateChatRoom = () => {
     queryKey: [QUERY_KEY.MATE_CHATROOM, chatRoomId],
     queryFn: () => mateChatService.getMateChatRoomDetail(chatRoomId as string),
   })
-
-  console.log(chatRoomId)
 
   // 채팅방과 연동된 메이트 게시글 조회
   const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
@@ -96,7 +106,7 @@ const MateChatRoom = () => {
    * 채팅 데이터가 업데이트 될 때마다 스테이트에 관리
    */
 
-  const handleMessage = (message: GoodsChatMessage) => {
+  const handleMessage = (message: MateChatMessage) => {
     setCurrentMessageList((prev) => {
       if (prev.length >= 20) {
         const startIndex = 0
@@ -127,13 +137,13 @@ const MateChatRoom = () => {
     if (currentMessageList.length > 0 && chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
     }
-  }, [currentMessageList])
+  }, [matePost, currentMessageList])
 
-  // useEffect(() => {
-  //   if (messageList) {
-  //     setCurrentMessageList(messageList.initialMessages.content)
-  //   }
-  // }, [messageList])
+  useEffect(() => {
+    if (messageList) {
+      setCurrentMessageList(messageList.content)
+    }
+  }, [messageList])
 
   // 메이트 게시글 상태 업데이트
   useEffect(() => {
@@ -193,8 +203,8 @@ const MateChatRoom = () => {
     <>
       <MainMateCard card={cardData} />
 
-      <ChatCardContainer ref={chatContainerRef}>
-        {messageList?.content?.map((message) =>
+      <MateChatCardContainer ref={chatContainerRef}>
+        {[...currentMessageList]?.reverse().map((message) =>
           message.messageType !== '대화' ? (
             <EnterChatMessage key={message.messageId}>
               {formatChatContent(message.message)}
@@ -206,7 +216,7 @@ const MateChatRoom = () => {
             />
           ),
         )}
-      </ChatCardContainer>
+      </MateChatCardContainer>
 
       <GlobalFloatAside>
         <ChatInput

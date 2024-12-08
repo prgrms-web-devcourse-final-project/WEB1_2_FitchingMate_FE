@@ -7,18 +7,14 @@ import {
   ContentWrapperInner,
   UserProfileWrapper,
 } from '../style'
-import { Message } from '@typings/mateChat'
 import { formatChatContent } from '@utils/formatChatContent'
 import { formatChatTime } from '@utils/formatDate'
+import { MateChatMessage } from '@pages/ChatRoom/Rooms/MateChatRoom'
 
-interface ChatCardProps {
-  message: Message
-}
-
-const MateChatCard = ({ message }: ChatCardProps) => {
+const MateChatCard = ({ message }: { message: MateChatMessage }) => {
   const { senderId, senderNickname, message: chatMessage, sendTime } = message
 
-  const isUserChat = senderId === 1
+  const isUserChat = senderId === Number(localStorage.getItem('memberId'))
 
   return (
     <CardContainer $isUserChat={isUserChat}>

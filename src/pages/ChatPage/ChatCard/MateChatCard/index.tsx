@@ -57,9 +57,13 @@ const MateChatCard = ({ onExitClick, mateChatroomContent }: ChatCardProps) => {
         <ChatContent>
           <UserInfoContainer>
             <h2>{postTitle}</h2>
-            <p>{formatChatTime(lastMessageTime)}</p>
+            <p>{lastMessageTime ? formatChatTime(lastMessageTime) : ''}</p>
           </UserInfoContainer>
-          <p>{lastMessageContent}</p>
+          <p>
+            {lastMessageContent
+              ? lastMessageContent
+              : '아직 진행된 대화가 없습니다'}
+          </p>
         </ChatContent>
       </ContentContainer>
 
