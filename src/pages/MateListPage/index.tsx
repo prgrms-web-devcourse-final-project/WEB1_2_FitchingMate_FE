@@ -39,18 +39,25 @@ const MateListPage = () => {
     maxParticipants: null,
     transportType: null,
   })
+  const [tempFilters, setTempFilters] = useState(selectedFilters)
+
+  // 필터 변경 핸들러 (임시 필터)
+  const handleTempFilterChange = (filters: Partial<typeof tempFilters>) => {
+    setTempFilters((prevFilters) => ({
+      ...prevFilters,
+      ...filters,
+    }))
+  }
+
+  // "완료" 버튼 핸들러
+  const applyFilters = () => {
+    setSelectedFilters(tempFilters) // 임시 필터를 실제 필터로 반영
+    handleCloseBottomModal()
+  }
 
   // 팀 선택 핸들러
   const handleTeamSelect = (team: number | null) => {
     setSelectedTeam(team)
-  }
-
-  // 필터 변경 핸들러
-  const handleFilterChange = (filters: Partial<typeof selectedFilters>) => {
-    setSelectedFilters((prevFilters) => ({
-      ...prevFilters,
-      ...filters,
-    }))
   }
 
   // 페이지 상단 버튼 핸들러
@@ -71,6 +78,7 @@ const MateListPage = () => {
 
       getNextPageParam: (lastPage: any) =>
         lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
+
     })
 
   // 무한 스크롤 핸들러
@@ -131,9 +139,9 @@ const MateListPage = () => {
 
       <BottomModal ref={bottomModalRef}>
         <MateFilterOptions
-          onClose={handleCloseBottomModal}
-          selectedFilters={selectedFilters}
-          onFilterChange={handleFilterChange}
+          onClose={applyFilters}
+          selectedFilters={tempFilters} // 임시 필터 전달
+          onFilterChange={handleTempFilterChange}
         />
       </BottomModal>
     </section>
@@ -141,3 +149,5 @@ const MateListPage = () => {
 }
 
 export default MateListPage
+
+

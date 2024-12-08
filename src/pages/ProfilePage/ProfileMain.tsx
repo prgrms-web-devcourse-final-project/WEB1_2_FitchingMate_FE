@@ -21,26 +21,57 @@ import SubHeader from '@layouts/SubHeader'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import useGetUserInfo from '@hooks/useGetUserInfo'
 
-import { Link, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState, useRef } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useGetMyInfo from '@hooks/useGetMyInfo'
 import { UserInfo } from '@typings/userForm'
+import { toast } from 'react-toastify'
+import { useUserStore } from '@store/useUserStore'
+
+import Alert from '@components/Alert'
+import ALERT_MESSAGE from '@constants/alertMessage'
+import { logoutPost } from '@apis/logoutService'
 
 const ProfileMain = () => {
+  const alertRef = useRef<HTMLDialogElement | null>(null)
   const navigate = useNavigate()
-  const [userId, setUserId] = useState(0)
-  const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
+  const { id } = useParams()
 
+  const { memberId: loginMemberId } = useUserStore().userInfo
+
+  const [userId, setUserId] = useState(id)
+  const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
-  const myInfoResult = useGetMyInfo(1)
-  const userInfoResult = useGetUserInfo(2)
+  const myInfoResult = useGetMyInfo(loginMemberId)
+  const userInfoResult = useGetUserInfo(
+    typeof id === 'string' ? Number(id) : null,
+  )
+
+  const handleLogoutClick = () => {
+    if (alertRef.current) {
+      alertRef.current.showModal()
+    }
+  }
+
+  const confirmLogout = async () => {
+    try {
+      await logoutPost()
+      localStorage.removeItem('token')
+      if (alertRef.current) {
+        alertRef.current.close()
+      }
+      navigate(ROUTE_PATH.HOME)
+    } catch (error) {
+      console.error('로그아웃 실패:', error)
+      alert('로그아웃에 실패했습니다. 다시 시도해주세요.')
+    }
+  }
 
   useEffect(() => {
-    const currentUserId = localStorage.getItem('userId')
-    if (Number(currentUserId) === userId) {
+    if (loginMemberId === Number(userId)) {
       setIsMyProfile(true)
     } else {
       setIsMyProfile(false)
@@ -67,25 +98,26 @@ const ProfileMain = () => {
         left='back'
         center='프로필 페이지'
         right='logout'
+        onLogoutClick={handleLogoutClick}
+      />
+      <Alert
+        ref={alertRef}
+        title={ALERT_MESSAGE.LOGOUT.title}
+        notice={ALERT_MESSAGE.LOGOUT.notice}
+        actionText={ALERT_MESSAGE.LOGOUT.actionText}
+        cancelText={ALERT_MESSAGE.LOGOUT.cancelText}
+        handleAlertClick={confirmLogout} // 확인 버튼 클릭 시 로그아웃 처리
       />
       <section>
         {/* 프로필 상단 섹션 */}
         <ProfileTopWrap>
           <ProfileEditWrap>
-            {myInfoResult.isPending || userInfoResult.isPending ? (
-              <Skeleton
-                circle
-                width={'5.3125em'}
-                height={'5.3125em'}
-              />
-            ) : (
-              <ProfileBedge
-                width={5.3125}
-                height={5.3125}
-                imageSrc={userInfo?.imageUrl}
-                myTeam={userInfo?.teamName}
-              />
-            )}
+            <ProfileBedge
+              width={5.3125}
+              height={5.3125}
+              imageSrc={userInfo?.imageUrl}
+              myTeam={userInfo?.teamName}
+            />
             <ProfileUserNickname>
               {(userInfo && userInfo.nickname) || <Skeleton />}
             </ProfileUserNickname>
@@ -100,23 +132,11 @@ const ProfileMain = () => {
             <Link to={ROUTE_PATH.FOLLOW}>
               <div>
                 <p>팔로우</p>
-                <p>
-                  {myInfoResult.isPending || userInfoResult.isPending ? (
-                    <Skeleton />
-                  ) : (
-                    userInfo?.followingCount
-                  )}
-                </p>
+                <p>{userInfo?.followingCount}</p>
               </div>
               <div>
                 <p>팔로워</p>
-                <p>
-                  {myInfoResult.isPending || userInfoResult.isPending ? (
-                    <Skeleton />
-                  ) : (
-                    userInfo?.followerCount
-                  )}
-                </p>
+                <p>{userInfo?.followerCount}</p>
               </div>
             </Link>
           </ProfileFollowWrap>
@@ -124,7 +144,7 @@ const ProfileMain = () => {
 
         {/* 프로필 소개 섹션 */}
         <ProfileNotice>
-          <p>{(userInfo && userInfo.aboutMe) || <Skeleton />}</p>
+          <p>{userInfo?.aboutMe}</p>
         </ProfileNotice>
 
         {/* 프로필 상단 버튼 본인 프로필 유무 */}
@@ -181,45 +201,29 @@ const ProfileMain = () => {
 
         {/* 프로필 하단 이동 섹션 */}
         <ProfileLinkWrap>
-          <Link to={ROUTE_PATH.REVIEW}>
-            {(userInfo && (
-              <>
-                <span>후기 모아보기 {userInfo.reviewsCount}개</span>
-                <LinkIcon />
-              </>
-            )) || <Skeleton containerClassName='skeleton-flex' />}
+          <Link to={`${ROUTE_PATH.REVIEW}/${id}`}>
+            <span>후기 모아보기 {userInfo?.reviewsCount}개</span>
+            <LinkIcon />
           </Link>
           <Link
-            to={ROUTE_PATH.GOODS_RECORD}
+            to={`${ROUTE_PATH.GOODS_RECORD}/${id}`}
             state={{ type: 'sold' }}
           >
-            {(userInfo && (
-              <>
-                <span>굿즈 판매기록 {userInfo.goodsSoldCount}개</span>
-                <LinkIcon />
-              </>
-            )) || <Skeleton containerClassName='skeleton-flex' />}
+            <span>굿즈 판매기록 {userInfo?.goodsSoldCount}개</span>
+            <LinkIcon />
           </Link>
           {isMyProfile ? (
             <>
               <Link
-                to={ROUTE_PATH.GOODS_RECORD}
+                to={`${ROUTE_PATH.GOODS_RECORD}/${id}`}
                 state={{ type: 'bought' }}
               >
-                {(userInfo && (
-                  <>
-                    <span>굿즈 구매기록 {userInfo.goodsBoughtCount}개</span>
-                    <LinkIcon />
-                  </>
-                )) || <Skeleton containerClassName='skeleton-flex' />}
+                <span>굿즈 구매기록 {userInfo?.goodsBoughtCount}개</span>
+                <LinkIcon />
               </Link>
               <Link to={ROUTE_PATH.TIMELINE}>
-                {(userInfo && (
-                  <>
-                    <span>직관 보관기록 {userInfo.visitsCount}개</span>
-                    <LinkIcon />
-                  </>
-                )) || <Skeleton containerClassName='skeleton-flex' />}
+                <span>직관 보관기록 {userInfo?.visitsCount}개</span>
+                <LinkIcon />
               </Link>
             </>
           ) : null}

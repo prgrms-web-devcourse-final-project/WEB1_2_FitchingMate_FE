@@ -56,9 +56,9 @@ const AppRoutes = () => {
           path={ROUTE_PATH.LOGIN}
           element={<LoginPage />}
         />
-        <Route 
+        <Route
           path={ROUTE_PATH.NAVER_CALLBACK}
-          element={<NaverCallback/>}
+          element={<NaverCallback />}
         />
         <Route
           path={ROUTE_PATH.SIGNUP}
@@ -107,7 +107,7 @@ const AppRoutes = () => {
           />
         </Route>
         <Route
-          path={ROUTE_PATH.GOODS_RECORD}
+          path={`${ROUTE_PATH.GOODS_RECORD}/:id`}
           element={<GoodsRecordPage />}
         />
         <Route
@@ -115,7 +115,7 @@ const AppRoutes = () => {
           element={<FollowPage />}
         />
         <Route
-          path={ROUTE_PATH.PROFILE}
+          path={`${ROUTE_PATH.PROFILE}/:id`}
           element={<ProfileMain />}
         />
         <Route
@@ -123,7 +123,7 @@ const AppRoutes = () => {
           element={<ProfileEdit />}
         />
         <Route
-          path={ROUTE_PATH.REVIEW}
+          path={`${ROUTE_PATH.REVIEW}/:id`}
           element={<ReviewPage />}
         />
         <Route
@@ -131,7 +131,7 @@ const AppRoutes = () => {
           element={<ReviewWritePage />}
         />
         <Route
-          path={ROUTE_PATH.TIMELINE}
+          path={`${ROUTE_PATH.TIMELINE}`}
           element={<TimelinePage />}
         />
       </Route>

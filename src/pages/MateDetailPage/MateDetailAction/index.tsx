@@ -1,4 +1,5 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   MateDetailActionContainer,
   Notice,
@@ -22,12 +23,17 @@ const MateDetailAction = ({
   handleAlertClick,
 }: MateDetailActionProps) => {
   const navigate = useNavigate()
-
-  // 메이트 게시글 수정 폼 데이터 저장
   const { setMateFormData, setSelectedWeek, setImg } = useMateFormStore()
 
-  // 메이트 게시글 id
-  const { postId } = matePostData
+  const [isChattingStarted, setIsChattingStarted] = useState(false)
+
+
+  // 상태 값
+  const isConditionMatched = false // 조건 일치 여부
+  const isRecruitmentComplete = true // 모집 완료 여부
+  const isHost = true // 방장 여부
+  const totalParticipants = 20 // 참여자 수
+  const isStatusCompleted = false // 직관 완료 여부
 
   const { createChatRoom, createIsPending, createIsError, createError } =
     useCreateMateChatRoom(postId.toString())
@@ -40,73 +46,72 @@ const MateDetailAction = ({
    * 3. 수정 페이지 이동
    */
 
+
+  // 수정 버튼 클릭 핸들러
   const handleEditClick = () => {
-    const postFormData = transformMatePostToFormData(matePostData)
-    const { matePost, selectedWeek, img } = postFormData
+    const { matePost, selectedWeek, img } =
+      transformMatePostToFormData(matePostData)
 
     setMateFormData(matePost)
     setSelectedWeek(selectedWeek as number)
     setImg(img)
 
-    // 수정상태 넘기기
-    navigate(`/mate-detail/${postId}/edit`, {
-      state: { isEdit: true, postId },
+    navigate(`/mate-detail/${matePostData.postId}/edit`, {
+      state: { isEdit: true, postId: matePostData.postId },
     })
   }
 
-  const isConditionMatched = true // 조건 일치 여부
-  const isRecruitmentComplete = false // 모집 완료 여부
-  const isHost = false // 방장 여부
-  const totalParticipants = 20 // 참여자 수
-  const isStatusCompleted = false // 직관 완료 여부
+  // 조건별 UI 렌더링
+  const renderNotice = () => {
+    if (isStatusCompleted) return '직관이 완료되었습니다.'
+    if (isRecruitmentComplete) {
+      return isConditionMatched || isHost
+        ? '모집이 완료되었습니다.'
+        : '⚠️ 이런! 모임에서 원하는 조건이 아니에요!'
+    }
+    if (!isConditionMatched && !isHost) {
+      return '⚠️ 이런! 모임에서 원하는 조건이 아니에요!'
+    }
+    return null
+  }
+
+  const renderActions = () => {
+    if (isStatusCompleted || isRecruitmentComplete) {
+      return null
+    }
+
+    if (isHost) {
+      return (
+        <>
+          <ChattingPeople>대화중인 메이트 - {totalParticipants}</ChattingPeople>
+          <ActionButton>
+            <button onClick={handleAlertClick}>삭제하기</button>
+            <button onClick={handleEditClick}>수정하기</button>
+          </ActionButton>
+        </>
+      )
+    }
+
+    if (!isChattingStarted && isConditionMatched) {
+      return (
+        <>
+          <ChattingPeople>대화중인 메이트 - {totalParticipants}</ChattingPeople>
+          <ActionButton>
+            <button onClick={() => setIsChattingStarted(true)}>
+              대화 나누기
+            </button>
+          </ActionButton>
+        </>
+      )
+    }
+
+    return null
+  }
 
   return (
     <MateDetailActionContainer>
-      {/* 경고 메시지 */}
-      <Notice>
-        {isStatusCompleted ? (
-          <span>직관이 완료되었습니다.</span>
-        ) : (
-          !isConditionMatched && (
-            <span>⚠️ 이런! 모임에서 원하는 조건이 아니에요!</span>
-          )
-        )}
-      </Notice>
-
-      {/* 액션 영역 */}
-      <ActionSection>
-        {!isStatusCompleted && (
-          <>
-            {/* 참여자 표시 */}
-            <ChattingPeople>
-              대화중인 메이트 - {totalParticipants}
-            </ChattingPeople>
-
-            {/* 버튼 */}
-            <ActionButton>
-              {isHost ? (
-                <>
-                  <button onClick={handleAlertClick}>삭제하기</button>
-                  <button onClick={handleEditClick}>수정하기</button>
-                </>
-              ) : isConditionMatched ? (
-                !isRecruitmentComplete ? (
-                  <button
-                    type='button'
-                    onClick={createChatRoom}
-                  >
-                    대화 나누기
-                  </button>
-                ) : (
-                  <button disabled>모집 완료</button>
-                )
-              ) : (
-                <button disabled>대화 나누기</button>
-              )}
-            </ActionButton>
-          </>
-        )}
-      </ActionSection>
+      {renderNotice() && <ActionSection>{renderNotice()}</ActionSection>}
+      {renderActions() && <ActionSection>{renderActions()}</ActionSection>}
     </MateDetailActionContainer>
   )
 }

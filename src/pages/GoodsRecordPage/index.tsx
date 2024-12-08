@@ -1,12 +1,15 @@
 import SubHeader from '@layouts/SubHeader'
 import GoodsRecordBox from './GoodsRecordBox'
 import { GoodsSection, NoGoodsList } from './style'
+
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import userService from '@apis/userService'
 import { useInView } from 'react-intersection-observer'
+import { RefContainer } from '@styles/globalStyle'
+import Spinner from '@components/Spinner'
 
 const HEADER_TEXT = {
   sold: '굿즈 판매기록',
@@ -24,11 +27,13 @@ interface GoodsRecord {
 
 const GoodsRecordPage = () => {
   const location = useLocation()
+  const { id } = useParams()
   const [memberId, setMemberId] = useState(1)
   const [pageType, setPageType] = useState<('sold' | 'bought') | null>(
     location.state.type,
   )
-  const { ref, inView } = useInView()
+  const observerRef = useRef<IntersectionObserver | null>(null)
+  const loadMoreRef = useRef<HTMLDivElement | null>(null)
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -36,7 +41,7 @@ const GoodsRecordPage = () => {
 
       queryFn: ({ pageParam }) =>
         pageType &&
-        userService.getGoodsRecordList(memberId, pageType, pageParam),
+        userService.getGoodsRecordList(Number(id), pageType, pageParam),
 
       initialPageParam: 0,
 
@@ -46,11 +51,30 @@ const GoodsRecordPage = () => {
     })
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      console.log(data)
-      fetchNextPage()
+    window.scrollTo(0, 0)
+  }, [])
+
+  useEffect(() => {
+    if (isFetchingNextPage || !hasNextPage) return
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            fetchNextPage()
+          }
+        },
+        { threshold: 1.0 },
+      )
     }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+    if (loadMoreRef.current) {
+      observerRef.current.observe(loadMoreRef.current)
+    }
+    return () => {
+      if (observerRef.current && loadMoreRef.current) {
+        observerRef.current.unobserve(loadMoreRef.current)
+      }
+    }
+  }, [isFetchingNextPage, hasNextPage, fetchNextPage])
 
   if (!data) return null
 
@@ -82,7 +106,11 @@ const GoodsRecordPage = () => {
           })
         )}
       </GoodsSection>
-      <div ref={ref}></div>
+      {hasNextPage && (
+        <RefContainer ref={loadMoreRef}>
+          {isFetchingNextPage && <Spinner />}
+        </RefContainer>
+      )}
     </>
   )
 }
