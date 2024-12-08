@@ -36,7 +36,7 @@ const MateDetailAction = ({
   const isStatusCompleted = false // 직관 완료 여부
 
   const { createChatRoom, createIsPending, createIsError, createError } =
-    useCreateMateChatRoom(postId.toString())
+    useCreateMateChatRoom(matePostData.postId.toString())
 
   /**
    * 메이트 수정 페이지 이동
