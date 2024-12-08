@@ -13,10 +13,12 @@ import UserIconFill from '@assets/icon/nav_user_fill.svg?react'
 import { Link, useLocation } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import { useEffect, useState } from 'react'
+import { useUserStore } from '@store/useUserStore'
 
 const GlobalNav = () => {
   const { pathname } = useLocation()
   const [isLogin, setIsLogin] = useState<boolean>(false)
+  const { memberId } = useUserStore().userInfo
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -64,7 +66,7 @@ const GlobalNav = () => {
 
         <NavList>
           {isLogin ? (
-            <Link to={ROUTE_PATH.PROFILE}>
+            <Link to={`${ROUTE_PATH.PROFILE}/${memberId}`}>
               {pathname === ROUTE_PATH.PROFILE ? (
                 <UserIconFill />
               ) : (

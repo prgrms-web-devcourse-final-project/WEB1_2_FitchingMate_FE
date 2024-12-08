@@ -2,7 +2,7 @@ import SubHeader from '@layouts/SubHeader'
 import GoodsRecordBox from './GoodsRecordBox'
 import { GoodsSection, NoGoodsList } from './style'
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import userService from '@apis/userService'
@@ -24,6 +24,7 @@ interface GoodsRecord {
 
 const GoodsRecordPage = () => {
   const location = useLocation()
+  const { id } = useParams()
   const [memberId, setMemberId] = useState(1)
   const [pageType, setPageType] = useState<('sold' | 'bought') | null>(
     location.state.type,
@@ -36,7 +37,7 @@ const GoodsRecordPage = () => {
 
       queryFn: ({ pageParam }) =>
         pageType &&
-        userService.getGoodsRecordList(memberId, pageType, pageParam),
+        userService.getGoodsRecordList(Number(id), pageType, pageParam),
 
       initialPageParam: 0,
 
