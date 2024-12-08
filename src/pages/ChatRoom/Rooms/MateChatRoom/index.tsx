@@ -22,8 +22,12 @@ import MateChatCard from '@pages/ChatRoom/ChatCard/MateChatCard'
 import MainMateCard from '@components/MainMateCard'
 import { useEffect, useRef, useState } from 'react'
 import { RecruitStatus } from './RecruitStatusSection'
-import { useCompleteMate, useCompleteMatePost } from '@hooks/useCompleteMate'
+import {
+  useChangeMateRecruitStatus,
+  useCompleteMatePost,
+} from '@hooks/useCompleteMate'
 import { createBrowserHistory } from 'history'
+import { ToastContainer } from 'react-toastify'
 
 export interface MateChatMessage {
   message: string
@@ -48,14 +52,21 @@ const MateChatRoom = () => {
     recruitStatus,
     participants,
     confirmedParticipants,
+    setCurrentPostStatus,
+    setIsOwner,
   } = useMateChatStore()
 
   const {
     state: { postId },
   } = useLocation()
   // 모달 관리
-  const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
-    useModal()
+  const {
+    bottomModalRef,
+    alertRef,
+    handleOpenBottomModal,
+    handleCloseBottomModal,
+    handleAlertClick,
+  } = useModal()
 
   const { id: chatRoomId, type: chatType } = useParams()
 
@@ -80,7 +91,7 @@ const MateChatRoom = () => {
     isMateRecruitStatusPending,
     isMateRecruitStatusError,
     mateRecruitStatusError,
-  } = useCompleteMate()
+  } = useChangeMateRecruitStatus()
 
   // 직관완료 요청
   const {
@@ -145,7 +156,11 @@ const MateChatRoom = () => {
   // 메이트 게시글 상태 업데이트
   useEffect(() => {
     if (matePost) {
+      const currentMemberNickname = localStorage.getItem('nickname')
+
       setRecruitStatus(matePost.status as RecruitStatus)
+      setCurrentPostStatus(matePost.status as '모집중' | '모집완료' | '완료')
+      setIsOwner(matePost.nickname === currentMemberNickname)
     }
   }, [matePost])
 
@@ -211,10 +226,10 @@ const MateChatRoom = () => {
     ) {
       handleChangeMateRecruitStatus()
     }
-
     if (currentAlertStatus.type === 'GAME_COMPLETE') {
       handleCompleteMatePost()
     }
+    handleCloseBottomModal()
   }
 
   return (
@@ -252,6 +267,7 @@ const MateChatRoom = () => {
         {...currentAlertMessage()}
         handleAlertClick={handleAlertAction}
       />
+      <ToastContainer />
     </>
   )
 }

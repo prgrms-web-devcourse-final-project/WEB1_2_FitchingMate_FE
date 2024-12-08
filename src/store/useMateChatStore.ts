@@ -10,6 +10,8 @@ interface MateChatRoomStore {
   participants: number[]
   mateChatRoomId: string | null
   confirmedParticipants: number[]
+  currentPostStatus: '모집중' | '모집완료' | '완료' | null
+
   setIsOwner: (isOwner: boolean) => void
   setRecruitStatus: (recruitStatus: RecruitStatus) => void
   setCurrentAlertStatus: (currentAlertStatus: {
@@ -19,6 +21,9 @@ interface MateChatRoomStore {
   setParticipants: (participants: number[]) => void
   setMateChatRoomId: (mateChatRoomId: string) => void
   setConfirmedParticipants: (confirmedParticipants: number[]) => void
+  setCurrentPostStatus: (
+    currentPostStatus: '모집중' | '모집완료' | '완료',
+  ) => void
 }
 
 export const useMateChatStore = create<MateChatRoomStore>((set) => ({
@@ -28,7 +33,7 @@ export const useMateChatStore = create<MateChatRoomStore>((set) => ({
   participants: [],
   mateChatRoomId: null,
   confirmedParticipants: [],
-
+  currentPostStatus: null,
   setIsOwner: (isOwner: boolean) => set({ isOwner }),
   setRecruitStatus: (recruitStatus: RecruitStatus) => set({ recruitStatus }),
   setCurrentAlertStatus: (currentAlertStatus: {
@@ -39,4 +44,5 @@ export const useMateChatStore = create<MateChatRoomStore>((set) => ({
   setMateChatRoomId: (mateChatRoomId: string) => set({ mateChatRoomId }),
   setConfirmedParticipants: (confirmedParticipants: number[]) =>
     set({ confirmedParticipants }),
+  setCurrentPostStatus: (currentPostStatus) => set({ currentPostStatus }),
 }))

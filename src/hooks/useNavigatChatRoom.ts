@@ -13,15 +13,11 @@ const useNavigatChatRoom = (currentTab: ChatType) => {
     if (currentTab === '굿즈') {
       navigate(`/chat-room/${currentTab}/${chatRoomId}`)
     }
-    if (currentTab === '일반') {
-      navigate(`/chat-room/${currentTab}/${chatRoomId}`)
-    }
   }
 
   const isGoods = currentTab === '굿즈'
-  const isGeneral = currentTab === '일반'
 
-  return { handleChatCardClick, isGoods, isGeneral }
+  return { handleChatCardClick, isGoods }
 }
 
 export default useNavigatChatRoom

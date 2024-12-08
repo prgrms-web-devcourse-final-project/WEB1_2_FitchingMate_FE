@@ -99,7 +99,10 @@ export const ButtonContainer = styled.div`
   gap: 10px;
 `
 
-export const SubmitButtonContainer = styled.div<{ $isOwner?: boolean }>`
+export const SubmitButtonContainer = styled.div<{
+  $isOwner?: boolean
+  $isRecruitStatus?: boolean
+}>`
   display: flex;
   justify-content: space-between;
 
@@ -133,6 +136,14 @@ export const SubmitButtonContainer = styled.div<{ $isOwner?: boolean }>`
       !$isOwner &&
       css`
         display: none;
+      `}
+
+    ${({ $isRecruitStatus }) =>
+      $isRecruitStatus &&
+      css`
+        width: 100%;
+        background-color: ${({ theme }) => theme.fontColor.cwhite};
+        color: ${({ theme }) => theme.fontColor.navy};
       `}
   }
 `
