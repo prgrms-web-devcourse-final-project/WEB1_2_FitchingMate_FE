@@ -33,9 +33,12 @@ import { useUserStore } from '@store/useUserStore'
 import Alert from '@components/Alert'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { logoutPost } from '@apis/logoutService'
+import { unregisterDelete } from '@apis/unregisterService'
 
 const ProfileMain = () => {
-  const alertRef = useRef<HTMLDialogElement | null>(null)
+  const logoutAlertRef = useRef<HTMLDialogElement | null>(null) // 로그아웃용 ref
+  const unregisterAlertRef = useRef<HTMLDialogElement | null>(null) // 회원탈퇴용 ref
+
   const navigate = useNavigate()
   const { id } = useParams()
 
@@ -51,8 +54,8 @@ const ProfileMain = () => {
   )
 
   const handleLogoutClick = () => {
-    if (alertRef.current) {
-      alertRef.current.showModal()
+    if (logoutAlertRef.current) {
+      logoutAlertRef.current.showModal()
     }
   }
 
@@ -60,8 +63,8 @@ const ProfileMain = () => {
     try {
       await logoutPost()
       localStorage.clear()
-      if (alertRef.current) {
-        alertRef.current.close()
+      if (logoutAlertRef.current) {
+        logoutAlertRef.current.close()
       }
       navigate(ROUTE_PATH.HOME)
     } catch (error) {
@@ -101,7 +104,7 @@ const ProfileMain = () => {
         onLogoutClick={handleLogoutClick}
       />
       <Alert
-        ref={alertRef}
+        ref={logoutAlertRef}
         title={ALERT_MESSAGE.LOGOUT.title}
         notice={ALERT_MESSAGE.LOGOUT.notice}
         actionText={ALERT_MESSAGE.LOGOUT.actionText}
@@ -228,6 +231,35 @@ const ProfileMain = () => {
             </>
           ) : null}
         </ProfileLinkWrap>
+        <ProfilePadding paddingTop={1.25}>
+          <GlobalButton
+            $isNavy={false}
+            text='회원탈퇴'
+            onClick={() => {
+              if (unregisterAlertRef.current) {
+                unregisterAlertRef.current.showModal()
+              }
+            }}
+          />
+        </ProfilePadding>
+        <Alert
+          ref={unregisterAlertRef}
+          title={ALERT_MESSAGE.UNREGISTER.title}
+          notice={ALERT_MESSAGE.UNREGISTER.notice}
+          actionText={ALERT_MESSAGE.UNREGISTER.actionText}
+          cancelText={ALERT_MESSAGE.UNREGISTER.cancelText}
+          handleAlertClick={async () => {
+            try {
+              await unregisterDelete()
+              localStorage.clear()
+              navigate(ROUTE_PATH.HOME)
+              toast.success('회원탈퇴가 완료되었습니다.')
+            } catch (error) {
+              console.error('회원탈퇴 실패:', error)
+              toast.error('회원탈퇴에 실패했습니다. 다시 시도해주세요.')
+            }
+          }}
+        />
       </section>
     </>
   )
