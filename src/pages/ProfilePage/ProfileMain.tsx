@@ -59,7 +59,7 @@ const ProfileMain = () => {
   const confirmLogout = async () => {
     try {
       await logoutPost()
-      localStorage.removeItem('token')
+      localStorage.clear()
       if (alertRef.current) {
         alertRef.current.close()
       }
