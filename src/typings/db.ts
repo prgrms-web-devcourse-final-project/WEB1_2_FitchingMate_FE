@@ -115,6 +115,7 @@ export interface MatePostData {
   manner: number
   content: string
   postId: number
+  authorId: number
 }
 
 export interface MatePostResponse {

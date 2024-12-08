@@ -25,15 +25,56 @@ const MateDetailAction = ({
   const navigate = useNavigate()
   const { setMateFormData, setSelectedWeek, setImg } = useMateFormStore()
 
-  const [isChattingStarted, setIsChattingStarted] = useState(false)
-
-
   // 상태 값
-  const isConditionMatched = false // 조건 일치 여부
-  const isRecruitmentComplete = true // 모집 완료 여부
-  const isHost = true // 방장 여부
+  const isStatusCompleted = matePostData.status === '직관완료' ? true : false
+  const isHost =
+    matePostData.authorId.toString() === localStorage.getItem('memberId')
+      ? true
+      : false
+
+  const isRecruitmentCompleted =
+    matePostData.status === '모집완료' ? true : false
+
+  const isConditionMatched = (() => {
+    const userGender = localStorage.getItem('gender')
+    const userAge = localStorage.getItem('age')
+
+    // 나이를 숫자로 변환
+    const ageAsNumber = Number(userAge)
+    if (isNaN(ageAsNumber) || ageAsNumber < 10) {
+      return false // 나이가 10살 미만이거나 숫자가 아니면 false
+    }
+
+    // 나이를 범위로 변환
+    let userAgeGroup: string
+    if (ageAsNumber < 10) {
+      return false // 10대 미만은 false
+    } else if (ageAsNumber < 20) {
+      userAgeGroup = '10대'
+    } else if (ageAsNumber < 30) {
+      userAgeGroup = '20대'
+    } else if (ageAsNumber < 40) {
+      userAgeGroup = '30대'
+    } else if (ageAsNumber < 50) {
+      userAgeGroup = '40대'
+    } else {
+      userAgeGroup = '50대이상'
+    }
+
+    // 성별 조건 확인
+    const isGenderMatched =
+      matePostData.gender === '상관없음' || matePostData.gender === userGender
+
+    // 나이 조건 확인
+    const isAgeMatched =
+      matePostData.age === '상관없음' ||
+      matePostData.age === userAgeGroup ||
+      (userAgeGroup === '50대이상' && matePostData.age === '50대이상')
+
+    return isGenderMatched && isAgeMatched
+  })()
+  
   const totalParticipants = 20 // 참여자 수
-  const isStatusCompleted = false // 직관 완료 여부
 
   const { createChatRoom, createIsPending, createIsError, createError } =
     useCreateMateChatRoom(matePostData.postId.toString())
@@ -45,7 +86,6 @@ const MateDetailAction = ({
    * 2. 수정상태 넘기기
    * 3. 수정 페이지 이동
    */
-
 
   // 수정 버튼 클릭 핸들러
   const handleEditClick = () => {
@@ -64,7 +104,7 @@ const MateDetailAction = ({
   // 조건별 UI 렌더링
   const renderNotice = () => {
     if (isStatusCompleted) return '직관이 완료되었습니다.'
-    if (isRecruitmentComplete) {
+    if (isRecruitmentCompleted) {
       return isConditionMatched || isHost
         ? '모집이 완료되었습니다.'
         : '⚠️ 이런! 모임에서 원하는 조건이 아니에요!'
@@ -76,7 +116,7 @@ const MateDetailAction = ({
   }
 
   const renderActions = () => {
-    if (isStatusCompleted || isRecruitmentComplete) {
+    if (isStatusCompleted || isRecruitmentCompleted) {
       return null
     }
 
@@ -92,14 +132,12 @@ const MateDetailAction = ({
       )
     }
 
-    if (!isChattingStarted && isConditionMatched) {
+    if (isConditionMatched) {
       return (
         <>
           <ChattingPeople>대화중인 메이트 - {totalParticipants}</ChattingPeople>
           <ActionButton>
-            <button onClick={() => setIsChattingStarted(true)}>
-              대화 나누기
-            </button>
+            <button>대화 나누기</button>
           </ActionButton>
         </>
       )
