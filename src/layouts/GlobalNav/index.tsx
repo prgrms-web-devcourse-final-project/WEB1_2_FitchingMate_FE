@@ -12,9 +12,16 @@ import UserIcon from '@assets/icon/nav_user.svg?react'
 import UserIconFill from '@assets/icon/nav_user_fill.svg?react'
 import { Link, useLocation } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import { useEffect, useState } from 'react'
 
 const GlobalNav = () => {
   const { pathname } = useLocation()
+  const [isLogin, setIsLogin] = useState<boolean>(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setIsLogin(!!token)
+  }, [pathname])
 
   return (
     <NavWrap>
@@ -56,10 +63,25 @@ const GlobalNav = () => {
         </NavList>
 
         <NavList>
-          <Link to={ROUTE_PATH.PROFILE}>
-            {pathname === ROUTE_PATH.PROFILE ? <UserIconFill /> : <UserIcon />}
-            <NavText>마이</NavText>
-          </Link>
+          {isLogin ? (
+            <Link to={ROUTE_PATH.PROFILE}>
+              {pathname === ROUTE_PATH.PROFILE ? (
+                <UserIconFill />
+              ) : (
+                <UserIcon />
+              )}
+              <NavText>마이</NavText>
+            </Link>
+          ) : (
+            <Link to={ROUTE_PATH.LOGIN}>
+              {pathname === ROUTE_PATH.PROFILE ? (
+                <UserIconFill />
+              ) : (
+                <UserIcon />
+              )}
+              <NavText>로그인</NavText>
+            </Link>
+          )}
         </NavList>
       </NavUl>
     </NavWrap>

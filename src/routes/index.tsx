@@ -56,9 +56,9 @@ const AppRoutes = () => {
           path={ROUTE_PATH.LOGIN}
           element={<LoginPage />}
         />
-        <Route 
+        <Route
           path={ROUTE_PATH.NAVER_CALLBACK}
-          element={<NaverCallback/>}
+          element={<NaverCallback />}
         />
         <Route
           path={ROUTE_PATH.SIGNUP}
