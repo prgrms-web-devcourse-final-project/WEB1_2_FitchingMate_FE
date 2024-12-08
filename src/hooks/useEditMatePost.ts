@@ -28,6 +28,11 @@ const useEditMatePost = ({ matePostId }: UseEditMatePostProps) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.MATE_POST, matePostId],
       })
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.MATE_LIST],
+      })
+
       navigate(ROUTE_PATH.MATE_LIST)
     },
 

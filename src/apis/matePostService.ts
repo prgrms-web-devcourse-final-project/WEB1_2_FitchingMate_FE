@@ -28,7 +28,7 @@ const matePostService = {
 
   editMatePost: async (matePostId: number, formData: FormData) => {
     const response = await fetchApi
-      .patch(`mates/${matePostId}`, { body: formData })
+      .put(`mates/${matePostId}`, { body: formData })
       .json()
 
     return response

@@ -21,7 +21,7 @@ const ImageCard = ({
 }: ImageCardProps) => {
   if (image === null) return
 
-  const formatImage = URL.createObjectURL(image)
+  const formatImage = image instanceof File ? URL.createObjectURL(image) : image
 
   return (
     <ImageCardContainer>

@@ -47,7 +47,7 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
 
     selectedWeek: 2,
 
-    img: new File([], postImageUrl),
+    img: postImageUrl,
   }
 }
 

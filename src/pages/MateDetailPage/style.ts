@@ -23,6 +23,8 @@ export const MateDetailDescription = styled.div`
   color: ${theme.fontColor.black};
   border-radius: 4px;
 
+  min-height: 190px;
+
   &::-webkit-scrollbar {
     display: none;
   }
