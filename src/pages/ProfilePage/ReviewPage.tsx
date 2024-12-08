@@ -8,15 +8,17 @@ import { QUERY_KEY } from '@apis/queryClient'
 import reviewService from '@apis/reviewService'
 import ReviewBoxComponent from './ReviewBoxComponent'
 import { useInView } from 'react-intersection-observer'
+import { RefContainer } from '@styles/globalStyle'
+import Spinner from '@components/Spinner'
 
 const GOODS_REVIEW = '1'
 const MATE_REVIEW = '2'
 
 const ReviewPage = () => {
+  const [myId, setMyId] = useState(0)
   const [selectedReview, setSelectedReview] = useState(GOODS_REVIEW)
   const { ref, inView } = useInView({
-    threshold: 0.9,
-    triggerOnce: true,
+    threshold: 0.5,
   })
 
   const decideReviewType = (reviewType: string) => {
@@ -27,13 +29,13 @@ const ReviewPage = () => {
     }
   }
 
-  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: [QUERY_KEY.REVIEW_LIST, selectedReview],
       queryFn: ({ pageParam }) =>
         reviewService.getReviewList(
           decideReviewType(selectedReview),
-          1,
+          myId + 1,
           pageParam,
         ),
       initialPageParam: 0,
@@ -45,7 +47,6 @@ const ReviewPage = () => {
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
-      console.log(data)
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
@@ -76,12 +77,11 @@ const ReviewPage = () => {
           reviewList={reviewList}
           selectedReview={selectedReview}
         />
-        {hasNextPage && !isFetchingNextPage ? (
-          <div
-            ref={ref}
-            style={{ height: '50vh' }}
-          ></div>
-        ) : null}
+        {hasNextPage && (
+          <RefContainer ref={ref}>
+            {isFetchingNextPage && <Spinner />}
+          </RefContainer>
+        )}
       </section>
     </>
   )
