@@ -5,7 +5,6 @@ import GoodsListCard from '@components/GoodsListCard'
 import BottomModal from '@components/BottomModal'
 import Alert from '@components/Alert'
 import { ChatCardContainer, EnterChatMessage } from '../../style'
-import ChatCard from '../../ChatCard'
 import GoodsModalContent from './GoodsModalContent'
 
 import { useModal } from '@hooks/useModal'
@@ -13,14 +12,23 @@ import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import ALERT_MESSAGE from '@constants/alertMessage'
 
 import goodsChatService from '@apis/goodsChatService'
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import { formatChatContent } from '@utils/formatChatContent'
 import { useGoodsChatExit } from '@hooks/useChatExit'
 import { useParams } from 'react-router-dom'
 import { useSocket } from '@hooks/useSocket'
+import GoodsChatCard from '@pages/ChatRoom/ChatCard/GoodsChatCard'
+import { useEffect, useRef, useState } from 'react'
+import { GoodsChatMessage } from '@typings/db'
 
 const GoodsChatRoom = () => {
+  const [currentMessageList, setCurrentMessageList] = useState<
+    GoodsChatMessage[]
+  >([])
+
+  const [fetchMore, setFetchMore] = useState(false)
+
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
@@ -37,6 +45,24 @@ const GoodsChatRoom = () => {
     queryKey: [QUERY_KEY.GOODS_CHATROOM, chatRoomId],
     queryFn: () => goodsChatService.getGoodsChatroom(chatRoomId as string),
   })
+
+  const { data: goodsChatData } = useInfiniteQuery({
+    queryKey: [QUERY_KEY.GOODS_CHAT, chatRoomId],
+    queryFn: ({ pageParam }) =>
+      goodsChatService.getChatMessage(chatRoomId as string, pageParam),
+    initialPageParam: 1,
+
+    getNextPageParam: (lastPage) =>
+      lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
+
+    enabled: fetchMore,
+  })
+
+  useEffect(() => {
+    if (goodsChatData) {
+      console.log('goodsChatData', goodsChatData)
+    }
+  }, [goodsChatData])
 
   /**
    * 채팅방 나가기
@@ -58,23 +84,53 @@ const GoodsChatRoom = () => {
    * @param chatRoomId 채팅방 아이디
    *
    * @returns submitChat 함수
+   *
+   * handleMessage 함수
+   * 채팅 데이터가 업데이트 될 때마다 스테이트에 관리
    */
 
-  const { submitChat } = useSocket(chatType as string, chatRoomId as string)
+  const handleMessage = (message: GoodsChatMessage) => {
+    setCurrentMessageList((prev) => {
+      if (prev.length >= 20) {
+        const startIndex = 0
+        const endIndex = currentMessageList.length - 1
+        const prevSlice = prev.slice(startIndex, endIndex)
+
+        return [message, ...prevSlice]
+      }
+
+      return [message, ...prev]
+    })
+  }
+
+  const { submitChat } = useSocket({
+    chatType: chatType as string,
+    chatRoomId: chatRoomId as string,
+    onListen: handleMessage,
+  })
+
+  /**
+   * 스크롤 관련 처리
+   *
+   * 채팅 데이터가 업데이트 될 때마다 스크롤을 최하단으로 이동
+   */
+  const chatContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (currentMessageList.length > 0 && chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    }
+  }, [currentMessageList])
+
+  useEffect(() => {
+    if (data) {
+      setCurrentMessageList(data.initialMessages.content)
+    }
+  }, [data])
 
   if (!data || !chatRoomId || !submitChat) return null
 
-  const {
-    imageUrl,
-    title,
-    price,
-    postStatus,
-    category,
-    teamName,
-    initialMessages,
-  } = data
-
-  const { content: messageList } = initialMessages
+  const { imageUrl, title, price, postStatus, category, teamName } = data
 
   const formatData = {
     imageUrls: [imageUrl],
@@ -96,20 +152,21 @@ const GoodsChatRoom = () => {
     return message
   }
 
-  console.log(messageList)
-
   return (
     <>
       <GoodsListCard goodsPost={formatData} />
 
-      <ChatCardContainer>
-        {messageList?.map((message) =>
+      <ChatCardContainer ref={chatContainerRef}>
+        {[...currentMessageList]?.reverse().map((message) =>
           message.messageType !== '대화' ? (
             <EnterChatMessage key={message.chatMessageId}>
               {formatChatContent(message.message)}
             </EnterChatMessage>
           ) : (
-            <div>asdfsadf</div>
+            <GoodsChatCard
+              key={message.chatMessageId}
+              message={message}
+            />
           ),
         )}
       </ChatCardContainer>

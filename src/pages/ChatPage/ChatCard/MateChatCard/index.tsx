@@ -11,8 +11,8 @@ import { ProfileWrap } from './style'
 import ChatExit from '@assets/icon/exit_line.svg?react'
 import useNavigatChatRoom from '@hooks/useNavigatChatRoom'
 import { formatChatTime } from '@utils/formatDate'
-import { useGoodsChatStore } from '@store/useGoodsChatStore'
 import { MateChatRoomList } from '@typings/mateChat'
+import { useMateChatStore } from '@store/useMateChatStore'
 
 interface ChatCardProps {
   onExitClick: () => void
@@ -28,22 +28,28 @@ const MateChatCard = ({ onExitClick, mateChatroomContent }: ChatCardProps) => {
     lastMessageContent,
     lastMessageTime,
     roomId,
+    postId,
   } = mateChatroomContent
 
   /**
+   * setMateChatRoomId
    * 알럿 창 띄울때 채팅방 id 저장
    * 채팅방 삭제를 위한 채팅방 id 저장
    */
-  const { setCurrentChatRoomId } = useGoodsChatStore()
+  const { setMateChatRoomId } = useMateChatStore()
 
   const handleExitClick = () => {
-    setCurrentChatRoomId(roomId.toString())
+    setMateChatRoomId(roomId.toString())
     onExitClick()
+  }
+
+  const handleCardClick = () => {
+    handleChatCardClick(roomId, postId)
   }
 
   return (
     <Card>
-      <ContentContainer onClick={() => handleChatCardClick(roomId)}>
+      <ContentContainer onClick={handleCardClick}>
         <ProfileWrap>
           <img src={postImageUrl} />
         </ProfileWrap>
@@ -51,9 +57,13 @@ const MateChatCard = ({ onExitClick, mateChatroomContent }: ChatCardProps) => {
         <ChatContent>
           <UserInfoContainer>
             <h2>{postTitle}</h2>
-            <p>{formatChatTime(lastMessageTime)}</p>
+            <p>{lastMessageTime ? formatChatTime(lastMessageTime) : ''}</p>
           </UserInfoContainer>
-          <p>{lastMessageContent}</p>
+          <p>
+            {lastMessageContent
+              ? lastMessageContent
+              : '아직 진행된 대화가 없습니다'}
+          </p>
         </ChatContent>
       </ContentContainer>
 

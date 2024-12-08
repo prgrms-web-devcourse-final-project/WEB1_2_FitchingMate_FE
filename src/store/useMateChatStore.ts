@@ -5,24 +5,29 @@ import { RecruitStatus } from '@pages/ChatRoom/Rooms/MateChatRoom/RecruitStatusS
 
 interface MateChatRoomStore {
   isOwner: boolean
-  recruitStatus: RecruitStatus
+  recruitStatus: RecruitStatus | null
   currentAlertStatus: { type: AlertMessage; userName?: string }
-  participants: string[]
-
+  participants: number[]
+  mateChatRoomId: string | null
+  confirmedParticipants: number[]
   setIsOwner: (isOwner: boolean) => void
   setRecruitStatus: (recruitStatus: RecruitStatus) => void
   setCurrentAlertStatus: (currentAlertStatus: {
     type: AlertMessage
     userName?: string
   }) => void
-  setParticipants: (participants: []) => void
+  setParticipants: (participants: number[]) => void
+  setMateChatRoomId: (mateChatRoomId: string) => void
+  setConfirmedParticipants: (confirmedParticipants: number[]) => void
 }
 
 export const useMateChatStore = create<MateChatRoomStore>((set) => ({
   isOwner: true,
-  recruitStatus: '직관완료',
+  recruitStatus: null,
   currentAlertStatus: { type: 'DEAL_COMPLETE', userName: '' },
   participants: [],
+  mateChatRoomId: null,
+  confirmedParticipants: [],
 
   setIsOwner: (isOwner: boolean) => set({ isOwner }),
   setRecruitStatus: (recruitStatus: RecruitStatus) => set({ recruitStatus }),
@@ -30,5 +35,8 @@ export const useMateChatStore = create<MateChatRoomStore>((set) => ({
     type: AlertMessage
     userName?: string
   }) => set({ currentAlertStatus }),
-  setParticipants: (participants: string[]) => set({ participants }),
+  setParticipants: (participants: number[]) => set({ participants }),
+  setMateChatRoomId: (mateChatRoomId: string) => set({ mateChatRoomId }),
+  setConfirmedParticipants: (confirmedParticipants: number[]) =>
+    set({ confirmedParticipants }),
 }))

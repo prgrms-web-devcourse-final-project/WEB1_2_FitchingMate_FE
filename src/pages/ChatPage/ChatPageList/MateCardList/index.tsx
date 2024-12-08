@@ -1,5 +1,4 @@
 import { useMateChatPage } from '@hooks/useChatPage'
-import ChatCard from '@pages/ChatPage/ChatCard'
 import MateChatCard from '@pages/ChatPage/ChatCard/MateChatCard'
 
 const MateCardList = ({ onExitClick }: { onExitClick: () => void }) => {
@@ -11,7 +10,6 @@ const MateCardList = ({ onExitClick }: { onExitClick: () => void }) => {
   } = useMateChatPage()
 
   if (!mateChatList) return null
-  console.log(mateChatList.data)
 
   return (
     <>

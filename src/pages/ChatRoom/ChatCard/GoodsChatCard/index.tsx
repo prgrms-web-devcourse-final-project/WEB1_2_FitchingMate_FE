@@ -9,10 +9,28 @@ import {
 } from '../style'
 import { formatChatContent } from '@utils/formatChatContent'
 import { formatChatTime } from '@utils/formatDate'
-import { MateChatMessage } from '@pages/ChatRoom/Rooms/MateChatRoom'
 
-const MateChatCard = ({ message }: { message: MateChatMessage }) => {
-  const { senderId, senderNickname, message: chatMessage, sendTime } = message
+interface ChatCardProps {
+  message: {
+    chatMessageId: number
+    message: string
+    messageType: string
+    roomId: number
+    senderId: number
+    senderImageUrl: string
+    senderNickname: string
+    sentAt: string
+  }
+}
+
+const GoodsChatCard = ({ message }: ChatCardProps) => {
+  const {
+    senderId,
+    senderNickname,
+    message: chatMessage,
+    sentAt,
+    senderImageUrl,
+  } = message
 
   const isUserChat = senderId === Number(localStorage.getItem('memberId'))
 
@@ -27,6 +45,7 @@ const MateChatCard = ({ message }: { message: MateChatMessage }) => {
                   <ProfileBedge
                     width={2}
                     height={2}
+                    imageSrc={senderImageUrl}
                     isChat
                   />
                   <p>{senderNickname}</p>
@@ -37,11 +56,11 @@ const MateChatCard = ({ message }: { message: MateChatMessage }) => {
               {formatChatContent(chatMessage)}
             </ContentText>
           </ContentWrapperInner>
-          <p>{formatChatTime(sendTime)}</p>
+          <p>{formatChatTime(sentAt)}</p>
         </ContentWrapper>
       </CardContent>
     </CardContainer>
   )
 }
 
-export default MateChatCard
+export default GoodsChatCard

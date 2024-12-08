@@ -6,6 +6,7 @@ import SubHeader from '@layouts/SubHeader'
 
 import { Navigate, useParams } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+
 export type ChatType = '메이트' | '굿즈' | '일반'
 
 const ChatRoom = () => {
@@ -16,9 +17,7 @@ const ChatRoom = () => {
   return (
     <ChatRoomContainer>
       <SubHeader left='back' />
-      {currentChatType === '메이트' && (
-        <MateChatRoom currentChatType={currentChatType} />
-      )}
+      {currentChatType === '메이트' && <MateChatRoom />}
       {currentChatType === '굿즈' && <GoodsChatRoom />}
       {currentChatType === '일반' && (
         <GeneralChatRoom currentChatType={currentChatType} />
