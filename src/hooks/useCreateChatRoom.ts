@@ -2,13 +2,21 @@ import { useMutation } from '@tanstack/react-query'
 import mateChatService from '@apis/mateChatService'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
 import goodsChatService from '@apis/goodsChatService'
+import { useNavigate } from 'react-router-dom'
 
 export const useCreateMateChatRoom = (matePostId: string) => {
+  const navigate = useNavigate()
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: () => mateChatService.createMateChat(matePostId),
 
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_CHAT_LIST] })
+
+      if (data.status === 'SUCCESS') {
+        navigate(`/chat-room/메이트/${data.data.roomId}`, {
+          state: { postId: matePostId },
+        })
+      }
     },
 
     onSettled: (data, error) => {

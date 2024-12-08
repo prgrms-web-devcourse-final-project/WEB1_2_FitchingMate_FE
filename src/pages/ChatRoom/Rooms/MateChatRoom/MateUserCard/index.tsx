@@ -42,6 +42,7 @@ const MateUserCard = ({ member }: MateUserCardProps) => {
 
   const isUser = memberId === Number(localStorage.getItem('memberId'))
   const isCompleteRecruit = isOwner && recruitStatus === '직관완료'
+  const isMemberOwner = memberId === Number(localStorage.getItem('memberId'))
 
   return (
     <UserListCardContainer>
@@ -59,14 +60,18 @@ const MateUserCard = ({ member }: MateUserCardProps) => {
       <ButtonContainer>
         {isCompleteRecruit && (
           <ConfirmationContainer>
-            <input
-              type='checkbox'
-              id={`confirm-${memberId}`}
-              name={`confirm-${memberId}`}
-              checked={confirmedParticipants.includes(memberId)}
-              onChange={handleConfirmation}
-            />
-            <label htmlFor={`confirm-${memberId}`}>참가확인</label>
+            {!isMemberOwner && (
+              <>
+                <input
+                  type='checkbox'
+                  id={`confirm-${memberId}`}
+                  name={`confirm-${memberId}`}
+                  checked={confirmedParticipants.includes(memberId)}
+                  onChange={handleConfirmation}
+                />
+                <label htmlFor={`confirm-${memberId}`}>참가확인</label>
+              </>
+            )}
           </ConfirmationContainer>
         )}
       </ButtonContainer>

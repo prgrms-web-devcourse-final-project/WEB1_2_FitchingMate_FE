@@ -43,6 +43,10 @@ export const useCompleteMatePost = (postId: string) => {
     mutationFn: (data: { participantIds: number[] }) =>
       mateChatService.completeMate(postId, data),
 
+    onError: (error) => {
+      toast.error(error.message)
+    },
+
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.MATE_POST, postId],

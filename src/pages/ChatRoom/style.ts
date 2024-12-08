@@ -132,12 +132,6 @@ export const SubmitButtonContainer = styled.div<{
     background-color: ${({ theme }) => theme.fontColor.navy};
     color: ${({ theme }) => theme.fontColor.cwhite};
 
-    ${({ $isOwner }) =>
-      !$isOwner &&
-      css`
-        display: none;
-      `}
-
     ${({ $isRecruitStatus }) =>
       $isRecruitStatus &&
       css`

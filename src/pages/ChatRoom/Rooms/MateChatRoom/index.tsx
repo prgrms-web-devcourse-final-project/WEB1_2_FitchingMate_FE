@@ -28,6 +28,8 @@ import {
 } from '@hooks/useCompleteMate'
 import { createBrowserHistory } from 'history'
 import { ToastContainer } from 'react-toastify'
+import useExitGoodsChat from '@hooks/useGoodsChat'
+import { useMateChatExit } from '@hooks/useChatExit'
 
 export interface MateChatMessage {
   message: string
@@ -100,6 +102,10 @@ const MateChatRoom = () => {
     isCompleteMatePostError,
     completeMatePostError,
   } = useCompleteMatePost(postId as string)
+
+  const IS_CHAT_ROOM = true
+
+  const { mateExitMutate } = useMateChatExit(chatRoomId as string, IS_CHAT_ROOM)
 
   /**
    * 소켓 연동
@@ -228,6 +234,10 @@ const MateChatRoom = () => {
     }
     if (currentAlertStatus.type === 'GAME_COMPLETE') {
       handleCompleteMatePost()
+    }
+
+    if (currentAlertStatus.type === 'CHAT_EXIT') {
+      mateExitMutate()
     }
     handleCloseBottomModal()
   }

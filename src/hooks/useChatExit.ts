@@ -2,6 +2,8 @@ import goodsChatService from '@apis/goodsChatService'
 import mateChatService from '@apis/mateChatService'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 export const useGoodsChatExit = (chatRoomId: string) => {
   const { mutate, isPending, isError, error } = useMutation({
@@ -11,11 +13,8 @@ export const useGoodsChatExit = (chatRoomId: string) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_CHAT_LIST] })
     },
 
-    onSettled: (data, error) => {
-      if (error) {
-        console.error(error)
-      }
-      console.log(data)
+    onError: (error) => {
+      toast.error(error.message)
     },
   })
 
@@ -27,13 +26,22 @@ export const useGoodsChatExit = (chatRoomId: string) => {
   }
 }
 
-export const useMateChatExit = (chatRoomId: string) => {
-  console.log(chatRoomId)
+export const useMateChatExit = (chatRoomId: string, isChatRoom?: boolean) => {
+  const navigate = useNavigate()
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: () => mateChatService.exitMateChat(chatRoomId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_CHAT_LIST] })
+
+      if (isChatRoom) {
+        navigate('/chat')
+      }
+    },
+
+    onError: (error) => {
+      toast.error(error.message)
     },
   })
 
