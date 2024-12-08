@@ -33,12 +33,9 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
     postImageUrl,
   } = matePost
 
-  console.log(matchId)
-
   return {
     matePost: {
       teamId: getTeamIdByName(myTeamName),
-      memberId: Number(localStorage.getItem('memberId')) || 1,
       title,
       content,
       age,

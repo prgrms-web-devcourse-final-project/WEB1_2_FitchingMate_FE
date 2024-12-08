@@ -19,7 +19,6 @@ export interface GoodsPostForm {
 }
 
 export interface MatePost {
-  memberId: number | null
   teamId: number | null
   title: string
   content: string

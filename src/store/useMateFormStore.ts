@@ -6,7 +6,6 @@ interface MateFormStore {
   selectedWeek: number
   img: File | null
 
-  setMemberId: (memberId: number) => void
   setTeamId: (teamId: number) => void
   setMatchId: (matchId: number) => void
   setTitle: (title: string) => void
@@ -23,7 +22,6 @@ interface MateFormStore {
 
 const initialState = {
   matePost: {
-    memberId: Number(localStorage.getItem('memberId')) || null,
     teamId: null,
     title: '',
     content: '',
@@ -43,8 +41,6 @@ export const useMateFormStore = create<MateFormStore>((set) => ({
   ...initialState,
 
   setSelectedWeek: (selectedWeek) => set(() => ({ selectedWeek })),
-  setMemberId: (memberId) =>
-    set((state) => ({ matePost: { ...state.matePost, memberId } })),
   setMatchId: (matchId) =>
     set((state) => ({ matePost: { ...state.matePost, matchId } })),
   setTitle: (title) =>

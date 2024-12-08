@@ -14,16 +14,15 @@ import { ROUTE_PATH } from '@constants/ROUTE_PATH'
  */
 
 interface UseEditMatePostProps {
-  memberId: number
   matePostId: number
 }
 
-const useEditMatePost = ({ memberId, matePostId }: UseEditMatePostProps) => {
+const useEditMatePost = ({ matePostId }: UseEditMatePostProps) => {
   const navigate = useNavigate()
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: async (formData: FormData) =>
-      matePostService.editMatePost(memberId, matePostId, formData),
+      matePostService.editMatePost(matePostId, formData),
 
     onSuccess: () => {
       queryClient.invalidateQueries({

@@ -61,7 +61,7 @@ const MateDetailPage = () => {
     isError: isDeleteError,
     error: deleteError,
   } = useMutation({
-    mutationFn: () => matePostService.deleteMatePost(1, matePostId as string),
+    mutationFn: () => matePostService.deleteMatePost(matePostId as string),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_POST] })
