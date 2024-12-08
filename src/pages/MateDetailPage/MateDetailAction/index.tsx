@@ -11,6 +11,7 @@ import {
 import { transformMatePostToFormData } from '@utils/formatPostData'
 import { MatePostData } from '@typings/db'
 import { useMateFormStore } from '@store/useMateFormStore'
+import { useCreateMateChatRoom } from '@hooks/useCreateChatRoom'
 
 interface MateDetailActionProps {
   matePost: MatePostData
@@ -26,12 +27,25 @@ const MateDetailAction = ({
 
   const [isChattingStarted, setIsChattingStarted] = useState(false)
 
+
   // 상태 값
   const isConditionMatched = false // 조건 일치 여부
   const isRecruitmentComplete = true // 모집 완료 여부
   const isHost = true // 방장 여부
   const totalParticipants = 20 // 참여자 수
   const isStatusCompleted = false // 직관 완료 여부
+
+  const { createChatRoom, createIsPending, createIsError, createError } =
+    useCreateMateChatRoom(postId.toString())
+
+  /**
+   * 메이트 수정 페이지 이동
+   *
+   * 1. 메이트 게시글 수정 폼 데이터 저장
+   * 2. 수정상태 넘기기
+   * 3. 수정 페이지 이동
+   */
+
 
   // 수정 버튼 클릭 핸들러
   const handleEditClick = () => {

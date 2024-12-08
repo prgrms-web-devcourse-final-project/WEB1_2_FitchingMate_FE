@@ -9,12 +9,12 @@ interface UseEditGoodsPostProps {
   goodsPostId: number
 }
 
-const useEditGoodsPost = ({ memberId, goodsPostId }: UseEditGoodsPostProps) => {
+const useEditGoodsPost = ({ goodsPostId }: UseEditGoodsPostProps) => {
   const navigate = useNavigate()
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: async (formData: FormData) =>
-      goodsPostService.editGoodsPost(memberId, goodsPostId, formData),
+      goodsPostService.editGoodsPost(goodsPostId, formData),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })

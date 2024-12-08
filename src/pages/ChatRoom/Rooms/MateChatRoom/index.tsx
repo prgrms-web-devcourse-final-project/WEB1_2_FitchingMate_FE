@@ -1,7 +1,6 @@
 import { useModal } from '@hooks/useModal'
 
-import { ChatCardContainer } from '../../style'
-import ChatCard from '../../ChatCard'
+import { ChatCardContainer, EnterChatMessage } from '../../style'
 import MateCard from '@components/MateCard'
 import { GlobalFloatAside } from '@styles/globalStyle'
 import ChatInput from '@pages/ChatRoom/ChatInput'
@@ -15,17 +14,52 @@ import { useMateChatStore } from '@store/useMateChatStore'
 import { ChatType } from '@pages/ChatPage'
 import useGetMatePost from '@hooks/usegetMatePost'
 import { transformMatePostToCardData } from '@utils/formatPostData'
+import { useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import mateChatService from '@apis/mateChatService'
+import { QUERY_KEY } from '@apis/queryClient'
+import { useSocket } from '@hooks/useSocket'
+import { formatChatContent } from '@utils/formatChatContent'
+import ChatCard from '@pages/ChatPage/ChatCard'
+import MateChatCard from '@pages/ChatRoom/ChatCard/MateChatCard'
 
 const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
+  // 채팅방 알럿 상태 관리
   const { currentAlertStatus } = useMateChatStore()
 
+  // 모달 관리
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
-  const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
-    useGetMatePost(6)
+  const { id: chatRoomId, type: chatType } = useParams()
 
-  console.log(matePost)
+  // 채팅방과 연동된 메이트 게시글 조회
+  const { matePost, matePostLoading, matePostErrorMessage, matePostError } =
+    useGetMatePost(Number(chatRoomId))
+
+  // 채팅방 상세 조회
+  const {
+    data: messageList,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [QUERY_KEY.MATE_CHATROOM, chatRoomId],
+    queryFn: () =>
+      mateChatService.getMateChatRoomDetail(chatRoomId as string, 0),
+  })
+
+  /**
+   * 소켓 연동
+   *
+   * 내부 useEffcet안에서 소켓연동
+   *
+   * @param chatType 채팅 타입
+   * @param chatRoomId 채팅방 id
+   *
+   * @returns 소켓 연동 함수
+   */
+  const { submitChat } = useSocket(chatType as ChatType, chatRoomId as string)
 
   const currentAlertMessage = () => {
     const { type, userName } = currentAlertStatus
@@ -40,6 +74,8 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
 
   if (!matePost) return null
 
+  console.log(messageList)
+
   const cardData = transformMatePostToCardData(matePost)
 
   return (
@@ -47,17 +83,25 @@ const MateChatRoom = ({ currentChatType }: { currentChatType: ChatType }) => {
       <MateCard card={cardData} />
 
       <ChatCardContainer>
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={true} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
-        <ChatCard isUserChat={false} />
+        {messageList?.content?.map((message) =>
+          message.messageType !== '대화' ? (
+            <EnterChatMessage key={message.messageId}>
+              {formatChatContent(message.message)}
+            </EnterChatMessage>
+          ) : (
+            <MateChatCard
+              key={message.messageId}
+              message={message}
+            />
+          ),
+        )}
       </ChatCardContainer>
 
       <GlobalFloatAside>
-        <ChatInput handleOpenBottomModal={handleOpenBottomModal} />
+        <ChatInput
+          handleOpenBottomModal={handleOpenBottomModal}
+          submitChat={submitChat}
+        />
       </GlobalFloatAside>
 
       <BottomModal ref={bottomModalRef}>

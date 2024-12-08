@@ -1,6 +1,18 @@
-export const formatMatchWeek = (matchId: number) => {
-  if (matchId <= 5) return 1
-  if (5 < matchId && matchId <= 10) return 2
-  if (10 < matchId && matchId <= 15) return 3
-  if (15 < matchId && matchId <= 20) return 4
+import { WeeklyMatchList } from '@typings/db'
+
+const findWeekByMatchId = (
+  weeklyMatchData: WeeklyMatchList[],
+  targetId: number,
+): number | null => {
+  for (let i = 0; i < weeklyMatchData.length; i++) {
+    const matchExists = weeklyMatchData[i].matches.some(
+      (match) => match.id === targetId,
+    )
+    if (matchExists) {
+      return weeklyMatchData[i].weekNumber
+    }
+  }
+  return null
 }
+
+export default findWeekByMatchId
