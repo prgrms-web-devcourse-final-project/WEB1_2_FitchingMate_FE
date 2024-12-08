@@ -56,7 +56,7 @@ const MateModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
    */
   const cuurentMemberList = members
     .map((member) => member.memberId)
-    .filter((memberId) => memberId !== 1)
+    .filter((memberId) => memberId !== Number(localStorage.getItem('memberId')))
 
   /**
    * 각 버튼 클릭 시 현재 알럿창 상태 변경

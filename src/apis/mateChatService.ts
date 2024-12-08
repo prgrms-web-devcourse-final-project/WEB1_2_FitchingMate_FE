@@ -1,5 +1,5 @@
 import {
-  MateChatMembers,
+  MateChatMember,
   MateChatRoomDetail,
   MateChatRoomDetailResponse,
   MateChatRoomListResponse,
@@ -33,9 +33,13 @@ const mateChatService = {
   },
 
   //  메이트 채팅방 상세 조회
-  getMateChatRoomDetail: async (chatroomId: string, page: number) => {
+  getMateChatRoomDetail: async (chatroomId: string) => {
+    console.log(123, chatroomId)
+
     const response = await fetchApi
-      .get<MateChatRoomDetail>(`mates/chat/${chatroomId}/messages?page=${page}`)
+      .get<MateChatRoomDetail>(
+        `mates/chat/${chatroomId}/messages?page=0&size=20`,
+      )
       .json()
 
     return response.data
@@ -51,7 +55,7 @@ const mateChatService = {
 
   getMateChatMembers: async (chatroomId: string) => {
     const response = await fetchApi
-      .get<MateChatMembers>(`mates/chat/${chatroomId}/members`)
+      .get<MateChatMember[]>(`mates/chat/${chatroomId}/members`)
       .json()
 
     return response.data

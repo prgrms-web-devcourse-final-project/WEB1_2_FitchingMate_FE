@@ -83,10 +83,28 @@ export interface MateChatMember {
   imageUrl: string
 }
 
-export interface MateChatMembers {
+export interface GoodsChatMember {
+  chatRoomId: number
+  opponentNickname: string
+  lastChatContent: string
+  lastChatSentAt: string
+  placeName: string
+  goodsMainImageUrl: string
+  opponentImageUrl: string
+}
+
+export interface GoodsChatRoomInfo {
+  content: GoodsChatMember[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
+}
+
+export interface GoodsChatMessageResponse {
   status: string
-  message: null
-  data: MateChatMember[]
+  data: GoodsChatRoomInfo
   timestamp: string
   code: number
 }

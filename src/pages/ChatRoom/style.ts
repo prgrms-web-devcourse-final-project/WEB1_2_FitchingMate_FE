@@ -31,6 +31,10 @@ export const ChatCardContainer = styled.div<{ $isGeneral?: boolean }>`
       height: calc(100% - 134.4px);
     `}
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   @media all and (max-width: 431px) {
     height: calc(100% - 25px);
   }

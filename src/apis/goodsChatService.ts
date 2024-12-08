@@ -1,8 +1,8 @@
 import {
   GoodsChatParticipantResponse,
-  GoodsChatroom,
   GoodsChatroomResponse,
 } from '@typings/db'
+import { GoodsChatMessageResponse } from '@typings/mateChat'
 import fetchApi from './ky'
 
 const goodsChatService = {
@@ -17,16 +17,26 @@ const goodsChatService = {
   // 채팅 페이지 => 채팅방 목록
   getGoodsChatroomList: async (page: number, size: number) => {
     const response = await fetchApi
-      .get<GoodsChatroomResponse>(`goods/chat?page=${page}&size=${size}`)
+      .get<GoodsChatMessageResponse>(`goods/chat?page=${page}&size=${size}`)
       .json()
 
-    return response.data
+    return response
   },
 
   // 채팅 페이지 => 채팅방 상세
   getGoodsChatroom: async (chatRoomId: string) => {
     const response = await fetchApi
       .get<GoodsChatroomResponse>(`goods/chat/${chatRoomId}`)
+      .json()
+
+    return response.data
+  },
+
+  getChatMessage: async (chatRoomId: string, page: number) => {
+    const response = await fetchApi
+      .get<GoodsChatMessageResponse>(
+        `goods/chat/${chatRoomId}/message?page=${page}`,
+      )
       .json()
 
     return response.data

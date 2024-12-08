@@ -69,7 +69,7 @@ const MatePostingPage = () => {
 
   const { mutateEditMatePost, isEditPending, isEditError, editError } =
     useEditMatePost({
-      memberId: 1,
+      memberId: Number(localStorage.getItem('memberId')),
       matePostId,
     })
 

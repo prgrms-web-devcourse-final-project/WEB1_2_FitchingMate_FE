@@ -4,6 +4,7 @@ import 'dayjs/locale/ko'
 
 dayjs.locale('ko')
 dayjs.extend(relativeTime)
+
 export const formatMatchTime = (date: string) => {
   return dayjs(date).format('MM/DD - HH:MM')
 }
@@ -17,5 +18,7 @@ export const formatTimelineDate = (date: string) => {
 }
 
 export const formatChatTime = (date: string) => {
+  const diff = dayjs().diff(dayjs(date), 'seconds')
+  if (diff < 60) return '방금'
   return dayjs(date).fromNow()
 }

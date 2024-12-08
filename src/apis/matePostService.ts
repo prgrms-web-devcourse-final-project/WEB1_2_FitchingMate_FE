@@ -31,7 +31,6 @@ const matePostService = {
     matePostId: number,
     formData: FormData,
   ) => {
-    console.log(memberId, matePostId)
     const response = await fetchApi
       .patch(`mates/${memberId}/${matePostId}`, { body: formData })
       .json()

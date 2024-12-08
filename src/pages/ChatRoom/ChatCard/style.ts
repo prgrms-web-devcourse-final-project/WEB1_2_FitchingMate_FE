@@ -40,6 +40,7 @@ export const UserProfileWrapper = styled.div`
 `
 
 export const ContentText = styled.p<{ $isUserChat: boolean }>`
+  width: fit-content;
   max-width: 230px;
   padding: 10px;
   border-radius: 10px;
