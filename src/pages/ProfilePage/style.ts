@@ -259,14 +259,13 @@ export const ProfileEditInputWrap = styled.div`
     border-radius: 4px;
     cursor: pointer;
   }
+`
 
-  & > p {
-    font-size: ${theme.fontSize.small};
-    color: ${theme.fontColor.black};
-    position: absolute;
-    bottom: calc(1em + 8px);
-    right: 28px;
-  }
+export const ValidateText = styled.p`
+  font-size: ${theme.fontSize.small};
+  color: ${theme.fontColor.black};
+  text-align: right;
+  margin-top: 0.25em;
 `
 
 // 후기 모아보기 페이지

@@ -3,6 +3,7 @@ import {
   ProfileImageEdit,
   ProfileImageEditWrap,
   ProfileSpinnerWrap,
+  ValidateText,
 } from './style'
 import { FormEvent, useEffect, useState } from 'react'
 import { handleImageUpload } from './methods'
@@ -20,6 +21,7 @@ import { kboTeamInfo } from '@constants/kboInfo'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import Spinner from '@components/Spinner'
 import { useUserStore } from '@store/useUserStore'
+import { toast } from 'react-toastify'
 
 // 소개글 글자제한
 const MAX_LENGTH = 500
@@ -177,9 +179,9 @@ const ProfileEdit = () => {
               handleChange(e)
             }}
           ></textarea>
-          <p>
+          <ValidateText>
             {userInfo?.aboutMe ? userInfo?.aboutMe.length : '0'}/{MAX_LENGTH}
-          </p>
+          </ValidateText>
         </ProfileEditInputWrap>
 
         <ProfileEditInputWrap>

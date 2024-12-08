@@ -31,6 +31,7 @@ import { UserInfo } from '@typings/userForm'
 import Alert from '@components/Alert'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { logoutPost } from '@apis/logoutService'
+import { formatManner } from '@utils/formatManner'
 
 const ProfileMain = () => {
   const alertRef = useRef<HTMLDialogElement | null>(null)
@@ -76,6 +77,7 @@ const ProfileMain = () => {
     }
   }, [userId])
 
+  // 자기 프로필 판단해서 데이터 로드함
   useEffect(() => {
     if (isMyProfile !== null) {
       if (isMyProfile) {
@@ -86,6 +88,7 @@ const ProfileMain = () => {
     }
   }, [isMyProfile, myInfoResult.getMyInfo, userInfoResult.getUserInfo])
 
+  // 프로필 수정 페이지 이동함수
   const onNavigateEdit = () => {
     navigate('/profile/edit', { state: { ...userInfo } })
   }
@@ -126,7 +129,7 @@ const ProfileMain = () => {
               style={{ display: 'none' }}
             />
           </ProfileEditWrap>
-          <ProfileFollowWrap>
+          {/* <ProfileFollowWrap>
             <Link to={ROUTE_PATH.FOLLOW}>
               <div>
                 <p>팔로우</p>
@@ -137,12 +140,18 @@ const ProfileMain = () => {
                 <p>{userInfo?.followerCount}</p>
               </div>
             </Link>
-          </ProfileFollowWrap>
+          </ProfileFollowWrap> */}
         </ProfileTopWrap>
 
         {/* 프로필 소개 섹션 */}
         <ProfileNotice>
-          <p>{userInfo?.aboutMe}</p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: userInfo?.aboutMe
+                ? userInfo?.aboutMe.replace(/\n/g, '<br>')
+                : '',
+            }}
+          ></p>
         </ProfileNotice>
 
         {/* 프로필 상단 버튼 본인 프로필 유무 */}
@@ -174,15 +183,13 @@ const ProfileMain = () => {
           <ProfileMannerInfo>
             <span>첫 타율 0.300</span>
             <p>
-              {(userInfo && userInfo.manner) || (
-                <Skeleton containerClassName='skeleton-flex' />
-              )}
+              {userInfo && formatManner(userInfo.manner)}
               <MannerIcon />
             </p>
             <ProfileMannerGraph>
-              {(userInfo && (
+              {userInfo && (
                 <ProfileMannerGraphInner width={userInfo.manner * 100} />
-              )) || <Skeleton />}
+              )}
             </ProfileMannerGraph>
           </ProfileMannerInfo>
         </ProfilePadding>
