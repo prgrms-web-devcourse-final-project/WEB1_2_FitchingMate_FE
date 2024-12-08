@@ -22,8 +22,6 @@ import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import useGetUserInfo from '@hooks/useGetUserInfo'
 
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'

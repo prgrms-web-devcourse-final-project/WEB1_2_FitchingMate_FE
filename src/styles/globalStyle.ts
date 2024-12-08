@@ -21,6 +21,10 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  body {
+    background-color: #f0f1f3;
+  }
+
   button {
     cursor: pointer;
     border: none;
@@ -58,6 +62,8 @@ export const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     overflow-y: hidden;
     margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 50px rgba(0,0,0,.15);
 
     &::-webkit-scrollbar {
       display: none;
@@ -168,6 +174,14 @@ export const GlobalFloatButton = styled.div`
   border-radius: 50%;
   filter: drop-shadow(2px 2px 5px #00000025);
   background-color: ${theme.fontColor.white};
+`
+
+export const RefContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
 `
 
 export default GlobalStyle
