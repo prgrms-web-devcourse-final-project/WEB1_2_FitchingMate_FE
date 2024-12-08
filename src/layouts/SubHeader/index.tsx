@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   SubHeaderBox,
@@ -18,9 +19,16 @@ interface SubHeaderPropsType {
   center?: string
   right?: 'complete' | 'logout' | 'alarm'
   onClick?: () => void
+  onLogoutClick?: () => void
 }
 
-const SubHeader = ({ left, center, right, onClick }: SubHeaderPropsType) => {
+const SubHeader = ({
+  left,
+  center,
+  right,
+  onClick,
+  onLogoutClick,
+}: SubHeaderPropsType) => {
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -36,7 +44,7 @@ const SubHeader = ({ left, center, right, onClick }: SubHeaderPropsType) => {
 
   const subHeaderRightContent = {
     complete: <SubHeaderComplete type='submit'>완료</SubHeaderComplete>,
-    logout: <Logout />,
+    logout: <Logout onClick={onLogoutClick} />,
     alarm: <Alarm />,
   }
 
