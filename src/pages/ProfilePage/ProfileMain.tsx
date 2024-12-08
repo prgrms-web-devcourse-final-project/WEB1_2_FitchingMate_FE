@@ -49,8 +49,6 @@ const ProfileMain = () => {
   const userInfoResult = useGetUserInfo(
     typeof id === 'string' ? Number(id) : null,
   )
-  const myInfoResult = useGetMyInfo(1)
-  const userInfoResult = useGetUserInfo(2)
 
   const handleLogoutClick = () => {
     if (alertRef.current) {
