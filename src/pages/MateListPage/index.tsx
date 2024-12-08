@@ -78,7 +78,6 @@ const MateListPage = () => {
 
       getNextPageParam: (lastPage: any) =>
         lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
-
     })
 
   // 무한 스크롤 핸들러
@@ -128,9 +127,8 @@ const MateListPage = () => {
             card={mate}
           />
         ))}
+        <div ref={ref} />
       </div>
-
-      <div ref={ref} />
 
       <FloatButton
         path={ROUTE_PATH.MATE_POSTING}
@@ -149,5 +147,3 @@ const MateListPage = () => {
 }
 
 export default MateListPage
-
-

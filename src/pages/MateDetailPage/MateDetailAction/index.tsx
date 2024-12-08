@@ -28,9 +28,9 @@ const MateDetailAction = ({
   const [isChattingStarted, setIsChattingStarted] = useState(false)
 
   // 상태 값
-  const isConditionMatched = false // 조건 일치 여부
-  const isRecruitmentComplete = true // 모집 완료 여부
-  const isHost = true // 방장 여부
+  const isConditionMatched = true // 조건 일치 여부
+  const isRecruitmentComplete = false // 모집 완료 여부
+  const isHost = false // 방장 여부
   const totalParticipants = 20 // 참여자 수
   const isStatusCompleted = false // 직관 완료 여부
 
@@ -95,9 +95,7 @@ const MateDetailAction = ({
         <>
           <ChattingPeople>대화중인 메이트 - {totalParticipants}</ChattingPeople>
           <ActionButton>
-            <button onClick={() => setIsChattingStarted(true)}>
-              대화 나누기
-            </button>
+            <button onClick={createChatRoom}>대화 나누기</button>
           </ActionButton>
         </>
       )
