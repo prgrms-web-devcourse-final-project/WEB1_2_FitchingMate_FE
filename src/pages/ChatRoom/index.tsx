@@ -1,7 +1,6 @@
 import { ChatRoomContainer } from './style'
 import GoodsChatRoom from './Rooms/GoodsChatRoom'
 import MateChatRoom from './Rooms/MateChatRoom'
-import GeneralChatRoom from './Rooms/GeneralChatRoom'
 import SubHeader from '@layouts/SubHeader'
 
 import { Navigate, useParams } from 'react-router-dom'
@@ -19,9 +18,6 @@ const ChatRoom = () => {
       <SubHeader left='back' />
       {currentChatType === '메이트' && <MateChatRoom />}
       {currentChatType === '굿즈' && <GoodsChatRoom />}
-      {currentChatType === '일반' && (
-        <GeneralChatRoom currentChatType={currentChatType} />
-      )}
     </ChatRoomContainer>
   )
 }

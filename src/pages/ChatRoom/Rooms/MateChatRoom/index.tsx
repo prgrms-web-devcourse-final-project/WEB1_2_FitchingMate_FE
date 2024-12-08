@@ -1,10 +1,6 @@
 import { useModal } from '@hooks/useModal'
 
-import {
-  ChatCardContainer,
-  EnterChatMessage,
-  MateChatCardContainer,
-} from '../../style'
+import { EnterChatMessage, MateChatCardContainer } from '../../style'
 import { GlobalFloatAside } from '@styles/globalStyle'
 import ChatInput from '@pages/ChatRoom/ChatInput'
 import BottomModal from '@components/BottomModal'
@@ -19,7 +15,7 @@ import { transformMatePostToCardData } from '@utils/formatPostData'
 import { useLocation, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import mateChatService from '@apis/mateChatService'
-import { QUERY_KEY } from '@apis/queryClient'
+import queryClient, { QUERY_KEY } from '@apis/queryClient'
 import { useSocket } from '@hooks/useSocket'
 import { formatChatContent } from '@utils/formatChatContent'
 import MateChatCard from '@pages/ChatRoom/ChatCard/MateChatCard'
@@ -27,6 +23,7 @@ import MainMateCard from '@components/MainMateCard'
 import { useEffect, useRef, useState } from 'react'
 import { RecruitStatus } from './RecruitStatusSection'
 import { useCompleteMate, useCompleteMatePost } from '@hooks/useCompleteMate'
+import { createBrowserHistory } from 'history'
 
 export interface MateChatMessage {
   message: string
@@ -151,6 +148,27 @@ const MateChatRoom = () => {
       setRecruitStatus(matePost.status as RecruitStatus)
     }
   }, [matePost])
+
+  /**
+   * 뒤로가기 이벤트 처리
+   *
+   * 사용자가 뒤로가기 버튼을 눌렀을 때 채팅방 데이터를 초기화
+   */
+  const history = createBrowserHistory()
+
+  useEffect(() => {
+    history.listen((location) => {
+      if (location.action === 'POP' || location.action === 'PUSH') {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MATE_CHATROOM, chatRoomId],
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MATE_CHAT_LIST],
+        })
+      }
+    })
+  }, [chatRoomId])
 
   if (!messageList) return null
 

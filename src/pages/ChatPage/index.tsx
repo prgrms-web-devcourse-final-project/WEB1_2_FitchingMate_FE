@@ -16,7 +16,7 @@ import { useGoodsChatExit, useMateChatExit } from '@hooks/useChatExit'
 import MateCardList from './ChatPageList/MateCardList'
 import { useMateChatStore } from '@store/useMateChatStore'
 
-export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
+export const CHAT_TAB_LIST = ['메이트', '굿즈'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]
 
 const ChatPage = () => {
