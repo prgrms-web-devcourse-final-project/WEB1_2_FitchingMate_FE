@@ -44,7 +44,7 @@ import GoodsVisitorButton from './GoodsVisitorButton'
 import { useCreateGoodsChatroom } from '@hooks/useCreateChatRoom'
 
 const GoodsDetailPage = () => {
-  const [localUserId, setLocalUserId] = useState(localStorage.getItem('userId'))
+  const memberId = localStorage.getItem('memberId')
 
   const { id: goodsId } = useParams()
 
@@ -206,7 +206,7 @@ const GoodsDetailPage = () => {
                 : `${formatPriceWithComma(price)}원`}
             </GoodsPriceText>
             <GoodsBottomButtonWrap>
-              {Number(localUserId) === seller.memberId ? (
+              {Number(memberId) === seller.memberId ? (
                 <GoodsHostButton
                   onClickDeleteButton={onClickDeleteButton}
                   onClickEditButton={onClickEditButton}

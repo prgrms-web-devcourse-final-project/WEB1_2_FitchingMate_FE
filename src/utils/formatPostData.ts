@@ -64,7 +64,7 @@ export const transformGoodsDetailToFormData = (goodsDetail: GoodsDetail) => {
       price: formatPriceWithComma(price),
       location,
     },
-    imageList: imageUrls.map((imageUrl) => new File([], imageUrl)),
+    imageList: imageUrls,
   }
 }
 
@@ -120,6 +120,7 @@ export const transformGoodsDetailToSubmitData = (
 
   // 파일이 존재할 경우에만 추가
   if (imageList.length > 0) {
+    console.log(imageList)
     imageList.forEach((file) => {
       formData.append('files', file)
     })
