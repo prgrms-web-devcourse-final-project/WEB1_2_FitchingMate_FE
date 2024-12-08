@@ -2,24 +2,22 @@ import styled from "styled-components";
 import { theme } from "@styles/theme";
 
 export const MateDetailActionContainer = styled.div`
-  
-  margin-top: 1em;
+
 `;
 
-export const Notice = styled.div`
+export const Notice = styled.span`
   color: #e00000;
   font-weight: ${theme.fontWeight.semi};
   font-size: ${theme.fontSize.medium};
-  margin-left: 1.25em;
-  margin-bottom: 1em;
+  margin: 0 auto;
 `;
 
 export const ActionSection = styled.div`
   display: flex;
-  min-height: 4.5em;
   justify-content: space-between;
   align-items: center;
   padding: 1em 1.25em;
+  min-height: 4em;
   background-color: ${theme.fontColor.cwhite};
 `;
 
