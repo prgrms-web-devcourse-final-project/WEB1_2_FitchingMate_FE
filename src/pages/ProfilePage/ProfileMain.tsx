@@ -22,13 +22,18 @@ import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import useGetUserInfo from '@hooks/useGetUserInfo'
 
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useGetMyInfo from '@hooks/useGetMyInfo'
 import { UserInfo } from '@typings/userForm'
 
+import Alert from '@components/Alert'
+import ALERT_MESSAGE from '@constants/alertMessage'
+import { logoutPost } from '@apis/logoutService'
+
 const ProfileMain = () => {
+  const alertRef = useRef<HTMLDialogElement | null>(null)
   const navigate = useNavigate()
   const [userId, setUserId] = useState(0)
   const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
@@ -37,6 +42,26 @@ const ProfileMain = () => {
 
   const myInfoResult = useGetMyInfo(1)
   const userInfoResult = useGetUserInfo(2)
+
+  const handleLogoutClick = () => {
+    if (alertRef.current) {
+      alertRef.current.showModal()
+    }
+  }
+
+  const confirmLogout = async () => {
+    try {
+      await logoutPost()
+      localStorage.removeItem('token')
+      if (alertRef.current) {
+        alertRef.current.close()
+      }
+      navigate(ROUTE_PATH.HOME)
+    } catch (error) {
+      console.error('로그아웃 실패:', error)
+      alert('로그아웃에 실패했습니다. 다시 시도해주세요.')
+    }
+  }
 
   useEffect(() => {
     const currentUserId = localStorage.getItem('userId')
@@ -67,6 +92,15 @@ const ProfileMain = () => {
         left='back'
         center='프로필 페이지'
         right='logout'
+        onLogoutClick={handleLogoutClick}
+      />
+      <Alert
+        ref={alertRef}
+        title={ALERT_MESSAGE.LOGOUT.title}
+        notice={ALERT_MESSAGE.LOGOUT.notice}
+        actionText={ALERT_MESSAGE.LOGOUT.actionText}
+        cancelText={ALERT_MESSAGE.LOGOUT.cancelText}
+        handleAlertClick={confirmLogout} // 확인 버튼 클릭 시 로그아웃 처리
       />
       <section>
         {/* 프로필 상단 섹션 */}
