@@ -8,6 +8,8 @@ import { QUERY_KEY } from '@apis/queryClient'
 import reviewService from '@apis/reviewService'
 import ReviewBoxComponent from './ReviewBoxComponent'
 import { useInView } from 'react-intersection-observer'
+
+import { useParams } from 'react-router-dom'
 import { RefContainer } from '@styles/globalStyle'
 import Spinner from '@components/Spinner'
 
@@ -15,7 +17,7 @@ const GOODS_REVIEW = '1'
 const MATE_REVIEW = '2'
 
 const ReviewPage = () => {
-  const [myId, setMyId] = useState(0)
+  const { id: pageId } = useParams()
   const [selectedReview, setSelectedReview] = useState(GOODS_REVIEW)
   const { ref, inView } = useInView({
     threshold: 0.5,
@@ -35,7 +37,7 @@ const ReviewPage = () => {
       queryFn: ({ pageParam }) =>
         reviewService.getReviewList(
           decideReviewType(selectedReview),
-          myId + 1,
+          Number(pageId),
           pageParam,
         ),
       initialPageParam: 0,

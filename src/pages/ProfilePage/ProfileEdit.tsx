@@ -2,6 +2,7 @@ import {
   ProfileEditInputWrap,
   ProfileImageEdit,
   ProfileImageEditWrap,
+  ProfileSpinnerWrap,
 } from './style'
 import { FormEvent, useEffect, useState } from 'react'
 import { handleImageUpload } from './methods'
@@ -13,15 +14,23 @@ import useTeamDialog from '@hooks/useTeamDialog'
 import BottomModalOption from './BottomModalOption'
 import SubHeader from '@layouts/SubHeader'
 import useEditMyInfo from '@hooks/useEditMyInfo'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { UserInfo } from '@typings/userForm'
 import { kboTeamInfo } from '@constants/kboInfo'
+import { toast } from 'react-toastify'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import Spinner from '@components/Spinner'
+import { useUserStore } from '@store/useUserStore'
 
 // 소개글 글자제한
 const MAX_LENGTH = 500
 
 const ProfileEdit = () => {
   const location = useLocation()
+  const navigate = useNavigate()
+
+  const { memberId } = useUserStore().userInfo
+
   const [isUpload, setIsUpload] = useState(false)
   const [currentTeamId, setCurrentTeamId] = useState<number | null>(null)
   const [profileImg, setProfileImg] = useState<File | undefined>(undefined)
@@ -30,7 +39,7 @@ const ProfileEdit = () => {
     undefined,
   )
 
-  const { mutateMyInfo, error, isError, isPending } = useEditMyInfo()
+  const { mutateMyInfo, error, isError, isPending, isSuccess } = useEditMyInfo()
 
   // 프로파일 수정 사항 서브밋
   const onProfileEditSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -51,7 +60,10 @@ const ProfileEdit = () => {
     )
     profileImg && formData.append('image', profileImg)
 
-    mutateMyInfo(formData)
+    try {
+      mutateMyInfo(formData)
+      navigate(`${ROUTE_PATH.PROFILE}/${memberId}`)
+    } catch (err) {}
   }
 
   // 소개글 글자제한
@@ -95,6 +107,11 @@ const ProfileEdit = () => {
     <>
       {/* 폼 (내용) */}
       <form onSubmit={onProfileEditSubmit}>
+        {isPending ? (
+          <ProfileSpinnerWrap>
+            <Spinner />
+          </ProfileSpinnerWrap>
+        ) : null}
         {/* 서브헤더 */}
         <SubHeader
           left='exit'
@@ -158,7 +175,7 @@ const ProfileEdit = () => {
             }}
           ></textarea>
           <p>
-            {userInfo?.aboutMe.length}/{MAX_LENGTH}
+            {userInfo?.aboutMe ? userInfo?.aboutMe.length : '0'}/{MAX_LENGTH}
           </p>
         </ProfileEditInputWrap>
 

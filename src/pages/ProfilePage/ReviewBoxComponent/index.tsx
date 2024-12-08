@@ -21,7 +21,7 @@ const ReviewBoxComponent = ({
 }) => {
   return (
     <ReviewWrap>
-      {reviewList ? (
+      {reviewList && reviewList.length !== 0 ? (
         reviewList.map((data, index) => {
           return (
             <ReviewBox key={index}>
@@ -46,7 +46,7 @@ const ReviewBoxComponent = ({
           )
         })
       ) : (
-        <div>데이터가 비어있습니다</div>
+        <div>아직 받은 후기가 없습니다</div>
       )}
     </ReviewWrap>
   )

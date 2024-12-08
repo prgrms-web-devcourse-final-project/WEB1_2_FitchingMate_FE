@@ -5,8 +5,10 @@ import { GlobalStyle } from '@styles/globalStyle'
 import { ThemeProvider } from 'styled-components'
 import { theme } from '@styles/theme'
 import queryClient from '@apis/queryClient'
-import App from './App'
 import { SkeletonTheme } from 'react-loading-skeleton'
+import { ToastContainer } from 'react-toastify'
+import App from './App'
+import 'react-toastify/ReactToastify.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -16,6 +18,11 @@ createRoot(document.getElementById('root')!).render(
           baseColor='#313131'
           highlightColor='#525252'
         >
+          <ToastContainer
+            position='top-center'
+            autoClose={3000}
+            closeOnClick
+          />
           <GlobalStyle />
           <App />
         </SkeletonTheme>
