@@ -74,7 +74,7 @@ const MateDetailAction = ({
     return isGenderMatched && isAgeMatched
   })()
   
-  const totalParticipants = 20 // 참여자 수
+  const totalParticipants = matePostData.currentChatMembers // 참여자 수
 
   const { createChatRoom, createIsPending, createIsError, createError } =
     useCreateMateChatRoom(matePostData.postId.toString())
