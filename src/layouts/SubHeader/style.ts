@@ -34,10 +34,16 @@ export const SubHeaderText = styled.p`
   letter-spacing: -0.025em;
 `
 
+export const SubHeaderSvgWrap = styled.div`
+  display: block;
+  width: 100%;
+`
+
 export const SubHeaderRight = styled.div`
   width: 28px;
   & svg {
     float: right;
+    width: 100%;
   }
 `
 export const SubHeaderComplete = styled.button`

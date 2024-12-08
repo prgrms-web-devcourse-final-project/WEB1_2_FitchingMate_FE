@@ -33,8 +33,12 @@ const TimelineBox = ({ info }: TimelineBoxPropTypes) => {
 
   return (
     <TimelineBoxWrap
-      onClick={() => {
-        setVisible(!visible)
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target instanceof HTMLAnchorElement) {
+          return
+        } else {
+          setVisible(!visible)
+        }
       }}
     >
       <h2>{formatTimelineDate(matchTime)}</h2>

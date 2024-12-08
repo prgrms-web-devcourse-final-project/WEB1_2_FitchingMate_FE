@@ -37,7 +37,7 @@ const reviewService = {
 
   getReviewList: async (type: string, memberId: number, page: number) => {
     const response = await fetchApi
-      .get(`profile/${memberId}/review/${type}?page=${page}&size=5`)
+      .get(`profile/${memberId}/review/${type}?page=${page}&size=3`)
       .json()
 
     return response.data
