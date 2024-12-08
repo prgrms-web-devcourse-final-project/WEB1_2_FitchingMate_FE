@@ -27,8 +27,6 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import useGetMyInfo from '@hooks/useGetMyInfo'
 import { UserInfo } from '@typings/userForm'
-import { toast } from 'react-toastify'
-import { useUserStore } from '@store/useUserStore'
 
 import Alert from '@components/Alert'
 import ALERT_MESSAGE from '@constants/alertMessage'
@@ -39,13 +37,13 @@ const ProfileMain = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
-  const { memberId: loginMemberId } = useUserStore().userInfo
+  const loginMemberId = localStorage.getItem('memberId')
 
   const [userId, setUserId] = useState(id)
   const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
-  const myInfoResult = useGetMyInfo(loginMemberId)
+  const myInfoResult = useGetMyInfo(Number(loginMemberId))
   const userInfoResult = useGetUserInfo(
     typeof id === 'string' ? Number(id) : null,
   )
@@ -71,7 +69,7 @@ const ProfileMain = () => {
   }
 
   useEffect(() => {
-    if (loginMemberId === Number(userId)) {
+    if (Number(loginMemberId) === Number(userId)) {
       setIsMyProfile(true)
     } else {
       setIsMyProfile(false)

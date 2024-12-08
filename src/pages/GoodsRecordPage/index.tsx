@@ -2,14 +2,16 @@ import SubHeader from '@layouts/SubHeader'
 import GoodsRecordBox from './GoodsRecordBox'
 import { GoodsSection, NoGoodsList } from './style'
 
-import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import userService from '@apis/userService'
 import { useInView } from 'react-intersection-observer'
 import { RefContainer } from '@styles/globalStyle'
 import Spinner from '@components/Spinner'
+import { toast } from 'react-toastify'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 const HEADER_TEXT = {
   sold: '굿즈 판매기록',
@@ -27,8 +29,9 @@ interface GoodsRecord {
 
 const GoodsRecordPage = () => {
   const location = useLocation()
+  const navigate = useNavigate()
   const { id } = useParams()
-  const [memberId, setMemberId] = useState(1)
+  const currentUserId = localStorage.getItem('memberId')
   const [pageType, setPageType] = useState<('sold' | 'bought') | null>(
     location.state.type,
   )
@@ -52,6 +55,11 @@ const GoodsRecordPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    if (pageType === 'bought') {
+      currentUserId !== id &&
+        (toast('굿즈 구매기록은 본인만 볼수있습니다.'),
+        navigate(ROUTE_PATH.HOME))
+    }
   }, [])
 
   useEffect(() => {

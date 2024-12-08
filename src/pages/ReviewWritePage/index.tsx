@@ -10,28 +10,22 @@ import { GlobalFloatAside } from '@styles/globalStyle'
 import ReviewSelectBox from './ReviewSelectBox'
 import ReviewPostInfo from './ReviewPostInfo'
 import ReviewTextarea from './ReviewTextarea'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import reviewService from '@apis/reviewService'
-import queryClient, { QUERY_KEY } from '@apis/queryClient'
-import { useLocation } from 'react-router-dom'
-import userService from '@apis/userService'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useGetUserInfo from '@hooks/useGetUserInfo'
 import {
   useGetReviewDetail,
   useMutateGoodsReview,
   useMutateMateReview,
 } from '@hooks/useReviewHooks'
-
-interface ReviewPagePropTypes {
-  reviewType: 'GOODS' | 'MATE'
-  title: string
-  username: string
-}
+import SubHeader from '@layouts/SubHeader'
+import { toast } from 'react-toastify'
+import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 
 const ReviewWritePage = ({}) => {
   const location = useLocation()
+  const navigate = useNavigate()
   const [reviewType, setReviewType] = useState(location.state.type)
-  const [myId, setMyId] = useState(0)
+  const [myId, setMyId] = useState(localStorage.getItem('memberId'))
   const [revieweeId, setRevieweeId] = useState(location.state.memberId)
   const [postId, setPostId] = useState(location.state.postId)
   const [reviewerName, setReviewerName] = useState()
@@ -49,22 +43,33 @@ const ReviewWritePage = ({}) => {
         content: reviewContent,
       }
 
-      postMateReview({
-        memberId: myId,
-        matePostId: postId,
-        jsonData: JSON.stringify(jsonData),
-      })
+      try {
+        postMateReview({
+          matePostId: postId,
+          jsonData: JSON.stringify(jsonData),
+        })
+        toast('직관 후기 작성이 완료되었어요.')
+        navigate(`${ROUTE_PATH.PROFILE}/${localStorage.getItem('memberId')}`)
+      } catch (err) {
+        console.log(err)
+      }
     } else {
       const jsonData = {
         rating: selectedRating,
         reviewContent: reviewContent,
       }
 
-      postGoodsReview({
-        reviewerId: myId,
-        goodsPostId: postId,
-        jsonData: JSON.stringify(jsonData),
-      })
+      try {
+        postGoodsReview({
+          reviewerId: Number(myId),
+          goodsPostId: postId,
+          jsonData: JSON.stringify(jsonData),
+        })
+        toast('굿즈 후기 작성이 완료되었어요.')
+        navigate(`${ROUTE_PATH.PROFILE}/${localStorage.getItem('memberId')}`)
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 
@@ -119,56 +124,65 @@ const ReviewWritePage = ({}) => {
   if (!reviewDetailData && !userData) return null
 
   return (
-    <ReviewWriteWrap
-      onSubmit={(e) => {
-        onSubmit(e)
-      }}
-    >
-      {userData && reviewDetailData ? (
-        <>
-          <ReviewPostInfo
-            reviewType={reviewType}
-            title={reviewDetailData.title}
-            nickname={reviewerName}
-          />
-          <ReviewRatingWrap>
-            <p>
-              {reviewType === 'GOODS' ? (
-                <>{reviewerName}님과 거래가 어떠셨나요?</>
-              ) : (
-                <>{reviewerName}님과 직관은 어떠셨나요?</>
-              )}
-            </p>
-            <span>
-              {reviewType === 'GOODS' ? (
-                <>거래 선호도는 나만 볼 수 있어요.</>
-              ) : (
-                <>메이트 선호도는 나만 볼 수 있어요.</>
-              )}
-            </span>
-            <ReviewSelectBox
-              onRadioChange={onRadioChange}
-              selectedRating={selectedRating}
+    <>
+      <SubHeader
+        left='back'
+        center='후기 작성 페이지'
+      />
+      <ReviewWriteWrap
+        onSubmit={(e) => {
+          onSubmit(e)
+        }}
+      >
+        {userData && reviewDetailData ? (
+          <>
+            <ReviewPostInfo
+              reviewType={reviewType}
+              title={reviewDetailData.title}
+              nickname={reviewerName}
+              postImageUrl={reviewDetailData.postImageUrl}
             />
-          </ReviewRatingWrap>
-          <ReviewTextarea
-            reviewType={reviewType}
-            textareaValue={reviewContent}
-            onTextareaChange={onTextareaChange}
-          />
-          <GlobalFloatAside>
-            <ReviewSendButtonWrap>
-              <GlobalButton
-                $isNavy={true}
-                text='후기 보내기'
+            <ReviewRatingWrap>
+              <p>
+                <>{localStorage.getItem('nickname')}님,</>
+                <br />
+                {reviewType === 'GOODS' ? (
+                  <>{reviewerName}님과 거래가 어떠셨나요?</>
+                ) : (
+                  <>{reviewerName}님과 직관은 어떠셨나요?</>
+                )}
+              </p>
+              <span>
+                {reviewType === 'GOODS' ? (
+                  <>거래 선호도는 나만 볼 수 있어요.</>
+                ) : (
+                  <>메이트 선호도는 나만 볼 수 있어요.</>
+                )}
+              </span>
+              <ReviewSelectBox
+                onRadioChange={onRadioChange}
+                selectedRating={selectedRating}
               />
-            </ReviewSendButtonWrap>
-          </GlobalFloatAside>
-        </>
-      ) : (
-        <div>로딩중...</div>
-      )}
-    </ReviewWriteWrap>
+            </ReviewRatingWrap>
+            <ReviewTextarea
+              reviewType={reviewType}
+              textareaValue={reviewContent}
+              onTextareaChange={onTextareaChange}
+            />
+            <GlobalFloatAside>
+              <ReviewSendButtonWrap>
+                <GlobalButton
+                  $isNavy={true}
+                  text='후기 보내기'
+                />
+              </ReviewSendButtonWrap>
+            </GlobalFloatAside>
+          </>
+        ) : (
+          <div>로딩중...</div>
+        )}
+      </ReviewWriteWrap>
+    </>
   )
 }
 

@@ -19,6 +19,13 @@ const ReviewBoxComponent = ({
   reviewList: ReviewContent[]
   selectedReview: string
 }) => {
+  const decideLink = (reviewType: string, postId: number) => {
+    if (reviewType && reviewType === '2') {
+      return `/mate-detail/${postId}`
+    } else if (reviewType && reviewType === '1') {
+      return `/goods-detail/${postId}`
+    }
+  }
   return (
     <ReviewWrap>
       {reviewList && reviewList.length !== 0 ? (
@@ -31,7 +38,7 @@ const ReviewBoxComponent = ({
                 {data.nickname} · {formatReviewPageTime(data.createdAt)}
               </em>
               <ReviewLinkBox>
-                <Link to={'/'}>
+                <Link to={decideLink(selectedReview, data.postId)}>
                   <div>
                     <span>
                       {selectedReview === '2' && '직관후기'}

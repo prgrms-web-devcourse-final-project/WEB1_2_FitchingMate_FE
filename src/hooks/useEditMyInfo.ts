@@ -5,11 +5,11 @@ import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-const useEditMyInfo = () => {
+const useEditMyInfo = (memberId: number) => {
   const { mutate, isPending, isError, error, isSuccess } = useMutation({
     mutationFn: (formData: FormData) => userService.editMyInfo(formData),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MY_INFO, 1] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MY_INFO, memberId] })
       toast('정보 수정이 완료되었습니다.')
     },
     onSettled: (data, error) => {

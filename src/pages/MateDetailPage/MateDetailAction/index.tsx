@@ -27,7 +27,6 @@ const MateDetailAction = ({
 
   const [isChattingStarted, setIsChattingStarted] = useState(false)
 
-
   // 상태 값
   const isConditionMatched = false // 조건 일치 여부
   const isRecruitmentComplete = true // 모집 완료 여부
@@ -36,7 +35,7 @@ const MateDetailAction = ({
   const isStatusCompleted = false // 직관 완료 여부
 
   const { createChatRoom, createIsPending, createIsError, createError } =
-    useCreateMateChatRoom(postId.toString())
+    useCreateMateChatRoom(matePostData.postId.toString())
 
   /**
    * 메이트 수정 페이지 이동
@@ -45,7 +44,6 @@ const MateDetailAction = ({
    * 2. 수정상태 넘기기
    * 3. 수정 페이지 이동
    */
-
 
   // 수정 버튼 클릭 핸들러
   const handleEditClick = () => {

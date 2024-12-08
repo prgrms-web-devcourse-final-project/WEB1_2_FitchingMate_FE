@@ -94,5 +94,5 @@ export const NoGoodsList = styled.div`
   align-items: center;
   font-size: ${theme.fontSize.xlarge};
   font-weight: ${theme.fontWeight.semi};
-  font-size: ${theme.fontColor.black};
+  color: ${theme.fontColor.black};
 `
