@@ -7,6 +7,9 @@ import { QUERY_KEY } from '@apis/queryClient'
 import fetchApi from '@apis/ky'
 import { GoodsPostSummary } from '@typings/db'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { theme } from '@styles/theme'
 
 interface GoodsCardSectionProps {
   selectedTeam: number
@@ -38,7 +41,40 @@ const GoodsCardSection = ({ selectedTeam }: GoodsCardSectionProps) => {
   if (isLoading) {
     return (
       <GoodsCardContainer>
-        <p>로딩 중...</p>
+        <CardWrapper>
+          <Skeleton
+            width='100%'
+            height='16em'
+            borderRadius='0'
+            baseColor={theme.border}
+            highlightColor={theme.fontColor.navy}
+            style={{ marginBottom: '0.5rem' }}
+          />
+          <Skeleton
+            width='100%'
+            height='16em'
+            borderRadius='0'
+            baseColor={theme.border}
+            highlightColor={theme.fontColor.navy}
+            style={{ marginBottom: '0.5rem' }}
+          />
+          <Skeleton
+            width='100%'
+            height='16em'
+            borderRadius='0'
+            baseColor={theme.border}
+            highlightColor={theme.fontColor.navy}
+            style={{ marginBottom: '0.5rem' }}
+          />
+          <Skeleton
+            width='100%'
+            height='16em'
+            borderRadius='0'
+            baseColor={theme.border}
+            highlightColor={theme.fontColor.navy}
+            style={{ marginBottom: '0.5rem' }}
+          />
+        </CardWrapper>
       </GoodsCardContainer>
     )
   }

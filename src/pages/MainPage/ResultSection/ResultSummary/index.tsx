@@ -3,6 +3,9 @@ import { kboTeamList } from '@constants/kboInfo'
 import fetchApi from '@apis/ky'
 import { useQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { theme } from '@styles/theme'
 
 interface TeamRankingData {
   rank: number
@@ -35,7 +38,16 @@ const ResultSummary = ({ selectedTeam }: ResultSummaryProps) => {
     enabled: !!teamId,
   })
 
-  if (isLoading) return <div>로딩 중...</div>
+  if (isLoading) return (
+    <Skeleton
+        width='100%'
+        height='2em'
+        borderRadius='0'
+        baseColor={theme.border}
+        highlightColor={theme.fontColor.navy}
+        style={{ marginBottom: '0.5rem' }}
+      />
+  )
   if (error instanceof Error) return <div>오류: {error.message}</div>
 
   if (!data) return <div>순위 요약 데이터를 불러오지 못했습니다.</div>

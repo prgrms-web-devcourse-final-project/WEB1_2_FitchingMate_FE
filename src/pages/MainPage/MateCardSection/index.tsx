@@ -7,6 +7,9 @@ import { MateCardContainer, MoreSection } from './style'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import { MateCardData, MateCardResponse } from '@typings/db'
 import MainMateCard from '@components/MainMateCard'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { theme } from '@styles/theme'
 
 interface MateCardSectionProps {
   selectedTeam: number
@@ -30,7 +33,34 @@ const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
   const teamName = kboTeamList[selectedTeam]?.team || 'KBO'
 
   if (isLoading) {
-    return <div>로딩 중...</div>
+    return (
+      <MateCardContainer>
+        <Skeleton
+          width='100%'
+          height='9em'
+          borderRadius='0'
+          baseColor={theme.border}
+          highlightColor={theme.fontColor.navy}
+          style={{ marginBottom: '0.5rem' }}
+        />
+        <Skeleton
+          width='100%'
+          height='9em'
+          borderRadius='0'
+          baseColor={theme.border}
+          highlightColor={theme.fontColor.navy}
+          style={{ marginBottom: '0.5rem' }}
+        />
+        <Skeleton
+          width='100%'
+          height='9em'
+          borderRadius='0'
+          baseColor={theme.border}
+          highlightColor={theme.fontColor.navy}
+          style={{ marginBottom: '0.5rem' }}
+        />
+      </MateCardContainer>
+    )
   }
 
   if (mateCards.length === 0) {

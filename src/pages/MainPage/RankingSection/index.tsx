@@ -12,6 +12,9 @@ import { QUERY_KEY } from '@apis/queryClient'
 import { TeamRanking } from '@typings/db'
 import { formatTeamName } from '@utils/formatTeamName'
 import dayjs from 'dayjs'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { theme } from '@styles/theme'
 
 const fetchTeamRankings = async (): Promise<TeamRanking[]> => {
   const response = await fetchApi.get('teams/rankings').json<{
@@ -51,7 +54,18 @@ const RankingSection = () => {
   })
 
   if (isLoading) {
-    return <RankingContainer>로딩 중...</RankingContainer>
+    return (
+      <RankingContainer>
+        <Skeleton
+          width='100%'
+          height='25em'
+          borderRadius='0'
+          baseColor={theme.border}
+          highlightColor={theme.fontColor.navy}
+          style={{ marginBottom: '0.5rem' }}
+        />
+      </RankingContainer>
+    )
   }
 
   if (isError) {
