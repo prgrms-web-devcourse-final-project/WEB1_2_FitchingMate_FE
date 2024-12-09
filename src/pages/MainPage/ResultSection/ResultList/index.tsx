@@ -4,6 +4,7 @@ import {
   RivalTeam,
   ResultListTitle,
   ErrorContainer,
+  LoadingContainer
 } from './style'
 import { kboTeamInfo, kboTeamList } from '@constants/kboInfo'
 import fetchApi from '@apis/ky'
@@ -42,7 +43,9 @@ const ResultList = ({ teamKey }: ResultListProps) => {
   })
 
   if (isLoading) {
-    return <p>로딩 중...</p>
+    return (
+      <LoadingContainer></LoadingContainer>
+    )
   }
 
   if (isError || !gameResults.length) {

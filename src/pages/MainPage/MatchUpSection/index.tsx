@@ -16,6 +16,7 @@ import {
   Weather,
   MatchUpContainer,
   PaginationContainer,
+  LoadingContainer,
 } from './style'
 import { kboTeamInfo, kboTeamList } from '@constants/kboInfo'
 
@@ -45,9 +46,8 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
   })
 
   if (isLoading) {
-    return <div>로딩 중...</div>
+    return <LoadingContainer></LoadingContainer>
   }
-
   if (matches.length === 0) {
     return (
       <ErrorContainer>{`${kboTeamList[selectedTeam]?.team}의 매치업 데이터가 없습니다.`}</ErrorContainer>

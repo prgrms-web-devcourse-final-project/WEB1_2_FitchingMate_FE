@@ -5,7 +5,7 @@ const ScrollToTopButton = () => {
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth',
+      // behavior: 'smooth',
     });
     console.log('페이지 상단으로 이동');
   };

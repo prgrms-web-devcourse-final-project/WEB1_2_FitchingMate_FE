@@ -12,11 +12,18 @@ import { useInView } from 'react-intersection-observer'
 import { useTopRef } from '@hooks/useTopRef'
 import { toast, ToastContainer } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
+import { kboTeamList } from '@constants/kboInfo'
 
 const CATEGORY_LIST = ['전체', '유니폼', '모자', '의류', '잡화', '기념상품']
 
 const GoodsListPage = () => {
-  const [selectedTeam, setSelectedTeam] = useState(0)
+  const initialTeam = () => {
+    const token = localStorage.getItem('token')
+    const teamId = localStorage.getItem('teamId')
+    return token && teamId ? Number(teamId) : kboTeamList[0].id
+  }
+
+  const [selectedTeam, setSelectedTeam] = useState<number>(initialTeam)
   const [selectedCategory, setSelectedCategory] = useState('전체')
   const location = useLocation()
 

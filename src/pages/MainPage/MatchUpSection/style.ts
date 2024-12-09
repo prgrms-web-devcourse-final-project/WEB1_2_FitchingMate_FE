@@ -91,3 +91,7 @@ export const Weather = styled.div`
   font-size: ${theme.fontSize.medium};
   color: ${theme.fontColor.white};
 `;
+
+export const LoadingContainer = styled.div`
+  min-height: 11em;
+`;

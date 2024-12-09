@@ -5,6 +5,7 @@ import {
   FilterSelectOptionWrap,
   FilterWrap,
   TeamSelectWrap,
+  FilteredMateList,
 } from './style'
 
 import PillButton from '@components/PillButton'
@@ -26,9 +27,14 @@ import { useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 
 const MateListPage = () => {
-  const [selectedTeam, setSelectedTeam] = useState<number | null>(
-    kboTeamList[0].id,
-  ) // 팀 선택 상태
+  const initialTeam = () => {
+    const token = localStorage.getItem('token')
+    const teamId = localStorage.getItem('teamId')
+    return token && teamId ? Number(teamId) : kboTeamList[0].id
+  }
+
+  const [selectedTeam, setSelectedTeam] = useState<number | null>(initialTeam)
+
   const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } =
     useModal()
 
@@ -137,7 +143,7 @@ const MateListPage = () => {
           )}
         </FilterSelectOptionWrap>
       </FilterWrap>
-      <div>
+      <FilteredMateList>
         {mateList.map((mate) => (
           <MainMateCard
             key={mate.postId}
@@ -145,7 +151,7 @@ const MateListPage = () => {
           />
         ))}
         <div ref={ref} />
-      </div>
+      </FilteredMateList>
 
       <FloatButton
         path={ROUTE_PATH.MATE_POSTING}

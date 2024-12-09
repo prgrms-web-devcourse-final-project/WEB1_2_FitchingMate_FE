@@ -36,11 +36,7 @@ const GoodsCardSection = ({ selectedTeam }: GoodsCardSectionProps) => {
   const teamName = kboTeamList[selectedTeam]?.team || 'KBO'
 
   if (isLoading) {
-    return (
-      <GoodsCardContainer>
-        <p>로딩 중...</p>
-      </GoodsCardContainer>
-    )
+    return <GoodsCardContainer></GoodsCardContainer>
   }
 
   if (isError || goodsCards.length === 0) {
