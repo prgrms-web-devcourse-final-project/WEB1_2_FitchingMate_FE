@@ -9,7 +9,13 @@ import TeamSelectSection from '@components/TeamSelectSection'
 import { kboTeamList } from '@constants/kboInfo'
 
 const MainPage = () => {
-  const [selectedTeam, setSelectedTeam] = useState<number>(kboTeamList[0].id)
+  const initialTeam = () => {
+    const token = localStorage.getItem('token')
+    const teamId = localStorage.getItem('teamId')
+    return token && teamId ? Number(teamId) : kboTeamList[0].id
+  }
+
+  const [selectedTeam, setSelectedTeam] = useState<number>(initialTeam)
 
   const handleTeamSelect = (team: number) => {
     setSelectedTeam(team)

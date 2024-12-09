@@ -5,7 +5,7 @@ import {
   FilterSelectOptionWrap,
   FilterWrap,
   TeamSelectWrap,
-  FilteredMateList
+  FilteredMateList,
 } from './style'
 
 import PillButton from '@components/PillButton'
@@ -26,9 +26,14 @@ import { useInView } from 'react-intersection-observer'
 import MainMateCard from '@components/MainMateCard'
 
 const MateListPage = () => {
-  const [selectedTeam, setSelectedTeam] = useState<number | null>(
-    kboTeamList[0].id,
-  ) // 팀 선택 상태
+  const initialTeam = () => {
+    const token = localStorage.getItem('token')
+    const teamId = localStorage.getItem('teamId')
+    return token && teamId ? Number(teamId) : kboTeamList[0].id
+  }
+
+  const [selectedTeam, setSelectedTeam] = useState<number | null>(initialTeam)
+
   const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } =
     useModal()
 
