@@ -64,6 +64,13 @@ const ALERT_MESSAGE = {
     actionText: '삭제하기',
     cancelText: '취소',
   },
+  
+  UNREGISTER: {
+    title: '회원 탈퇴',
+    notice: '회원 탈퇴하시겠습니까?',
+    actionText: '탈퇴하기',
+    cancelText: '취소',
+  },
 }
 
 export type AlertMessage = keyof typeof ALERT_MESSAGE
