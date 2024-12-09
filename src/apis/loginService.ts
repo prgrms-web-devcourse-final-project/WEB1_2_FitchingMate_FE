@@ -21,6 +21,9 @@ interface LoginResponse {
   code: number
 }
 
+// const { setAge, setGender, setMemberId, setNickname, setTeamId } =
+//   useUserStore.getState()
+
 // 로그인 요청 함수
 export const loginPost = async (email: string): Promise<LoginResponseData> => {
   try {

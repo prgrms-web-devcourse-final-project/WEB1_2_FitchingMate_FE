@@ -16,7 +16,6 @@ const matePostService = {
     const response = await fetchApi
       .get<MatePostResponse>(`mates/${matePostId}`)
       .json()
-
     return response.data
   },
 
