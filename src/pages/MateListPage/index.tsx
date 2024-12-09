@@ -23,6 +23,8 @@ import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import { useInView } from 'react-intersection-observer'
 import MainMateCard from '@components/MainMateCard'
+import { useLocation } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
 
 const MateListPage = () => {
   const [selectedTeam, setSelectedTeam] = useState<number | null>(
@@ -41,6 +43,13 @@ const MateListPage = () => {
   })
   const [tempFilters, setTempFilters] = useState(selectedFilters)
 
+  const location = useLocation()
+  useEffect(() => {
+    const isPostSuccess = location.state?.isPostSuccess
+    if (isPostSuccess) {
+      toast.success('메이트 게시글 등록이 완료되었습니다.')
+    }
+  }, [location.state])
   // 필터 변경 핸들러 (임시 필터)
   const handleTempFilterChange = (filters: Partial<typeof tempFilters>) => {
     setTempFilters((prevFilters) => ({
@@ -142,6 +151,7 @@ const MateListPage = () => {
           onFilterChange={handleTempFilterChange}
         />
       </BottomModal>
+      <ToastContainer />
     </section>
   )
 }

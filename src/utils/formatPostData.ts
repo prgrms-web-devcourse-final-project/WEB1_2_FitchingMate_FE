@@ -43,8 +43,6 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
     postImageUrl,
   } = matePost
 
-  console.log(matchId)
-
   return {
     matePost: {
       teamId: getTeamIdByName(myTeamName),
@@ -109,7 +107,7 @@ export const transformMatePostToSubmitData = (
   return formData
 }
 
-export const transformGoodsDetailToSubmitData = async (
+export const transformGoodsDetailToSubmitData = (
   goods: GoodsPost,
   imageList: File[],
 ) => {
@@ -130,12 +128,22 @@ export const transformGoodsDetailToSubmitData = async (
 
   // 파일이 존재할 경우에만 추가
   if (imageList.length > 0) {
-    imageList.forEach(async (file) => {
-      if (file instanceof File) {
-        formData.append('files', file)
-      }
+    imageList.forEach((file) => {
+      formData.append('files', file)
     })
   }
 
   return formData
+}
+
+export const transformMatePostToCardData = (matePost: MatePostData) => {
+  const { postImageUrl, rivalMatchTime, ...restData } = matePost
+
+  const cardData = {
+    imageUrl: postImageUrl,
+    matchTime: rivalMatchTime,
+    ...restData,
+  }
+
+  return cardData
 }

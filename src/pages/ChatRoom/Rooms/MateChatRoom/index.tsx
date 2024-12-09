@@ -2,12 +2,13 @@ import { useModal } from '@hooks/useModal'
 
 import { EnterChatMessage, MateChatCardContainer } from '../../style'
 import { GlobalFloatAside } from '@styles/globalStyle'
-import ChatInput from '@pages/ChatRoom/ChatInput'
 import BottomModal from '@components/BottomModal'
 import Alert from '@components/Alert'
 
 import MateModalContent from './MateModalContent'
 import ALERT_MESSAGE from '@constants/alertMessage'
+
+import { transformMatePostToCardData } from '@utils/formatPostData'
 
 import { useMateChatStore } from '@store/useMateChatStore'
 import useGetMatePost from '@hooks/usegetMatePost'

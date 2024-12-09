@@ -11,22 +11,22 @@ import App from './App'
 import 'react-toastify/ReactToastify.css'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <SkeletonTheme
-          baseColor='#313131'
-          highlightColor='#525252'
-        >
-          <ToastContainer
-            position='top-center'
-            autoClose={3000}
-            closeOnClick
-          />
-          <GlobalStyle />
-          <App />
-        </SkeletonTheme>
-      </ThemeProvider>
-    </QueryClientProvider>
-  </StrictMode>,
+  // <StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={theme}>
+      <SkeletonTheme
+        baseColor='#313131'
+        highlightColor='#525252'
+      >
+        <ToastContainer
+          position='top-center'
+          autoClose={3000}
+          closeOnClick
+        />
+        <GlobalStyle />
+        <App />
+      </SkeletonTheme>
+    </ThemeProvider>
+  </QueryClientProvider>,
+  // </StrictMode>,
 )
