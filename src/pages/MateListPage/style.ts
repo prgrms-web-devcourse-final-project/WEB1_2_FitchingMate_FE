@@ -67,3 +67,7 @@ export const FilterModalLabel = styled.p`
 export const FilterButtonWrap = styled.div`
   margin-top: 0.75em;
 `
+
+export const FilteredMateList = styled.div`
+  min-height: 34em;
+`
