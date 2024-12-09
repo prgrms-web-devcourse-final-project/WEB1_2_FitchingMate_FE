@@ -10,15 +10,17 @@ const ReviewPostInfo = ({
   reviewType,
   title,
   nickname,
+  postImageUrl,
 }: {
   reviewType: string
   title: string
   nickname: string | undefined
+  postImageUrl: string
 }) => {
   return (
     <ReviewPostWrap>
       <ReviewPostImage>
-        <img src='https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS4tKSd2NValZoc5cMRlfECFB2KA2qwqLAp5oN9UEHid-yEOv-IXdGsrpqGaxqdvTjtV42R5dLOiLXiGhkdq2qHTQ' />
+        <img src={postImageUrl} />
       </ReviewPostImage>
       <ReviewPostInfoWrap>
         <ReviewPostTitle>{title}</ReviewPostTitle>

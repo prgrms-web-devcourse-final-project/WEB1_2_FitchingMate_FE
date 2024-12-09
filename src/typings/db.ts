@@ -115,6 +115,9 @@ export interface MatePostData {
   manner: number
   content: string
   postId: number
+  authorId: number
+  currentChatMembers: number
+
 }
 
 export interface MatePostResponse {
@@ -207,7 +210,7 @@ export interface GoodsChatroom {
   code: number
 }
 
-interface GoodChatMessage {
+export interface GoodsChatMessage {
   chatMessageId: number
   roomId: number
   senderId: number
@@ -228,9 +231,9 @@ export interface GoodsChatroomData {
   postStatus: string
   chatRoomStatus: string
   imageUrl: string
-
+  goodsSellerId: number
   initialMessages: {
-    content: GoodChatMessage[]
+    content: GoodsChatMessage[]
     totalPages: number
     totalElements: number
     hasNext: boolean
@@ -258,4 +261,24 @@ export interface GoodsChatParticipantResponse {
   data: GoodsChatParticipant[]
   timestamp: string
   code: number
+}
+
+export interface GoodsMessage {
+  chatMessageId: number
+  message: string
+  messageType: string
+  roomId: number
+  senderId: number
+  senderImageUrl: string
+  senderNickname: string
+  sentAt: string
+}
+
+export interface GoodsMessageResponse {
+  initialMessages: GoodsMessage[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
 }

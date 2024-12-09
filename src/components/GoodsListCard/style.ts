@@ -29,6 +29,10 @@ export const Container = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.fontColor.cwhite};
 `
 
+export const ContentWrapper = styled.div`
+  cursor: pointer;
+`
+
 export const GoodsListCardContainer = styled.div`
   width: 100%;
 

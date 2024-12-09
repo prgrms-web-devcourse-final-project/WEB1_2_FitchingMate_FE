@@ -76,3 +76,61 @@ export interface MateChatRoomDetail {
   timestamp: string
   code: number
 }
+
+export interface MateChatMember {
+  memberId: number
+  nickname: string
+  imageUrl: string
+}
+
+export interface GoodsChatMember {
+  chatRoomId: number
+  opponentNickname: string
+  lastChatContent: string
+  lastChatSentAt: string
+  placeName: string
+  goodsMainImageUrl: string
+  opponentImageUrl: string
+}
+
+export interface GoodsChatRoomInfo {
+  content: GoodsChatMember[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
+}
+
+export interface GoodsChatMessageResponse {
+  status: string
+  data: GoodsChatRoomInfo
+  timestamp: string
+  code: number
+}
+
+export interface GoodsCreateResponse {
+  status: string
+  message: null
+  data: {
+    chatRoomId: number
+    goodsPostId: number
+    teamName: string
+    title: string
+    category: string
+    price: number
+    postStatus: string
+    chatRoomStatus: string
+    imageUrl: string
+    initialMessages: {
+      content: Message[]
+      totalPages: number
+      totalElements: number
+      hasNext: boolean
+      pageNumber: number
+      pageSize: number
+    }
+  }
+  timestamp: string
+  code: number
+}

@@ -7,8 +7,6 @@ export type AlertMessageObject = {
   }
 }
 
-type AlertMessageFunction = (userName: string) => AlertMessageObject
-
 const ALERT_MESSAGE = {
   CHAT_EXIT: {
     title: '채팅방 나가기',
@@ -64,6 +62,13 @@ const ALERT_MESSAGE = {
     title: '게시글 삭제',
     notice: '게시글을 삭제하시겠습니까?',
     actionText: '삭제하기',
+    cancelText: '취소',
+  },
+  
+  UNREGISTER: {
+    title: '회원 탈퇴',
+    notice: '회원 탈퇴하시겠습니까?',
+    actionText: '탈퇴하기',
     cancelText: '취소',
   },
 }

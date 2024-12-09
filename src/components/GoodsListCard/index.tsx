@@ -4,23 +4,28 @@ import {
   GoodsListCardContainer,
   BedgeContainer,
   GoodsInfoContainer,
+  ContentWrapper,
 } from './style'
 
 import CardBedge from '@components/CardBedge'
 import { formatPriceWithComma } from '@utils/formatPrice'
 
 import Placeholder from '@components/Placeholder'
+import { useNavigate } from 'react-router-dom'
 
 interface GoodsListCardProps {
   goodsPost: Partial<GoodsDetail>
 }
 
 const GoodsListCard = ({ goodsPost }: GoodsListCardProps) => {
-  const { imageUrls, title, price, status, category, teamName } = goodsPost
+  if (!goodsPost) return null
+  const { imageUrls, title, price, status, category, teamName, id } = goodsPost
+
+  const navigate = useNavigate()
 
   return (
     <Container>
-      <div>
+      <ContentWrapper onClick={() => navigate(`/goods-detail/${id}`)}>
         {imageUrls && imageUrls.length > 0 ? (
           <img
             src={imageUrls[0]}
@@ -40,12 +45,14 @@ const GoodsListCard = ({ goodsPost }: GoodsListCardProps) => {
             </BedgeContainer>
             <GoodsInfoContainer>
               <p>{title}</p>
-              {price && <p>{formatPriceWithComma(price)}원</p>}
+              {formatPriceWithComma(price as number) === '0'
+                ? '나눔'
+                : `${formatPriceWithComma(price as number)}원`}
             </GoodsInfoContainer>
           </div>
         </GoodsListCardContainer>
-      </div>
-      {status === '거래중' && <button>후기 보내기</button>}
+      </ContentWrapper>
+      {status === '거래완료' && <button>후기 보내기</button>}
     </Container>
   )
 }

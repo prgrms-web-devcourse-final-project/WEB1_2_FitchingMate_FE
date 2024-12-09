@@ -1,6 +1,5 @@
 import ProfileBedge from '@components/ProfileBedge'
 import { UserInfo, UserListCardContainer } from './style'
-
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
 
 interface GoodsUserCardProps {
@@ -12,9 +11,10 @@ interface GoodsUserCardProps {
 }
 
 const GoodsUserCard = ({ user }: GoodsUserCardProps) => {
-  const { isOwner } = useGoodsChatStore()
-
   const { memberId, nickname, imageUrl } = user
+  const { currentSellerId } = useGoodsChatStore()
+
+  const isSeller = memberId === currentSellerId
 
   return (
     <UserListCardContainer>
@@ -26,7 +26,8 @@ const GoodsUserCard = ({ user }: GoodsUserCardProps) => {
           isChat={true}
         />
         <p>
-          {nickname} {isOwner && <span>(판매자)</span>}
+          {nickname}
+          {isSeller && <span>(판매자)</span>}
         </p>
       </UserInfo>
     </UserListCardContainer>

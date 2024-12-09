@@ -2,18 +2,25 @@ import { useMutation } from '@tanstack/react-query'
 import mateChatService from '@apis/mateChatService'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
 import goodsChatService from '@apis/goodsChatService'
+import { useNavigate } from 'react-router-dom'
 
 export const useCreateMateChatRoom = (matePostId: string) => {
+  const navigate = useNavigate()
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: () => mateChatService.createMateChat(matePostId),
 
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_CHAT_LIST] })
-    },
 
-    onSettled: (data, error) => {
-      console.log(data)
-      console.error(error)
+      if (data.status === 'SUCCESS') {
+        navigate(`/chat-room/메이트/${data.data.roomId}`, {
+          state: { postId: matePostId },
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MATE_CHATROOM, data.data.roomId],
+        })
+      }
     },
   })
 
@@ -38,6 +45,8 @@ export const useCreateGoodsChatroom = (
   buyerId: number,
   goodsPostId: string,
 ) => {
+  const navigate = useNavigate()
+
   const {
     mutate: createGoodsChatroom,
     isPending,
@@ -47,8 +56,16 @@ export const useCreateGoodsChatroom = (
     mutationFn: () =>
       goodsChatService.createGoodsChatroom(buyerId, goodsPostId),
 
-    onSettled: (data, error) => {
-      console.log(data, error)
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_CHAT_LIST] })
+
+      if (data.status === 'SUCCESS') {
+        navigate(`/chat-room/굿즈/${data.data.chatRoomId}`)
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.GOODS_CHATROOM, data.data.chatRoomId],
+        })
+      }
     },
   })
 

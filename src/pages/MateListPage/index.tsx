@@ -19,7 +19,7 @@ import { kboTeamList } from '@constants/kboInfo'
 import { getMateList } from '@apis/mateListService'
 import MateCard from '@components/MateCard'
 import { useTopRef } from '@hooks/useTopRef'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import { useInView } from 'react-intersection-observer'
 import MainMateCard from '@components/MainMateCard'
@@ -73,14 +73,13 @@ const MateListPage = () => {
 
       queryFn: ({ pageParam }) =>
         getMateList({ teamId: selectedTeam, ...selectedFilters }, pageParam),
-
       initialPageParam: 0,
 
       getNextPageParam: (lastPage: any) =>
         lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
 
+      placeholderData: keepPreviousData,
     })
-
   // 무한 스크롤 핸들러
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -128,9 +127,8 @@ const MateListPage = () => {
             card={mate}
           />
         ))}
+        <div ref={ref} />
       </div>
-
-      <div ref={ref} />
 
       <FloatButton
         path={ROUTE_PATH.MATE_POSTING}
@@ -149,5 +147,3 @@ const MateListPage = () => {
 }
 
 export default MateListPage
-
-

@@ -21,8 +21,8 @@ interface LoginResponse {
   code: number
 }
 
-const { setAge, setGender, setMemberId, setNickname, setTeamId } =
-  useUserStore.getState()
+// const { setAge, setGender, setMemberId, setNickname, setTeamId } =
+//   useUserStore.getState()
 
 // 로그인 요청 함수
 export const loginPost = async (email: string): Promise<LoginResponseData> => {
@@ -48,11 +48,11 @@ export const loginPost = async (email: string): Promise<LoginResponseData> => {
     const { age, gender, memberId, nickname, teamId } = response.data
 
     // 상태 업데이트
-    setAge(age)
-    setGender(gender)
-    setMemberId(memberId)
-    setNickname(nickname)
-    setTeamId(teamId)
+    localStorage.setItem('age', age.toString())
+    localStorage.setItem('gender', gender)
+    localStorage.setItem('memberId', memberId.toString())
+    localStorage.setItem('nickname', nickname)
+    localStorage.setItem('teamId', teamId.toString())
 
     return response.data // `data` 객체를 반환
   } catch (error) {

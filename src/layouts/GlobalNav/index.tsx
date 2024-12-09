@@ -13,12 +13,11 @@ import UserIconFill from '@assets/icon/nav_user_fill.svg?react'
 import { Link, useLocation } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import { useEffect, useState } from 'react'
-import { useUserStore } from '@store/useUserStore'
 
 const GlobalNav = () => {
   const { pathname } = useLocation()
   const [isLogin, setIsLogin] = useState<boolean>(false)
-  const { memberId } = useUserStore().userInfo
+  const memberId = localStorage.getItem('memberId')
 
   useEffect(() => {
     const token = localStorage.getItem('token')
@@ -36,32 +35,53 @@ const GlobalNav = () => {
         </NavList>
 
         <NavList>
-          <Link to={ROUTE_PATH.MATE_LIST}>
-            {pathname === ROUTE_PATH.MATE_LIST ? (
-              <FindIconFill />
-            ) : (
+          {isLogin ? (
+            <Link to={ROUTE_PATH.MATE_LIST}>
+              {pathname === ROUTE_PATH.MATE_LIST ? (
+                <FindIconFill />
+              ) : (
+                <FindIcon />
+              )}
+              <NavText>메이트 찾기</NavText>
+            </Link>
+          ) : (
+            <Link to={ROUTE_PATH.LOGIN}>
               <FindIcon />
-            )}
-            <NavText>메이트 찾기</NavText>
-          </Link>
+              <NavText>메이트 찾기</NavText>
+            </Link>
+          )}
         </NavList>
 
         <NavList>
-          <Link to={ROUTE_PATH.GOODS_LIST}>
-            {pathname === ROUTE_PATH.GOODS_LIST ? (
-              <TradeIconFill />
-            ) : (
+          {isLogin ? (
+            <Link to={ROUTE_PATH.GOODS_LIST}>
+              {pathname === ROUTE_PATH.GOODS_LIST ? (
+                <TradeIconFill />
+              ) : (
+                <TradeIcon />
+              )}
+              <NavText>굿즈거래</NavText>
+            </Link>
+          ) : (
+            <Link to={ROUTE_PATH.LOGIN}>
               <TradeIcon />
-            )}
-            <NavText>굿즈거래</NavText>
-          </Link>
+              <NavText>굿즈거래</NavText>
+            </Link>
+          )}
         </NavList>
 
         <NavList>
-          <Link to={ROUTE_PATH.CHAT}>
-            {pathname === ROUTE_PATH.CHAT ? <ChatIconFill /> : <ChatIcon />}
-            <NavText>채팅</NavText>
-          </Link>
+          {isLogin ? (
+            <Link to={ROUTE_PATH.CHAT}>
+              {pathname === ROUTE_PATH.CHAT ? <ChatIconFill /> : <ChatIcon />}
+              <NavText>채팅</NavText>
+            </Link>
+          ) : (
+            <Link to={ROUTE_PATH.LOGIN}>
+              <ChatIcon />
+              <NavText>채팅</NavText>
+            </Link>
+          )}
         </NavList>
 
         <NavList>

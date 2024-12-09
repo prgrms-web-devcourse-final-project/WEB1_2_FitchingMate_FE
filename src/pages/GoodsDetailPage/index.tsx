@@ -39,6 +39,7 @@ import KakaoMapContainer from './KakaoMapContainer'
 import GoodsHostButton from './GoodsHostButton'
 import GoodsVisitorButton from './GoodsVisitorButton'
 import { useCreateGoodsChatroom } from '@hooks/useCreateChatRoom'
+import { useUserStore } from '@store/useUserStore'
 
 const GoodsDetailPage = () => {
   const memberId = localStorage.getItem('memberId')

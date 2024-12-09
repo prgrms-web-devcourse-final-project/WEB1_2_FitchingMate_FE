@@ -2,13 +2,9 @@ import { data } from './../pages/TimelinePage/mockData'
 import fetchApi from './ky'
 
 const reviewService = {
-  postMateReview: async (
-    memberid: number,
-    postId: number,
-    jsonData: unknown,
-  ) => {
+  postMateReview: async (postId: number, jsonData: unknown) => {
     const response = await fetchApi
-      .post(`mates/${memberid + 1}/${postId}/reviews`, {
+      .post(`mates/${postId}/reviews`, {
         headers: {
           'Content-Type': 'application/json',
         },

@@ -4,7 +4,17 @@ import SockJS from 'sockjs-client'
 
 const wsUrl = import.meta.env.VITE_SOCKET_ENDPOINT
 
-export const useSocket = (chatType: string, chatRoomId: string) => {
+interface UseSocketProps {
+  chatType: string
+  chatRoomId: string
+  onListen?: (message: any) => void
+}
+
+export const useSocket = ({
+  chatType,
+  chatRoomId,
+  onListen,
+}: UseSocketProps) => {
   const socketRef = useRef<Client | null>(null)
 
   const currentChatType = chatType === '굿즈' ? 'goods' : 'mate'
@@ -15,17 +25,15 @@ export const useSocket = (chatType: string, chatRoomId: string) => {
     const client = new Client({
       webSocketFactory: () => new SockJS(wsUrl),
 
-      debug: (str: string) => console.log('STOMP Debug:', str),
-
       heartbeatIncoming: 0,
       heartbeatOutgoing: 0,
 
-      onConnect: (frame) => {
-        console.log('연결 성공:', frame)
-
+      onConnect: () => {
         // 연결 성공 후 구독 설정
         client.subscribe(subscribePoint, (message) => {
-          console.log('메시지 수신:', message.body)
+          const receivedMessage = JSON.parse(message.body)
+
+          if (onListen) onListen(receivedMessage)
         })
 
         socketRef.current = client
@@ -62,15 +70,19 @@ export const useSocket = (chatType: string, chatRoomId: string) => {
 
     const messageData = {
       roomId: chatRoomId,
-      senderId: 3, // 추후 수정되면 토큰으로 변경
+      senderId: Number(localStorage.getItem('memberId')),
       message,
       type: 'TALK',
     }
 
-    client.publish({
-      destination: publishPoint,
-      body: JSON.stringify(messageData),
-    })
+    try {
+      client.publish({
+        destination: publishPoint,
+        body: JSON.stringify(messageData),
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return { socketRef, submitChat }

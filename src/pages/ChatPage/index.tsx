@@ -12,24 +12,32 @@ import { useModal } from '@hooks/useModal'
 import useNavigateChat from '@hooks/useNavigateChat'
 import GoodsCardList from './ChatPageList/GoodsCardList'
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
-import { useGoodsChatExit } from '@hooks/useChatExit'
+import { useGoodsChatExit, useMateChatExit } from '@hooks/useChatExit'
 import MateCardList from './ChatPageList/MateCardList'
+import { useMateChatStore } from '@store/useMateChatStore'
 
-export const CHAT_TAB_LIST = ['메이트', '굿즈', '일반'] as const
+export const CHAT_TAB_LIST = ['메이트', '굿즈'] as const
 export type ChatType = (typeof CHAT_TAB_LIST)[number]
 
 const ChatPage = () => {
   const { currentTab, handleTabClick } = useNavigateChat()
   const { alertRef, handleAlertClick } = useModal()
   const { currentChatRoomId } = useGoodsChatStore()
+  const { mateChatRoomId } = useMateChatStore()
 
   // 굿즈 채팅방 나가기
   const { goodsExitMutate } = useGoodsChatExit(currentChatRoomId as string)
+  const { mateExitMutate } = useMateChatExit(mateChatRoomId as string)
 
   if (!currentTab) return null
 
   const handleExitClick = () => {
-    goodsExitMutate()
+    if (currentTab === '굿즈') {
+      goodsExitMutate()
+    }
+    if (currentTab === '메이트') {
+      mateExitMutate()
+    }
   }
 
   return (
