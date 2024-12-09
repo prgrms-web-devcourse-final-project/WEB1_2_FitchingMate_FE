@@ -3,7 +3,7 @@ import { theme } from '@styles/theme'
 
 export const RankingContainer = styled.div`
   width: 100%;
-
+  min-height: 25em;
 
   h3 {
     padding: 0.5em 1.25em;

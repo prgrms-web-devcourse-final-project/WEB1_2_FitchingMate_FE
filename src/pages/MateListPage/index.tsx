@@ -5,6 +5,7 @@ import {
   FilterSelectOptionWrap,
   FilterWrap,
   TeamSelectWrap,
+  FilteredMateList
 } from './style'
 
 import PillButton from '@components/PillButton'
@@ -120,7 +121,7 @@ const MateListPage = () => {
           )}
         </FilterSelectOptionWrap>
       </FilterWrap>
-      <div>
+      <FilteredMateList>
         {mateList.map((mate) => (
           <MainMateCard
             key={mate.postId}
@@ -128,7 +129,7 @@ const MateListPage = () => {
           />
         ))}
         <div ref={ref} />
-      </div>
+      </FilteredMateList>
 
       <FloatButton
         path={ROUTE_PATH.MATE_POSTING}

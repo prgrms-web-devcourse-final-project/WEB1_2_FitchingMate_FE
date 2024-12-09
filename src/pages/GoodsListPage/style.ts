@@ -42,7 +42,8 @@ export const GoodsCardWrap = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 30px 20px;
-
+  min-height: 34em;
+  
   & > a {
     display: block;
     width: calc(50% - 10px);

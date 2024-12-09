@@ -5,7 +5,7 @@ export const useTopRef = () => {
 
   const handleUpButtonClick = () => {
     topRef.current?.scrollIntoView({
-      behavior: 'smooth',
+      // behavior: 'smooth',
     })
   }
 

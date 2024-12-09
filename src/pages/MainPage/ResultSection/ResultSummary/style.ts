@@ -7,6 +7,7 @@ interface ResultSummaryContainerProps {
 }
 
 export const ResultSummaryContainer = styled.div<ResultSummaryContainerProps>`
+  min-height: 2em;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -35,7 +35,8 @@ const ResultSummary = ({ selectedTeam }: ResultSummaryProps) => {
     enabled: !!teamId,
   })
 
-  if (isLoading) return <div>로딩 중...</div>
+  if (isLoading)
+    return <ResultSummaryContainer $teamId={teamId}></ResultSummaryContainer>
   if (error instanceof Error) return <div>오류: {error.message}</div>
 
   if (!data) return <div>순위 요약 데이터를 불러오지 못했습니다.</div>

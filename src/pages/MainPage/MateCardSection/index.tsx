@@ -30,7 +30,7 @@ const MateCardSection = ({ selectedTeam }: MateCardSectionProps) => {
   const teamName = kboTeamList[selectedTeam]?.team || 'KBO'
 
   if (isLoading) {
-    return <div>로딩 중...</div>
+    return <MateCardContainer></MateCardContainer>
   }
 
   if (mateCards.length === 0) {

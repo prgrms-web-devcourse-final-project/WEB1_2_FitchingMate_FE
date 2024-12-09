@@ -51,7 +51,7 @@ const RankingSection = () => {
   })
 
   if (isLoading) {
-    return <RankingContainer>로딩 중...</RankingContainer>
+    return <RankingContainer></RankingContainer>
   }
 
   if (isError) {

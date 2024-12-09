@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { theme } from '@styles/theme'
 
 export const GoodsCardContainer = styled.div`
-
+  min-height: 32em;
   padding: 0 1.25em;
   border-bottom: 1px solid ${theme.fontColor.cwhite};
 
