@@ -33,7 +33,7 @@ import ALERT_MESSAGE from '@constants/alertMessage'
 import { logoutPost } from '@apis/logoutService'
 import { unregisterDelete } from '@apis/unregisterService'
 import { formatManner } from '@utils/formatManner'
-
+import { toast } from 'react-toastify'
 
 const ProfileMain = () => {
   const logoutAlertRef = useRef<HTMLDialogElement | null>(null) // 로그아웃용 ref
