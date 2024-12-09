@@ -27,7 +27,7 @@ const TeamSelectSection = ({
     const selectedRef = teamRefs.current.get(selectedTeam)
     if (selectedRef) {
       selectedRef.scrollIntoView({
-        behavior: 'smooth',
+        // behavior: 'smooth',
         block: 'nearest',
         inline: 'center',
       })
