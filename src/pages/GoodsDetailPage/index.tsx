@@ -83,7 +83,9 @@ const GoodsDetailPage = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
-      navigate(ROUTE_PATH.GOODS_LIST)
+      navigate(ROUTE_PATH.GOODS_LIST, {
+        state: { isDeleteSuccess: true },
+      })
     },
   })
 

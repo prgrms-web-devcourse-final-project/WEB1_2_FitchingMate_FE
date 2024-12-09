@@ -43,15 +43,19 @@ const MateListPage = () => {
   const [tempFilters, setTempFilters] = useState(selectedFilters)
 
   const location = useLocation()
+
   useEffect(() => {
     const isPostSuccess = location.state?.isPostSuccess
     const isEditSuccess = location.state?.isEditSuccess
-
+    const isDeleteSuccess = location.state?.isDeleteSuccess
     if (isPostSuccess) {
       toast.success('메이트 게시글 등록이 완료되었습니다.')
     }
     if (isEditSuccess) {
       toast.success('메이트 게시글 수정이 완료되었습니다.')
+    }
+    if (isDeleteSuccess) {
+      toast.success('메이트 게시글 삭제가 완료되었습니다.')
     }
   }, [location.state])
   // 필터 변경 핸들러 (임시 필터)

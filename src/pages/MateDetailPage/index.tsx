@@ -64,7 +64,9 @@ const MateDetailPage = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_POST] })
-      navigate(ROUTE_PATH.MATE_LIST)
+      navigate(ROUTE_PATH.MATE_LIST, {
+        state: { isDeleteSuccess: true },
+      })
     },
 
     onSettled: (data) => {
