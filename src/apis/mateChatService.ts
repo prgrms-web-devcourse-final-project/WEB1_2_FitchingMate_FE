@@ -34,8 +34,6 @@ const mateChatService = {
 
   //  메이트 채팅방 상세 조회
   getMateChatRoomDetail: async (chatroomId: string) => {
-    console.log(123, chatroomId)
-
     const response = await fetchApi
       .get<MateChatRoomDetail>(`mates/chat/${chatroomId}/messages?page=0`)
       .json()

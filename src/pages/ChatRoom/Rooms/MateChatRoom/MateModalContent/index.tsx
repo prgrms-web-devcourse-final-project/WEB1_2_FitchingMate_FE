@@ -25,6 +25,7 @@ const MateModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
   const {
     isOwner,
     recruitStatus,
+    currentPostStatus,
     setCurrentAlertStatus,
     setParticipants,
     setMateChatRoomId,
@@ -55,8 +56,10 @@ const MateModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
    * 추후 로그인 기능 추가 시 변경 필요
    */
   const cuurentMemberList = members
-    .map((member) => member.memberId)
-    .filter((memberId) => memberId !== Number(localStorage.getItem('memberId')))
+    .map((member: any) => member.memberId)
+    .filter(
+      (memberId: any) => memberId !== Number(localStorage.getItem('memberId')),
+    )
 
   /**
    * 각 버튼 클릭 시 현재 알럿창 상태 변경
@@ -66,6 +69,7 @@ const MateModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
     switch (recruitStatus) {
       case '모집완료':
         setCurrentAlertStatus({ type: 'MATE_COMPLETE' })
+        setParticipants(cuurentMemberList)
         break
 
       case '모집중':
@@ -88,24 +92,23 @@ const MateModalContent = ({ handleAlertClick }: ChatBottomModalProps) => {
       <Section>
         <h2>대화상대</h2>
         <div>
-          {members.map((member) => (
+          {members.map((member: any) => (
             <MateUserCard
               key={member.memberId}
               member={member}
-              handleAlertClick={handleAlertClick}
             />
           ))}
         </div>
       </Section>
 
-      <SubmitButtonContainer $isOwner={isOwner}>
+      <SubmitButtonContainer
+        $isOwner={isOwner}
+        $isRecruitStatus={currentPostStatus === recruitStatus}
+      >
         <button onClick={handleExitChatClick}>채팅방 나가기</button>
-        <button
-          disabled={!isOwner}
-          onClick={handleCompleteClick}
-        >
-          {recruitStatus}
-        </button>
+        {currentPostStatus !== recruitStatus && (
+          <button onClick={handleCompleteClick}>{recruitStatus}</button>
+        )}
       </SubmitButtonContainer>
     </ChatBottomModalContainer>
   )

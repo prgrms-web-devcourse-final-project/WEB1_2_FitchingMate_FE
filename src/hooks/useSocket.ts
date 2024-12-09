@@ -25,14 +25,10 @@ export const useSocket = ({
     const client = new Client({
       webSocketFactory: () => new SockJS(wsUrl),
 
-      debug: (str: string) => console.log('STOMP Debug:', str),
-
       heartbeatIncoming: 0,
       heartbeatOutgoing: 0,
 
-      onConnect: (frame) => {
-        console.log('연결 성공:', frame)
-
+      onConnect: () => {
         // 연결 성공 후 구독 설정
         client.subscribe(subscribePoint, (message) => {
           const receivedMessage = JSON.parse(message.body)

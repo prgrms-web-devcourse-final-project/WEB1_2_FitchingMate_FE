@@ -1,10 +1,6 @@
 import { useModal } from '@hooks/useModal'
 
-import {
-  ChatCardContainer,
-  EnterChatMessage,
-  MateChatCardContainer,
-} from '../../style'
+import { EnterChatMessage, MateChatCardContainer } from '../../style'
 import { GlobalFloatAside } from '@styles/globalStyle'
 import ChatInput from '@pages/ChatRoom/ChatInput'
 import BottomModal from '@components/BottomModal'
@@ -19,14 +15,21 @@ import { transformMatePostToCardData } from '@utils/formatPostData'
 import { useLocation, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import mateChatService from '@apis/mateChatService'
-import { QUERY_KEY } from '@apis/queryClient'
+import queryClient, { QUERY_KEY } from '@apis/queryClient'
 import { useSocket } from '@hooks/useSocket'
 import { formatChatContent } from '@utils/formatChatContent'
 import MateChatCard from '@pages/ChatRoom/ChatCard/MateChatCard'
 import MainMateCard from '@components/MainMateCard'
 import { useEffect, useRef, useState } from 'react'
 import { RecruitStatus } from './RecruitStatusSection'
-import { useCompleteMate, useCompleteMatePost } from '@hooks/useCompleteMate'
+import {
+  useChangeMateRecruitStatus,
+  useCompleteMatePost,
+} from '@hooks/useCompleteMate'
+import { createBrowserHistory } from 'history'
+import { ToastContainer } from 'react-toastify'
+import useExitGoodsChat from '@hooks/useGoodsChat'
+import { useMateChatExit } from '@hooks/useChatExit'
 
 export interface MateChatMessage {
   message: string
@@ -51,14 +54,21 @@ const MateChatRoom = () => {
     recruitStatus,
     participants,
     confirmedParticipants,
+    setCurrentPostStatus,
+    setIsOwner,
   } = useMateChatStore()
 
   const {
     state: { postId },
   } = useLocation()
   // 모달 관리
-  const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
-    useModal()
+  const {
+    bottomModalRef,
+    alertRef,
+    handleOpenBottomModal,
+    handleCloseBottomModal,
+    handleAlertClick,
+  } = useModal()
 
   const { id: chatRoomId, type: chatType } = useParams()
 
@@ -83,7 +93,7 @@ const MateChatRoom = () => {
     isMateRecruitStatusPending,
     isMateRecruitStatusError,
     mateRecruitStatusError,
-  } = useCompleteMate()
+  } = useChangeMateRecruitStatus()
 
   // 직관완료 요청
   const {
@@ -92,6 +102,10 @@ const MateChatRoom = () => {
     isCompleteMatePostError,
     completeMatePostError,
   } = useCompleteMatePost(postId as string)
+
+  const IS_CHAT_ROOM = true
+
+  const { mateExitMutate } = useMateChatExit(chatRoomId as string, IS_CHAT_ROOM)
 
   /**
    * 소켓 연동
@@ -148,9 +162,34 @@ const MateChatRoom = () => {
   // 메이트 게시글 상태 업데이트
   useEffect(() => {
     if (matePost) {
+      const currentMemberNickname = localStorage.getItem('nickname')
+
       setRecruitStatus(matePost.status as RecruitStatus)
+      setCurrentPostStatus(matePost.status as '모집중' | '모집완료' | '완료')
+      setIsOwner(matePost.nickname === currentMemberNickname)
     }
   }, [matePost])
+
+  /**
+   * 뒤로가기 이벤트 처리
+   *
+   * 사용자가 뒤로가기 버튼을 눌렀을 때 채팅방 데이터를 초기화
+   */
+  const history = createBrowserHistory()
+
+  useEffect(() => {
+    history.listen((location) => {
+      if (location.action === 'POP' || location.action === 'PUSH') {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MATE_CHATROOM, chatRoomId],
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.MATE_CHAT_LIST],
+        })
+      }
+    })
+  }, [chatRoomId])
 
   if (!messageList) return null
 
@@ -193,10 +232,14 @@ const MateChatRoom = () => {
     ) {
       handleChangeMateRecruitStatus()
     }
-
     if (currentAlertStatus.type === 'GAME_COMPLETE') {
       handleCompleteMatePost()
     }
+
+    if (currentAlertStatus.type === 'CHAT_EXIT') {
+      mateExitMutate()
+    }
+    handleCloseBottomModal()
   }
 
   return (
@@ -234,6 +277,7 @@ const MateChatRoom = () => {
         {...currentAlertMessage()}
         handleAlertClick={handleAlertAction}
       />
+      <ToastContainer />
     </>
   )
 }
