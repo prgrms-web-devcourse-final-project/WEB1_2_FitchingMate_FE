@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 import {
   Button,
   ButtonContainer,
@@ -29,6 +30,9 @@ const ProgressSection = ({
 }: ProgressSectionProps) => {
   const handleClick = isFinalTab ? handleSubmit : handleNext
 
+  const { pathname } = useLocation()
+
+  const lastTabButtonText = pathname.includes('edit') ? '수정하기' : '등록하기'
   return (
     <div>
       {/* 직관 모임 등록 프로세스 영역 */}
@@ -53,7 +57,7 @@ const ProgressSection = ({
           disabled={isDisabled}
           $isDisabled={isDisabled}
         >
-          {isFinalTab ? '상품 등록하기' : '다음'}
+          {isFinalTab ? lastTabButtonText : '다음'}
         </Button>
       </ButtonContainer>
     </div>

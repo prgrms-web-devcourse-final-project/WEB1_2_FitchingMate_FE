@@ -5,7 +5,8 @@ import { QUERY_KEY } from '@apis/queryClient'
 const useGetMatePost = (matePostId: number) => {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: [QUERY_KEY.MATE_POST, matePostId],
-    queryFn: () => matePostService.getMatePost(matePostId),
+    queryFn: () => matePostService.getMatePost(matePostId.toString()),
+
     enabled: !!matePostId,
   })
 

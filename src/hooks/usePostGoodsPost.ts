@@ -3,6 +3,7 @@ import goodsPostService from '@apis/goodsPostService'
 import { useNavigate } from 'react-router-dom'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import queryClient, { QUERY_KEY } from '@apis/queryClient'
+import { toast } from 'react-toastify'
 
 /**
  * 굿즈 게시글 등록 및 수정 요청 훅
@@ -23,7 +24,10 @@ const usePostGoodsPost = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
-      navigate(ROUTE_PATH.GOODS_LIST)
+
+      navigate(ROUTE_PATH.GOODS_LIST, {
+        state: { isPostSuccess: true },
+      })
     },
 
     onSettled: (data, error) => {

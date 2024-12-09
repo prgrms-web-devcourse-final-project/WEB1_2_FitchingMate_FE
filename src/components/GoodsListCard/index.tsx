@@ -12,7 +12,6 @@ import { formatPriceWithComma } from '@utils/formatPrice'
 
 import Placeholder from '@components/Placeholder'
 import { useNavigate } from 'react-router-dom'
-
 interface GoodsListCardProps {
   goodsPost: Partial<GoodsDetail>
 }

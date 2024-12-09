@@ -20,8 +20,8 @@ const ImageCard = ({
   onDragEnd,
 }: ImageCardProps) => {
   if (image === null) return
-
-  const formatImage = URL.createObjectURL(image)
+  console.log(image)
+  const formatImage = image instanceof File ? URL.createObjectURL(image) : image
 
   return (
     <ImageCardContainer>

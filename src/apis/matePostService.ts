@@ -25,22 +25,16 @@ const matePostService = {
     return response.data
   },
 
-  editMatePost: async (
-    memberId: number,
-    matePostId: number,
-    formData: FormData,
-  ) => {
+  editMatePost: async (matePostId: number, formData: FormData) => {
     const response = await fetchApi
-      .patch(`mates/${memberId}/${matePostId}`, { body: formData })
+      .put(`mates/${matePostId}`, { body: formData })
       .json()
 
     return response
   },
 
-  deleteMatePost: async (memberId: number, matePostId: string) => {
-    const response = await fetchApi
-      .delete(`mates/${memberId}/${matePostId}`)
-      .json()
+  deleteMatePost: async (matePostId: string) => {
+    const response = await fetchApi.delete(`mates/${matePostId}`).json()
 
     return response
   },
@@ -62,12 +56,11 @@ const matePostService = {
    */
 
   completeRecruitmentMatePost: async (
-    memberId: number,
     matePostId: number,
     data: { status: string; participantIds: number[] },
   ) => {
     const response = await fetchApi
-      .patch(`mates/${memberId}/${matePostId}/status`, {
+      .patch(`mates/${matePostId}/status`, {
         json: data,
       })
       .json()
@@ -89,12 +82,11 @@ const matePostService = {
    */
 
   completeMatePost: async (
-    memberId: number,
     matePostId: number,
     data: { participantIds: number[] },
   ) => {
     const response = await fetchApi
-      .patch(`mates/${memberId}/${matePostId}/complete`, {
+      .patch(`mates/${matePostId}/complete`, {
         json: data,
       })
       .json()

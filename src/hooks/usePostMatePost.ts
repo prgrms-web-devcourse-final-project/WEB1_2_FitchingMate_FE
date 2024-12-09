@@ -14,7 +14,9 @@ const usePostMatePost = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_LIST] })
 
-      navigate(ROUTE_PATH.MATE_LIST)
+      navigate(ROUTE_PATH.MATE_LIST, {
+        state: { isPostSuccess: true },
+      })
     },
 
     onSettled: (data, error) => {

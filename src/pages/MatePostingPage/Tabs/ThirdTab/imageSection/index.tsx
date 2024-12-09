@@ -11,10 +11,13 @@ const ImageSection = () => {
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
+
     if (file) {
       setImg(file)
     }
   }
+
+  const formatImage = img instanceof File ? URL.createObjectURL(img) : img
 
   const handleDeleteImage = () => {
     setImg(null)
@@ -30,10 +33,10 @@ const ImageSection = () => {
           onChangeImage={handleImageChange}
         />
 
-        {img && (
+        {formatImage && (
           <ImageCardContainer>
             <img
-              src={URL.createObjectURL(img)}
+              src={formatImage}
               alt='선택된 이미지'
             />
             <button onClick={handleDeleteImage}>X</button>

@@ -20,6 +20,16 @@ export const getTeamIdByName = (teamName: string): number => {
   return 0
 }
 
+export const findWeekNumberByMatchId = (
+  data: any[],
+  targetMatchId: number,
+): number => {
+  const week = data.find((week) =>
+    week.matches.some((match: any) => match.id === targetMatchId),
+  )
+  return week ? week.weekNumber : -1
+}
+
 export const transformMatePostToFormData = (matePost: MatePostData) => {
   const {
     matchId,
@@ -33,12 +43,9 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
     postImageUrl,
   } = matePost
 
-  console.log(matchId)
-
   return {
     matePost: {
       teamId: getTeamIdByName(myTeamName),
-      memberId: Number(localStorage.getItem('memberId')) || 1,
       title,
       content,
       age,
@@ -48,9 +55,7 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
       matchId,
     },
 
-    selectedWeek: 2,
-
-    img: new File([], postImageUrl),
+    img: postImageUrl,
   }
 }
 
@@ -67,7 +72,7 @@ export const transformGoodsDetailToFormData = (goodsDetail: GoodsDetail) => {
       price: formatPriceWithComma(price),
       location,
     },
-    imageList: imageUrls.map((imageUrl) => new File([], imageUrl)),
+    imageList: imageUrls,
   }
 }
 

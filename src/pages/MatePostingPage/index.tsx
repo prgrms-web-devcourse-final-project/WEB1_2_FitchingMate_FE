@@ -13,7 +13,11 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import usePostMatePost from '@hooks/usePostMatePost'
 import useEditMatePost from '@hooks/useEditMatePost'
-import { transformMatePostToSubmitData } from '@utils/formatPostData'
+import {
+  transformMatePostToFormData,
+  transformMatePostToSubmitData,
+} from '@utils/formatPostData'
+import useGetMatePost from '@hooks/usegetMatePost'
 
 /**
  * 메이트 구인글 작성 시 필요한 탭정보
@@ -47,7 +51,14 @@ type CategoryList =
 
 const MatePostingPage = () => {
   // 폼 상태 관리
-  const { matePost, img, setInitialState } = useMateFormStore()
+  const {
+    matePost,
+    img,
+    setInitialState,
+    setMateFormData,
+    setSelectedWeek,
+    setImg,
+  } = useMateFormStore()
 
   /**
    * 메이트 게시글 생성 및 수정
@@ -64,6 +75,8 @@ const MatePostingPage = () => {
   const { state } = useLocation()
   const matePostId = state?.postId
 
+  const { matePost: post } = useGetMatePost(matePostId)
+
   const { mutatePost, isPostPending, isPostError, postError } =
     usePostMatePost()
 
@@ -72,6 +85,15 @@ const MatePostingPage = () => {
       memberId: Number(localStorage.getItem('memberId')),
       matePostId,
     })
+
+  useEffect(() => {
+    if (post) {
+      const { matePost, img } = transformMatePostToFormData(post)
+
+      setMateFormData(matePost)
+      setImg(img as unknown as File)
+    }
+  }, [post])
 
   // 초기 상태 초기화
   useEffect(() => {

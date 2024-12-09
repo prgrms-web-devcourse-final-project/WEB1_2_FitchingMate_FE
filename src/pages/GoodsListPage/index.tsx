@@ -10,6 +10,8 @@ import { QUERY_KEY } from '@apis/queryClient'
 import PillButton from '@components/PillButton'
 import { useInView } from 'react-intersection-observer'
 import { useTopRef } from '@hooks/useTopRef'
+import { toast, ToastContainer } from 'react-toastify'
+import { useLocation } from 'react-router-dom'
 import { kboTeamList } from '@constants/kboInfo'
 
 const CATEGORY_LIST = ['전체', '유니폼', '모자', '의류', '잡화', '기념상품']
@@ -23,6 +25,23 @@ const GoodsListPage = () => {
 
   const [selectedTeam, setSelectedTeam] = useState<number>(initialTeam)
   const [selectedCategory, setSelectedCategory] = useState('전체')
+  const location = useLocation()
+
+  useEffect(() => {
+    const isPostSuccess = location.state?.isPostSuccess
+    const isEditSuccess = location.state?.isEditSuccess
+    const isDeleteSuccess = location.state?.isDeleteSuccess
+    if (isPostSuccess) {
+      toast.success('굿즈 게시글 등록이 완료되었습니다.')
+    }
+
+    if (isEditSuccess) {
+      toast.success('굿즈 게시글 수정이 완료되었습니다.')
+    }
+    if (isDeleteSuccess) {
+      toast.success('굿즈 게시글 삭제가 완료되었습니다.')
+    }
+  }, [location.state])
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
@@ -36,7 +55,7 @@ const GoodsListPage = () => {
       getNextPageParam: (lastPage) =>
         lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
 
-      placeholderData: keepPreviousData, 
+      placeholderData: keepPreviousData,
     })
 
   const { ref, inView } = useInView()
@@ -87,6 +106,7 @@ const GoodsListPage = () => {
         path={ROUTE_PATH.GOODS_POSTING}
         handleUpButtonClick={handleUpButtonClick}
       />
+      <ToastContainer position='top-center' />
     </section>
   )
 }

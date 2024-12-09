@@ -45,7 +45,6 @@ const MateDetailAction = ({
       return false // 나이가 10살 미만이거나 숫자가 아니면 false
     }
 
-
     // 나이를 범위로 변환
     let userAgeGroup: string
     if (ageAsNumber < 10) {
@@ -74,7 +73,7 @@ const MateDetailAction = ({
 
     return isGenderMatched && isAgeMatched
   })()
-  
+
   const totalParticipants = matePostData.currentChatMembers // 참여자 수
 
   const { createChatRoom, createIsPending, createIsError, createError } =
@@ -90,12 +89,12 @@ const MateDetailAction = ({
 
   // 수정 버튼 클릭 핸들러
   const handleEditClick = () => {
-    const { matePost, selectedWeek, img } =
-      transformMatePostToFormData(matePostData)
+    // const { matePost, selectedWeek, img } =
+    //   transformMatePostToFormData(matePostData)
 
-    setMateFormData(matePost)
-    setSelectedWeek(selectedWeek as number)
-    setImg(img)
+    // setMateFormData(matePost)
+    // setSelectedWeek(selectedWeek as number)
+    // setImg(img)
 
     navigate(`/mate-detail/${matePostData.postId}/edit`, {
       state: { isEdit: true, postId: matePostData.postId },

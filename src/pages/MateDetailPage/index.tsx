@@ -43,7 +43,6 @@ const MateDetailPage = () => {
     enabled: !!matePostId,
   })
 
-  console.log(matePost)
   /**
    * 메이트 게시글 삭제
    * @params memberId 회원 id
@@ -61,11 +60,13 @@ const MateDetailPage = () => {
     isError: isDeleteError,
     error: deleteError,
   } = useMutation({
-    mutationFn: () => matePostService.deleteMatePost(1, matePostId as string),
+    mutationFn: () => matePostService.deleteMatePost(matePostId as string),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.MATE_POST] })
-      navigate(ROUTE_PATH.MATE_LIST)
+      navigate(ROUTE_PATH.MATE_LIST, {
+        state: { isDeleteSuccess: true },
+      })
     },
 
     onSettled: (data) => {

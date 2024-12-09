@@ -2,7 +2,6 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import {
   GoodsBedgeWrap,
-  GoodsBottomButton,
   GoodsBottomButtonWrap,
   GoodsBottomWrap,
   GoodsDetailMapInner,
@@ -22,7 +21,6 @@ import 'swiper/css/pagination'
 import UserInfoList from '@components/UserInfoList'
 import CardBedge from '@components/CardBedge'
 import { GlobalFloatAside } from '@styles/globalStyle'
-import { useEffect, useState } from 'react'
 
 import SubHeader from '@layouts/SubHeader'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -37,7 +35,6 @@ import { useGoodsFormStore } from '@store/useGoodsFormStore'
 import Alert from '@components/Alert'
 import ALERT_MESSAGE from '@constants/alertMessage'
 import { useModal } from '@hooks/useModal'
-import goodsChatService from '@apis/goodsChatService'
 import KakaoMapContainer from './KakaoMapContainer'
 import GoodsHostButton from './GoodsHostButton'
 import GoodsVisitorButton from './GoodsVisitorButton'
@@ -86,7 +83,9 @@ const GoodsDetailPage = () => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
-      navigate(ROUTE_PATH.GOODS_LIST)
+      navigate(ROUTE_PATH.GOODS_LIST, {
+        state: { isDeleteSuccess: true },
+      })
     },
   })
 
@@ -125,7 +124,7 @@ const GoodsDetailPage = () => {
     const { goods, imageList } = formattedData
 
     setGoods(goods)
-    setImageList(imageList)
+    setImageList(imageList as unknown as File[])
 
     navigate(`${pathname}/edit`, {
       state: { isEdit: true, goodsPostId: data.id },

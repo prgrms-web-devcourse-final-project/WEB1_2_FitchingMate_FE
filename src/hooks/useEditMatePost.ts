@@ -14,22 +14,28 @@ import { ROUTE_PATH } from '@constants/ROUTE_PATH'
  */
 
 interface UseEditMatePostProps {
-  memberId: number
   matePostId: number
 }
 
-const useEditMatePost = ({ memberId, matePostId }: UseEditMatePostProps) => {
+const useEditMatePost = ({ matePostId }: UseEditMatePostProps) => {
   const navigate = useNavigate()
 
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: async (formData: FormData) =>
-      matePostService.editMatePost(memberId, matePostId, formData),
+      matePostService.editMatePost(matePostId, formData),
 
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEY.MATE_POST, matePostId],
       })
-      navigate(ROUTE_PATH.MATE_LIST)
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.MATE_LIST],
+      })
+
+      navigate(ROUTE_PATH.MATE_LIST, {
+        state: { isEditSuccess: true },
+      })
     },
 
     onSettled: (data, error) => {
