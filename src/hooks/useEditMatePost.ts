@@ -33,7 +33,9 @@ const useEditMatePost = ({ matePostId }: UseEditMatePostProps) => {
         queryKey: [QUERY_KEY.MATE_LIST],
       })
 
-      navigate(ROUTE_PATH.MATE_LIST)
+      navigate(ROUTE_PATH.MATE_LIST, {
+        state: { isEditSuccess: true },
+      })
     },
 
     onSettled: (data, error) => {

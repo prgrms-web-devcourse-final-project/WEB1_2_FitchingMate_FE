@@ -22,8 +22,14 @@ const GoodsListPage = () => {
 
   useEffect(() => {
     const isPostSuccess = location.state?.isPostSuccess
+    const isEditSuccess = location.state?.isEditSuccess
+
     if (isPostSuccess) {
       toast.success('굿즈 게시글 등록이 완료되었습니다.')
+    }
+
+    if (isEditSuccess) {
+      toast.success('굿즈 게시글 수정이 완료되었습니다.')
     }
   }, [location.state])
 
@@ -90,7 +96,7 @@ const GoodsListPage = () => {
         path={ROUTE_PATH.GOODS_POSTING}
         handleUpButtonClick={handleUpButtonClick}
       />
-      <ToastContainer />
+      <ToastContainer position='top-center' />
     </section>
   )
 }

@@ -22,7 +22,9 @@ const useEditGoodsPost = ({ goodsPostId }: UseEditGoodsPostProps) => {
         queryKey: [QUERY_KEY.GOODS_POST, goodsPostId.toString()],
       })
 
-      navigate(ROUTE_PATH.GOODS_LIST)
+      navigate(ROUTE_PATH.GOODS_LIST, {
+        state: { isEditSuccess: true },
+      })
     },
 
     onSettled: (data, error) => {

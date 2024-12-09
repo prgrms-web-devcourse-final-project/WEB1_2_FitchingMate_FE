@@ -278,7 +278,7 @@ const MateChatRoom = () => {
         {...currentAlertMessage()}
         handleAlertClick={handleAlertAction}
       />
-      <ToastContainer />
+      <ToastContainer position='top-center' />
     </>
   )
 }

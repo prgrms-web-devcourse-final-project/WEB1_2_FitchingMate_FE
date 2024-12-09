@@ -254,7 +254,7 @@ const GoodsChatRoom = () => {
         {...currentAlertMessage()}
         handleAlertClick={alertHandler}
       />
-      <ToastContainer />
+      <ToastContainer position='top-center' />
     </>
   )
 }

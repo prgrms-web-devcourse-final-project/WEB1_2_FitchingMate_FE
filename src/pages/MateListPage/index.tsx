@@ -17,7 +17,6 @@ import { useModal } from '@hooks/useModal'
 import { kboTeamList } from '@constants/kboInfo'
 
 import { getMateList } from '@apis/mateListService'
-import MateCard from '@components/MateCard'
 import { useTopRef } from '@hooks/useTopRef'
 import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
@@ -46,8 +45,13 @@ const MateListPage = () => {
   const location = useLocation()
   useEffect(() => {
     const isPostSuccess = location.state?.isPostSuccess
+    const isEditSuccess = location.state?.isEditSuccess
+
     if (isPostSuccess) {
       toast.success('메이트 게시글 등록이 완료되었습니다.')
+    }
+    if (isEditSuccess) {
+      toast.success('메이트 게시글 수정이 완료되었습니다.')
     }
   }, [location.state])
   // 필터 변경 핸들러 (임시 필터)
@@ -151,7 +155,7 @@ const MateListPage = () => {
           onFilterChange={handleTempFilterChange}
         />
       </BottomModal>
-      <ToastContainer />
+      <ToastContainer position='top-center' />
     </section>
   )
 }
