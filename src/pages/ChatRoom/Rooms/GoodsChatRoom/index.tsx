@@ -1,6 +1,5 @@
 import { GlobalFloatAside } from '@styles/globalStyle'
 
-import ChatInput from '../../ChatInput'
 import GoodsListCard from '@components/GoodsListCard'
 import BottomModal from '@components/BottomModal'
 import Alert from '@components/Alert'
@@ -13,7 +12,7 @@ import ALERT_MESSAGE from '@constants/alertMessage'
 
 import goodsChatService from '@apis/goodsChatService'
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { QUERY_KEY } from '@apis/queryClient'
+import queryClient, { QUERY_KEY } from '@apis/queryClient'
 import { formatChatContent } from '@utils/formatChatContent'
 import { useGoodsChatExit } from '@hooks/useChatExit'
 import { useParams } from 'react-router-dom'
@@ -21,6 +20,11 @@ import { useSocket } from '@hooks/useSocket'
 import GoodsChatCard from '@pages/ChatRoom/ChatCard/GoodsChatCard'
 import { useEffect, useRef, useState } from 'react'
 import { GoodsChatMessage } from '@typings/db'
+import { createBrowserHistory } from 'history'
+import { useCompleteGoodsPost } from '@hooks/useCompletePost'
+import { ToastContainer } from 'react-toastify'
+import GoodsChatInput from './GoodsChatInput'
+import useGetGoodsPost from '@hooks/usegetGoodsPost'
 
 const GoodsChatRoom = () => {
   const [currentMessageList, setCurrentMessageList] = useState<
@@ -32,7 +36,13 @@ const GoodsChatRoom = () => {
   const { bottomModalRef, alertRef, handleOpenBottomModal, handleAlertClick } =
     useModal()
 
-  const { goodsAlertStatus } = useGoodsChatStore()
+  const {
+    goodsAlertStatus,
+    currentPostId,
+    currentBuyerId,
+    setCurrentPostId,
+    setCurrentSellerId,
+  } = useGoodsChatStore()
 
   const { type: chatType, id: chatRoomId } = useParams()
 
@@ -58,24 +68,31 @@ const GoodsChatRoom = () => {
     enabled: fetchMore,
   })
 
-  useEffect(() => {
-    if (goodsChatData) {
-      console.log('goodsChatData', goodsChatData)
-    }
-  }, [goodsChatData])
-
   /**
    * 채팅방 나가기
    * 채팅방 나가기 버튼 클릭 시 호출
    * 채팅방 나가기 성공 시 쿼리 데이터 갱신
    */
 
+  const IS_CHAT_ROOM = true
+
   const {
     goodsExitMutate,
     isGoodsExitPending,
     isGoodsExitError,
     goodsExitError,
-  } = useGoodsChatExit(chatRoomId as string)
+  } = useGoodsChatExit(chatRoomId as string, IS_CHAT_ROOM)
+
+  const {
+    completeGoodsPost,
+    isCompleteGoodsPostPending,
+    isCompleteGoodsPostError,
+    completeGoodsPostError,
+  } = useCompleteGoodsPost(
+    currentPostId as number,
+    currentBuyerId as number,
+    chatRoomId as string,
+  )
 
   /**
    * 소켓 연결 훅
@@ -124,13 +141,47 @@ const GoodsChatRoom = () => {
 
   useEffect(() => {
     if (data) {
-      setCurrentMessageList(data.initialMessages.content)
+      const { goodsSellerId, goodsPostId, initialMessages } = data
+
+      setCurrentPostId(goodsPostId)
+      setCurrentSellerId(goodsSellerId)
+      setCurrentMessageList(initialMessages.content)
     }
   }, [data])
 
+  /**
+   * 뒤로가기 이벤트 처리
+   *
+   * 사용자가 뒤로가기 버튼을 눌렀을 때 채팅방 데이터를 초기화
+   */
+  const history = createBrowserHistory()
+
+  useEffect(() => {
+    history.listen((location) => {
+      if (location.action === 'POP' || location.action === 'PUSH') {
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.GOODS_CHATROOM, chatRoomId],
+        })
+
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEY.GOODS_CHAT_LIST],
+        })
+      }
+    })
+  }, [chatRoomId])
+
   if (!data || !chatRoomId || !submitChat) return null
 
-  const { imageUrl, title, price, postStatus, category, teamName } = data
+  const {
+    imageUrl,
+    title,
+    price,
+    postStatus,
+    category,
+    teamName,
+    chatRoomStatus,
+    goodsPostId,
+  } = data
 
   const formatData = {
     imageUrls: [imageUrl],
@@ -139,6 +190,7 @@ const GoodsChatRoom = () => {
     status: postStatus,
     category,
     teamName,
+    id: goodsPostId,
   }
 
   const currentAlertMessage = () => {
@@ -150,6 +202,16 @@ const GoodsChatRoom = () => {
     }
 
     return message
+  }
+
+  const alertHandler = () => {
+    if (goodsAlertStatus.type === 'CHAT_EXIT') {
+      goodsExitMutate()
+    }
+
+    if (goodsAlertStatus.type === 'DEAL_COMPLETE') {
+      completeGoodsPost()
+    }
   }
 
   return (
@@ -172,9 +234,11 @@ const GoodsChatRoom = () => {
       </ChatCardContainer>
 
       <GlobalFloatAside>
-        <ChatInput
+        <GoodsChatInput
           handleOpenBottomModal={handleOpenBottomModal}
           submitChat={submitChat}
+          postStatus={postStatus}
+          chatRoomStatus={chatRoomStatus}
         />
       </GlobalFloatAside>
 
@@ -188,8 +252,9 @@ const GoodsChatRoom = () => {
       <Alert
         ref={alertRef}
         {...currentAlertMessage()}
-        handleAlertClick={goodsExitMutate}
+        handleAlertClick={alertHandler}
       />
+      <ToastContainer />
     </>
   )
 }

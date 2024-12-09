@@ -231,7 +231,7 @@ export interface GoodsChatroomData {
   postStatus: string
   chatRoomStatus: string
   imageUrl: string
-
+  goodsSellerId: number
   initialMessages: {
     content: GoodsChatMessage[]
     totalPages: number

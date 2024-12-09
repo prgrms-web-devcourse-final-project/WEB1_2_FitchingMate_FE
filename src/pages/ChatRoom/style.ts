@@ -123,8 +123,8 @@ export const SubmitButtonContainer = styled.div<{
       !$isOwner &&
       css`
         width: 100%;
-        background-color: ${({ theme }) => theme.fontColor.navy};
-        color: ${({ theme }) => theme.fontColor.cwhite};
+        color: ${({ theme }) => theme.fontColor.navy};
+        background-color: ${({ theme }) => theme.fontColor.cwhite};
       `}
   }
 
@@ -139,6 +139,40 @@ export const SubmitButtonContainer = styled.div<{
         background-color: ${({ theme }) => theme.fontColor.cwhite};
         color: ${({ theme }) => theme.fontColor.navy};
       `}
+  }
+`
+
+export const GoodsSubmitButtonContainer = styled.div<{
+  $isOwner?: boolean
+}>`
+  display: flex;
+  justify-content: space-between;
+
+  & > button {
+    width: 48%;
+    padding: 0.8em 0;
+    border-radius: 10px;
+    font-size: ${({ theme }) => theme.fontSize.large};
+    font-weight: ${({ theme }) => theme.fontWeight.semi};
+  }
+
+  & > button:first-child {
+    ${({ $isOwner, theme }) =>
+      !$isOwner
+        ? css`
+            width: 100%;
+            color: ${theme.fontColor.navy};
+            background-color: ${theme.fontColor.cwhite};
+          `
+        : css`
+            background-color: ${theme.fontColor.cwhite};
+            color: ${theme.fontColor.navy};
+          `}
+  }
+
+  & > button:last-child {
+    background-color: ${({ theme }) => theme.fontColor.navy};
+    color: ${({ theme }) => theme.fontColor.cwhite};
   }
 `
 

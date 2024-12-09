@@ -28,8 +28,8 @@ import {
 } from '@hooks/useCompleteMate'
 import { createBrowserHistory } from 'history'
 import { ToastContainer } from 'react-toastify'
-import useExitGoodsChat from '@hooks/useGoodsChat'
 import { useMateChatExit } from '@hooks/useChatExit'
+import MateChatInput from '@pages/ChatRoom/ChatInput'
 
 export interface MateChatMessage {
   message: string
@@ -80,6 +80,7 @@ const MateChatRoom = () => {
     error,
   } = useQuery({
     queryKey: [QUERY_KEY.MATE_CHATROOM, chatRoomId],
+
     queryFn: () => mateChatService.getMateChatRoomDetail(chatRoomId as string),
   })
 
@@ -262,7 +263,7 @@ const MateChatRoom = () => {
       </MateChatCardContainer>
 
       <GlobalFloatAside>
-        <ChatInput
+        <MateChatInput
           handleOpenBottomModal={handleOpenBottomModal}
           submitChat={submitChat}
         />

@@ -25,9 +25,9 @@ export const ContentContainer = styled.div`
 export const ProfileWrap = styled.div`
   position: relative;
 
-  img {
-    width: 40px;
-    height: 40px;
+  & > img:last-child {
+    width: 35px;
+    height: 35px;
 
     border-radius: 10px;
     border: 2px solid ${({ theme }) => theme.fontColor.black};

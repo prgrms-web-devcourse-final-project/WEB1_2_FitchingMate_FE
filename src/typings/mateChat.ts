@@ -108,3 +108,29 @@ export interface GoodsChatMessageResponse {
   timestamp: string
   code: number
 }
+
+export interface GoodsCreateResponse {
+  status: string
+  message: null
+  data: {
+    chatRoomId: number
+    goodsPostId: number
+    teamName: string
+    title: string
+    category: string
+    price: number
+    postStatus: string
+    chatRoomStatus: string
+    imageUrl: string
+    initialMessages: {
+      content: Message[]
+      totalPages: number
+      totalElements: number
+      hasNext: boolean
+      pageNumber: number
+      pageSize: number
+    }
+  }
+  timestamp: string
+  code: number
+}

@@ -1,8 +1,7 @@
-import { ChatType } from '@pages/ChatPage'
 import {
   ChatBottomModalContainer,
+  GoodsSubmitButtonContainer,
   Section,
-  SubmitButtonContainer,
 } from '@pages/ChatRoom/style'
 
 import { useGoodsChatStore } from '@store/useGoodsChatStore'
@@ -10,7 +9,6 @@ import { useQuery } from '@tanstack/react-query'
 import goodsChatService from '@apis/goodsChatService'
 import GoodsUserCard from '../GoodsUserCard'
 import { QUERY_KEY } from '@apis/queryClient'
-import { useCompletePost } from '@hooks/useCompletePost'
 
 interface ChatBottomModalProps {
   handleAlertClick: () => void
@@ -21,8 +19,12 @@ const GoodsModalContent = ({
   handleAlertClick,
   chatRoomId,
 }: ChatBottomModalProps) => {
-  const { isOwner, isTrade, goodsAlertStatus, setGoodsAlertStatus } =
-    useGoodsChatStore()
+  const {
+    setGoodsAlertStatus,
+    currentSellerId,
+    setCurrentBuyerId,
+    currentBuyerId,
+  } = useGoodsChatStore()
 
   const {
     data: userList,
@@ -34,6 +36,22 @@ const GoodsModalContent = ({
     queryFn: () => goodsChatService.goodsParticipantList(chatRoomId),
   })
 
+  const buyerNickname = userList?.find(
+    (user) => user.memberId !== Number(localStorage.getItem('memberId')),
+  )?.nickname
+
+  const isOwner =
+    userList?.find((user) => user.memberId === currentSellerId)?.memberId ===
+    Number(localStorage.getItem('memberId'))
+
+  const buyerId = userList?.find(
+    (user) => user.memberId !== Number(localStorage.getItem('memberId')),
+  )?.memberId
+
+  // const
+
+  // const {
+  //   completeGoodsPost,
   // const {
   //   completeGoodsPost,
   //   isCompleteGoodsPostPending,
@@ -47,7 +65,8 @@ const GoodsModalContent = ({
   }
 
   const handleCompleteClick = () => {
-    setGoodsAlertStatus({ type: 'DEAL_COMPLETE', userName: '빌터' })
+    setGoodsAlertStatus({ type: 'DEAL_COMPLETE', userName: buyerNickname })
+    setCurrentBuyerId(buyerId as number)
     handleAlertClick()
   }
 
@@ -64,15 +83,10 @@ const GoodsModalContent = ({
           ))}
         </div>
       </Section>
-      <SubmitButtonContainer $isOwner={isOwner}>
+      <GoodsSubmitButtonContainer $isOwner={isOwner as boolean}>
         <button onClick={handleExitChatClick}>채팅방 나가기</button>
-        <button
-          onClick={handleCompleteClick}
-          disabled={!isOwner}
-        >
-          {isOwner ? '거래완료' : ''}
-        </button>
-      </SubmitButtonContainer>
+        {isOwner && <button onClick={handleCompleteClick}>거래완료</button>}
+      </GoodsSubmitButtonContainer>
     </ChatBottomModalContainer>
   )
 }
