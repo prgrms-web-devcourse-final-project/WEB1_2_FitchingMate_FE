@@ -3,7 +3,7 @@ import { FilterWrap, GoodsCardWrap, TeamSelectWrap } from './style'
 import GoodsCard from '@components/GoodsCard'
 import goodsService from '@apis/goodsService'
 import { useEffect, useState } from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import FloatButton from '@components/FloatButton'
 import { QUERY_KEY } from '@apis/queryClient'
@@ -28,6 +28,8 @@ const GoodsListPage = () => {
 
       getNextPageParam: (lastPage) =>
         lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
+
+      placeholderData: keepPreviousData, 
     })
 
   const { ref, inView } = useInView()
