@@ -5,12 +5,18 @@ import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-export const useGoodsChatExit = (chatRoomId: string) => {
+export const useGoodsChatExit = (chatRoomId: string, isChatRoom?: boolean) => {
+  const navigate = useNavigate()
+
   const { mutate, isPending, isError, error } = useMutation({
     mutationFn: () => goodsChatService.exitGoodsChat(chatRoomId),
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_CHAT_LIST] })
+
+      if (isChatRoom) {
+        navigate('/chat?type=굿즈')
+      }
     },
 
     onError: (error) => {

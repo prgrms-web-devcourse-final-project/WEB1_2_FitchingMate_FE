@@ -2,13 +2,18 @@ import {
   GoodsChatParticipantResponse,
   GoodsChatroomResponse,
 } from '@typings/db'
-import { GoodsChatMessageResponse } from '@typings/mateChat'
+import {
+  GoodsChatMessageResponse,
+  GoodsCreateResponse,
+} from '@typings/mateChat'
 import fetchApi from './ky'
 
 const goodsChatService = {
   createGoodsChatroom: async (buyerId: number, goodsPostId: string) => {
     const response = await fetchApi
-      .post(`goods/chat?buyerId=${buyerId}&goodsPostId=${goodsPostId}`)
+      .post<GoodsCreateResponse>(
+        `goods/chat?buyerId=${buyerId}&goodsPostId=${goodsPostId}`,
+      )
       .json()
 
     return response

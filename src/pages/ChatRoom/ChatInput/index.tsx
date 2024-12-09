@@ -1,4 +1,4 @@
-import { ChatInputContainer } from './style'
+import { MateChatInputContainer } from './style'
 
 import UpIcon from '@assets/icon/up_black.svg?react'
 import SendIcon from '@assets/icon/message_send.svg?react'
@@ -9,7 +9,10 @@ interface ChatInputProps {
   submitChat: (message: string) => void
 }
 
-const ChatInput = ({ handleOpenBottomModal, submitChat }: ChatInputProps) => {
+const MateChatInput = ({
+  handleOpenBottomModal,
+  submitChat,
+}: ChatInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,25 +30,27 @@ const ChatInput = ({ handleOpenBottomModal, submitChat }: ChatInputProps) => {
 
   return (
     <>
-      <ChatInputContainer onSubmit={handleSubmit}>
-        <button
-          type='button'
-          onClick={handleOpenBottomModal}
-        >
-          <UpIcon />
-        </button>
-        <input
-          ref={inputRef}
-          type='text'
-          placeholder='메시지를 입력해주세요.'
-          id='message'
-        />
-        <button type='submit'>
-          <SendIcon />
-        </button>
-      </ChatInputContainer>
+      <MateChatInputContainer onSubmit={handleSubmit}>
+        <>
+          <button
+            type='button'
+            onClick={handleOpenBottomModal}
+          >
+            <UpIcon />
+          </button>
+          <input
+            ref={inputRef}
+            type='text'
+            placeholder='메시지를 입력해주세요.'
+            id='message'
+          />
+          <button type='submit'>
+            <SendIcon />
+          </button>
+        </>
+      </MateChatInputContainer>
     </>
   )
 }
 
-export default ChatInput
+export default MateChatInput

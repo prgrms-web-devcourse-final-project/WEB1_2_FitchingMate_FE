@@ -16,6 +16,7 @@ export const UserInfo = styled.div`
 
   & span {
     color: #7d7d7d;
+    margin-left: 5px;
   }
 `
 
