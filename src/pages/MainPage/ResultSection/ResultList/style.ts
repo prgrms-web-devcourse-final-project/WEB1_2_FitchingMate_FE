@@ -18,7 +18,6 @@ export const ResultListTable = styled.table`
   color: ${theme.fontColor.black};
   margin-bottom: 1.25em;
 
-
   thead {
     display: none;
   }
@@ -102,4 +101,7 @@ export const RivalTeam = styled.div`
     font-size: 14px;
     font-weight: bold;
   }
+`
+export const LoadingContainer = styled.div`
+  min-height: 25em;
 `

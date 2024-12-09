@@ -4,15 +4,13 @@ import {
   RivalTeam,
   ResultListTitle,
   ErrorContainer,
+  LoadingContainer
 } from './style'
 import { kboTeamInfo, kboTeamList } from '@constants/kboInfo'
 import fetchApi from '@apis/ky'
 import { QUERY_KEY } from '@apis/queryClient'
 import { Match } from '@typings/db'
 import { formatTeamName } from '@utils/formatTeamName'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
-import { theme } from '@styles/theme'
 
 interface ResultListProps {
   teamKey: number // 팀 이름 키
@@ -46,14 +44,7 @@ const ResultList = ({ teamKey }: ResultListProps) => {
 
   if (isLoading) {
     return (
-      <Skeleton
-          width='100%'
-          height='25em'
-          borderRadius='0'
-          baseColor={theme.border}
-          highlightColor={theme.fontColor.navy}
-          style={{ marginBottom: '0.5rem' }}
-        />
+      <LoadingContainer></LoadingContainer>
     )
   }
 

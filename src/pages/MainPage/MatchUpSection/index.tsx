@@ -19,9 +19,6 @@ import {
   LoadingContainer,
 } from './style'
 import { kboTeamInfo, kboTeamList } from '@constants/kboInfo'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
-import { theme } from '@styles/theme'
 
 interface MatchUpSectionProps {
   selectedTeam: number
@@ -49,16 +46,7 @@ const MatchUpSection = ({ selectedTeam }: MatchUpSectionProps) => {
   })
 
   if (isLoading) {
-    return (
-      <Skeleton
-        width='100%'
-        height='11em'
-        borderRadius='0'
-        baseColor={theme.border}
-        highlightColor={theme.fontColor.navy}
-        style={{ marginBottom: '0.5rem' }}
-      />
-    )
+    return <LoadingContainer></LoadingContainer>
   }
   if (matches.length === 0) {
     return (

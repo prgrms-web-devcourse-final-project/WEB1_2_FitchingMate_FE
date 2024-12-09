@@ -93,8 +93,5 @@ export const Weather = styled.div`
 `;
 
 export const LoadingContainer = styled.div`
-  min-height: 10em;
-  display:grid;
-  align-items: center;
-  justify-content: center; 
+  min-height: 11em;
 `;
