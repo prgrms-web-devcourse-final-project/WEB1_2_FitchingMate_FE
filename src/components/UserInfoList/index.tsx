@@ -3,6 +3,7 @@ import BatIcon from '@assets/icon/baseball.svg?react'
 import { DescriptionContainer, ProfileContainer, ProfileManner } from './style'
 import ProfileBedge from '@components/ProfileBedge'
 import { GoodsDetail } from '@typings/db'
+import { formatManner } from '@utils/formatManner'
 
 interface MateHost {
   manner: number
@@ -28,7 +29,7 @@ const UserInfoList = ({ seller }: UserInfoListProps) => {
         <p>{nickname}</p>
       </ProfileContainer>
       <p>
-        <ProfileManner>{manner}</ProfileManner>
+        <ProfileManner>{formatManner(manner)}</ProfileManner>
         <BatIcon />
       </p>
     </DescriptionContainer>
