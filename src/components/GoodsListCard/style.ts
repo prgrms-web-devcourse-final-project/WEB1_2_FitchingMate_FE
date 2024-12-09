@@ -31,6 +31,7 @@ export const Container = styled.div`
 
 export const GoodsListCardContainer = styled.div`
   width: 100%;
+
   & > div:first-child {
     display: flex;
     flex-direction: column;

@@ -47,12 +47,12 @@ const MateDetailAction = ({
 
   // 수정 버튼 클릭 핸들러
   const handleEditClick = () => {
-    const { matePost, selectedWeek, img } =
-      transformMatePostToFormData(matePostData)
+    // const { matePost, selectedWeek, img } =
+    //   transformMatePostToFormData(matePostData)
 
-    setMateFormData(matePost)
-    setSelectedWeek(selectedWeek as number)
-    setImg(img)
+    // setMateFormData(matePost)
+    // setSelectedWeek(selectedWeek as number)
+    // setImg(img)
 
     navigate(`/mate-detail/${matePostData.postId}/edit`, {
       state: { isEdit: true, postId: matePostData.postId },

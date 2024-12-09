@@ -18,6 +18,10 @@ const useEditGoodsPost = ({ goodsPostId }: UseEditGoodsPostProps) => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEY.GOODS_LIST] })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEY.GOODS_POST, goodsPostId.toString()],
+      })
+
       navigate(ROUTE_PATH.GOODS_LIST)
     },
 

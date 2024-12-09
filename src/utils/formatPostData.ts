@@ -20,6 +20,16 @@ export const getTeamIdByName = (teamName: string): number => {
   return 0
 }
 
+export const findWeekNumberByMatchId = (
+  data: any[],
+  targetMatchId: number,
+): number => {
+  const week = data.find((week) =>
+    week.matches.some((match: any) => match.id === targetMatchId),
+  )
+  return week ? week.weekNumber : -1
+}
+
 export const transformMatePostToFormData = (matePost: MatePostData) => {
   const {
     matchId,
@@ -33,6 +43,8 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
     postImageUrl,
   } = matePost
 
+  console.log(matchId)
+
   return {
     matePost: {
       teamId: getTeamIdByName(myTeamName),
@@ -44,8 +56,6 @@ export const transformMatePostToFormData = (matePost: MatePostData) => {
       transportType,
       matchId,
     },
-
-    selectedWeek: 2,
 
     img: postImageUrl,
   }
@@ -99,7 +109,7 @@ export const transformMatePostToSubmitData = (
   return formData
 }
 
-export const transformGoodsDetailToSubmitData = (
+export const transformGoodsDetailToSubmitData = async (
   goods: GoodsPost,
   imageList: File[],
 ) => {
@@ -120,23 +130,12 @@ export const transformGoodsDetailToSubmitData = (
 
   // 파일이 존재할 경우에만 추가
   if (imageList.length > 0) {
-    console.log(imageList)
-    imageList.forEach((file) => {
-      formData.append('files', file)
+    imageList.forEach(async (file) => {
+      if (file instanceof File) {
+        formData.append('files', file)
+      }
     })
   }
 
   return formData
-}
-
-export const transformMatePostToCardData = (matePost: MatePostData) => {
-  const { postImageUrl, rivalMatchTime, ...restData } = matePost
-
-  const cardData = {
-    imageUrl: postImageUrl,
-    matchTime: rivalMatchTime,
-    ...restData,
-  }
-
-  return cardData
 }
