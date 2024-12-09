@@ -45,7 +45,7 @@ import { useCreateGoodsChatroom } from '@hooks/useCreateChatRoom'
 import { useUserStore } from '@store/useUserStore'
 
 const GoodsDetailPage = () => {
-  const { memberId } = useUserStore().userInfo
+  const memberId = localStorage.getItem('memberId')
 
   const { id: goodsId } = useParams()
 
