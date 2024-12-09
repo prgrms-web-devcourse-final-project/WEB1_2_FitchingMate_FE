@@ -12,8 +12,13 @@ export const FilterWrap = styled.div`
 
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   overflow-x: scroll;
+
+  @media all and (max-width: 431px) {
+    gap: 0 0.625em;
+  }
 
   &::-webkit-scrollbar {
     display: none;
