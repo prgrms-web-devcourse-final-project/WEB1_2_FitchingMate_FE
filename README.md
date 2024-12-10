@@ -108,7 +108,7 @@ npm run build
 
 ### 1. 이슈 생성
 
-- 프로젝트의 기능 추가나 버그 수정을 위해 [Issues](https://github.com/your-repo/issues) 탭에 새로운 이슈를 생성합니다.
+- 프로젝트의 기능 추가나 버그 수정을 위해 [Issues](https://github.com/prgrms-web-devcourse-final-project/WEB1_2_PitchingMate_FE/issues) 탭에 새로운 이슈를 생성합니다.
 
 ### 2. 브랜치 생성
 
