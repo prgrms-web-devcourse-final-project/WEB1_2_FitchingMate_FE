@@ -44,7 +44,7 @@ export const loginPost = async (email: string): Promise<LoginResponseData> => {
     localStorage.setItem('token', accessToken)
     // localStorage.setItem('refreshToken', refreshToken);
 
-    console.log('로그인 성공:', response.data)
+    // console.log('로그인 성공:', response.data)
     const { age, gender, memberId, nickname, teamId } = response.data
 
     // 상태 업데이트
