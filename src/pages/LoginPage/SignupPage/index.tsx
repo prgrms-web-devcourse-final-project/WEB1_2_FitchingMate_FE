@@ -71,7 +71,7 @@ const SignupPage = () => {
           onChange={(fieldName, value) => {
             if (fieldName === '닉네임') {
               setNickname(value)
-              console.log('닉네임: ', value)
+              // console.log('닉네임: ', value)
             }
           }}
         />
@@ -80,7 +80,7 @@ const SignupPage = () => {
           <TeamSelectModal
             onTeamSelect={(team) => {
               setSelectedTeamId(team.teamId)
-              console.log('선택한 팀 id: ', team.teamId)
+              // console.log('선택한 팀 id: ', team.teamId)
             }}
           />
         </FieldWrapper>
