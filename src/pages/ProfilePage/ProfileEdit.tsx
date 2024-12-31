@@ -48,11 +48,9 @@ const ProfileEdit = () => {
   const onProfileEditSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const dataObject = {
-      // 팀아이디 수정요청
       teamId: selectedTeamId ? selectedTeamId : currentTeamId,
       nickname: userInfo?.nickname,
       aboutMe: userInfo?.aboutMe,
-      // 멤버아이디 수정요청
       memberId: memberId,
     }
     const formData = new FormData()
@@ -65,6 +63,10 @@ const ProfileEdit = () => {
 
     try {
       mutateMyInfo(formData)
+      dataObject.nickname &&
+        localStorage.setItem('nickname', dataObject.nickname)
+      dataObject.teamId &&
+        localStorage.setItem('teamId', String(dataObject.teamId))
       navigate(`${ROUTE_PATH.PROFILE}/${memberId}`)
     } catch (err) {
       toast('이런! 오류가 발생했어요.')

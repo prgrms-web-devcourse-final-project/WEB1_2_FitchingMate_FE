@@ -4,6 +4,7 @@ import {
   ProfileEditWrap,
   ProfileFollowWrap,
   ProfileLinkWrap,
+  ProfileMainSection,
   ProfileMannerGraph,
   ProfileMannerGraphInner,
   ProfileMannerInfo,
@@ -34,6 +35,8 @@ import { logoutPost } from '@apis/logoutService'
 import { unregisterDelete } from '@apis/unregisterService'
 import { formatManner } from '@utils/formatManner'
 import { toast } from 'react-toastify'
+import { GlobalFloatAside } from '@styles/globalStyle'
+import GlobalNav from '@layouts/GlobalNav'
 
 const ProfileMain = () => {
   const logoutAlertRef = useRef<HTMLDialogElement | null>(null) // 로그아웃용 ref
@@ -113,7 +116,7 @@ const ProfileMain = () => {
         cancelText={ALERT_MESSAGE.LOGOUT.cancelText}
         handleAlertClick={confirmLogout} // 확인 버튼 클릭 시 로그아웃 처리
       />
-      <section>
+      <ProfileMainSection>
         {/* 프로필 상단 섹션 */}
         <ProfileTopWrap>
           <ProfileEditWrap>
@@ -237,36 +240,44 @@ const ProfileMain = () => {
             </>
           ) : null}
         </ProfileLinkWrap>
-        <ProfilePadding paddingTop={1.25}>
-          <GlobalButton
-            $isNavy={false}
-            text='회원탈퇴'
-            onClick={() => {
-              if (unregisterAlertRef.current) {
-                unregisterAlertRef.current.showModal()
-              }
-            }}
-          />
-        </ProfilePadding>
-        <Alert
-          ref={unregisterAlertRef}
-          title={ALERT_MESSAGE.UNREGISTER.title}
-          notice={ALERT_MESSAGE.UNREGISTER.notice}
-          actionText={ALERT_MESSAGE.UNREGISTER.actionText}
-          cancelText={ALERT_MESSAGE.UNREGISTER.cancelText}
-          handleAlertClick={async () => {
-            try {
-              await unregisterDelete()
-              localStorage.clear()
-              navigate(ROUTE_PATH.HOME)
-              toast.success('회원탈퇴가 완료되었습니다.')
-            } catch (error) {
-              console.error('회원탈퇴 실패:', error)
-              toast.error('회원탈퇴에 실패했습니다. 다시 시도해주세요.')
-            }
-          }}
-        />
-      </section>
+        {isMyProfile ? (
+          <>
+            <ProfilePadding paddingTop={1.25}>
+              <GlobalButton
+                $isNavy={false}
+                text='회원탈퇴'
+                onClick={() => {
+                  if (unregisterAlertRef.current) {
+                    unregisterAlertRef.current.showModal()
+                  }
+                }}
+              />
+            </ProfilePadding>
+            <Alert
+              ref={unregisterAlertRef}
+              title={ALERT_MESSAGE.UNREGISTER.title}
+              notice={ALERT_MESSAGE.UNREGISTER.notice}
+              actionText={ALERT_MESSAGE.UNREGISTER.actionText}
+              cancelText={ALERT_MESSAGE.UNREGISTER.cancelText}
+              handleAlertClick={async () => {
+                try {
+                  await unregisterDelete()
+                  localStorage.clear()
+                  navigate(ROUTE_PATH.HOME)
+                  toast.success('회원탈퇴가 완료되었습니다.')
+                } catch (error) {
+                  console.error('회원탈퇴 실패:', error)
+                  toast.error('회원탈퇴에 실패했습니다. 다시 시도해주세요.')
+                }
+              }}
+            />
+          </>
+        ) : null}
+      </ProfileMainSection>
+      {/* 프로필 하단 네비게이션 */}
+      <GlobalFloatAside>
+        <GlobalNav />
+      </GlobalFloatAside>
     </>
   )
 }
