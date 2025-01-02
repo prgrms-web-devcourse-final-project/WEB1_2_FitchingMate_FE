@@ -62,11 +62,12 @@ export interface GoodsListResponse {
 }
 
 export interface Seller {
-  memberId: number
+  memberId?: number
   nickname: string
   manner: number
   role: string
   imageUrl: string
+  authorId?: number
 }
 
 export interface Location {
@@ -117,7 +118,6 @@ export interface MatePostData {
   postId: number
   authorId: number
   currentChatMembers: number
-
 }
 
 export interface MatePostResponse {
