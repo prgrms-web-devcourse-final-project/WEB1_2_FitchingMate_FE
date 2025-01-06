@@ -22,7 +22,7 @@ import { useInView } from 'react-intersection-observer'
 import MainMateCard from '@components/MainMateCard'
 import { useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
-import useFilterStore from '@store/useFilterStore'
+import useFilterStore from '@store/useMateListStore'
 
 const MateListPage = () => {
   const {
