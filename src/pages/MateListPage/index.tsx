@@ -7,16 +7,13 @@ import {
   TeamSelectWrap,
   FilteredMateList,
 } from './style'
-
 import PillButton from '@components/PillButton'
 import BottomModal from '@components/BottomModal'
 import MateFilterOptions from './MateFilterOptions'
-
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
 import FloatButton from '@components/FloatButton'
 import { useModal } from '@hooks/useModal'
 import { kboTeamList } from '@constants/kboInfo'
-
 import { getMateList } from '@apis/mateListService'
 import { useTopRef } from '@hooks/useTopRef'
 import { useInfiniteQuery, keepPreviousData } from '@tanstack/react-query'
@@ -25,96 +22,68 @@ import { useInView } from 'react-intersection-observer'
 import MainMateCard from '@components/MainMateCard'
 import { useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
+import useFilterStore from '@store/useFilterStore'
 
 const MateListPage = () => {
+  const {
+    selectedFilters,
+    selectedTeam,
+    setSelectedFilters,
+    setSelectedTeam,
+    // resetFilters,
+  } = useFilterStore()
   const initialTeam = () => {
     const token = localStorage.getItem('token')
     const teamId = localStorage.getItem('teamId')
     return token && teamId ? Number(teamId) : kboTeamList[0].id
   }
 
-  const [selectedTeam, setSelectedTeam] = useState<number | null>(initialTeam)
-
   const { bottomModalRef, handleOpenBottomModal, handleCloseBottomModal } =
     useModal()
-
-  // 필터 상태
-  const [selectedFilters, setSelectedFilters] = useState({
-    sortType: '최신 작성일 순',
-    age: null,
-    gender: null,
-    maxParticipants: null,
-    transportType: null,
-  })
   const [tempFilters, setTempFilters] = useState(selectedFilters)
-
   const location = useLocation()
+  const { topRef, handleUpButtonClick } = useTopRef()
+  const { ref, inView } = useInView()
 
   useEffect(() => {
-    const isPostSuccess = location.state?.isPostSuccess
-    const isEditSuccess = location.state?.isEditSuccess
-    const isDeleteSuccess = location.state?.isDeleteSuccess
-    if (isPostSuccess) {
-      toast.success('메이트 게시글 등록이 완료되었습니다.')
-    }
-    if (isEditSuccess) {
-      toast.success('메이트 게시글 수정이 완료되었습니다.')
-    }
-    if (isDeleteSuccess) {
-      toast.success('메이트 게시글 삭제가 완료되었습니다.')
-    }
+    const { isPostSuccess, isEditSuccess, isDeleteSuccess } =
+      location.state || {}
+    if (isPostSuccess) toast.success('메이트 게시글 등록이 완료되었습니다.')
+    if (isEditSuccess) toast.success('메이트 게시글 수정이 완료되었습니다.')
+    if (isDeleteSuccess) toast.success('메이트 게시글 삭제가 완료되었습니다.')
   }, [location.state])
-  // 필터 변경 핸들러 (임시 필터)
+
   const handleTempFilterChange = (filters: Partial<typeof tempFilters>) => {
-    setTempFilters((prevFilters) => ({
-      ...prevFilters,
-      ...filters,
-    }))
+    setTempFilters((prevFilters) => ({ ...prevFilters, ...filters }))
   }
 
-  // "완료" 버튼 핸들러
   const applyFilters = () => {
-    setSelectedFilters(tempFilters) // 임시 필터를 실제 필터로 반영
+    setSelectedFilters(tempFilters)
     handleCloseBottomModal()
   }
 
-  // 팀 선택 핸들러
   const handleTeamSelect = (team: number | null) => {
     setSelectedTeam(team)
   }
 
-  // 페이지 상단 버튼 핸들러
-  const { topRef, handleUpButtonClick } = useTopRef()
-
-  // 무한 스크롤 핸들러
-  const { ref, inView } = useInView()
-
-  // 메이트 목록 API 호출
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: [QUERY_KEY.MATE_LIST, { selectedTeam, ...selectedFilters }],
-
       queryFn: ({ pageParam }) =>
         getMateList({ teamId: selectedTeam, ...selectedFilters }, pageParam),
       initialPageParam: 0,
-
       getNextPageParam: (lastPage: any) =>
         lastPage.hasNext ? lastPage.pageNumber + 1 : undefined,
-
       placeholderData: keepPreviousData,
     })
-  // 무한 스크롤 핸들러
+
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage()
-    }
+    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage()
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
   if (!data) return null
 
-  // 메이트 목록 추출
-  const { pages } = data
-  const mateList = pages.flatMap((page) => page.content)
+  const mateList = data.pages.flatMap((page) => page.content)
 
   return (
     <section ref={topRef}>
@@ -124,6 +93,7 @@ const MateListPage = () => {
           onSelectTeam={handleTeamSelect}
         />
       </TeamSelectWrap>
+
       <FilterWrap>
         <FilterModalButton>
           <PillButton
@@ -132,6 +102,7 @@ const MateListPage = () => {
             onClick={handleOpenBottomModal}
           />
         </FilterModalButton>
+
         <FilterSelectOptionWrap>
           {selectedFilters.age && <p>{selectedFilters.age}</p>}
           {selectedFilters.gender && <p>{selectedFilters.gender}</p>}
@@ -143,6 +114,7 @@ const MateListPage = () => {
           )}
         </FilterSelectOptionWrap>
       </FilterWrap>
+
       <FilteredMateList>
         {mateList.map((mate) => (
           <MainMateCard
@@ -161,10 +133,11 @@ const MateListPage = () => {
       <BottomModal ref={bottomModalRef}>
         <MateFilterOptions
           onClose={applyFilters}
-          selectedFilters={tempFilters} // 임시 필터 전달
+          selectedFilters={tempFilters}
           onFilterChange={handleTempFilterChange}
         />
       </BottomModal>
+
       <ToastContainer position='top-center' />
     </section>
   )
