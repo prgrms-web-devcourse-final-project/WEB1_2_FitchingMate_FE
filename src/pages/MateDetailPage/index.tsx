@@ -96,6 +96,7 @@ const MateDetailPage = () => {
     gender,
     transportType,
     postId,
+    authorId,
   } = matePost
 
   const mateCard = {
@@ -118,6 +119,7 @@ const MateDetailPage = () => {
     nickname,
     imageUrl: userImageUrl,
     rivalMatchTime,
+    authorId,
   }
 
   const handleDeletePost = () => {

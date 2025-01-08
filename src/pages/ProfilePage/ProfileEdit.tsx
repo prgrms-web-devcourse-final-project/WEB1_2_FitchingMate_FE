@@ -40,7 +40,7 @@ const ProfileEdit = () => {
     undefined,
   )
 
-  const { mutateMyInfo, error, isError, isPending, isSuccess } = useEditMyInfo(
+  const { mutateMyInfo, error, isError, isPending } = useEditMyInfo(
     Number(memberId),
   )
 
@@ -48,11 +48,9 @@ const ProfileEdit = () => {
   const onProfileEditSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const dataObject = {
-      // 팀아이디 수정요청
       teamId: selectedTeamId ? selectedTeamId : currentTeamId,
       nickname: userInfo?.nickname,
       aboutMe: userInfo?.aboutMe,
-      // 멤버아이디 수정요청
       memberId: memberId,
     }
     const formData = new FormData()

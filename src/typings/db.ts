@@ -62,11 +62,12 @@ export interface GoodsListResponse {
 }
 
 export interface Seller {
-  memberId: number
+  memberId?: number
   nickname: string
   manner: number
   role: string
   imageUrl: string
+  authorId?: number
 }
 
 export interface Location {
@@ -117,7 +118,6 @@ export interface MatePostData {
   postId: number
   authorId: number
   currentChatMembers: number
-
 }
 
 export interface MatePostResponse {
@@ -281,4 +281,26 @@ export interface GoodsMessageResponse {
   pageSize: number
   totalElements: number
   totalPages: number
+}
+
+export interface ProfileEditResponse {
+  aboutMe: string
+  followerCount: number | null
+  followingCount: number | null
+  goodsBoughtCount: number | null
+  goodsSoldCount: number | null
+  imageUrl: string
+  manner: number | null
+  nickname: string
+  reviewsCount: number | null
+  teamName: string
+  visitsCount: number | null
+}
+
+export interface ProfileEditApiResponse {
+  code: number
+  data: ProfileEditResponse
+  message: string | null
+  status: string
+  timestamp: string
 }

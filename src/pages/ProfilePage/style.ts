@@ -9,6 +9,10 @@ interface MannerWidth {
   width: number
 }
 
+export const ProfileMainSection = styled.section`
+  padding-bottom: 60px;
+`
+
 export const ProfilePadding = styled.div<ProfilePadding>`
   padding: ${({ paddingTop }) => paddingTop}em 20px;
 `

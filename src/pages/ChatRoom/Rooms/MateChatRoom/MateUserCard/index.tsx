@@ -7,6 +7,7 @@ import {
 } from './style'
 import { useMateChatStore } from '@store/useMateChatStore'
 import { MateChatMember } from '@typings/mateChat'
+import { Link } from 'react-router-dom'
 
 interface MateUserCardProps {
   member: MateChatMember
@@ -45,37 +46,39 @@ const MateUserCard = ({ member }: MateUserCardProps) => {
   const isMemberOwner = memberId === Number(localStorage.getItem('memberId'))
 
   return (
-    <UserListCardContainer>
-      <UserInfo>
-        <ProfileBedge
-          height={3}
-          width={3}
-          imageSrc={imageUrl}
-          isChat
-        />
-        <p>
-          {nickname} {isUser && <span>(나)</span>}
-        </p>
-      </UserInfo>
-      <ButtonContainer>
-        {isCompleteRecruit && (
-          <ConfirmationContainer>
-            {!isMemberOwner && (
-              <>
-                <input
-                  type='checkbox'
-                  id={`confirm-${memberId}`}
-                  name={`confirm-${memberId}`}
-                  checked={confirmedParticipants.includes(memberId)}
-                  onChange={handleConfirmation}
-                />
-                <label htmlFor={`confirm-${memberId}`}>참가확인</label>
-              </>
-            )}
-          </ConfirmationContainer>
-        )}
-      </ButtonContainer>
-    </UserListCardContainer>
+    <Link to={`/profile/${member.memberId}`}>
+      <UserListCardContainer>
+        <UserInfo>
+          <ProfileBedge
+            height={3}
+            width={3}
+            imageSrc={imageUrl}
+            isChat
+          />
+          <p>
+            {nickname} {isUser && <span>(나)</span>}
+          </p>
+        </UserInfo>
+        <ButtonContainer>
+          {isCompleteRecruit && (
+            <ConfirmationContainer>
+              {!isMemberOwner && (
+                <>
+                  <input
+                    type='checkbox'
+                    id={`confirm-${memberId}`}
+                    name={`confirm-${memberId}`}
+                    checked={confirmedParticipants.includes(memberId)}
+                    onChange={handleConfirmation}
+                  />
+                  <label htmlFor={`confirm-${memberId}`}>참가확인</label>
+                </>
+              )}
+            </ConfirmationContainer>
+          )}
+        </ButtonContainer>
+      </UserListCardContainer>
+    </Link>
   )
 }
 
