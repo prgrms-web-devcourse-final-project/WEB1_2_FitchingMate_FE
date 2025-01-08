@@ -1,3 +1,4 @@
+import { ProfileEditApiResponse } from '@typings/db'
 import fetchApi from './ky'
 
 const userService = {
@@ -14,7 +15,7 @@ const userService = {
   },
 
   editMyInfo: async (formData: FormData) => {
-    const response = await fetchApi
+    const response: ProfileEditApiResponse = await fetchApi
       .put(`members/me`, {
         body: formData,
       })

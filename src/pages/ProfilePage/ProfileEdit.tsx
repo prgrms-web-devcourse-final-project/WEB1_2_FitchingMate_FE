@@ -40,7 +40,7 @@ const ProfileEdit = () => {
     undefined,
   )
 
-  const { mutateMyInfo, error, isError, isPending, isSuccess } = useEditMyInfo(
+  const { mutateMyInfo, error, isError, isPending } = useEditMyInfo(
     Number(memberId),
   )
 
@@ -63,10 +63,6 @@ const ProfileEdit = () => {
 
     try {
       mutateMyInfo(formData)
-      dataObject.nickname &&
-        localStorage.setItem('nickname', dataObject.nickname)
-      dataObject.teamId &&
-        localStorage.setItem('teamId', String(dataObject.teamId))
       navigate(`${ROUTE_PATH.PROFILE}/${memberId}`)
     } catch (err) {
       toast('이런! 오류가 발생했어요.')

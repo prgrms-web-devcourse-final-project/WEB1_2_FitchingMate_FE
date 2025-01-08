@@ -282,3 +282,25 @@ export interface GoodsMessageResponse {
   totalElements: number
   totalPages: number
 }
+
+export interface ProfileEditResponse {
+  aboutMe: string
+  followerCount: number | null
+  followingCount: number | null
+  goodsBoughtCount: number | null
+  goodsSoldCount: number | null
+  imageUrl: string
+  manner: number | null
+  nickname: string
+  reviewsCount: number | null
+  teamName: string
+  visitsCount: number | null
+}
+
+export interface ProfileEditApiResponse {
+  code: number
+  data: ProfileEditResponse
+  message: string | null
+  status: string
+  timestamp: string
+}

@@ -20,8 +20,10 @@ interface UserInfoListProps {
 const UserInfoList = ({ seller }: UserInfoListProps) => {
   const { nickname, manner, imageUrl, authorId, memberId } = seller
 
+  const userId = memberId || authorId
+
   return (
-    <Link to={`/profile/${memberId ? memberId : authorId}`}>
+    <Link to={`/profile/${userId}`}>
       <DescriptionContainer>
         <ProfileContainer>
           <ProfileBedge
