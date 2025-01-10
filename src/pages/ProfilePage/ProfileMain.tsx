@@ -49,7 +49,7 @@ const ProfileMain = () => {
 
   const [userId, setUserId] = useState(id)
   const [isMyProfile, setIsMyProfile] = useState<boolean | null>(null)
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined)
 
   const myInfoResult = useGetMyInfo(Number(loginMemberId))
   const userInfoResult = useGetUserInfo(

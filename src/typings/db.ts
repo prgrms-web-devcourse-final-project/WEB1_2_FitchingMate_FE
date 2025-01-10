@@ -304,3 +304,31 @@ export interface ProfileEditApiResponse {
   status: string
   timestamp: string
 }
+
+// userService.getGoodsRecordList
+
+export interface GoodsRecordData {
+  postId: number
+  title: string
+  imageUrl: string
+  price: number
+  author: string
+  createdAt: string
+}
+
+export interface GoodsRecordReponse {
+  content: GoodsRecordData[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
+}
+
+export interface GoodsRecordApiResponse {
+  code: number
+  data: GoodsRecordReponse
+  message: string | null
+  status: string
+  timestamp: string
+}

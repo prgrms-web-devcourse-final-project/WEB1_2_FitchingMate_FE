@@ -11,3 +11,19 @@ export interface UserInfo {
   teamName: string
   visitsCount?: number
 }
+
+export interface UserDataApiResponse {
+  code: number
+  data: UserInfo
+  message: string | null
+  status: string
+  timestamp: string
+}
+
+export interface MyDataApiReponse {
+  code: number
+  data: UserInfo
+  message: string | null
+  status: string
+  timestamp: string
+}

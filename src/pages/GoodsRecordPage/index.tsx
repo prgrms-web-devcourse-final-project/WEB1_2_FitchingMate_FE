@@ -7,24 +7,15 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@apis/queryClient'
 import userService from '@apis/userService'
-import { useInView } from 'react-intersection-observer'
 import { RefContainer } from '@styles/globalStyle'
 import Spinner from '@components/Spinner'
 import { toast } from 'react-toastify'
 import { ROUTE_PATH } from '@constants/ROUTE_PATH'
+import { GoodsRecordData } from '@typings/db'
 
 const HEADER_TEXT = {
   sold: '굿즈 판매기록',
   bought: '굿즈 구매기록',
-}
-
-interface GoodsRecord {
-  author: string
-  createdAt: string
-  imageUrl: string
-  postId: number
-  price: number
-  title: string
 }
 
 const GoodsRecordPage = () => {
@@ -87,7 +78,9 @@ const GoodsRecordPage = () => {
   if (!data) return null
 
   const { pages } = data
-  const goodsRecordList: GoodsRecord[] = pages.flatMap((page) => page.content)
+  const goodsRecordList: GoodsRecordData[] = pages.flatMap((page) =>
+    page ? page.content : [],
+  )
 
   return (
     <>
