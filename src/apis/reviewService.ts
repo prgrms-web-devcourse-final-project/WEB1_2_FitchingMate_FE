@@ -4,7 +4,7 @@ import fetchApi from './ky'
 const reviewService = {
   postMateReview: async (postId: number, jsonData: unknown) => {
     const response = await fetchApi
-      .post(`mates/${postId}/reviews`, {
+      .post(`mates/review/${postId}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -20,7 +20,7 @@ const reviewService = {
     jsonData: unknown,
   ) => {
     const response = await fetchApi
-      .post(`goods/${reviewerId}/post/${goodsPostId}/review`, {
+      .post(`goods/review/${goodsPostId}`, {
         headers: {
           'Content-Type': 'application/json',
         },
