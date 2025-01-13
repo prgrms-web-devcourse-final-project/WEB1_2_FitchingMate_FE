@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import TeamSelectSection from '@components/TeamSelectSection'
 import {
   FilterModalButton,
@@ -6,6 +6,7 @@ import {
   FilterWrap,
   TeamSelectWrap,
   FilteredMateList,
+  SectionWrap,
 } from './style'
 import PillButton from '@components/PillButton'
 import BottomModal from '@components/BottomModal'
@@ -44,6 +45,21 @@ const MateListPage = () => {
   const location = useLocation()
   const { topRef, handleUpButtonClick } = useTopRef()
   const { ref, inView } = useInView()
+
+  useEffect(() => {
+    const section = document.querySelector('section')
+    if (!section) return
+
+    const handleScroll = () => {
+      console.log('현재 스크롤 위치:', section.scrollTop)
+      localStorage.setItem('mateListScrollPosition', String(section.scrollTop))
+    }
+
+    section.addEventListener('scroll', handleScroll)
+    return () => {
+      section.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
   useEffect(() => {
     const { isPostSuccess, isEditSuccess, isDeleteSuccess } =
@@ -85,8 +101,35 @@ const MateListPage = () => {
 
   const mateList = data.pages.flatMap((page) => page.content)
 
+  const sectionRef = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+  
+    const handleScroll = () => {
+      localStorage.setItem('mateListScrollPosition', String(section.scrollTop))
+    }
+  
+    section.addEventListener('scroll', handleScroll)
+  
+    return () => {
+      section.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+  
+  useEffect(() => {
+    const savedScrollPosition = localStorage.getItem('mateListScrollPosition')
+    if (sectionRef.current && savedScrollPosition) {
+      sectionRef.current.scrollTo(0, Number(savedScrollPosition))
+    }
+  }, [data])
+  
+  
+
   return (
-    <section ref={topRef}>
+    <SectionWrap ref={sectionRef}>
+      <div ref={topRef}></div>
       <TeamSelectWrap>
         <TeamSelectSection
           selectedTeam={selectedTeam as number}
@@ -139,7 +182,7 @@ const MateListPage = () => {
       </BottomModal>
 
       <ToastContainer position='top-center' />
-    </section>
+    </SectionWrap>
   )
 }
 

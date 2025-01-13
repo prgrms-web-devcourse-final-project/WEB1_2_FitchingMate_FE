@@ -1,6 +1,11 @@
 import { theme } from '@styles/theme'
 import styled from 'styled-components'
 
+export const SectionWrap = styled.section`
+  overflow-y: auto;
+  height: 100vh;
+`
+
 export const TeamSelectWrap = styled.div`
   padding: 1em 0 1em 20px;
   border-bottom: 1px solid ${theme.border};
