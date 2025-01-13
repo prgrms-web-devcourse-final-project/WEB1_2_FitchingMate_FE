@@ -22,7 +22,7 @@ const useFilterStore = create<FilterState>((set) => ({
     maxParticipants: null,
     transportType: null,
   },
-  selectedTeam: null, // 초기 상태
+  selectedTeam: Number(localStorage.getItem('teamId')) || null, // 초기값 설정
   setSelectedFilters: (filters) =>
     set((state) => ({
       selectedFilters: { ...state.selectedFilters, ...filters },
