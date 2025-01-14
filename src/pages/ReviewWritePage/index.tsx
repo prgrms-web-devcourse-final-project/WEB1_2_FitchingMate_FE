@@ -28,7 +28,7 @@ const ReviewWritePage = ({}) => {
   const [myId, setMyId] = useState(localStorage.getItem('memberId'))
   const [revieweeId, setRevieweeId] = useState(location.state.memberId)
   const [postId, setPostId] = useState(location.state.postId)
-  const [reviewerName, setReviewerName] = useState()
+  const [reviewerName, setReviewerName] = useState<string | undefined>()
   const [selectedRating, setSelectedRating] = useState('')
   const [reviewContent, setReviewContent] = useState('')
 
@@ -134,7 +134,7 @@ const ReviewWritePage = ({}) => {
           onSubmit(e)
         }}
       >
-        {userData && reviewDetailData ? (
+        {userData && reviewDetailData?.postImageUrl ? (
           <>
             <ReviewPostInfo
               reviewType={reviewType}

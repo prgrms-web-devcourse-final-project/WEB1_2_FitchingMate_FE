@@ -304,3 +304,124 @@ export interface ProfileEditApiResponse {
   status: string
   timestamp: string
 }
+
+// userService.getGoodsRecordList
+
+export interface GoodsRecordData {
+  postId: number
+  title: string
+  imageUrl: string
+  price: number
+  author: string
+  createdAt: string
+}
+
+export interface GoodsRecordReponse {
+  content: GoodsRecordData[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
+}
+
+export interface GoodsRecordApiResponse {
+  code: number
+  data: GoodsRecordReponse
+  message: string | null
+  status: string
+  timestamp: string
+}
+
+// reviewService.getReviewList
+
+export interface GetReviewListContent {
+  content: string
+  createdAt: string
+  nickname: string
+  postId: number
+  rating: string
+  title: string
+}
+
+export interface GetReviewListResponse {
+  content: GetReviewListContent[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
+}
+
+export interface GetReviewListApiResponse {
+  code: number
+  data: GetReviewListResponse
+  message: string | null
+  status: string
+  timestamp: string
+}
+
+// reviewService.getTimelineList
+
+export interface TimelineReviewList {
+  memberId: number
+  nickname: string
+  rating: string | null
+  content: string | null
+}
+
+export interface GetTimelineListContnet {
+  awayTeamName: string
+  homeTeamName: string
+  location: string
+  matchTime: string
+  matePostId: number
+  reviews: TimelineReviewList[]
+}
+
+export interface GetTimelineListResponse {
+  content: GetTimelineListContnet[]
+  hasNext: boolean
+  pageNumber: number
+  pageSize: number
+  totalElements: number
+  totalPages: number
+}
+
+export interface GetTimelineListApiResponse {
+  code: number
+  data: GetTimelineListResponse
+  message: string | null
+  status: string
+  timestamp: string
+}
+
+export interface GetReviewDetailResponse {
+  age: string
+  authorId: number
+  content: string
+  currentChatMembers: number
+  gender: string
+  location: string
+  manner: number
+  matchId: number
+  maxParticipants: number
+  myTeamName: string
+  nickname: string
+  postId: number
+  postImageUrl: string | null
+  rivalMatchTime: string
+  rivalTeamName: string
+  status: string
+  title: string
+  transportType: string
+  userImageUrl: string
+}
+
+export interface GetReviewDetailApiResponse {
+  code: number
+  data: GetReviewDetailResponse
+  message: string | null
+  status: string
+  timestamp: string
+}

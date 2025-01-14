@@ -1,10 +1,14 @@
-import { data } from './../pages/TimelinePage/mockData'
+import {
+  GetReviewDetailApiResponse,
+  GetReviewListApiResponse,
+  GetTimelineListApiResponse,
+} from '@typings/db'
 import fetchApi from './ky'
 
 const reviewService = {
-  postMateReview: async (postId: number, jsonData: unknown) => {
+  postMateReview: async (postId: number, jsonData: string) => {
     const response = await fetchApi
-      .post(`mates/${postId}/reviews`, {
+      .post(`mates/review/${postId}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -17,10 +21,10 @@ const reviewService = {
   postGoodsReview: async (
     reviewerId: number,
     goodsPostId: number,
-    jsonData: unknown,
+    jsonData: string,
   ) => {
     const response = await fetchApi
-      .post(`goods/${reviewerId}/post/${goodsPostId}/review`, {
+      .post(`goods/review/${goodsPostId}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -32,7 +36,7 @@ const reviewService = {
   },
 
   getReviewList: async (type: string, memberId: number, page: number) => {
-    const response = await fetchApi
+    const response: GetReviewListApiResponse = await fetchApi
       .get(`profile/${memberId}/review/${type}?page=${page}&size=3`)
       .json()
 
@@ -40,7 +44,7 @@ const reviewService = {
   },
 
   getTimelineList: async (page: number = 0) => {
-    const response = await fetchApi
+    const response: GetTimelineListApiResponse = await fetchApi
       .get(`profile/timeline?page=${page}&size=5`)
       .json()
 
@@ -49,7 +53,9 @@ const reviewService = {
 
   getReviewDetailData: async (postId: number, type: string) => {
     const reviewType = type === 'GOODS' ? 'goods' : 'mates'
-    const response = await fetchApi.get(`${reviewType}/${postId}`).json()
+    const response: GetReviewDetailApiResponse = await fetchApi
+      .get(`${reviewType}/${postId}`)
+      .json()
 
     return response.data
   },
