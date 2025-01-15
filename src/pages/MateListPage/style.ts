@@ -4,6 +4,13 @@ import styled from 'styled-components'
 export const SectionWrap = styled.section`
   overflow-y: auto;
   height: 100vh;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
 `
 
 export const TeamSelectWrap = styled.div`
