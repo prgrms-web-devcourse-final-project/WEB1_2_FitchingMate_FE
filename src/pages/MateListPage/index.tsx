@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import TeamSelectSection from '@components/TeamSelectSection'
 import {
   FilterModalButton,
@@ -24,8 +24,10 @@ import MainMateCard from '@components/MainMateCard'
 import { useLocation } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import useFilterStore from '@store/useMateListStore'
+import useScrollPosition from '@hooks/useScrollPosition'
 
 const MateListPage = () => {
+  const { elementRef, restoreScrollPosition } = useScrollPosition('mateListScrollPosition')
   const {
     selectedFilters,
     selectedTeam,
@@ -46,20 +48,6 @@ const MateListPage = () => {
   const { topRef, handleUpButtonClick } = useTopRef()
   const { ref, inView } = useInView()
 
-  useEffect(() => {
-    const section = document.querySelector('section')
-    if (!section) return
-
-    const handleScroll = () => {
-      console.log('현재 스크롤 위치:', section.scrollTop)
-      localStorage.setItem('mateListScrollPosition', String(section.scrollTop))
-    }
-
-    section.addEventListener('scroll', handleScroll)
-    return () => {
-      section.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   useEffect(() => {
     const { isPostSuccess, isEditSuccess, isDeleteSuccess } =
@@ -94,41 +82,21 @@ const MateListPage = () => {
     })
 
   useEffect(() => {
+    if (data) {
+      restoreScrollPosition()
+    }
+  },[data,restoreScrollPosition])
+
+  useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage()
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
   if (!data) return null
 
   const mateList = data.pages.flatMap((page) => page.content)
-
-  const sectionRef = useRef<HTMLElement | null>(null)
-
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
   
-    const handleScroll = () => {
-      localStorage.setItem('mateListScrollPosition', String(section.scrollTop))
-    }
-  
-    section.addEventListener('scroll', handleScroll)
-  
-    return () => {
-      section.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-  
-  useEffect(() => {
-    const savedScrollPosition = localStorage.getItem('mateListScrollPosition')
-    if (sectionRef.current && savedScrollPosition) {
-      sectionRef.current.scrollTo(0, Number(savedScrollPosition))
-    }
-  }, [data])
-  
-  
-
   return (
-    <SectionWrap ref={sectionRef}>
+    <SectionWrap ref={elementRef}>
       <div ref={topRef}></div>
       <TeamSelectWrap>
         <TeamSelectSection
