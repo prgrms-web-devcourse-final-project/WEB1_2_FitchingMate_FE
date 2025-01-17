@@ -111,7 +111,7 @@ const AppRoutes = () => {
           element={<GoodsRecordPage />}
         />
         <Route
-          path={ROUTE_PATH.FOLLOW}
+          path={`${ROUTE_PATH.FOLLOW}/:id`}
           element={<FollowPage />}
         />
         <Route

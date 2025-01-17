@@ -21,7 +21,7 @@ export const ProfileTopWrap = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 20px 20px 0.75em 20px;
 `
 
 export const ProfileEditWrap = styled.div`
@@ -29,17 +29,19 @@ export const ProfileEditWrap = styled.div`
   justify-content: flex-start;
   align-items: center;
   gap: 0 1.25em;
-  flex: 5;
+  width: 5.3125em;
 `
 
 export const ProfileUserNickname = styled.p`
   width: calc(100% - (5.3125em + 1.25em + 5px));
+  margin-bottom: 0.75em;
   font-size: ${theme.fontSize.large};
   font-weight: ${theme.fontWeight.semi};
   color: ${theme.fontColor.black};
 `
 
 export const ProfileFollowWrap = styled.div`
+  width: calc((100% - 5.3125em) - 30px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,13 +50,12 @@ export const ProfileFollowWrap = styled.div`
   font-size: ${theme.fontSize.large};
   font-weight: ${theme.fontWeight.semi};
   color: ${theme.fontColor.black};
-  flex: 6;
 
   & > a {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
+    width: 65%;
 
     & > div {
       width: 100%;

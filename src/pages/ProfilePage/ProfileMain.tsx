@@ -37,6 +37,8 @@ import { formatManner } from '@utils/formatManner'
 import { toast } from 'react-toastify'
 import { GlobalFloatAside } from '@styles/globalStyle'
 import GlobalNav from '@layouts/GlobalNav'
+import followService from '@apis/followService'
+import queryClient, { QUERY_KEY } from '@apis/queryClient'
 
 const ProfileMain = () => {
   const logoutAlertRef = useRef<HTMLDialogElement | null>(null) // 로그아웃용 ref
@@ -52,9 +54,7 @@ const ProfileMain = () => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
 
   const myInfoResult = useGetMyInfo(Number(loginMemberId))
-  const userInfoResult = useGetUserInfo(
-    typeof id === 'string' ? Number(id) : null,
-  )
+  const userInfoResult = useGetUserInfo(Number(id))
 
   const handleLogoutClick = () => {
     if (logoutAlertRef.current) {
@@ -73,6 +73,16 @@ const ProfileMain = () => {
     } catch (error) {
       console.error('로그아웃 실패:', error)
       alert('로그아웃에 실패했습니다. 다시 시도해주세요.')
+    }
+  }
+
+  // 쿼리키 타입오류뜨는데 뭔지모르겠음...
+  const followUser = async () => {
+    try {
+      await followService.postFollowUser(Number(id))
+      id && queryClient.invalidateQueries([QUERY_KEY.USER_INFO, Number(id)])
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -126,9 +136,6 @@ const ProfileMain = () => {
               imageSrc={userInfo?.imageUrl}
               myTeam={userInfo?.teamName}
             />
-            <ProfileUserNickname>
-              {(userInfo && userInfo.nickname) || <Skeleton />}
-            </ProfileUserNickname>
             <input
               type='file'
               name=''
@@ -136,8 +143,8 @@ const ProfileMain = () => {
               style={{ display: 'none' }}
             />
           </ProfileEditWrap>
-          {/* <ProfileFollowWrap>
-            <Link to={ROUTE_PATH.FOLLOW}>
+          <ProfileFollowWrap>
+            <Link to={`${ROUTE_PATH.FOLLOW}/${id}`}>
               <div>
                 <p>팔로우</p>
                 <p>{userInfo?.followingCount}</p>
@@ -147,11 +154,14 @@ const ProfileMain = () => {
                 <p>{userInfo?.followerCount}</p>
               </div>
             </Link>
-          </ProfileFollowWrap> */}
+          </ProfileFollowWrap>
         </ProfileTopWrap>
 
         {/* 프로필 소개 섹션 */}
         <ProfileNotice>
+          <ProfileUserNickname>
+            {(userInfo && userInfo.nickname) || <Skeleton />}
+          </ProfileUserNickname>
           <p
             dangerouslySetInnerHTML={{
               __html: userInfo?.aboutMe
@@ -174,6 +184,7 @@ const ProfileMain = () => {
               <GlobalButton
                 $width={50}
                 text='팔로우'
+                onClick={followUser}
               />
               <GlobalButton
                 $width={50}

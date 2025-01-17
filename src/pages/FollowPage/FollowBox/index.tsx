@@ -7,18 +7,27 @@ import UserAdd from '@assets/icon/user_add.svg?react'
 import UserAdded from '@assets/icon/user_added.svg?react'
 import { useState } from 'react'
 
-const FollowBox = () => {
+interface FollowInfo {
+  data: {
+    memberId: number
+    nickname: string
+    imageUrl: string
+  }
+}
+
+const FollowBox = ({ data }: FollowInfo) => {
   const [isFollowed, setIsFollowed] = useState(true)
 
   return (
     <FollowBoxWrap>
       <FollowBoxLeft>
-        <Link to={'/'}>
+        <Link to={`/profile/${data.memberId}`}>
           <ProfileBedge
             width={3.125}
             height={3.125}
+            imageSrc={data.imageUrl}
           />
-          <p>빌터</p>
+          <p>{data.nickname}</p>
         </Link>
       </FollowBoxLeft>
       <FollowBoxRight>

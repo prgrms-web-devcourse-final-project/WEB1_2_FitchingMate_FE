@@ -35,6 +35,8 @@ export const QUERY_KEY = {
   MATE_CHATROOM: 'mateChatroom',
   MATE_CHAT_MEMBERS: 'mateChatMembers',
   GOODS_CHAT: 'goodsChat',
+  FOLLOWING_LIST: 'followingList',
+  FOLLOWER_LIST: 'followerList',
 }
 
 export default queryClient
