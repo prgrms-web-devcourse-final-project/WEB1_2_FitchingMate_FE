@@ -1,6 +1,17 @@
 import { theme } from '@styles/theme'
 import styled from 'styled-components'
 
+export const SectionWrap = styled.section`
+  overflow-y: auto;
+  height: 100vh;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
 export const TeamSelectWrap = styled.div`
   padding: 1em 20px;
   border-bottom: 1px solid ${theme.border};
